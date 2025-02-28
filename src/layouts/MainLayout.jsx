@@ -8,15 +8,15 @@ import MainNavbar from "../components/layout/navbar/MainNavbar";
 
 const MainLayout = ({ children }) => {
   return (
-    <div className="relative min-h-screen ">
-      <header className="sticky  z-50 font-suwannaphum ">
+    <div className="relative min-h-screen font-suwannaphum">
+      <header className="sticky top-0 z-50">
         <Stickynav />
         <MainNavbar />
       </header>
 
-      <main className="relative z-0">
+      <main className="">
         {/* This div ensures content starts below the fixed navbar */}
-        <div className=" font-suwan ">{children}</div>
+        <div>{children}</div>
 
         <div className="h-[900px]">vlollr</div>
       </main>
@@ -26,7 +26,5 @@ const MainLayout = ({ children }) => {
     </div>
   );
 };
-
-
 
 export default MainLayout;

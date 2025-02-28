@@ -22,9 +22,12 @@ export default {
         "6xl": "4rem",
       },
       colors: {
-        primary: "rgba(28, 150, 197, 0.2)",
+        primary: "#1C96C533",
         secondary: "#9333EA",
         accent: "#F59E0B",
+      },
+      maxWidth: {
+        content: "1350px",
       },
     },
   },

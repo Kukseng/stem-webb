@@ -1,3 +1,6 @@
+/* Import the Suwannaphum font */
+@import url("https://fonts.googleapis.com/css2?family=Suwannaphum&display=swap");
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;

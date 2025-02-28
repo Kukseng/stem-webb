@@ -1,8 +1,23 @@
 import React, { useState, useEffect } from "react";
-import { Search, ChevronDown, Beaker, Code, Calculator, Leaf, Menu, X, UserCircle, Settings, Inbox, LucideHelpingHand, LogOut } from "lucide-react";
+import {
+  Search,
+  ChevronDown,
+  Beaker,
+  Code,
+  Calculator,
+  Leaf,
+  Menu,
+  X,
+  UserCircle,
+  Settings,
+  Inbox,
+  LucideHelpingHand,
+  LogOut,
+} from "lucide-react";
 import { Link } from "react-router";
-import { Dropdown, Button } from 'flowbite-react';
+import { Dropdown, Button } from "flowbite-react";
 import logomodified from "../../../assets/images/logo/logo-modified.png";
+import Banner from "../../common/Banner";
 
 const stemMenuItems = [
   {
@@ -66,13 +81,17 @@ function MainNavbar() {
         isScrolled ? "shadow-md" : "border-b border-gray-100"
       }`}
     >
-      <div className="mx-10">
-        <div className="flex items-center justify-between h-16">
+      <div className="w-full mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between py-3 px-2 md:px-6 lg:px-8  mx-auto">
           {/* Logo */}
           <Link to="/" className="flex-shrink-0">
             <div className="flex items-center space-x-2">
               <div className="h-8 w-8 md:h-10 md:w-10 bg-blue-600 rounded-full flex items-center justify-center text-white font-bold text-lg">
-                <img src={logomodified} alt="ISTEM" className="h-8 w-8 md:h-10 md:w-10" />
+                <img
+                  src={logomodified}
+                  alt="ISTEM"
+                  className="h-8 w-8 md:h-10 md:w-10"
+                />
               </div>
               <h1 className="text-base md:text-lg text-gray-800 font-bold">
                 ISTEM
@@ -87,11 +106,18 @@ function MainNavbar() {
                 <Dropdown key="stem" label="វគ្គសិក្សា">
                   {stemMenuItems.map((stemItem) => (
                     <Dropdown.Item key={stemItem.label}>
-                      <Link to={stemItem.href} className="flex items-start space-x-4 text-gray-700">
+                      <Link
+                        to={stemItem.href}
+                        className="flex items-start space-x-4 text-gray-700"
+                      >
                         <stemItem.icon className="w-5 h-5 text-blue-600" />
                         <div>
-                          <h4 className="text-sm font-medium text-gray-800">{stemItem.label}</h4>
-                          <p className="text-xs text-gray-500 mt-0.5">{stemItem.description}</p>
+                          <h4 className="text-sm font-medium text-gray-800">
+                            {stemItem.label}
+                          </h4>
+                          <p className="text-xs text-gray-500 mt-0.5">
+                            {stemItem.description}
+                          </p>
                         </div>
                       </Link>
                     </Dropdown.Item>
@@ -176,11 +202,18 @@ function MainNavbar() {
                   <Dropdown key="stem" label="វគ្គសិក្សា">
                     {stemMenuItems.map((stemItem) => (
                       <Dropdown.Item key={stemItem.label}>
-                        <Link to={stemItem.href} className="flex items-start space-x-4 text-gray-700">
+                        <Link
+                          to={stemItem.href}
+                          className="flex items-start space-x-4 text-gray-700"
+                        >
                           <stemItem.icon className="w-5 h-5 text-blue-600" />
                           <div>
-                            <h4 className="text-sm font-medium text-gray-800">{stemItem.label}</h4>
-                            <p className="text-xs text-gray-500 mt-0.5">{stemItem.description}</p>
+                            <h4 className="text-sm font-medium text-gray-800">
+                              {stemItem.label}
+                            </h4>
+                            <p className="text-xs text-gray-500 mt-0.5">
+                              {stemItem.description}
+                            </p>
                           </div>
                         </Link>
                       </Dropdown.Item>
@@ -200,7 +233,11 @@ function MainNavbar() {
           </div>
         )}
       </div>
+      {/* Content */}
+
     </nav>
+   
+    
   );
 }
 
