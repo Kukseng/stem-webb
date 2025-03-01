@@ -18,7 +18,7 @@ const MainLayout = ({ children }) => {
         {/* This div ensures content starts below the fixed navbar */}
         <div>{children}</div>
 
-        <div className="h-[900px]">vlollr</div>
+        <div className="h-[900px]"></div>
       </main>
 
       {/* Footer */}

@@ -1,5 +1,9 @@
+import Aboutus from "../../components/layout/aboutus/Aboutus";
+
 const AboutPage = () => {
-  return <div>AboutPag</div>;
+  return (
+    <Aboutus />
+  );
 };
 
 export default AboutPage;
