@@ -22,12 +22,17 @@ export default {
         "6xl": "4rem",
       },
       colors: {
-        primary: "#1C96C533",
+        primary: "#16789e",
         secondary: "#9333EA",
         accent: "#F59E0B",
+        descrid:"#384D6C",
+        hover:"#1e8fb8",
+        border:"#3A454D",
+        card:"#E1E1E1",
+        footer:"#79D4F7"
       },
       maxWidth: {
-        content: "1350px",
+        content: "1300px",
       },
     },
   },

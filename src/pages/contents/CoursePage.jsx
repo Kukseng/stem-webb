@@ -1,154 +1,103 @@
 import React, { useState } from 'react';
-import { Star } from 'lucide-react';
 
-const CourseCard = ({ course }) => (
-  <div className="bg-white rounded-lg shadow-md overflow-hidden">
-    <img src={course.image} alt={course.title} className="w-full h-48 object-cover" />
-    <div className="p-4">
-      <div className="flex items-center mb-2">
-        {[...Array(5)].map((_, i) => (
-          <Star
-            key={i}
-            className={`w-4 h-4 ${i < Math.floor(course.rating) ? 'text-yellow-400' : 'text-gray-300'}`}
-          />
-        ))}
-        <span className="ml-2 text-sm text-gray-600">{course.rating}</span>
-      </div>
-      <h3 className="font-semibold mb-2">{course.title}</h3>
-      <div className="flex items-center text-sm text-gray-600 mb-2">
-        <span className="mr-4">{course.lessons} Lessons</span>
-        <span>{course.students} Students</span>
-      </div>
-      <div className="flex items-center justify-between mt-4">
-        <span className="font-bold text-lg">${course.price}</span>
-        <div className="flex gap-2">
-          <button className="px-4 py-2 bg-emerald-500 text-white rounded-md hover:bg-emerald-600">
-            Buy Now
-          </button>
-          <button className="px-4 py-2 text-emerald-500 border border-emerald-500 rounded-md hover:bg-emerald-50">
-            Preview
-          </button>
-        </div>
-      </div>
+const CourseCard = ({ course }) => {
+  return (
+    <div style={{ border: '1px solid #ccc', padding: '10px', margin: '10px', borderRadius: '8px' }}>
+      <h3>{course.title}</h3>
+      <p>Category: {course.category}</p>
+      <p>Rating: {course.rating} | Students: {course.studentCount}</p>
+      <p>Modules: {course.modules} lessons | Hours: {course.hours} hours</p>
+      <button>Register</button>
+      <button>Details</button>
     </div>
-  </div>
-);
+  );
+};
 
-const FilterSection = ({ title, options, onChange }) => (
-  <div className="mb-6">
-    <h3 className="font-semibold mb-2">{title}</h3>
-    {options.map((option) => (
-      <div key={option} className="flex items-center space-x-2 mb-2">
-        <input
-          type="checkbox"
-          id={option}
-          onChange={(e) => onChange(option, e.target.checked)}
-          className="rounded border-gray-300 text-emerald-500 focus:ring-emerald-500"
-        />
-        <label htmlFor={option} className="text-sm">
-          {option}
-        </label>
-      </div>
-    ))}
-  </div>
-);
+const CourseListingPage = () => {
+  const [selectedSubject, setSelectedSubject] = useState(null);
 
-const CoursePage = () => {
-  const [currentPage, setCurrentPage] = useState(1);
-  
-  const categories = ['CSS', 'Frontend', 'General', 'Software', 'Photography', 'Programming Language', 'Technology'];
-  const tags = ['CSS', 'Foundation', 'PHP', 'Python', 'Tutorial'];
-  const authors = ['Thomas Magnusen', 'Col. Roderick Decker', 'R.A. Rothrock', 'Mike Torello'];
-  const levels = ['All levels', 'Beginner', 'Intermediate', 'Expert'];
-
-  const courses = Array(9).fill({
-    image: '/api/placeholder/400/300',
-    title: 'Complete Web Development Course',
-    rating: 4.8,
-    lessons: 8,
-    students: 506,
-    price: 35.0
-  });
+  const courses = [
+    {
+      id: 1,
+      title: "វគ្គបណ្តុះបណ្តាល និងការអភិវឌ្ឍន៍ជំនាញវិជ្ជាជីវៈសម្រាប់",
+      category: "Physic",
+      image: "/api/placeholder/240/120",
+      rating: "4.8",
+      studentCount: "22ក 30នាក់",
+      modules: "8",
+      hours: "506",
+      subject: "Astronomy"
+    },
+    {
+      id: 2,
+      title: "វគ្គបណ្តុះបណ្តាល និងការអភិវឌ្ឍន៍ជំនាញវិជ្ជាជីវៈសម្រាប់",
+      category: "Physic",
+      image: "/api/placeholder/240/120",
+      rating: "4.8",
+      studentCount: "22ក 30នាក់",
+      modules: "8",
+      hours: "506",
+      subject: "C#"
+    },
+    {
+      id: 3,
+      title: "វគ្គបណ្តុះបណ្តាល និងការអភិវឌ្ឍន៍ជំនាញវិជ្ជា",
+      category: "Physic",
+      image: "/api/placeholder/240/120",
+      rating: "4.8",
+      studentCount: "22ក 30នាក់",
+      modules: "8",
+      hours: "506",
+      subject: "Finance"
+    },
+  ];
+  const filteredCourses = selectedSubject
+    ? courses.filter((course) => course.subject === selectedSubject)
+    : courses;
 
   return (
-    <div className="max-w-7xl mx-auto p-6">
-      <div className="flex gap-8">
-        {/* Filters Sidebar */}
-        <div className="w-64 flex-shrink-0">
-          <div className="sticky top-6">
-            <h2 className="text-xl font-bold mb-6">Price</h2>
-            <FilterSection title="Categories" options={categories} onChange={(cat, checked) => {}} />
-            <FilterSection title="Tags" options={tags} onChange={(tag, checked) => {}} />
-            <FilterSection title="Author" options={authors} onChange={(author, checked) => {}} />
-            <FilterSection title="Levels" options={levels} onChange={(level, checked) => {}} />
-            
-            <div className="flex gap-4 mt-6">
-              <button className="px-4 py-2 bg-emerald-500 text-white rounded-md hover:bg-emerald-600 flex-1">
-                Filter
-              </button>
-              <button className="px-4 py-2 border border-gray-300 rounded-md hover:bg-gray-50 flex-1">
-                Reset
-              </button>
-            </div>
-          </div>
-        </div>
-
-        {/* Course Grid */}
-        <div className="flex-1">
-          <div className="flex justify-between items-center mb-6">
-            <select className="border rounded-md px-3 py-2">
-              <option>Newly published</option>
-            </select>
-            <div className="flex gap-2">
-              <button className="p-2 border rounded-md">
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-                </svg>
-              </button>
-              <button className="p-2 border rounded-md">
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h7" />
-                </svg>
-              </button>
-            </div>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {courses.map((course, idx) => (
-              <CourseCard key={idx} course={course} />
-            ))}
-          </div>
-
-          {/* Pagination */}
-          <div className="flex justify-center mt-8 gap-2">
-            <button 
-              className="w-8 h-8 rounded-full border flex items-center justify-center hover:bg-gray-50"
-              onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
+    <div style={{ display: 'flex' }}>
+      {/* Sidebar */}
+      <div style={{ width: '250px', borderRight: '1px solid #ccc', padding: '10px' }}>
+        <h3>Subjects</h3>
+        <ul style={{ listStyle: 'none', padding: 0 }}>
+          {[...new Set(courses.map((course) => course.subject))].map((subject, index) => (
+            <li
+              key={index}
+              style={{
+                padding: '8px',
+                cursor: 'pointer',
+                backgroundColor: selectedSubject === subject ? '#f0f0f0' : 'transparent',
+              }}
+              onClick={() => setSelectedSubject(subject)}
             >
-              ←
-            </button>
-            {[1, 2, 3].map((page) => (
-              <button
-                key={page}
-                className={`w-8 h-8 rounded-full flex items-center justify-center ${
-                  currentPage === page ? 'bg-emerald-500 text-white' : 'border hover:bg-gray-50'
-                }`}
-                onClick={() => setCurrentPage(page)}
-              >
-                {page}
-              </button>
-            ))}
-            <button 
-              className="w-8 h-8 rounded-full border flex items-center justify-center hover:bg-gray-50"
-              onClick={() => setCurrentPage(Math.min(3, currentPage + 1))}
-            >
-              →
-            </button>
-          </div>
+              {subject}
+            </li>
+          ))}
+          <li
+            style={{
+              padding: '8px',
+              cursor: 'pointer',
+              backgroundColor: selectedSubject === null ? '#f0f0f0' : 'transparent',
+            }}
+            onClick={() => setSelectedSubject(null)}
+          >
+            Show All
+          </li>
+        </ul>
+      </div>
+
+      {/* Main Content */}
+      <div style={{ flex: 1, padding: '10px' }}>
+        <h2>Courses</h2>
+        <div style={{ display: 'flex', flexWrap: 'wrap' }}>
+          {filteredCourses.map((course) => (
+            <CourseCard key={course.id} course={course} />
+          ))}
         </div>
       </div>
     </div>
   );
 };
 
-export default CoursePage;
+export default CourseListingPage;
