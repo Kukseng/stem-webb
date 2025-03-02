@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { ChevronRight } from 'lucide-react';
 
-const AnimatedBlogPage = () => {
+const BlogCard = () => {
   const [isLoaded, setIsLoaded] = useState(false);
   
   useEffect(() => {
@@ -134,4 +134,4 @@ const AnimatedBlogPage = () => {
   );
 };
 
-export default AnimatedBlogPage;
+export default BlogCard;
