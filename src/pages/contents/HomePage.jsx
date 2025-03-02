@@ -1,5 +1,5 @@
 import Banner from "../../components/common/Banner";
-import BlogCard from "../../components/common/blogcard";
+import BlogCard from "../../components/common/CardBlog";
 import StemEducationHeader from "../../components/common/cardstudent";
 
 import CourseCategories from "../../components/common/categorycourse/CourseCategories";
