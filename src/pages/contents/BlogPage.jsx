@@ -1,5 +1,6 @@
 import React from 'react';
 import { Calendar } from 'lucide-react';
+import Conten from '../../components/layout/counten/Conten';
 
 const ArticleCard = ({ image, date, title, excerpt }) => (
   <div className="bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow">
@@ -64,40 +65,43 @@ const BlogPage = () => {
   ];
 
   return (
-    <div className="max-w-6xl mx-auto p-6">
-      <div className="flex gap-8">
-        {/* Main Content */}
-        <div className="w-3/4">
-          <h1 className="text-2xl font-bold mb-6">All Articles</h1>
+    // <div className="max-w-6xl mx-auto p-6">
+    //   <div className="flex gap-8">
+    //     {/* Main Content */}
+    //     <div className="w-3/4">
+    //       <h1 className="text-2xl font-bold mb-6">All Articles</h1>
           
-          <div className="grid grid-cols-2 gap-6">
-            {articles.map((article, index) => (
-              <ArticleCard key={index} {...article} />
-            ))}
-          </div>
+    //       <div className="grid grid-cols-2 gap-6">
+    //         {articles.map((article, index) => (
+    //           <ArticleCard key={index} {...article} />
+    //         ))}
+    //       </div>
 
-          <Pagination />
-        </div>
+    //       <Pagination />
+    //     </div>
 
-        {/* Sidebar */}
-        <div className="w-1/4">
-          <div className="mb-8">
-            <h2 className="text-lg font-semibold mb-4">Category</h2>
-            <div className="divide-y">
-              {categories.map((category, index) => (
-                <CategoryItem key={index} {...category} />
-              ))}
-            </div>
-          </div>
+    //     {/* Sidebar */}
+    //     <div className="w-1/4">
+    //       <div className="mb-8">
+    //         <h2 className="text-lg font-semibold mb-4">Category</h2>
+    //         <div className="divide-y">
+    //           {categories.map((category, index) => (
+    //             <CategoryItem key={index} {...category} />
+    //           ))}
+    //         </div>
+    //       </div>
 
-          <div>
-            <h2 className="text-lg font-semibold mb-4">Recent Posts</h2>
-            {articles.slice(0, 3).map((article, index) => (
-              <RecentPost key={index} {...article} />
-            ))}
-          </div>
-        </div>
-      </div>
+    //       <div>
+    //         <h2 className="text-lg font-semibold mb-4">Recent Posts</h2>
+    //         {articles.slice(0, 3).map((article, index) => (
+    //           <RecentPost key={index} {...article} />
+    //         ))}
+    //       </div>
+    //     </div>
+    //   </div>
+    // </div>
+    <div>
+      <Conten/>
     </div>
   );
 };
