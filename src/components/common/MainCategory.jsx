@@ -2,7 +2,7 @@ import React from "react";
 
 const MainCategory = () => {
   return (
-    <div className="w-full bg-[#0A2647] py-5 mt-10">
+    <div className="w-full bg-cyan-900  py-5 mt-10">
       <div className="container mx-auto flex flex-col md:flex-row items-center justify-center md:justify-between text-white text-sm px-4">
         {/* Trustpilot Rating */}
         <div className="flex items-center space-x-1">

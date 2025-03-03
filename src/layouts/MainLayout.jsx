@@ -15,10 +15,8 @@ const MainLayout = ({ children }) => {
       </header>
 
       <main className="">
-        {/* This div ensures content starts below the fixed navbar */}
         <div>{children}</div>
 
-        <div className="h-auto"></div>
       </main>
 
       {/* Footer */}
