@@ -197,9 +197,9 @@ function MainNavbar() {
                 >
                   ចូលគណនី
                 </button>
-                <button className="hidden sm:block bg-primary text-xs xl:text-sm text-white px-3 lg:px-4 py-1.5 rounded-full hover:bg-[#1e8fb8] transition-all whitespace-nowrap">
+                {/* <button className="hidden sm:block bg-primary text-xs xl:text-sm text-white px-3 lg:px-4 py-1.5 rounded-full hover:bg-[#1e8fb8] transition-all whitespace-nowrap">
                   ចុះឈ្មោះចូលរៀន
-                </button>
+                </button> */}
               </div>
             )}
 
@@ -276,9 +276,9 @@ function MainNavbar() {
                   >
                     ចូលគណនី
                   </button>
-                  <button className="w-full py-2 px-4 bg-primary text-white rounded-lg text-center text-sm font-medium hover:bg-[#1e8fb8] transition-colors">
+                  {/* <button className="w-full py-2 px-4 bg-primary text-white rounded-lg text-center text-sm font-medium hover:bg-[#1e8fb8] transition-colors">
                     ចុះឈ្មោះចូលគណនី
-                  </button>
+                  </button> */}
                 </div>
               </div>
             )}
