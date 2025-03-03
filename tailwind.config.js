@@ -10,6 +10,7 @@ export default {
         suwannaphum: ["Suwannaphum", "serif"],
       },
       fontSize: {
+        Descride:"16px",
         xs: ".75rem",
         sm: ".875rem",
         base: "1rem",

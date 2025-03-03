@@ -2,8 +2,12 @@ import React, { useEffect } from "react";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import { BiMath } from "react-icons/bi";
+import { MdScience } from "react-icons/md";
+import { GrTechnology } from "react-icons/gr";
+import { FcEngineering } from "react-icons/fc";
 
-const CourseCategories = () => {  useEffect(() => {
+const CourseCategories = () => {
+  useEffect(() => {
     AOS.init({
       duration: 800,
       once: false,
@@ -13,23 +17,18 @@ const CourseCategories = () => {  useEffect(() => {
     });
   }, []);
 
-
   const categories = [
     {
       title: "គណិតវិទ្យា",
       enTitle: "Mathematics",
       courses: "1,211",
-      color: "from-[#16789e] to-blue-600",
-      textColor: "text-[#16789e]",
+      color: "from-primary to-blue-600",
+      textColor: "text-primary",
       bgLight: "bg-blue-50",
       description: "រៀនគណិតវិទ្យាជាមួយគ្រូជំនាញ និងមានបទពិសោធន៍",
       features: ["Algebra", "Calculus", "Geometry", "Statistics"],
       duration: "4-6 months",
-      icon: (
-        <svg className="w-8 h-8" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 7h6m0 10h-6m-2-5h10M3 3h18a2 2 0 012 2v14a2 2 0 01-2 2H3a2 2 0 01-2-2V5a2 2 0 012-2z" />
-        </svg>
-      ),
+      icon: <BiMath className="w-8 h-8" />,
       subcategories: [
         { name: "Algebra", href: "/math/algebra" },
         { name: "Calculus", href: "/math/calculus" },
@@ -41,15 +40,13 @@ const CourseCategories = () => {  useEffect(() => {
       title: "វិទ្យាសាស្ត្រ",
       enTitle: "Science",
       courses: "987",
-      color: "from-[#16789e] to-teal-500",
-      textColor: "text-[#16789e]",
+      color: "from-primary to-teal-500",
+      textColor: "text-primary",
       bgLight: "bg-teal-50",
       description: "រៀនអំពីជីវវិទ្យា រូបវិទ្យា និងគីមីវិទ្យា",
       features: ["Biology", "Physics", "Chemistry"],
       duration: "3-5 months",
-      icon: (
-       <BiMath className="w-8 h-8" />
-      ),
+      icon: <MdScience className="w-8 h-8" />,
       subcategories: [
         { name: "Biology", href: "/science/biology" },
         { name: "Physics", href: "/science/physics" },
@@ -60,17 +57,13 @@ const CourseCategories = () => {  useEffect(() => {
       title: "បច្ចេកវិទ្យា",
       enTitle: "Technology",
       courses: "765",
-      color: "from-[#16789e] to-indigo-500",
-      textColor: "text-[#16789e]",
+      color: "from-primary to-indigo-500",
+      textColor: "text-primary",
       bgLight: "bg-indigo-50",
       description: "រៀនអំពីកម្មវិធីកុំព្យូទ័រ និងវិស្វកម្ម",
       features: ["Programming", "AI", "Robotics"],
       duration: "4-6 months",
-      icon: (
-        <svg className="w-8 h-8" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M20 7l-8-4-8 4m16 0l-8 4-8-4M3 17l8-4 8 4M3 12l8 4 8-4" />
-        </svg>
-      ),
+      icon: <GrTechnology className="w-8 h-8" />,
       subcategories: [
         { name: "Programming", href: "/tech/programming" },
         { name: "AI", href: "/tech/ai" },
@@ -81,17 +74,13 @@ const CourseCategories = () => {  useEffect(() => {
       title: "វិស្វកម្ម",
       enTitle: "Engineering",
       courses: "543",
-      color: "from-[#16789e] to-cyan-500",
-      textColor: "text-[#16789e]",
+      color: "from-primary to-cyan-500",
+      textColor: "text-primary",
       bgLight: "bg-cyan-50",
       description: "រៀនអំពីវិស្វកម្មអេឡិចត្រូនិច និងមេកានិច",
       features: ["Electrical", "Mechanical", "Civil"],
       duration: "5-7 months",
-      icon: (
-        <svg className="w-8 h-8" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
-        </svg>
-      ),
+      icon: <FcEngineering className="w-8 h-8" />,
       subcategories: [
         { name: "Electrical", href: "/engineering/electrical" },
         { name: "Mechanical", href: "/engineering/mechanical" },
@@ -101,9 +90,8 @@ const CourseCategories = () => {  useEffect(() => {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white py-[100px] ">
-      <div className="max-w-content  mx-auto px-4 sm:px-6 lg:px-4">
-        {/* Header Section */}
+    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white py-[100px]">
+      <div className="max-w-content mx-auto px-4 sm:px-6 lg:px-4">
         <div className="text-center mb-16" data-aos="fade-up">
           <h2 className="text-4xl font-bold text-gray-900 mb-4">
             ជ្រើសយកវគ្គសិក្សាដែលអ្នកចាប់អារម្មណ៍
@@ -111,10 +99,9 @@ const CourseCategories = () => {  useEffect(() => {
           <p className="text-gray-600 text-lg">
             មុខវិជ្ជាពេញនិយម
           </p>
-          <div className="w-24 h-1 bg-[#16789e] mx-auto mt-6 rounded-full"></div>
+          <div className="w-24 h-1 bg-primary mx-auto mt-6 rounded-full"></div>
         </div>
 
-        {/* Categories Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
           {categories.map((category, index) => (
             <div
@@ -123,40 +110,46 @@ const CourseCategories = () => {  useEffect(() => {
               data-aos-delay={index * 100}
               className="group relative overflow-hidden rounded-2xl shadow-lg hover:shadow-xl transition-all duration-500 transform hover:-translate-y-2 h-72"
             >
-              {/* Background Pattern */}
+              {/* Background pattern */}
               <div className="absolute top-0 right-0 w-32 h-32 opacity-10">
-                <svg viewBox="0 0 100 100" fill="currentColor" className="text-[#16789e]">
+                <svg viewBox="0 0 100 100" fill="currentColor" className="text-primary">
                   <path d="M0,0 L100,0 L100,100 L0,100 Z" />
                 </svg>
               </div>
 
-              {/* Regular View */}
-              <div className={`absolute inset-0 bg-gradient-to-br ${category.color} opacity-0 group-hover:opacity-100 transition-opacity duration-300`} />
-              <div className={`relative p-6 ${category.bgLight} h-full transition-colors duration-300 group-hover:bg-opacity-0`}>
+    
+              <div 
+                className={`absolute inset-0 bg-gradient-to-br ${category.color} opacity-0 group-hover:opacity-100 transition-opacity duration-500`} 
+              />
+              
+              {/* Card content */}
+              <div className={`relative p-6 ${category.bgLight} h-full transition-colors duration-500 group-hover:bg-opacity-0`}>
                 <div className="flex items-start justify-between mb-4">
-                  <div className={`p-3 rounded-xl ${category.bgLight} ${category.textColor} group-hover:text-white transition-colors duration-300 shadow-md`}>
+                  <div className={`p-3 rounded-xl ${category.bgLight} ${category.textColor} group-hover:text-white transition-colors duration-500 shadow-md`}>
                     {category.icon}
                   </div>
-                  <span className="text-sm font-medium bg-[#16789e]/10 px-3 py-1 rounded-full text-[#16789e] group-hover:bg-white/20 group-hover:text-white transition-colors duration-300">
+                  <span className="text-sm font-medium bg-primary/10 px-3 py-1 rounded-full text-primary group-hover:bg-white/20 group-hover:text-white transition-colors duration-500">
                     {category.courses} វគ្គសិក្សា
                   </span>
                 </div>
 
-                <h3 className="text-2xl font-bold text-gray-800 mb-2 group-hover:text-white transition-colors duration-300">
+                <h3 className="text-2xl font-bold text-gray-800 mb-2 group-hover:text-white transition-colors duration-500">
                   {category.title}
                 </h3>
-                <p className="text-sm text-gray-600 mb-4 group-hover:text-white/90 transition-colors duration-300">
+                <p className="text-sm text-gray-600 mb-4 group-hover:text-white/90 transition-colors duration-500">
                   {category.enTitle}
                 </p>
                 <div className="absolute bottom-6 left-6 right-6">
                   <div className="w-full h-1 bg-gray-200 rounded overflow-hidden">
-                    <div className="h-full bg-[#16789e] rounded w-3/4"></div>
+                    <div className="h-full bg-primary rounded w-3/4"></div>
                   </div>
                 </div>
               </div>
 
-              {/* Hover Detail Overlay */}
-              <div className="absolute inset-0 bg-gradient-to-br from-[#16789e]/95 to-[#16789e]/80 backdrop-blur-sm translate-y-full group-hover:translate-y-0 transition-transform duration-300 p-6 flex flex-col justify-between">
+           
+              <div 
+                className="absolute inset-0 bg-gradient-to-br from-primary/95 to-primary/80 backdrop-blur-sm translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out p-6 flex flex-col justify-between z-10"
+              >
                 <div>
                   <h3 className="text-xl font-bold text-white mb-2">
                     {category.title} ({category.enTitle})
@@ -167,17 +160,9 @@ const CourseCategories = () => {  useEffect(() => {
                     <p className="text-white/90 text-sm">
                       <span className="font-medium">រយៈពេល:</span> {category.duration}
                     </p>
-                    {/* <div className="flex flex-wrap gap-2 mb-3">
-                      {category.features && category.features.map((feature, idx) => (
-                        <span key={idx} className="text-xs px-2 py-1 bg-white/20 rounded-full text-white">
-                          {feature}
-                        </span>
-                      ))}
-                    </div> */}
                   </div>
                 </div>
 
-                {/* Subcategories Links */}
                 <div className="flex flex-wrap gap-2">
                   {category.subcategories.map((subcategory, idx) => (
                     <a

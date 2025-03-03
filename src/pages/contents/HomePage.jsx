@@ -15,7 +15,6 @@ const HomePage = () => {
       <Banner />
       <MainCategory/>
       <CourseCategories />
-     
       <CourseCardCom/>
       <CourseListingPage />
       <BlogCard/>
