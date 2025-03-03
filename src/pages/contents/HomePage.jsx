@@ -1,10 +1,13 @@
 import Banner from "../../components/common/Banner";
+import BlogCard from "../../components/common/CardBlog";
+import StemEducationHeader from "../../components/common/cardstudent";
 
 import CourseCategories from "../../components/common/categorycourse/CourseCategories";
 import CourseListingPage from "../../components/common/categorycourse/CourseListingPage";
+import CourseCardCom from "../../components/common/CourseCardCom";
+import FinancialEducationCards from "../../components/common/Deetailcard";
 import MainCategory from "../../components/common/MainCategory";
-import ScienceInterface from "../../components/common/ScienceInterface";
-import CoursePlatform from "../../components/common/Testcard";
+
 
 const HomePage = () => {
   return (
@@ -12,10 +15,11 @@ const HomePage = () => {
       <Banner />
       <MainCategory/>
       <CourseCategories />
-      <CoursePlatform/>
-      <ScienceInterface/>
+      <CourseCardCom/>
       <CourseListingPage />
-      {/* <CourseCard /> */}
+      <BlogCard/>
+      <StemEducationHeader/>
+      <FinancialEducationCards/>
     </div>
   );
 };

@@ -1,6 +1,7 @@
 import React from "react";
 import ISTAD from "../../../assets/images/logo/ISTAD.png";
-import logo from "../../../assets/images/logo/logo-modified.png";
+import logo from "../../../assets/images/logo/o-removebg-preview.png";
+
 const Footer = () => {
   const menuItems = [
     "ទំព័រដើម",
@@ -12,23 +13,28 @@ const Footer = () => {
   ];
 
   return (
-    <footer className="relative w-full overflow-hidden ">
+    <footer className="relative w-full mx-auto overflow-hidden bg-footer  bg-opacity-30 backdrop-blur-md">
       {/* Decorative Elements */}
       <div className="absolute inset-0 -z-10">
         <div className="absolute inset-y-0 left-0 w-32 bg-gradient-to-r from-teal-50/50 to-transparent" />
         <div className="absolute inset-y-0 right-0 w-32 bg-gradient-to-l from-teal-50/50 to-transparent" />
-   
       </div>
 
       {/* Main Content */}
-      <div className="relative z-10 md:max-w-[1100px] m-auto max-w-[400px] mx-auto px-6 pt-20 pb-16">
+      <div className="relative z-10 max-w-content mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-16">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-8">
           {/* STEM Club Section */}
-          <div className="flex flex-col items-center sm:items-start ">
+          <div className="flex flex-col items-center sm:items-start">
             <div className="flex items-center gap-4 mb-6">
-              <img src={logo} alt="Logo-ISTEM"  className="h-30 w-30 object-cover"/>
-              <h2 className="text-2xl font-bold bg-gradient-to-r from-green-600 to-teal-600 bg-clip-text text-transparent">
-             
+              <div className="h-20 w-20 md:h-20 md:w-20 rounded-full flex items-center justify-center text-white font-bold text-lg">
+                <img
+                  src={logo}
+                  alt="Logo-ISTEM"
+                  className="h-20 w-20 md:h-20 md:w-20 object-cover object-center"
+                />
+              </div>
+              <h2 className="text-2xl font-bold text-primary font-suwannaphum">
+                ISTEM
               </h2>
             </div>
             <p className="text-gray-600 text-base text-center sm:text-left max-w-sm leading-relaxed">
@@ -128,7 +134,7 @@ const Footer = () => {
 
       {/* Copyright Bar */}
       <div className="relative z-10 border-t border-gray-200 bg-white/50 backdrop-blur-sm">
-        <div className="max-w-7xl mx-auto px-6 py-4">
+        <div className="max-w-content mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <p className="text-center text-gray-600 text-sm">
             © {new Date().getFullYear()} STEM Club. All rights reserved.
           </p>
