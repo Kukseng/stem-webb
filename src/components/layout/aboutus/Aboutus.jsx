@@ -18,8 +18,11 @@ import js from '@eslint/js'
 
 const Aboutus = () => {
     return (
+
         // HeroSection
         <div>
+            <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet"></link>
+
             <div className='mx-[80px] my-[60px]'>
                 <div className='HeroSection grid grid-cols-2'>
                     <div>
@@ -54,7 +57,7 @@ const Aboutus = () => {
 
 
 
-                <div class="max-w-sm bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700">
+                <div class="max-w-sm bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700 " >
                     <a href="#" className=' flex justify-center'>
                         <img class="rounded-full w-[300px] h-[300px]" src={img} alt="" />
                     </a>
@@ -100,7 +103,7 @@ const Aboutus = () => {
                 <p className='text-[#1C96C5] text-5xl font-bold text-center'>សមាជិកក្រុម</p>
             </div>
             {/* TeamCard */}
-            <div className='mx-[300px] grid grid-cols-3 grid-rows-2 items-center pt-[100px] gap-20 '>
+            <div className='mx-[300px] grid grid-cols-3 grid-rows-2  pt-[100px] gap-20  max-2xl:grid-cols-2  max-xl:grid-cols-1 max-xl:place-items-center'>
 
 
                 <div class="max-w-sm bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700">
