@@ -16,7 +16,6 @@ import Mongo from "../../../assets/Mongo.png";
 import PostSql from "../../../assets/PostSql.png";
 import Tailwind from "../../../assets/Tailwind.png";
 import Reactjs from "../../../assets/React.png";
-
 import { motion } from "framer-motion"; //motin for animation
 
 const Aboutus = () => {
@@ -98,7 +97,7 @@ const Aboutus = () => {
                             ផ្តល់ឱកាសល្អបំផុតដល់សិស្ស
                         </h2>
                         <p className="font-suwannaphum text-lg lg:text-xl text-descrid leading-relaxed">
-                            សិស្សបន្ទាប់ពីបញ្ចប់ថ្នាក់មធ្យមសិក្សាទុតិយភូមិឬមិនទាន់បញ្ចប់ក៍អាចសិក្សានៅលើវេសាយពួកយើងបានដែរពួកយើងអាចផ្តល់អោយនូវចំណេះដឹងថ្មីៗផ្លែកៗទាន់សម័យ។យើងប្តេជ្ញាផ្តល់ជូននូវបទពិសោធន៍
+                            ពួកយើងអាចផ្តល់អោយនូវចំណេះដឹងថ្មីៗផ្លែកៗទាន់សម័យ។យើងប្តេជ្ញាផ្តល់ជូននូវបទពិសោធន៍
                             អប់រំផ្លាស់ប្តូរដែលផ្តល់អំណាចដល់បុគ្គលម្នាក់ៗឱ្យឈានដល់សក្តានពលពេញលេញរបស់ពួកគេ។
                             មិនថាអ្នកជាសិស្សអ្នកសិក្សាពេញមួយជីវិត
                             ឬជាអ្នកជំនាញដែលស្វែងរកជំនាញថ្មីនោះទេ យើងផ្តល់ធនធាន
@@ -122,19 +121,35 @@ const Aboutus = () => {
                         transition={{ duration: 0.8 }}
                         className="relative flex justify-center lg:justify-end"
                     >
-                        <motion.img
-                            src={img}
-                            alt="Hero"
-                            className="w-64 lg:w-96 rotate-[-10deg] hero-image drop-shadow-2xl"
-                            animate={{
-                                y: [0, -15, 0],
-                                rotate: [-10, -12, -10],
-                            }}
-                            transition={{
-                                y: { repeat: Infinity, duration: 3, ease: "easeInOut" },
-                                rotate: { repeat: Infinity, duration: 5, ease: "easeInOut" },
-                            }}
-                        />
+                        <div className="flex">
+                            <motion.img
+                                src={img}
+                                alt="Hero"
+                                className="w-64 lg:w-[500px] rotate-[-10deg] hero-image drop-shadow-2xl ml-20"
+                                animate={{
+                                    y: [0, -15, 0],
+                                    rotate: [-15, -15, -15],
+                                }}
+                                transition={{
+                                    y: { repeat: Infinity, duration: 3, ease: "easeInOut" },
+                                    rotate: { repeat: Infinity, duration: 5, ease: "easeInOut" },
+                                }}
+                            />
+                            <motion.img
+                                src={img}
+                                alt="Hero"
+                                className="w-64 lg:w-[500px] hero-image drop-shadow-2xl"
+                                animate={{
+                                    y: [0, -15, 0],
+                                    rotate: [0, 0, 0]
+
+                                }}
+                                transition={{
+                                    y: { repeat: Infinity, duration: 3, ease: "easeInOut" },
+                                    rotate: { repeat: Infinity, duration: 5, ease: "easeInOut" },
+                                }}
+                            />
+                        </div>
                         <div className="absolute -z-10 w-64 h-64 bg-blue-200 rounded-full blur-3xl opacity-30 -bottom-10 -right-10"></div>
                     </motion.div>
                 </div>
@@ -227,58 +242,59 @@ const Aboutus = () => {
                     សមាជិកក្រុម
                 </h3>
             </motion.div>
-
-            <motion.div
-                variants={containerVariants}
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true }}
-                className="mx-4 sm:mx-8 lg:mx-16 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 py-10"
-            >
-                {[1, 2, 3, 4, 5, 6].map((_, index) => (
-                    <motion.div
-                        key={index}
-                        variants={itemVariants}
-                        whileHover={{
-                            y: -10,
-                            boxShadow:
-                                "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
-                        }}
-                        className="max-w-sm bg-white border border-gray-200 rounded-lg shadow-sm transform transition-all duration-300"
-                    >
-                        <div className="flex justify-center p-6">
-                            <img
-                                className="rounded-full w-48 h-48 object-cover border-4 border-cyan-500"
-                                src={img1}
-                                alt="Team Member"
-                            />
-                        </div>
-                        <div className="p-5 text-center">
-                            <h5 className="text-2xl font-bold text-gray-900">ស្រេង ជីប៉</h5>
-                            <p className="text-cyan-700 font-suwannaphum">Mentor</p>
-                            <p className="mb-3 text-gray-700">
-                                ភ្ជាប់ទំនាក់ទំនងជាមួយអ្នកណែនាំដែលមានបទពិសោធន៍ក្នុងវិស័យ iSTEM
-                                ដែលផ្តល់ការណែនាំ ចែករំលែកការយល់ដឹងអំពីឧស្សាហកម្ម
-                                និងជួយអ្នកក្នុងការច្នៃប្រឌិត និងអភិវឌ្ឍគម្រោងក្នុងពិភពពិត។
-                            </p>
-                            <div className="flex justify-center gap-4">
-                                <motion.div whileHover={{ scale: 1.2, color: "#1877F2" }}>
-                                    <Facebook className="text-gray-700" />
-                                </motion.div>
-                                <motion.div whileHover={{ scale: 1.2, color: "#0A66C2" }}>
-                                    <Linkedin className="text-gray-700" />
-                                </motion.div>
-                                <motion.div whileHover={{ scale: 1.2, color: "#171515" }}>
-                                    <Github className="text-gray-700" />
-                                </motion.div>
-                                <motion.div whileHover={{ scale: 1.2, color: "#E4405F" }}>
-                                    <Instagram className="text-gray-700" />
-                                </motion.div>
+            <div className=" flex justify-center">
+                <motion.div
+                    variants={containerVariants}
+                    initial="hidden"
+                    whileInView="visible"
+                    viewport={{ once: true }}
+                    className="mx-4 sm:mx-8 lg:mx-16 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 py-10 justify-center"
+                >
+                    {[1, 2, 3, 4, 5, 6].map((_, index) => (
+                        <motion.div
+                            key={index}
+                            variants={itemVariants}
+                            whileHover={{
+                                y: -10,
+                                boxShadow:
+                                    "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
+                            }}
+                            className="max-w-sm bg-white border border-gray-200 rounded-lg shadow-sm transform transition-all duration-300"
+                        >
+                            <div className="flex justify-center p-6">
+                                <img
+                                    className="rounded-full w-48 h-48 object-cover border-4 border-cyan-500"
+                                    src={img1}
+                                    alt="Team Member"
+                                />
                             </div>
-                        </div>
-                    </motion.div>
-                ))}
-            </motion.div>
+                            <div className="p-5 text-center">
+                                <h5 className="text-2xl font-bold text-gray-900">ស្រេង ជីប៉</h5>
+                                <p className="text-cyan-700 font-suwannaphum">Mentor</p>
+                                <p className="mb-3 text-gray-700">
+                                    ភ្ជាប់ទំនាក់ទំនងជាមួយអ្នកណែនាំដែលមានបទពិសោធន៍ក្នុងវិស័យ iSTEM
+                                    ដែលផ្តល់ការណែនាំ ចែករំលែកការយល់ដឹងអំពីឧស្សាហកម្ម
+                                    និងជួយអ្នកក្នុងការច្នៃប្រឌិត និងអភិវឌ្ឍគម្រោងក្នុងពិភពពិត។
+                                </p>
+                                <div className="flex justify-center gap-4">
+                                    <motion.div whileHover={{ scale: 1.2, color: "#1877F2" }}>
+                                        <Facebook className="text-gray-700" />
+                                    </motion.div>
+                                    <motion.div whileHover={{ scale: 1.2, color: "#0A66C2" }}>
+                                        <Linkedin className="text-gray-700" />
+                                    </motion.div>
+                                    <motion.div whileHover={{ scale: 1.2, color: "#171515" }}>
+                                        <Github className="text-gray-700" />
+                                    </motion.div>
+                                    <motion.div whileHover={{ scale: 1.2, color: "#E4405F" }}>
+                                        <Instagram className="text-gray-700" />
+                                    </motion.div>
+                                </div>
+                            </div>
+                        </motion.div>
+                    ))}
+                </motion.div>
+            </div>
 
             {/* Divider */}
             <div className="flex justify-center py-10">
@@ -306,7 +322,7 @@ const Aboutus = () => {
                     Tech Stack
                 </h3>
                 <motion.div
-                    className="flex justify-center gap-4 flex-wrap py-10"
+                    className="flex justify-center gap-20 flex-wrap py-10"
                     variants={containerVariants}
                     initial="hidden"
                     whileInView="visible"

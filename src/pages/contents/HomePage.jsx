@@ -8,18 +8,18 @@ import CourseCardCom from "../../components/common/CourseCardCom";
 import FinancialEducationCards from "../../components/common/Deetailcard";
 import MainCategory from "../../components/common/MainCategory";
 
-
 const HomePage = () => {
   return (
     <div>
       <Banner />
-      <MainCategory/>
+      <MainCategory />
       <CourseCategories />
-      <CourseCardCom/>
+      <CourseCardCom />
       <CourseListingPage />
-      <BlogCard/>
-      <StemEducationHeader/>
-      <FinancialEducationCards/>
+      <BlogCard />
+      <StemEducationHeader />
+      <FinancialEducationCards />
+
     </div>
   );
 };

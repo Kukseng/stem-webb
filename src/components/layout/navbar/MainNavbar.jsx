@@ -80,9 +80,8 @@ function MainNavbar() {
 
   return (
     <nav
-      className={`bg-white bg-opacity-30 backdrop-blur-md sticky top-0 z-50 transition-shadow duration-200 ${
-        isScrolled ? "shadow-md" : "border-b border-gray-100"
-      }`}
+      className={`bg-white bg-opacity-30 backdrop-blur-md sticky top-0 z-50 transition-shadow duration-200 ${isScrolled ? "shadow-md" : "border-b border-gray-100"
+        }`}
     >
       <div className="w-full">
         <div className=" mx-auto flex items-center justify-between py-3 px-4 md:px-6 lg:px-8">
@@ -286,8 +285,8 @@ function MainNavbar() {
         )}
       </div>
     </nav>
-   
-    
+
+
   );
 }
 
