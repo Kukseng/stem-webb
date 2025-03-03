@@ -6,6 +6,7 @@ import AboutPage from "../pages/contents/AboutPage";
 import BlogPage from "../pages/contents/BlogPage";
 import LecturerPage from "../pages/contents/LecturerPage";
 import CoursePage from "../pages/contents/CoursePage";
+import LoginForm from "../pages/auth/LoginFrom";
 
 export default function AppRoutes() {
   return (
@@ -19,7 +20,7 @@ export default function AppRoutes() {
             </MainLayout>
           }
         />
-          <Route
+        <Route
           path="/វគ្គសិក្សា"
           element={
             <MainLayout>
@@ -27,13 +28,13 @@ export default function AppRoutes() {
             </MainLayout>
           }
         />
-     
-         
+
+
         <Route
           path="/គ្រូបង្រៀន"
           element={
             <MainLayout>
-              <LecturerPage/>
+              <LecturerPage />
             </MainLayout>
           }
         />
@@ -57,6 +58,14 @@ export default function AppRoutes() {
           element={
             <MainLayout>
               <BlogPage />
+            </MainLayout>
+          }
+        />
+        <Route
+          path="/ចូលគណី"
+          element={
+            <MainLayout>
+              <LoginForm />
             </MainLayout>
           }
         />

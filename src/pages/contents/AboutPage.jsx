@@ -1,10 +1,9 @@
 import Aboutus from "../../components/layout/aboutus/Aboutus";
-import { motion, useScroll } from "motion/react"
 
+import { motion, useScroll } from "motion/react"
 
 const AboutPage = () => {
   const { scrollYProgress } = useScroll()
-
   return (
     <>
       <motion.div
@@ -17,7 +16,7 @@ const AboutPage = () => {
           right: 0,
           height: 5,
           originX: 0,
-          backgroundColor: "#ffffff ",
+          backgroundColor: "#ffffff",
           zIndex: 1000,
         }}
       />
@@ -26,6 +25,8 @@ const AboutPage = () => {
       </div>
     </>
   )
+
+
 
     ;
 };

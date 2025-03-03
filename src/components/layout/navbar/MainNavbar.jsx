@@ -189,17 +189,18 @@ function MainNavbar() {
               </div>
             ) : (
               /* Login/Register buttons - Only shown when not logged in */
-              <div className="flex items-center space-x-4 sm:space-x-3">
-                <button
-                  onClick={() => setIsLoggedIn(true)}
-                  className="hidden sm:block text-primary hover:text-[#1e8fb8] text-[16px] xl:text-[16px] font-medium transition-colors whitespace-nowrap"
-                >
-                  ចូលគណនី
-                </button>
-                {/* <button className="hidden sm:block bg-primary text-xs xl:text-sm text-white px-3 lg:px-4 py-1.5 rounded-full hover:bg-[#1e8fb8] transition-all whitespace-nowrap">
+              <Link to="/ចូលគណី">
+                <div className="flex items-center space-x-4 sm:space-x-3">
+                  <button
+                    className="hidden sm:block text-primary hover:text-[#1e8fb8] text-[16px] xl:text-[16px] font-medium transition-colors whitespace-nowrap"
+                  >
+                    ចូលគណនី
+                  </button>
+                  {/* <button className="hidden sm:block bg-primary text-xs xl:text-sm text-white px-3 lg:px-4 py-1.5 rounded-full hover:bg-[#1e8fb8] transition-all whitespace-nowrap">
                   ចុះឈ្មោះចូលរៀន
                 </button> */}
-              </div>
+                </div>
+              </Link>
             )}
 
             {/* Mobile Menu Button */}
