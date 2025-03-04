@@ -1,4 +1,4 @@
-import { Clock } from "lucide-react"
+import { Clock, ZoomIn } from "lucide-react"
 
 const ScienceHero = () => {
     return (
@@ -18,8 +18,12 @@ const ScienceHero = () => {
                         <p className="flex gap-2 text-white font-suwannaphum text-2xl items-center"><Clock /> 2weeks</p>
                     </div>
                 </div>
-                <div className="">
-                    <img src="https://m.media-amazon.com/images/M/MV5BMTk1MDc4MjY0MV5BMl5BanBnXkFtZTcwNjExNzMzNw@@._V1_FMjpg_UX1000_.jpg" alt="" className="w-[400px] h-[500px] rounded-[30px] " />
+                <div className="flex justify-center items-end">
+                    <img src="https://m.media-amazon.com/images/M/MV5BMTk1MDc4MjY0MV5BMl5BanBnXkFtZTcwNjExNzMzNw@@._V1_FMjpg_UX1000_.jpg" alt="" className=" w-[400px] h-[500px] rounded-[30px] " />
+                    <button className=" absolute z-1 bg-[#4FDCCE] rounded-3xl px-4 py-2 text-white font-suwannaphum items-center mb-[30px] hover:scale-150 duration-100"
+                        onClick={ZoomIn}>
+                        ចាប់ផ្តើមរៀន
+                    </button>
                 </div>
             </section>
         </div>
