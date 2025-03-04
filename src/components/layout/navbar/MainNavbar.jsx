@@ -270,12 +270,14 @@ function MainNavbar() {
             {!isLoggedIn && (
               <div className="mt-4 pt-3 border-t border-gray-100">
                 <div className="flex flex-col space-y-2">
-                  <button
-                    onClick={() => setIsLoggedIn(true)}
-                    className="w-full py-2 px-4 text-primary border border-primary rounded-lg text-center text-sm font-medium hover:bg-primary hover:text-white transition-colors"
-                  >
-                    ចូលគណនី
-                  </button>
+                  <Link>
+                    <button
+                      onClick={() => setIsLoggedIn(true)}
+                      className="w-full py-2 px-4 text-primary border border-primary rounded-lg text-center text-sm font-medium hover:bg-primary hover:text-white transition-colors"
+                    >
+                      ចូលគណនី
+                    </button>
+                  </Link>
                   {/* <button className="w-full py-2 px-4 bg-primary text-white rounded-lg text-center text-sm font-medium hover:bg-[#1e8fb8] transition-colors">
                     ចុះឈ្មោះចូលគណនី
                   </button> */}

@@ -7,7 +7,7 @@ import BlogPage from "../pages/contents/BlogPage";
 import LecturerPage from "../pages/contents/LecturerPage";
 import CoursePage from "../pages/contents/CoursePage";
 import LoginForm from "../pages/auth/LoginFrom";
-
+import SciencePage from "../pages/contents/SciencePage";
 export default function AppRoutes() {
   return (
     <Router>
@@ -66,6 +66,14 @@ export default function AppRoutes() {
           element={
             <MainLayout>
               <LoginForm />
+            </MainLayout>
+          }
+        />
+        <Route
+          path="/science"
+          element={
+            <MainLayout>
+              <SciencePage />
             </MainLayout>
           }
         />

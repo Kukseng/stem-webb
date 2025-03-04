@@ -4,9 +4,9 @@ import { Star } from 'lucide-react';
 const TeacherCard = ({ teacher }) => (
   <div className="bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow">
     <div className="aspect-square overflow-hidden">
-      <img 
-        src={teacher.image} 
-        alt={teacher.name} 
+      <img
+        src={teacher.image}
+        alt={teacher.name}
         className="w-full h-full object-cover"
       />
     </div>
@@ -90,7 +90,7 @@ const LecturerPage = () => {
 
       {/* Pagination */}
       <div className="flex justify-center mt-8 gap-2">
-        <button 
+        <button
           className="w-8 h-8 rounded-full border flex items-center justify-center hover:bg-gray-50"
           onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
         >
@@ -99,15 +99,14 @@ const LecturerPage = () => {
         {[1, 2, 3].map((page) => (
           <button
             key={page}
-            className={`w-8 h-8 rounded-full flex items-center justify-center ${
-              currentPage === page ? 'bg-blue-500 text-white' : 'border hover:bg-gray-50'
-            }`}
+            className={`w-8 h-8 rounded-full flex items-center justify-center ${currentPage === page ? 'bg-blue-500 text-white' : 'border hover:bg-gray-50'
+              }`}
             onClick={() => setCurrentPage(page)}
           >
             {page}
           </button>
         ))}
-        <button 
+        <button
           className="w-8 h-8 rounded-full border flex items-center justify-center hover:bg-gray-50"
           onClick={() => setCurrentPage(Math.min(3, currentPage + 1))}
         >
