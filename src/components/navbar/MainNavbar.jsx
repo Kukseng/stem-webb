@@ -15,36 +15,41 @@ import {
   LogOut,
 } from "lucide-react";
 
-import image from "../../../assets/markup-cropped.svg"; // Import the SVG
+import image from "../../assets/markup-cropped.svg";
 import { Link } from "react-router";
 import { Dropdown, Button } from "flowbite-react";
-import logomodified from "../../../assets/images/logo/o-removebg-preview.png";
-import Banner from "../../common/Banner";
+import logomodified from "../../assets/images/logo/o-removebg-preview.png";
 
 const stemMenuItems = [
+  {
+    label: "ទាំងអស់",
+    description: "រៀនអំពីជីវវិទ្យា គីមីវិទ្យា និងរូបវិទ្យា",
+    icon: Beaker,
+    href: "/វគ្គសិក្សា",
+  },
   {
     label: "វិទ្យាសាស្រ្ត",
     description: "រៀនអំពីជីវវិទ្យា គីមីវិទ្យា និងរូបវិទ្យា",
     icon: Beaker,
-    href: "/science",
+    href: "/វិទ្យាសាស្រ",
   },
   {
     label: "បច្ចេកវិទ្យា",
     description: "កម្មវិធីកុំព្យូទ័រ និងវិស្វកម្ម",
     icon: Code,
-    href: "/technology",
+    href: "/បច្ចេកវិទ្យា",
   },
   {
     label: "វិស្វកម្ម",
     description: "វិស្វកម្មអេឡិចត្រូនិច និងមេកានិច",
     icon: Calculator,
-    href: "/engineering",
+    href: "/វិស្វកម្ម",
   },
   {
     label: "គណិតវិទ្យា",
     description: "ពីជគណិត ធរណីមាត្រ និងស្ថិតិ",
     icon: Leaf,
-    href: "/mathematics",
+    href: "គណិតវិទ្យា",
   },
 ];
 
@@ -66,9 +71,8 @@ const navItems = [
 
 function MainNavbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [isSTEMMenuOpen, setIsSTEMMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(false); // State to track if user is logged in
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -78,6 +82,10 @@ function MainNavbar() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  const handleLinkClick = () => {
+    setIsMobileMenuOpen(false);
+  };
+
   return (
     <nav
       className={`bg-white bg-opacity-30 backdrop-blur-md sticky top-0 z-50 transition-shadow duration-200 ${
@@ -85,7 +93,7 @@ function MainNavbar() {
       }`}
     >
       <div className="w-full">
-        <div className=" mx-auto flex items-center justify-between py-3 px-4 md:px-6 lg:px-8">
+        <div className="mx-auto flex items-center justify-between py-3 px-4 md:px-6 lg:px-8">
           {/* Logo */}
           <Link to="/" className="flex-shrink-0">
             <div className="flex items-center space-x-1 sm:space-x-2">
@@ -102,42 +110,57 @@ function MainNavbar() {
             </div>
           </Link>
 
-          {/* Desktop Navigation for 1024px+ */}
+          {/* Desktop Navigation */}
           <div className="hidden lg:flex items-center space-x-3 xl:space-x-6">
             {navItems.map((item) =>
               item.hasDropdown ? (
                 <Dropdown
                   key="stem"
                   label="វគ្គសិក្សា"
-                  className="relative"
+                  inline={true}
+                  placement="bottom"
                   arrowIcon={false}
+                  trigger="hover" // Changed to hover trigger
+                  className="relative"
                 >
                   <Dropdown.Header>
-                    <span className="block text-sm">វគ្គសិក្សា</span>
+                    <div className="flex items-center px-1 lg:px-2 text-descrid hover:text-[#1e8fb8] transition-colors duration-200 text-sm lg:text-base xl:text-lg font-semibold whitespace-nowrap cursor-pointer">
+                      វគ្គសិក្សា
+                      <ChevronDown className="ml-1 w-4 h-4" />
+                    </div>
                   </Dropdown.Header>
-                  {stemMenuItems.map((stemItem) => (
-                    <Dropdown.Item key={stemItem.label}>
-                      <Link
-                        to={stemItem.href}
-                        className="flex items-start space-x-4 text-gray-700"
-                      >
-                        <stemItem.icon className="w-5 h-5 text-primary " />
-                        <div>
-                          <h4 className="text-sm font-medium text-descrid">
-                            {stemItem.label}
-                          </h4>
-                          <p className="text-xs text-gray-500 mt-0.5">
-                            {stemItem.description}
-                          </p>
-                        </div>
-                      </Link>
-                    </Dropdown.Item>
-                  ))}
+                  <div className="p-2 w-[320px] bg-white shadow-2xl rounded-xl border border-gray-100">
+                    <div className="space-y-2">
+                      {stemMenuItems.map((stemItem) => (
+                        <Link
+                          key={stemItem.label}
+                          to={stemItem.href}
+                          onClick={handleLinkClick}
+                          className="block p-3 hover:bg-gray-50 rounded-lg transition-colors group"
+                        >
+                          <div className="flex items-center space-x-4">
+                            <div className="bg-primary/10 p-2.5 rounded-lg">
+                              <stemItem.icon className="w-6 h-6 text-primary group-hover:scale-110 transition-transform" />
+                            </div>
+                            <div>
+                              <h4 className="text-base font-semibold text-gray-800 group-hover:text-primary transition-colors">
+                                {stemItem.label}
+                              </h4>
+                              <p className="text-sm text-gray-500 mt-1">
+                                {stemItem.description}
+                              </p>
+                            </div>
+                          </div>
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
                 </Dropdown>
               ) : (
                 <Link
                   key={item.label}
                   to={item.href}
+                  onClick={handleLinkClick}
                   className="px-1 lg:px-2 text-descrid hover:text-[#1e8fb8] transition-colors duration-200 text-sm lg:text-base xl:text-lg font-semibold whitespace-nowrap"
                 >
                   {item.label}
@@ -189,18 +212,15 @@ function MainNavbar() {
                 </div>
               </div>
             ) : (
-              /* Login/Register buttons - Only shown when not logged in */
-              <div className="flex items-center space-x-4 sm:space-x-3">
-                <button
-                  onClick={() => setIsLoggedIn(true)}
-                  className="hidden sm:block text-primary hover:text-[#1e8fb8] text-[16px] xl:text-[16px] font-medium transition-colors whitespace-nowrap"
-                >
-                  ចូលគណនី
-                </button>
-                {/* <button className="hidden sm:block bg-primary text-xs xl:text-sm text-white px-3 lg:px-4 py-1.5 rounded-full hover:bg-[#1e8fb8] transition-all whitespace-nowrap">
-                  ចុះឈ្មោះចូលរៀន
-                </button> */}
-              </div>
+              <Link to="/ចូលគណនី">
+                <div className="flex items-center space-x-4 sm:space-x-3">
+                  <button
+                    className="hidden sm:block text-primary hover:text-[#1e8fb8] text-[16px] xl:text-[16px] font-medium transition-colors whitespace-nowrap"
+                  >
+                    ចូលគណនី
+                  </button>
+                </div>
+              </Link>
             )}
 
             {/* Mobile Menu Button */}
@@ -236,30 +256,47 @@ function MainNavbar() {
             <div className="space-y-1">
               {navItems.map((item) =>
                 item.hasDropdown ? (
-                  <Dropdown key="stem" label="វគ្គសិក្សា">
-                    {stemMenuItems.map((stemItem) => (
-                      <Dropdown.Item key={stemItem.label}>
+                  <Dropdown
+                    key="stem-mobile"
+                    label="វគ្គសិក្សា"
+                    className="w-full"
+                    renderTrigger={() => (
+                      <div className="flex justify-between items-center w-full py-2 px-3 text-gray-700 hover:bg-gray-50 rounded-lg transition-colors">
+                        <span>វគ្គសិក្សា</span>
+                        <ChevronDown className="w-5 h-5 text-gray-500" />
+                      </div>
+                    )}
+                  >
+                    <div className="space-y-2 p-2">
+                      {stemMenuItems.map((stemItem) => (
                         <Link
+                          key={stemItem.label}
                           to={stemItem.href}
-                          className="flex items-start space-x-4 text-gray-700"
+                          onClick={handleLinkClick}
+                          className="block p-3 hover:bg-gray-50 rounded-lg transition-colors group"
                         >
-                          <stemItem.icon className="w-5 h-5 text-blue-600" />
-                          <div>
-                            <h4 className="text-sm font-medium text-gray-800">
-                              {stemItem.label}
-                            </h4>
-                            <p className="text-xs text-gray-500 mt-0.5">
-                              {stemItem.description}
-                            </p>
+                          <div className="flex items-center space-x-4">
+                            <div className="bg-primary/10 p-2.5 rounded-lg">
+                              <stemItem.icon className="w-6 h-6 text-primary group-hover:scale-110 transition-transform" />
+                            </div>
+                            <div>
+                              <h4 className="text-base font-semibold text-gray-800 group-hover:text-primary transition-colors">
+                                {stemItem.label}
+                              </h4>
+                              <p className="text-sm text-gray-500 mt-1">
+                                {stemItem.description}
+                              </p>
+                            </div>
                           </div>
                         </Link>
-                      </Dropdown.Item>
-                    ))}
+                      ))}
+                    </div>
                   </Dropdown>
                 ) : (
                   <Link
                     key={item.label}
                     to={item.href}
+                    onClick={handleLinkClick}
                     className="block py-2 px-3 text-gray-700 hover:text-blue-600 hover:bg-gray-50 rounded-lg transition-colors"
                   >
                     {item.label}
@@ -271,14 +308,14 @@ function MainNavbar() {
               <div className="mt-4 pt-3 border-t border-gray-100">
                 <div className="flex flex-col space-y-2">
                   <button
-                    onClick={() => setIsLoggedIn(true)}
+                    onClick={() => {
+                      setIsLoggedIn(true);
+                      setIsMobileMenuOpen(false);
+                    }}
                     className="w-full py-2 px-4 text-primary border border-primary rounded-lg text-center text-sm font-medium hover:bg-primary hover:text-white transition-colors"
                   >
                     ចូលគណនី
                   </button>
-                  {/* <button className="w-full py-2 px-4 bg-primary text-white rounded-lg text-center text-sm font-medium hover:bg-[#1e8fb8] transition-colors">
-                    ចុះឈ្មោះចូលគណនី
-                  </button> */}
                 </div>
               </div>
             )}
@@ -286,8 +323,6 @@ function MainNavbar() {
         )}
       </div>
     </nav>
-   
-    
   );
 }
 

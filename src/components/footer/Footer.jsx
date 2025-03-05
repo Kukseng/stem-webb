@@ -1,6 +1,6 @@
 import React from "react";
-import ISTAD from "../../../assets/images/logo/ISTAD.png";
-import logo from "../../../assets/images/logo/o-removebg-preview.png";
+import ISTAD from "../../assets/images/logo/ISTAD.png";
+import logo from "../../assets/images/logo/o-removebg-preview.png";
 
 const Footer = () => {
   const menuItems = [

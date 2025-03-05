@@ -34,42 +34,42 @@ const LecturerPage = () => {
   const teachers = [
     {
       name: "Jessica Nephi",
-      image: "/api/placeholder/400/400",
+      image: "",
       description: "បង្រៀនកម្មវិធីសរសេរកូដ និងការអភិវឌ្ឍន៍គេហទំព័រ"
     },
     {
       name: "Henry, Arthur",
-      image: "/api/placeholder/400/400",
+      image: "",
       description: "បង្រៀនកម្មវិធីសរសេរកូដ និងការអភិវឌ្ឍន៍គេហទំព័រ"
     },
     {
       name: "Flores, Juanita",
-      image: "/api/placeholder/400/400",
+      image: "",
       description: "បង្រៀនកម្មវិធីសរសេរកូដ និងការអភិវឌ្ឍន៍គេហទំព័រ"
     },
     {
       name: "Nguyen, Shane",
-      image: "/api/placeholder/400/400",
+      image: "",
       description: "បង្រៀនកម្មវិធីសរសេរកូដ និងការអភិវឌ្ឍន៍គេហទំព័រ"
     },
     {
       name: "Courtney Henry",
-      image: "/api/placeholder/400/400",
+      image: "",
       description: "បង្រៀនកម្មវិធីសរសេរកូដ និងការអភិវឌ្ឍន៍គេហទំព័រ"
     },
     {
       name: "Leslie Alexander",
-      image: "/api/placeholder/400/400",
+      image: "",
       description: "បង្រៀនកម្មវិធីសរសេរកូដ និងការអភិវឌ្ឍន៍គេហទំព័រ"
     },
     {
       name: "Jerome Bell",
-      image: "/api/placeholder/400/400",
+      image: "",
       description: "បង្រៀនកម្មវិធីសរសេរកូដ និងការអភិវឌ្ឍន៍គេហទំព័រ"
     },
     {
       name: "Arlene McCoy",
-      image: "/api/placeholder/400/400",
+      image: "",
       description: "បង្រៀនកម្មវិធីសរសេរកូដ និងការអភិវឌ្ឍន៍គេហទំព័រ"
     }
   ];

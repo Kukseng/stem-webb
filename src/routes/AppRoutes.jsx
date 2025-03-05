@@ -5,7 +5,10 @@ import HomePage from "../pages/contents/HomePage";
 import AboutPage from "../pages/contents/AboutPage";
 import BlogPage from "../pages/contents/BlogPage";
 import LecturerPage from "../pages/contents/LecturerPage";
-import CoursePage from "../pages/contents/CoursePage";
+import CoursePage from "../pages/contents/AllCoursePage";
+import AuthForm from "../pages/auth/loginPage";
+import SigupPage from "../pages/auth/sigupPage";
+import AllCoursePage from "../pages/contents/AllCoursePage";
 
 export default function AppRoutes() {
   return (
@@ -59,6 +62,22 @@ export default function AppRoutes() {
               <BlogPage />
             </MainLayout>
           }
+        />
+      <Route
+        path="/ចូលគណនី"
+        element={
+          <MainLayout>
+          <SigupPage/>
+          </MainLayout>
+        }
+        />
+         <Route
+        path="/វគ្គសិក្សា"
+        element={
+          <MainLayout>
+          <AllCoursePage/>
+          </MainLayout>
+        }
         />
       </Routes>
     </Router>

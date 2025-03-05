@@ -6,16 +6,16 @@ import {
   Github,
   Instagram,
 } from "lucide-react";
-import img from "../../../assets/images/logo/cher.png";
-import img1 from "../../../assets/images/logo/ISTAD.png";
-import react from "../../../assets/React.png";
-import java from "../../../assets/Java.png";
-import JS from "../../../assets/JS.png";
-import phyton from "../../../assets/Phyton.png";
-import Mongo from "../../../assets/Mongo.png";
-import PostSql from "../../../assets/PostSql.png";
-import Tailwind from "../../../assets/Tailwind.png";
-import Reactjs from "../../../assets/React.png";
+import img from "../../assets/images/logo/cher.png";
+import img1 from "../../assets/images/logo/ISTAD.png";
+import react from "../../assets/React.png";
+import java from "../../assets/Java.png";
+import JS from "../../assets/JS.png";
+import phyton from "../../assets/Phyton.png";
+import Mongo from "../../assets/Mongo.png";
+import PostSql from "../../assets/PostSql.png";
+import Tailwind from "../../assets/Tailwind.png";
+import Reactjs from "../../assets/React.png";
 
 import { motion } from "framer-motion"; //motin for animation
 
@@ -43,7 +43,6 @@ const Aboutus = () => {
     },
   };
 
-  // Animation for tech stack icons
   const techIconVariants = {
     hidden: { scale: 0.8, opacity: 0 },
     visible: {
@@ -83,7 +82,6 @@ const Aboutus = () => {
 
   return (
     <div className="w-full overflow-x-hidden bg-gradient-to-b from-white to-gray-50">
-      {/* Hero Section with Parallax Effect */}
       <div className="max-w-content mx-4 sm:mx-8 lg:mx-16 my-10 lg:my-20">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           <motion.div
@@ -150,7 +148,6 @@ const Aboutus = () => {
         className="h-24 bg-gradient-to-r from-primary via-cyan-500 to-blue-600"
       ></motion.div>
 
-      {/* Introduction Section */}
       <motion.div
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
@@ -216,7 +213,6 @@ const Aboutus = () => {
         ))}
       </motion.div>
 
-      {/* Team Section */}
       <motion.div
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
@@ -397,8 +393,6 @@ const Aboutus = () => {
           />
         </motion.div>
       </motion.div>
-
-      {/* FAQ Section */}
       <motion.div
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
@@ -462,7 +456,6 @@ const Aboutus = () => {
         </div>
       </motion.div>
 
-      {/* Floating decoration elements */}
       <div className="fixed top-20 right-10 w-16 h-16 bg-blue-400 rounded-full opacity-20 animate-pulse"></div>
       <div className="fixed bottom-20 left-10 w-24 h-24 bg-purple-500 rounded-full opacity-20 animate-pulse"></div>
       <div className="fixed top-1/2 left-10 w-10 h-10 bg-pink-400 rounded-full opacity-20 animate-bounce"></div>

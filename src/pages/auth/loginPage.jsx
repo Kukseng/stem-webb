@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const AnimatedAuthForm = () => {
+const AuthForm = () => {
   const [isLoginForm, setIsLoginForm] = useState(true);
   
   const toggleForm = () => {
@@ -173,4 +173,4 @@ const AnimatedAuthForm = () => {
   );
 };
 
-export default AnimatedAuthForm;
+export default AuthForm;
