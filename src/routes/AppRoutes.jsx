@@ -9,6 +9,7 @@ import CoursePage from "../pages/contents/CoursePage";
 import SigninComponent from "../components/signupAndSignin/SigninComponent";
 import SignupComponent from "../components/signupAndSignin/SignupComponent";
 import ForgotPassword from "../components/signupAndSignin/ForgotPasswordComponent";
+import LoginPage from "../pages/auth/loginPage";
 
 export default function AppRoutes() {
   return (
@@ -63,12 +64,13 @@ export default function AppRoutes() {
           }
         />
 
-        <Route path="/ចូលគណនី" element={<SigninComponent />} />
+        <Route path="/ចូលគណនី" element={ <LoginPage/> } />
+        
+        {/* <Route path="/ចូលគណនី" element={ <SigninComponent/> } /> */}
 
         <Route path="/ចុះឈ្មោះថ្មី" element={<SignupComponent />} />
 
         <Route path="/ភ្លេចលេខសម្ងាត់" element={<ForgotPassword />} />
-
       </Routes>
     </Router>
   );

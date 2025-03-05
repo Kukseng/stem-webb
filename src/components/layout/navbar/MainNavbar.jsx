@@ -305,9 +305,7 @@ function MainNavbar() {
           </div>
         )}
       </div>
-    </nav>
-   
-    
+    </nav>    
   );
 }
 

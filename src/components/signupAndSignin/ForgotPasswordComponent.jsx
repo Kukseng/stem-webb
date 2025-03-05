@@ -1,7 +1,8 @@
 import React from "react";
 import forgotPasswordIcon from "../../assets/iconsvg/signup.svg";
+import { Link } from "react-router";
 
-export function ForgotPassword() {
+  const  ForgotPassword = () => {
   return (
     <>
       <h1 className="font-suwannaphum font-bold text-4xl flex justify-center m-10 text-center">
@@ -55,9 +56,12 @@ export function ForgotPassword() {
             {/* Back to Login */}
             <div className="bg-primary text-sm font-light text-white text-center">
               ត្រឡប់ទៅ{" "}
-              <a href="#" className="font-medium text-gray-200 hover:underline">
+              <Link to="/ចូលគណនី" className="font-medium text-gray-200 hover:underline">
                 ចូលគណនី
-              </a>
+              </Link>
+              {/* <Link to="/ចុះឈ្មោះថ្មី" className="font-medium text-gray-200 hover:underline">
+                ចូលគណនី
+              </Link> */}
             </div>
           </form>
         </div>

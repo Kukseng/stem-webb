@@ -1,7 +1,7 @@
 import React from "react";
 import loginIcon from "../../assets/iconsvg/signup.svg";
-
-export function LoginComponent() {
+import { Link } from "react-router";  
+const LoginComponent = () => {
   return (
     <>
       <h1 className="font-suwannaphum font-bold text-4xl flex justify-center m-10 text-center">
@@ -41,8 +41,6 @@ export function LoginComponent() {
                 autoComplete="off"
               />
             </div>
-
-            {/* Password Field */}
             <div className="pb-3">
               <label className="block mb-2 text-sm font-medium text-white">
                 លេខសម្ងាត់
@@ -62,9 +60,9 @@ export function LoginComponent() {
                 <input type="checkbox" className="mr-2" />
                 ចងចាំខ្ញុំ
               </label>
-              <a href="#" className="text-gray-200 hover:underline">
+              <Link to="/ភ្លេចលេខសម្ងាត់" className="text-gray-200 hover:underline">
                 ភ្លេចលេខសម្ងាត់?
-              </a>
+              </Link>
             </div>
 
             {/* Submit Button */}
@@ -78,9 +76,11 @@ export function LoginComponent() {
             {/* No account? Register */}
             <div className="bg-primary text-sm font-light text-white text-center">
               មិនទាន់មានគណនី?{" "}
-              <a href="#" className="font-medium text-gray-200 hover:underline">
+              
+              <Link to="/ចុះឈ្មោះថ្មី" className="font-medium text-gray-200 hover:underline">
                 ចុះឈ្មោះថ្មី
-              </a>
+              </Link>
+              
             </div>
           </form>
 
