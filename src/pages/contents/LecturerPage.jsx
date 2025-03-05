@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Star } from 'lucide-react';
+import { CircularPagination } from '../../components/common/Pegenation';
 
 const TeacherCard = ({ teacher }) => (
   <div className="bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow">
@@ -89,31 +90,7 @@ const LecturerPage = () => {
       </div>
 
       {/* Pagination */}
-      <div className="flex justify-center mt-8 gap-2">
-        <button 
-          className="w-8 h-8 rounded-full border flex items-center justify-center hover:bg-gray-50"
-          onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
-        >
-          ←
-        </button>
-        {[1, 2, 3].map((page) => (
-          <button
-            key={page}
-            className={`w-8 h-8 rounded-full flex items-center justify-center ${
-              currentPage === page ? 'bg-blue-500 text-white' : 'border hover:bg-gray-50'
-            }`}
-            onClick={() => setCurrentPage(page)}
-          >
-            {page}
-          </button>
-        ))}
-        <button 
-          className="w-8 h-8 rounded-full border flex items-center justify-center hover:bg-gray-50"
-          onClick={() => setCurrentPage(Math.min(3, currentPage + 1))}
-        >
-          →
-        </button>
-      </div>
+       <CircularPagination/> 
 
       {/* Certificate Section */}
       <div className="mt-16">
