@@ -50,18 +50,16 @@ import { Link } from "react-router";
               type="submit"
               className="w-full text-white bg-blue-600 hover:bg-blue-700 transition rounded-lg text-sm px-5 py-3 mb-6"
             >
-              បញ្ជូនតំណភ្ជាប់កំណត់ពាក្យសម្ងាត់
+              បញ្ជូនពាក្យសម្ងាត់
             </button>
 
             {/* Back to Login */}
             <div className="bg-primary text-sm font-light text-white text-center">
               ត្រឡប់ទៅ{" "}
+              {/* this like will navagate to signin page */}
               <Link to="/ចូលគណនី" className="font-medium text-gray-200 hover:underline">
                 ចូលគណនី
               </Link>
-              {/* <Link to="/ចុះឈ្មោះថ្មី" className="font-medium text-gray-200 hover:underline">
-                ចូលគណនី
-              </Link> */}
             </div>
           </form>
         </div>

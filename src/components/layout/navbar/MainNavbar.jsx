@@ -199,22 +199,6 @@ function MainNavbar() {
                 </button>
                 </Link>
 
-                <Link to="/ចុះឈ្មោះថ្មី">
-                <button
-                  className="hidden sm:block text-primary hover:text-[#1e8fb8] text-[16px] xl:text-[16px] font-medium transition-colors whitespace-nowrap"
-                >
-                  ចុះឈ្មោះថ្មី
-                </button>
-                </Link>
-
-                <Link to="/ភ្លេចលេខសម្ងាត់">
-                <button
-                  className="hidden sm:block text-primary hover:text-[#1e8fb8] text-[16px] xl:text-[16px] font-medium transition-colors whitespace-nowrap"
-                >
-                  ភ្លេចលេខសម្ងាត់
-                </button>
-                </Link>
-
 
                 {/* <button className="hidden sm:block bg-primary text-xs xl:text-sm text-white px-3 lg:px-4 py-1.5 rounded-full hover:bg-[#1e8fb8] transition-all whitespace-nowrap">
                   ចុះឈ្មោះចូលរៀន
@@ -287,7 +271,7 @@ function MainNavbar() {
               )}
             </div>
             {!isLoggedIn && (
-              <div className="mt-4 pt-3 border-t border-gray-100">
+              <div className="ចូ-4 pt-3 border-t border-gray-100">
                 <div className="flex flex-col space-y-2">
                   
                   <button
