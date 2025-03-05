@@ -8,6 +8,8 @@ import LecturerPage from "../pages/contents/LecturerPage";
 import CoursePage from "../pages/contents/CoursePage";
 import LoginForm from "../pages/auth/LoginFrom";
 import SciencePage from "../pages/contents/SciencePage";
+import MathPage from "../pages/contents/MathPage";
+
 export default function AppRoutes() {
   return (
     <Router>
@@ -74,6 +76,14 @@ export default function AppRoutes() {
           element={
             <MainLayout>
               <SciencePage />
+            </MainLayout>
+          }
+        />
+        <Route
+          path="/mathematics"
+          element={
+            <MainLayout>
+              <MathPage />
             </MainLayout>
           }
         />

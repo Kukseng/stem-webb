@@ -80,10 +80,10 @@ const Aboutus = () => {
     }, []);
 
     return (
-        <div className="w-full overflow-x-hidden bg-gradient-to-b from-white to-gray-50">
+        <div className="w-full overflow-x-hidden bg-gradient-to-b from-white to-gray-200">
             {/* Hero Section with Parallax Effect */}
-            <div className="max-w-content mx-4 sm:mx-8 lg:mx-16 my-10 lg:my-20">
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <div className="max-w-content mx-4 sm:mx-8 lg:mx-16 my-10 lg:my-20 2xl:mx-28">
+                <div className="grid grid-cols-1 lg:grid-cols-2">
                     <motion.div
                         initial={{ x: -100, opacity: 0 }}
                         animate={{ x: 0, opacity: 1 }}

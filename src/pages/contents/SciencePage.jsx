@@ -1,5 +1,4 @@
 
-import { div } from "framer-motion/client";
 import Science from "../../components/layout/science/Science";
 
 const SciencePage = () => {

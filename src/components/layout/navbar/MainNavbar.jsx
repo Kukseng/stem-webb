@@ -80,7 +80,7 @@ function MainNavbar() {
 
   return (
     <nav
-      className={`bg-white bg-opacity-30 backdrop-blur-md sticky top-0 z-50 transition-shadow duration-200 ${isScrolled ? "shadow-md" : "border-b border-gray-100"
+      className={`bg-white bg-opacity-30 backdrop-blur-md sticky 2xl:px-14 top-0 z-50 transition-shadow duration-200 ${isScrolled ? "shadow-md" : "border-b border-gray-100"
         }`}
     >
       <div className="w-full">
@@ -118,14 +118,16 @@ function MainNavbar() {
                     <Dropdown.Item key={stemItem.label}>
                       <Link
                         to={stemItem.href}
-                        className="flex items-start space-x-4 text-gray-700"
+                        className="flex space-x-5"
                       >
-                        <stemItem.icon className="w-5 h-5 text-primary " />
+                        <div className="flex items-center">
+                          <stemItem.icon className="w-5 h-5 text-primary" />
+                        </div>
                         <div>
-                          <h4 className="text-sm font-medium text-descrid">
+                          <h4 className="text-sm font-medium text-descrid text-start">
                             {stemItem.label}
                           </h4>
-                          <p className="text-xs text-gray-500 mt-0.5">
+                          <p className="text-xs text-gray-500 mt-1">
                             {stemItem.description}
                           </p>
                         </div>
