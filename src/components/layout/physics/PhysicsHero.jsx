@@ -1,6 +1,6 @@
-import { Clock, ZoomIn } from "lucide-react"
+import { Clock } from "lucide-react"
 
-const ScienceHero = () => {
+const PhysicsHero = () => {
     return (
         <div>
             <section className="h-80 bg-[#16789E] grid grid-cols-4 mb-[200px]">
@@ -28,4 +28,4 @@ const ScienceHero = () => {
         </div>
     )
 }
-export default ScienceHero
+export default PhysicsHero

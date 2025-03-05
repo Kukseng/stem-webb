@@ -7,8 +7,10 @@ import BlogPage from "../pages/contents/BlogPage";
 import LecturerPage from "../pages/contents/LecturerPage";
 import CoursePage from "../pages/contents/CoursePage";
 import LoginForm from "../pages/auth/LoginFrom";
-import SciencePage from "../pages/contents/SciencePage";
 import MathPage from "../pages/contents/MathPage";
+import PhysicsPage from "../pages/contents/PhysicsPage";
+import BiologyPage from "../pages/contents/BiologyPage";
+import KhmerPage from "../pages/contents/KhmerPage";
 
 export default function AppRoutes() {
   return (
@@ -72,10 +74,10 @@ export default function AppRoutes() {
           }
         />
         <Route
-          path="/science"
+          path="/physics"
           element={
             <MainLayout>
-              <SciencePage />
+              <PhysicsPage />
             </MainLayout>
           }
         />
@@ -84,6 +86,30 @@ export default function AppRoutes() {
           element={
             <MainLayout>
               <MathPage />
+            </MainLayout>
+          }
+        />
+        <Route
+          path="/biology"
+          element={
+            <MainLayout>
+              <BiologyPage />
+            </MainLayout>
+          }
+        />
+        <Route
+          path="/Khmer"
+          element={
+            <MainLayout>
+              <KhmerPage />
+            </MainLayout>
+          }
+        />
+        <Route
+          path="/Physic"
+          element={
+            <MainLayout>
+              <KhmerPage />
             </MainLayout>
           }
         />

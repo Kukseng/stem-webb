@@ -1,4 +1,4 @@
-import { div } from "framer-motion/client"
+
 
 
 const Math = () => {

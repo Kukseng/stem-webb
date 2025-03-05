@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+
 import {
   Search,
   ChevronDown,
@@ -19,26 +20,26 @@ import image from "../../../assets/markup-cropped.svg"; // Import the SVG
 import { Link } from "react-router";
 import { Dropdown, Button } from "flowbite-react";
 import logomodified from "../../../assets/images/logo/o-removebg-preview.png";
-import Banner from "../../common/Banner";
+
 
 const stemMenuItems = [
   {
-    label: "វិទ្យាសាស្រ្ត",
+    label: "រូបវិទ្យា",
     description: "រៀនអំពីជីវវិទ្យា គីមីវិទ្យា និងរូបវិទ្យា",
     icon: Beaker,
-    href: "/science",
+    href: "/physics",
   },
   {
-    label: "បច្ចេកវិទ្យា",
+    label: "ជីវវិទ្យា",
     description: "កម្មវិធីកុំព្យូទ័រ និងវិស្វកម្ម",
     icon: Code,
-    href: "/technology",
+    href: "/biology",
   },
   {
-    label: "វិស្វកម្ម",
+    label: "ភាសារខ្មែរ",
     description: "វិស្វកម្មអេឡិចត្រូនិច និងមេកានិច",
     icon: Calculator,
-    href: "/engineering",
+    href: "/Khmer",
   },
   {
     label: "គណិតវិទ្យា",
@@ -65,6 +66,7 @@ const navItems = [
 ];
 
 function MainNavbar() {
+
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isSTEMMenuOpen, setIsSTEMMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
@@ -86,7 +88,8 @@ function MainNavbar() {
       <div className="w-full">
         <div className=" mx-auto flex items-center justify-between py-3 px-4 md:px-6 lg:px-8">
           {/* Logo */}
-          <Link to="/" className="flex-shrink-0">
+
+          <Link to="/" className="flex-shrink-0 ">
             <div className="flex items-center space-x-1 sm:space-x-2">
               <div className="h-16 w-16 md:h-18 md:w-18 lg:h-20 lg:w-20 rounded-full flex items-center justify-center text-white font-bold text-lg">
                 <img
