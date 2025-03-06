@@ -1,5 +1,5 @@
 import React from 'react'
-import Blog from '../../components/blog/Blog'
+import Blog from '../../components/blog/BlogComponent'
 
 
 const BlogPage = () => {

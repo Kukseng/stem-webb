@@ -1,9 +1,6 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router";
 import MainLayout from "../layouts/MainLayout";
-import HomePage from "../pages/contents/homepage";
-import BlogPage from "../pages/contents/blogpage";
-import LecturerPage from "../pages/contents/lecturerpage";
 import LoginForm from "../pages/auth/LoginFrom";
 import MathPage from "../pages/contents/MathPage";
 import PhysicsPage from "../pages/contents/physicspage";
@@ -13,6 +10,9 @@ import AllCoursePage from "../pages/contents/allcoursepage";
 import CourseDetailPage from "../pages/contents/course-detail-page";
 import AboutPage from "../pages/contents/AboutPage";
 import CoursePage from "../pages/contents/Course/CoursePage";
+import HomePage from "../pages/contents/homepage";
+import BlogPage from "../pages/contents/BlogPage";
+import LecturerPage from "../pages/contents/LecturerPage";
 
 
 export default function AppRoutes() {
@@ -23,7 +23,7 @@ export default function AppRoutes() {
           path="/"
           element={
             <MainLayout>
-              <HomePage />
+              <HomePage/>
             </MainLayout>
           }
         />
@@ -40,7 +40,7 @@ export default function AppRoutes() {
           path="/គ្រូបង្រៀន"
           element={
             <MainLayout>
-              <LecturerPage />
+            <LecturerPage/>
             </MainLayout>
           }
         />
@@ -63,11 +63,19 @@ export default function AppRoutes() {
           path="/មាតិកា"
           element={
             <MainLayout>
-              <BlogPage />
+              <BlogPage/>
             </MainLayout>
           }
         />
         {/* <Route path="/ចូលគណនី" element={<Login/>} /> */}
+        <Route
+        path="/allcourse"
+        element={
+          <MainLayout>
+            <AllCoursePage/>
+          </MainLayout>
+        }
+        />
         <Route
           path="/ចូលគណនី"
           element={

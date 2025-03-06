@@ -24,6 +24,12 @@ import logomodified from "../../assets/images/logo/o-removebg-preview.png";
 
 const stemMenuItems = [
   {
+    label: "ALL",
+    description: "រៀនអំពីជីវវិទ្យា គីមីវិទ្យា និងរូបវិទ្យា",
+    icon: Beaker,
+    href: "/allcourse",
+  },
+  {
     label: "រូបវិទ្យា",
     description: "រៀនអំពីជីវវិទ្យា គីមីវិទ្យា និងរូបវិទ្យា",
     icon: Beaker,
