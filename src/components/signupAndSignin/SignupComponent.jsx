@@ -6,23 +6,24 @@ import { Link } from "react-router";
 const SignupComponent = () => {
   return (
     <>
-    <h1 className="font-suwannaphum font-bold text-4xl flex justify-center m-10 text-center">
-      ស្វាគមន៍មកកាន់ <span className="text-primary ml-2">ISTEM</span>
+    <h1 className="font-suwannaphum font-bold text-4xl flex justify-center m-10 text-center sm:w-[95%] 2xl:w-[700px] max-w-[90%]">
+      ស្វាគមន៍មកកាន់ការចុះឈ្មោះចូលរៀន <span className="text-primary ml-2 sm:w-[95%]2xl:w-[700px] max-w-[90%]">ISTEM</span>
     </h1>
 
     {/* Main container */}
-    <div className="flex flex-col md:flex-row items-center justify-center gap-6 px-4 md:px-8">
+    <div className="flex flex-col md:flex-row items-center justify-center max-w-content w-full lg:my-20 p-10">
       {/* Icon section */}
       <div className="w-full max-w-[500px]">
         <img
-          className="w-full max-w-[400px] md:max-w-[500px] mx-auto"
+          className="w-full max-w-[400px] md:max-w-[500px] mx-auto flex flex-col items-center justify-start"
           src={signupIcon}
           alt="Sign in"
         />
       </div>
 
       {/* Sign-in form */}
-      <div className="font-suwannaphum flex flex-col w-full sm:w-[90%] md:w-[400px] xl:w-[500px] max-w-[500px] mx-auto p-6 md:p-10 xl:p-12 bg-primary rounded-2xl shadow-xl">
+      <div className="font-suwannaphum flex flex-col w-full sm:w-[95%] md:w-[500px] lg:w-[550px] xl:w-[600px] 2xl:w-[700px] max-w-[90%] mx-auto 
+  p-6 md:p-10 lg:p-12 xl:p-14 2xl:p-16 bg-primary rounded-2xl shadow-xl">
         <div className="font-light text-white text-2xl pb-4">ចុះឈ្មោះ</div>
         <div className="text-sm font-light text-white pb-6">
           ស្វាគមន៍ការចុះឈ្មោះចូលគណនីថ្មី
