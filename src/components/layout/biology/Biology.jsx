@@ -3,7 +3,7 @@
 const Biology = () => {
     return (
         <div>
-            <h1 className="text-8xl text-center">Biology</h1>
+            <h1 className="text-[300px] text-center">Biology</h1>
         </div>
     )
 }

@@ -3,57 +3,57 @@ import { Clock, Users, BookOpen, ChevronLeft, ChevronRight } from 'lucide-react'
 import CourseImage from '../../../assets/image (9).png';
 import person from '../../../assets/person.svg';
 
-const CourseCard = () => (
-  <div className="bg-white overflow-hidden shadow-sm">
-    <div className="relative p-4">
-      <img src={CourseImage} alt="Course thumbnail" className="w-full h-72 object-cover rounded-t-[40px]" />
-      <div className="flex justify-between items-center">
-        <div className="px-2 py-1 bg-white/90 rounded text-sm mt-5">UI/UX Design</div>
-        <div className="flex">
-          {[...Array(4)].map((_, i) => (
-            <svg key={i} className="w-4 h-4 text-yellow-400 fill-current" viewBox="0 0 20 20">
-              <path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z" />
-            </svg>
-          ))}
-        </div>
-      </div>
-    </div>
+// const CourseCard = () => (
+//   <div className="bg-white overflow-hidden shadow-sm">
+//     <div className="relative p-4">
+//       <img src={CourseImage} alt="Course thumbnail" className="w-full h-72 object-cover rounded-t-[40px]" />
+//       <div className="flex justify-between items-center">
+//         <div className="px-2 py-1 bg-white/90 rounded text-sm mt-5">UI/UX Design</div>
+//         <div className="flex">
+//           {[...Array(4)].map((_, i) => (
+//             <svg key={i} className="w-4 h-4 text-yellow-400 fill-current" viewBox="0 0 20 20">
+//               <path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z" />
+//             </svg>
+//           ))}
+//         </div>
+//       </div>
+//     </div>
 
-    <div className="p-4">
-      <h3 className="text-lg font-medium mb-2 ml-7">UI/UX Design for Beginners</h3>
+//     <div className="p-4">
+//       <h3 className="text-lg font-medium mb-2 ml-7">UI/UX Design for Beginners</h3>
 
-      <div className="flex justify-around items-center space-x-4 text-sm text-gray-600 mb-4">
-        <div className="flex items-center">
-          <Clock className="w-4 h-4 mr-1" />
-          <span>22hr 30min</span>
-        </div>
-        <div className="flex items-center">
-          <BookOpen className="w-4 h-4 mr-1" />
-          <span>34 Courses</span>
-        </div>
-        <div className="flex items-center">
-          <Users className="w-4 h-4 mr-1" />
-          <span>10239</span>
-        </div>
-      </div>
+//       <div className="flex justify-around items-center space-x-4 text-sm text-gray-600 mb-4">
+//         <div className="flex items-center">
+//           <Clock className="w-4 h-4 mr-1" />
+//           <span>22hr 30min</span>
+//         </div>
+//         <div className="flex items-center">
+//           <BookOpen className="w-4 h-4 mr-1" />
+//           <span>34 Courses</span>
+//         </div>
+//         <div className="flex items-center">
+//           <Users className="w-4 h-4 mr-1" />
+//           <span>10239</span>
+//         </div>
+//       </div>
 
-      <div className="flex justify-around items-center">
-        <button className="px-4 py-2 border border-gray-200 rounded-full text-gray-600">ពិនិត្យមើល</button>
-        <button className="px-4 py-2 bg-indigo-600 text-white rounded-full">ចុះឈ្មោះ</button>
-      </div>
-    </div>
-  </div>
-);
+//       <div className="flex justify-around items-center">
+//         <button className="px-4 py-2 border border-gray-200 rounded-full text-gray-600">ពិនិត្យមើល</button>
+//         <button className="px-4 py-2 bg-indigo-600 text-white rounded-full">ចុះឈ្មោះ</button>
+//       </div>
+//     </div>
+//   </div>
+// );
 
-const FeatureCard = ({ icon, title, description }) => (
-  <div className="bg-white rounded-xl p-6 shadow-sm">
-    <div className="w-12 h-12 bg-indigo-600 rounded-full flex items-center justify-center mb-4">
-      {icon}
-    </div>
-    <h3 className="text-lg font-medium mb-2">{title}</h3>
-    <p className="text-gray-600 text-sm leading-relaxed">{description}</p>
-  </div>
-);
+// const FeatureCard = ({ icon, title, description }) => (
+//   <div className="bg-white rounded-xl p-6 shadow-sm">
+//     <div className="w-12 h-12 bg-indigo-600 rounded-full flex items-center justify-center mb-4">
+//       {icon}
+//     </div>
+//     <h3 className="text-lg font-medium mb-2">{title}</h3>
+//     <p className="text-gray-600 text-sm leading-relaxed">{description}</p>
+//   </div>
+// );
 
 const SubjectCarousel = ({ subjects }) => {
   const scrollRef = useRef(null);

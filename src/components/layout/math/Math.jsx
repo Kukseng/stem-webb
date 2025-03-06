@@ -1,10 +1,11 @@
+import MathHero from "../math/MathHero"
 
 
 
 const Math = () => {
     return (
         <div>
-            <h1 className="text-[300px]">Math Course</h1>
+            <MathHero />
         </div>
     )
 }
