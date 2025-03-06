@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import MainLayout from "../layouts/MainLayout";
 import LoginForm from "../pages/auth/LoginFrom";
 import AllCoursePage from "../pages/contents/allcoursepage";
@@ -9,11 +9,10 @@ import CoursePage from "../pages/contents/Course/CoursePage";
 import HomePage from "../pages/contents/homepage";
 import BlogPage from "../pages/contents/BlogPage";
 import LecturerPage from "../pages/contents/LecturerPage";
-// import PhysicsPage from "../pages/contents/physicspage";
-// import MathPage from "../pages/contents/MathPage";
-// import BiologyPage from "../pages/contents/BiologyPage";
-// import KhmerPage from "../pages/contents/KhmerPage";
-
+import PhysicsPage from "../pages/contents/physicspage";
+import MathPage from "../pages/contents/MathPage";
+import BiologyPage from "../pages/contents/BiologyPage";
+import KhmerPage from "../pages/contents/KhmerPage";
 
 export default function AppRoutes() {
   return (
@@ -23,7 +22,7 @@ export default function AppRoutes() {
           path="/"
           element={
             <MainLayout>
-              <HomePage/>
+              <HomePage />
             </MainLayout>
           }
         />
@@ -31,16 +30,15 @@ export default function AppRoutes() {
           path="/វគ្គសិក្សា"
           element={
             <MainLayout>
-              <CoursePage/>
+              <CoursePage />
             </MainLayout>
           }
         />
-
         <Route
           path="/គ្រូបង្រៀន"
           element={
             <MainLayout>
-            <LecturerPage/>
+              <LecturerPage />
             </MainLayout>
           }
         />
@@ -48,33 +46,25 @@ export default function AppRoutes() {
           path="/អំពីពួកយើង"
           element={
             <MainLayout>
-             <AboutPage/>
+              <AboutPage />
             </MainLayout>
           }
         />
-        {/* <Route path="/" 
-                element={
-                    <MainLayout>
-                        <
-                    </MainLayout>
-                }
-                /> */}
         <Route
           path="/មាតិកា"
           element={
             <MainLayout>
-              <BlogPage/>
+              <BlogPage />
             </MainLayout>
           }
         />
-        {/* <Route path="/ចូលគណនី" element={<Login/>} /> */}
         <Route
-        path="/allcourse"
-        element={
-          <MainLayout>
-            <AllCoursePage/>
-          </MainLayout>
-        }
+          path="/allcourse"
+          element={
+            <MainLayout>
+              <AllCoursePage />
+            </MainLayout>
+          }
         />
         <Route
           path="/ចូលគណនី"
@@ -84,12 +74,11 @@ export default function AppRoutes() {
             </MainLayout>
           }
         />
-      
-        {/* <Route
+        <Route
           path="/physics"
           element={
             <MainLayout>
-              <PhysicsPage/>
+              <PhysicsPage />
             </MainLayout>
           }
         />
@@ -97,7 +86,7 @@ export default function AppRoutes() {
           path="/mathematics"
           element={
             <MainLayout>
-              <MathPage/>
+              <MathPage />
             </MainLayout>
           }
         />
@@ -105,7 +94,7 @@ export default function AppRoutes() {
           path="/biology"
           element={
             <MainLayout>
-            <BiologyPage/>
+              <BiologyPage />
             </MainLayout>
           }
         />
@@ -113,14 +102,12 @@ export default function AppRoutes() {
           path="/Khmer"
           element={
             <MainLayout>
-              <KhmerPage/>
+              <KhmerPage />
             </MainLayout>
           }
-        /> */}
-       
-
+        />
         <Route path="/courses/:courseId" element={<CourseDetailPage />} />
-        <Route path="/វគ្គសិក្សា/${lessonId}" element={<AllCoursePage/>} />
+        <Route path="/វគ្គសិក្សា/${lessonId}" element={<AllCoursePage />} />
       </Routes>
     </Router>
   );
