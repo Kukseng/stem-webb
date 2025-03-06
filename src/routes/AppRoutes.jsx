@@ -24,7 +24,7 @@ export default function AppRoutes() {
           }
         />
         <Route
-          path="/វគ្គសិក្សា"
+          path="/courses"
           element={
             <MainLayout>
               <CoursePage/>
@@ -32,7 +32,7 @@ export default function AppRoutes() {
           }
         />
         <Route
-          path="/គ្រូបង្រៀន"
+          path="/teacher"
           element={
             <MainLayout>
               <LecturerPage/>
@@ -40,7 +40,7 @@ export default function AppRoutes() {
           }
         />
         <Route
-          path="/អំពីពួកយើង"
+          path="/aboutus"
           element={
             <MainLayout>
              <AboutPage/>
@@ -48,7 +48,7 @@ export default function AppRoutes() {
           }
         />
         <Route
-          path="/មាតិកា"
+          path="/blog"
           element={
             <MainLayout>
               <BlogPage/>
@@ -63,48 +63,9 @@ export default function AppRoutes() {
             </MainLayout>
           }
         />
-        {/* <Route
-          path="/ចូលគណនី"
-          element={
-            <MainLayout>
-              <LoginForm />
-            </MainLayout>
-          }
-        /> */}
-        {/* <Route
-          path="/physics"
-          element={
-            <MainLayout>
-              <PhysicsPage />
-            </MainLayout>
-          }
-        />
-        <Route
-          path="/mathematics"
-          element={
-            <MainLayout>
-              <MathPage />
-            </MainLayout>
-          }
-        />
-        <Route
-          path="/biology"
-          element={
-            <MainLayout>
-              <BiologyPage />
-            </MainLayout>
-          }
-        />
-        <Route
-          path="/Khmer"
-          element={
-            <MainLayout>
-              <KhmerPage />
-            </MainLayout>
-          }
-        /> */}
+
         <Route path="/courses/:courseId" element={<CourseDetailPage/>} />
-        <Route path="/វគ្គសិក្សា/${lessonId}" element={<AllCourseDetail/>} />
+        <Route path="/lesson/${lessonId}" element={<AllCourseDetail/>} />
       </Routes>
     </Router>
   );

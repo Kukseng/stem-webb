@@ -51,7 +51,7 @@ const stemMenuItems = [
     label: "គណិតវិទ្យា",
     description: "ពីជគណិត ធរណីមាត្រ និងស្ថិតិ",
     icon: Leaf,
-    href: "គណិតវិទ្យា",
+    href: "math",
   },
 ];
 
@@ -66,9 +66,9 @@ const profileMenuItems = [
 const navItems = [
   { label: "ទំព័រដើម", href: "/" },
   { label: "វគ្គសិក្សា",icon:Dropdown, hasDropdown: true },
-  { label: "គ្រូបង្រៀន", href: "/គ្រូបង្រៀន" },
-  { label: "មាតិកា", href: "/មាតិកា" },
-  { label: "អំពីពួកយើង", href: "/អំពីពួកយើង" },
+  { label: "គ្រូបង្រៀន", href: "teacher" },
+  { label: "មាតិកា", href: "/blog" },
+  { label: "អំពីពួកយើង", href: "/aboutus" },
 ];
 function MainNavbar() {
 
