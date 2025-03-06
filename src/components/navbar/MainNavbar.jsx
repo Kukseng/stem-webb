@@ -19,7 +19,7 @@ import {
 import image from "../../assets/markup-cropped.svg";
 import { Link } from "react-router";
 import { Dropdown, Button } from "flowbite-react";
-import logomodified from "../../../assets/images/logo/o-removebg-preview.png";
+import logomodified from "../../assets/images/logo/o-removebg-preview.png";
 
 
 const stemMenuItems = [
@@ -303,8 +303,9 @@ function MainNavbar() {
               )}
             </div>
             {!isLoggedIn && (
-              <div className="mt-4 pt-3 border-t border-gray-100">
+              <div className="ចូ-4 pt-3 border-t border-gray-100">
                 <div className="flex flex-col space-y-2">
+                  
                   <button
                     onClick={() => {
                       setIsLoggedIn(true);

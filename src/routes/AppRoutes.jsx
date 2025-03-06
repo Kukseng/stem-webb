@@ -2,14 +2,14 @@ import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router";
 import MainLayout from "../layouts/MainLayout";
 import HomePage from "../pages/contents/HomePage";
-import AboutPage from "../pages/contents/AboutPage";
+import AboutPage from "../pages/contents/aboutpage";
 import BlogPage from "../pages/contents/BlogPage";
 import LecturerPage from "../pages/contents/LecturerPage";
-import CoursePage from "../pages/contents/CoursePage";
+import CoursePage from "../pages/contents/course/coursepage";
 import LoginForm from "../pages/auth/LoginFrom";
 import MathPage from "../pages/contents/MathPage";
 import PhysicsPage from "../pages/contents/PhysicsPage";
-import BiologyPage from "../pages/contents/BiologyPage";
+import BiologyPage from "../pages/contents/biologypage";
 import KhmerPage from "../pages/contents/KhmerPage";
 import AllCoursePage from "../pages/contents/allcoursepage";
 import CourseDetailPage from "../pages/contents/course-detail-page";
@@ -66,7 +66,7 @@ export default function AppRoutes() {
             </MainLayout>
           }
         />
-        <Route path="/ចូលគណនី" element={<SigupPage />} />
+        {/* <Route path="/ចូលគណនី" element={<Login/>} /> */}
         <Route
           path="/វគ្គសិក្សា"
           element={

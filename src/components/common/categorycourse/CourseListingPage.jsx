@@ -187,13 +187,8 @@ const STEMTutoring = () => {
                   <div className="h-24 w-16 bg-gray-200 rounded mr-2"></div>
                   <div className="h-28 w-16 bg-gray-200 rounded"></div>
                 </div>
-<<<<<<< HEAD
                 
           
-=======
-
-                {/* Students illustration */}
->>>>>>> a82abe5dbbf9d525910dfa8255581e9fb6c03c5c
                 <div className="flex justify-around items-center">
                   <img src={person} alt="person" className="w-full h-full" />
                 </div>
