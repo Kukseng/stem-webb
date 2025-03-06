@@ -2,7 +2,7 @@
 import React, { useEffect } from "react";
 import { FaRegListAlt } from "react-icons/fa";
 import { useGetAllCoursesQuery } from "../../../api/courses-api";
-import CourseCard from "./Course-Card";
+import CourseCard from "./course-card";
 
 const CoursesList = () => {
   const { data, isLoading, isError, error } = useGetAllCoursesQuery({
