@@ -1,23 +1,13 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router";
-import MainLayout from "../layouts/MainLayout";
-import HomePage from "../pages/contents/Homepage";
-import CoursePage from "../pages/contents/Course/CoursePage";
-import LecturerPage from "../pages/contents/LecturerPage";
-import AboutPage from "../pages/contents/AboutPage";
-import BlogPage from "../pages/contents/BlogPage";
-import AllCoursePage from "../pages/contents/AllCoursePage";
+import HomePage from "../pages/contents/homepage";
+import CoursePage from "../pages/contents/course/coursepage";
+import LecturerPage from "../pages/contents/lecturerpage";
+import AboutPage from "../pages/contents/aboutpage";
+import BlogPage from "../pages/contents/blogpage";
+import AllCoursePage from "../pages/contents/allcoursepage";
+import CourseDetailPage from "../pages/contents/coursedetailpage";
 import AllCourseDetail from "../pages/contents/allcourse-detail";
-import CourseDetailPage from "../pages/contents/course-detail-page";
-// import LoginForm from "../pages/auth/LoginForm";
-// import AllCoursePage from "../pages/contents/AllCoursePage";
-// import CourseDetailPage from "../pages/contents/course-detail-page.jsx";
-// import AboutPage from "../pages/contents/aboutpage.jsx";
-// import CoursePage from "../pages/contents/Course/CoursePage";
-// import HomePage from "../pages/contents/HomePage";
-// import BlogPage from "../pages/contents/BlogPage";
-// import LecturerPage from "../pages/contents/LecturerPage";
-
 
 export default function AppRoutes() {
   return (
