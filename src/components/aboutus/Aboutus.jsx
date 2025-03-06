@@ -1,10 +1,10 @@
 import React, { useEffect } from "react";
 import {
-  ArrowRight,
-  Facebook,
-  Linkedin,
-  Github,
-  Instagram,
+    ArrowRight,
+    Facebook,
+    Linkedin,
+    Github,
+    Instagram,
 } from "lucide-react";
 import img from "../../assets/images/logo/cher.png";
 import img1 from "../../assets/images/logo/ISTAD.png";
@@ -20,28 +20,28 @@ import Reactjs from "../../assets/React.png";
 import { motion } from "framer-motion"; //motin for animation
 
 const Aboutus = () => {
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.3,
-      },
-    },
-  };
+    const containerVariants = {
+        hidden: { opacity: 0 },
+        visible: {
+            opacity: 1,
+            transition: {
+                staggerChildren: 0.3,
+            },
+        },
+    };
 
-  const itemVariants = {
-    hidden: { y: 50, opacity: 0 },
-    visible: {
-      y: 0,
-      opacity: 1,
-      transition: {
-        type: "spring",
-        stiffness: 100,
-        damping: 12,
-      },
-    },
-  };
+    const itemVariants = {
+        hidden: { y: 50, opacity: 0 },
+        visible: {
+            y: 0,
+            opacity: 1,
+            transition: {
+                type: "spring",
+                stiffness: 100,
+                damping: 12,
+            },
+        },
+    };
 
   const techIconVariants = {
     hidden: { scale: 0.8, opacity: 0 },
@@ -62,23 +62,22 @@ const Aboutus = () => {
     },
   };
 
-  useEffect(() => {
-    const handleScroll = () => {
-      const scrollY = window.scrollY;
-      const heroImage = document.querySelector(".hero-image");
-      const heroText = document.querySelector(".hero-text");
+    useEffect(() => {
+        const handleScroll = () => {
+            const scrollY = window.scrollY;
+            const heroImage = document.querySelector(".hero-image");
+            const heroText = document.querySelector(".hero-text");
 
-      if (heroImage && heroText) {
-        heroImage.style.transform = `translateY(${
-          scrollY * 0.2
-        }px) rotate(-10deg)`;
-        heroText.style.transform = `translateY(${scrollY * 0.1}px)`;
-      }
-    };
+            if (heroImage && heroText) {
+                heroImage.style.transform = `translateY(${scrollY * 0.2
+                    }px) rotate(-10deg)`;
+                heroText.style.transform = `translateY(${scrollY * 0.1}px)`;
+            }
+        };
 
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+        window.addEventListener("scroll", handleScroll);
+        return () => window.removeEventListener("scroll", handleScroll);
+    }, []);
 
   return (
     <div className="w-full overflow-x-hidden bg-gradient-to-b from-white to-gray-50">
@@ -139,14 +138,14 @@ const Aboutus = () => {
         </div>
       </div>
 
-      {/* Divider */}
-      <motion.div
-        initial={{ scaleX: 0 }}
-        whileInView={{ scaleX: 1 }}
-        transition={{ duration: 1 }}
-        viewport={{ once: true }}
-        className="h-24 bg-gradient-to-r from-primary via-cyan-500 to-blue-600"
-      ></motion.div>
+            {/* Divider */}
+            <motion.div
+                initial={{ scaleX: 0 }}
+                whileInView={{ scaleX: 1 }}
+                transition={{ duration: 1 }}
+                viewport={{ once: true }}
+                className="h-24 bg-gradient-to-r from-primary via-cyan-500 to-blue-600"
+            ></motion.div>
 
       <motion.div
         initial={{ opacity: 0 }}
@@ -160,58 +159,58 @@ const Aboutus = () => {
         </h3>
       </motion.div>
 
-      {/* Teacher Cards */}
-      <motion.div
-        variants={containerVariants}
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true }}
-        className="mx-4 sm:mx-8 lg:mx-16 flex flex-wrap justify-center gap-8 py-10"
-      >
-        {[1, 2].map((_, index) => (
-          <motion.div
-            key={index}
-            variants={itemVariants}
-            whileHover={{
-              y: -10,
-              boxShadow:
-                "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
-            }}
-            className="max-w-sm bg-white border border-gray-200 rounded-lg shadow-sm transform transition-all duration-300"
-          >
-            <div className="flex justify-center p-6">
-              <img
-                className="rounded-full w-48 h-48 object-cover border-4 border-primary"
-                src={img}
-                alt="Teacher"
-              />
-            </div>
-            <div className="p-5 text-center">
-              <h5 className="text-2xl font-bold text-gray-900">
-                គឹម ចាន់សុផេង
-              </h5>
-              <p className="text-cyan-700 font-suwannaphum">Mentor</p>
-              <p className="mb-3 text-gray-700">
-                ភ្ជាប់ទំនាក់ទំនងជាមួយអ្នកណែនាំដែលមានបទពិសោធន៍ក្នុងវិស័យ iSTEM
-                ដែលផ្តល់ការណែនាំ ចែករំលែកការយល់ដឹងអំពីឧស្សាហកម្ម
-                និងជួយអ្នកក្នុងការច្នៃប្រឌិត និងអភិវឌ្ឍ។
-              </p>
-              <motion.div
-                className="flex justify-center gap-4"
-                animate={{ y: [0, 5, 0] }}
-                transition={{ repeat: Infinity, duration: 2 }}
-              >
-                <motion.div whileHover={{ scale: 1.2, color: "#1877F2" }}>
-                  <Facebook className="text-gray-700" />
-                </motion.div>
-                <motion.div whileHover={{ scale: 1.2, color: "#0A66C2" }}>
-                  <Linkedin className="text-gray-700" />
-                </motion.div>
-              </motion.div>
-            </div>
-          </motion.div>
-        ))}
-      </motion.div>
+            {/* Teacher Cards */}
+            <motion.div
+                variants={containerVariants}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true }}
+                className="mx-4 sm:mx-8 lg:mx-16 flex flex-wrap justify-center gap-8 py-10"
+            >
+                {[1, 2].map((_, index) => (
+                    <motion.div
+                        key={index}
+                        variants={itemVariants}
+                        whileHover={{
+                            y: -10,
+                            boxShadow:
+                                "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
+                        }}
+                        className="max-w-sm bg-white border border-gray-200 rounded-lg shadow-sm transform transition-all duration-300"
+                    >
+                        <div className="flex justify-center p-6">
+                            <img
+                                className="rounded-full w-48 h-48 object-cover border-4 border-primary"
+                                src={img}
+                                alt="Teacher"
+                            />
+                        </div>
+                        <div className="p-5 text-center">
+                            <h5 className="text-2xl font-bold text-gray-900">
+                                គឹម ចាន់សុផេង
+                            </h5>
+                            <p className="text-cyan-700 font-suwannaphum">Mentor</p>
+                            <p className="mb-3 text-gray-700">
+                                ភ្ជាប់ទំនាក់ទំនងជាមួយអ្នកណែនាំដែលមានបទពិសោធន៍ក្នុងវិស័យ iSTEM
+                                ដែលផ្តល់ការណែនាំ ចែករំលែកការយល់ដឹងអំពីឧស្សាហកម្ម
+                                និងជួយអ្នកក្នុងការច្នៃប្រឌិត និងអភិវឌ្ឍ។
+                            </p>
+                            <motion.div
+                                className="flex justify-center gap-4"
+                                animate={{ y: [0, 5, 0] }}
+                                transition={{ repeat: Infinity, duration: 2 }}
+                            >
+                                <motion.div whileHover={{ scale: 1.2, color: "#1877F2" }}>
+                                    <Facebook className="text-gray-700" />
+                                </motion.div>
+                                <motion.div whileHover={{ scale: 1.2, color: "#0A66C2" }}>
+                                    <Linkedin className="text-gray-700" />
+                                </motion.div>
+                            </motion.div>
+                        </div>
+                    </motion.div>
+                ))}
+            </motion.div>
 
       <motion.div
         initial={{ opacity: 0 }}
@@ -277,16 +276,16 @@ const Aboutus = () => {
         ))}
       </motion.div>
 
-      {/* Divider */}
-      <div className="flex justify-center py-10">
-        <motion.div
-          initial={{ width: 0 }}
-          whileInView={{ width: "6rem" }}
-          transition={{ duration: 1 }}
-          viewport={{ once: true }}
-          className="h-1 bg-gradient-to-r from-purple-700 to-pink-500"
-        ></motion.div>
-      </div>
+            {/* Divider */}
+            <div className="flex justify-center py-10">
+                <motion.div
+                    initial={{ width: 0 }}
+                    whileInView={{ width: "6rem" }}
+                    transition={{ duration: 1 }}
+                    viewport={{ once: true }}
+                    className="h-1 bg-gradient-to-r from-purple-700 to-pink-500"
+                ></motion.div>
+            </div>
 
       {/* Tech Stack Section */}
       <motion.div

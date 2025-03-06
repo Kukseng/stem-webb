@@ -1,28 +1,29 @@
-import React,{useEffect} from "react";
+// src/components/courses-list.js
+import React, { useEffect } from "react";
 import { FaRegListAlt } from "react-icons/fa";
 import { useGetAllCoursesQuery } from "../../../api/courses-api";
-import CourseCard from "./course-card";
+import CourseCard from "./Course-Card";
 
 const CoursesList = () => {
-  const { data, isLoading, isError, error } = useGetAllCoursesQuery({ pollingInterval: 0 });
+  const { data, isLoading, isError, error } = useGetAllCoursesQuery({
+    pollingInterval: 0,
+  });
   const courses = data?.results || [];
 
   useEffect(() => {
-    console.log("Courses (sample):", JSON.stringify(courses.slice(0, 2), null, 2));
+    console.log(
+      "Courses (sample):",
+      JSON.stringify(courses.slice(0, 2), null, 2)
+    );
   }, [courses]);
 
   if (isLoading) return <div>Loading courses...</div>;
-  if (isError) return <div>Error: {error?.data?.message || 'Failed to fetch courses'}</div>;
+  if (isError)
+    return (
+      <div>Error: {error?.data?.message || "Failed to fetch courses"}</div>
+    );
 
-  // Group courses by category
-  const groupedCourses = courses.reduce((acc, course) => {
-    const categoryName = course.categories?.[0]?.category_name || "Uncategorized";
-    if (!acc[categoryName]) {
-      acc[categoryName] = [];
-    }
-    acc[categoryName].push(course);
-    return acc;
-  }, {});
+  console.log("Rendering courses:", courses.length, courses);
 
   return (
     <div className="bg-gray-50">
@@ -59,20 +60,13 @@ const CoursesList = () => {
           </a>
         </header>
 
-        <div>
-          {Object.keys(groupedCourses).length > 0 ? (
-            Object.entries(groupedCourses).map(([categoryName, coursesInCategory]) => (
-              <div key={categoryName} className="mb-8">
-                <h3 className="text-xl font-semibold text-gray-800 mb-4">{categoryName}</h3>
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {coursesInCategory.map((course) => (
-                    <CourseCard key={course.id} course={course} />
-                  ))}
-                </div>
-              </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {courses.length > 0 ? (
+            courses.map((course) => (
+              <CourseCard key={course.id} course={course} />
             ))
           ) : (
-            <p>No courses available.</p>
+            <p className="col-span-full text-center">No courses available or data issue.</p>
           )}
         </div>
       </div>

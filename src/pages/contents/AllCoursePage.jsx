@@ -1,17 +1,25 @@
 import React, { useEffect } from "react";
 import { FaRegListAlt } from "react-icons/fa";
-import { useGetAllCoursesQuery } from "../../api/courses-api"; 
-import CourseCard from "../../components/common/courses/course-card";
+import { useGetAllCoursesQuery } from "../../api/courses-api";
+import CourseCard from "../../components/common/courses/allcourse/allcourse-card";
 const AllCoursePage = () => {
-  const { data, isLoading, isError, error } = useGetAllCoursesQuery({ pollingInterval: 0 });
+  const { data, isLoading, isError, error } = useGetAllCoursesQuery({
+    pollingInterval: 0,
+  });
   const courses = data?.results || [];
 
   useEffect(() => {
-    console.log("Courses (sample):", JSON.stringify(courses.slice(0, 2), null, 2));
+    console.log(
+      "Courses (sample):",
+      JSON.stringify(courses.slice(0, 2), null, 2)
+    );
   }, [courses]);
 
   if (isLoading) return <div>Loading courses...</div>;
-  if (isError) return <div>Error: {error?.data?.message || "Failed to fetch courses"}</div>;
+  if (isError)
+    return (
+      <div>Error: {error?.data?.message || "Failed to fetch courses"}</div>
+    );
 
   return (
     <div className="bg-gray-50">
@@ -52,15 +60,19 @@ const AllCoursePage = () => {
           {courses.length > 0 ? (
             courses.map((course) => (
               <div key={course.id} className="mb-8">
-                <h3 className="text-xl font-semibold mb-4">{course.course_name}</h3>
+                <h3 className="text-xl font-semibold mb-4">
+                  {course.course_name}
+                </h3>
                 {course.categories?.length > 0 ? (
                   course.categories.map((category) => (
                     <div key={category.id} className="mb-6">
-                      <h4 className="text-lg font-medium mb-2">{category.category_name}</h4>
+                      {/* <h4 className="text-lg font-medium mb-2">
+                        {category.category_name}
+                      </h4> */}
                       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                         {category.lessons?.length > 0 ? (
                           category.lessons.map((lesson) => (
-                            <CourseCard key={lesson.id}  lesson={lesson} />
+                            <CourseCard key={lesson.id} lesson={lesson} />
                           ))
                         ) : (
                           <p>No lessons available for this category.</p>
@@ -79,7 +91,7 @@ const AllCoursePage = () => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default AllCoursePage
+export default AllCoursePage;

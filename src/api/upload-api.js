@@ -9,7 +9,6 @@ export const fileApi = apiSlice.injectEndpoints({
         method: 'POST',
         body: fileData,
         headers: {
-          // Remove Content-Type header for FormData
           'Content-Type': undefined,
         },
       }),

@@ -63,12 +63,11 @@ const profileMenuItems = [
 
 const navItems = [
   { label: "ទំព័រដើម", href: "/" },
-  { label: "វគ្គសិក្សា", hasDropdown: true },
+  { label: "វគ្គសិក្សា",icon:Dropdown, hasDropdown: true },
   { label: "គ្រូបង្រៀន", href: "/គ្រូបង្រៀន" },
   { label: "មាតិកា", href: "/មាតិកា" },
   { label: "អំពីពួកយើង", href: "/អំពីពួកយើង" },
 ];
-
 function MainNavbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
@@ -84,13 +83,13 @@ function MainNavbar() {
 
   const handleLinkClick = () => {
     setIsMobileMenuOpen(false);
+
   };
 
   return (
     <nav
-      className={`bg-white bg-opacity-30 backdrop-blur-md sticky top-0 z-50 transition-shadow duration-200 ${
-        isScrolled ? "shadow-md" : "border-b border-gray-100"
-      }`}
+      className={`bg-white bg-opacity-30 backdrop-blur-md sticky top-0 z-50 transition-shadow duration-200 ${isScrolled ? "shadow-md" : "border-b border-gray-100"
+        }`}
     >
       <div className="w-full">
         <div className="mx-auto flex items-center justify-between py-3 px-4 md:px-6 lg:px-8">
@@ -119,15 +118,15 @@ function MainNavbar() {
                   label="វគ្គសិក្សា"
                   inline={true}
                   placement="bottom"
-                  arrowIcon={false}
+                  arrowIcon={true}
                   trigger="hover" // Changed to hover trigger
                   className="relative"
                 >
                   <Dropdown.Header>
-                    <div className="flex items-center px-1 lg:px-2 text-descrid hover:text-[#1e8fb8] transition-colors duration-200 text-sm lg:text-base xl:text-lg font-semibold whitespace-nowrap cursor-pointer">
+                    {/* <div className="flex items-center px-1 lg:px-2 text-descrid hover:text-[#1e8fb8] transition-colors duration-200 text-sm lg:text-base xl:text-lg font-semibold whitespace-nowrap cursor-pointer">
                       វគ្គសិក្សា
                       <ChevronDown className="ml-1 w-4 h-4" />
-                    </div>
+                    </div> */}
                   </Dropdown.Header>
                   <div className="p-2 w-[320px] bg-white shadow-2xl rounded-xl border border-gray-100">
                     <div className="space-y-2">
@@ -136,6 +135,7 @@ function MainNavbar() {
                           key={stemItem.label}
                           to={stemItem.href}
                           onClick={handleLinkClick}
+                         
                           className="block p-3 hover:bg-gray-50 rounded-lg transition-colors group"
                         >
                           <div className="flex items-center space-x-4">
