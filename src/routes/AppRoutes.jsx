@@ -8,7 +8,6 @@ import BlogPage from "../pages/contents/blogpage";
 import AllCoursePage from "../pages/contents/allcoursepage";
 import CourseDetailPage from "../pages/contents/coursedetailpage";
 import AllCourseDetail from "../pages/contents/allcourse-detail";
-import MainCategory from "../components/common/MainCategory";
 import MainLayout from "../layouts/MainLayout";
 
 export default function AppRoutes() {
