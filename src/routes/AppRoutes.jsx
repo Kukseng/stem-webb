@@ -1,11 +1,11 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router";
-import HomePage from "../pages/contents/homepage";
+import HomePage from "../pages/contents/HomePage";
 import CoursePage from "../pages/contents/course/coursepage";
-import LecturerPage from "../pages/contents/lecturerpage";
-import AboutPage from "../pages/contents/aboutpage";
-import BlogPage from "../pages/contents/blogpage";
-import AllCoursePage from "../pages/contents/allcoursepage";
+import LecturerPage from "../pages/contents/LecturerPage";
+import AboutPage from "../pages/contents/AboutPage";
+import BlogPage from "../pages/contents/BlogPage";
+import AllCoursePage from "../pages/contents/AllCoursePage";
 import CourseDetailPage from "../pages/contents/coursedetailpage";
 import AllCourseDetail from "../pages/contents/allcourse-detail";
 import MainLayout from "../layouts/MainLayout";

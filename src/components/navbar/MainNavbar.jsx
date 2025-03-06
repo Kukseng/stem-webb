@@ -33,25 +33,25 @@ const stemMenuItems = [
     label: "រូបវិទ្យា",
     description: "រៀនអំពីជីវវិទ្យា គីមីវិទ្យា និងរូបវិទ្យា",
     icon: Beaker,
-    href: "/physics",
+    href: "",
   },
   {
     label: "ជីវវិទ្យា",
     description: "កម្មវិធីកុំព្យូទ័រ និងវិស្វកម្ម",
     icon: Code,
-    href: "/biology",
+    href: "",
   },
   {
     label: "ភាសារខ្មែរ",
     description: "វិស្វកម្មអេឡិចត្រូនិច និងមេកានិច",
     icon: Calculator,
-    href: "/Khmer",
+    href: "",
   },
   {
     label: "គណិតវិទ្យា",
     description: "ពីជគណិត ធរណីមាត្រ និងស្ថិតិ",
     icon: Leaf,
-    href: "math",
+    href: "",
   },
 ];
 
@@ -66,7 +66,7 @@ const profileMenuItems = [
 const navItems = [
   { label: "ទំព័រដើម", href: "/" },
   { label: "វគ្គសិក្សា",icon:Dropdown, hasDropdown: true },
-  { label: "គ្រូបង្រៀន", href: "teacher" },
+  { label: "គ្រូបង្រៀន", href: "/teacher" },
   { label: "មាតិកា", href: "/blog" },
   { label: "អំពីពួកយើង", href: "/aboutus" },
 ];
