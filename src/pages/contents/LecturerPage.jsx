@@ -39,7 +39,7 @@ const LecturerPage = () => {
     },
     {
       name: "Henry, Arthur",
-      image: "",
+      image: " image ",
       description: "បង្រៀនកម្មវិធីសរសេរកូដ និងការអភិវឌ្ឍន៍គេហទំព័រ"
     },
     {

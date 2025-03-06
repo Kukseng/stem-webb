@@ -117,7 +117,7 @@ function MainNavbar() {
                   inline={true}
                   placement="bottom"
                   arrowIcon={true}
-                  trigger="hover" // Changed to hover trigger
+                  trigger="hover" 
                   className="relative"
                 >
                   <Dropdown.Header>

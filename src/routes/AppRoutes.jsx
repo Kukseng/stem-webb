@@ -1,18 +1,19 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router";
 import MainLayout from "../layouts/MainLayout";
-import HomePage from "../pages/contents/HomePage";
-import AboutPage from "../pages/contents/aboutpage";
-import BlogPage from "../pages/contents/BlogPage";
-import LecturerPage from "../pages/contents/LecturerPage";
-import CoursePage from "../pages/contents/course/coursepage";
+import HomePage from "../pages/contents/homepage";
+import BlogPage from "../pages/contents/blogpage";
+import LecturerPage from "../pages/contents/lecturerpage";
 import LoginForm from "../pages/auth/LoginFrom";
 import MathPage from "../pages/contents/MathPage";
-import PhysicsPage from "../pages/contents/PhysicsPage";
+import PhysicsPage from "../pages/contents/physicspage";
 import BiologyPage from "../pages/contents/biologypage";
-import KhmerPage from "../pages/contents/KhmerPage";
+import KhmerPage from "../pages/contents/khmerpage";
 import AllCoursePage from "../pages/contents/allcoursepage";
 import CourseDetailPage from "../pages/contents/course-detail-page";
+import AboutPage from "../pages/contents/AboutPage";
+import CoursePage from "../pages/contents/Course/CoursePage";
+
 
 export default function AppRoutes() {
   return (
@@ -30,7 +31,7 @@ export default function AppRoutes() {
           path="/វគ្គសិក្សា"
           element={
             <MainLayout>
-              <CoursePage />
+              <CoursePage/>
             </MainLayout>
           }
         />
@@ -47,7 +48,7 @@ export default function AppRoutes() {
           path="/អំពីពួកយើង"
           element={
             <MainLayout>
-              <AboutPage />
+             <AboutPage/>
             </MainLayout>
           }
         />
@@ -68,13 +69,14 @@ export default function AppRoutes() {
         />
         {/* <Route path="/ចូលគណនី" element={<Login/>} /> */}
         <Route
-          path="/វគ្គសិក្សា"
+          path="/ចូលគណនី"
           element={
             <MainLayout>
               <LoginForm />
             </MainLayout>
           }
         />
+      
         <Route
           path="/physics"
           element={
