@@ -166,153 +166,157 @@ const CourseCard = ({ course }) => {
 };
 
 const BlogPage = () => {
-  const [currentPage, setCurrentPage] = useState(1);
-  
-  const courses = [
-    {
-      id: 1,
-      herf: "/course/1",
-      title: "វគ្គបណ្តុះបណ្តាល និងការអភិវឌ្ឍន៍ជំនាញវិជ្ជាជីវៈសម្រាប់",
-      category: "Physic",
-      image: "/api/placeholder/240/120",
-      rating: "4.8",
-      studentCount: "22ក 30នាក់",
-      modules: "8",
-      hours: "506",
-      subject: "Astronomy"
-    },
-    {
-      id: 2,
-      title: "វគ្គបណ្តុះបណ្តាល និងការអភិវឌ្ឍន៍ជំនាញវិជ្ជាជីវៈសម្រាប់",
-      category: "Physic",
-      image: "/api/placeholder/240/120",
-      rating: "4.8",
-      studentCount: "22ក 30នាក់",
-      modules: "8",
-      hours: "506",
-      subject: "C#"
-    },
-    {
-      id: 3,
-      title: "វគ្គបណ្តុះបណ្តាល និងការអភិវឌ្ឍន៍ជំនាញវិជ្ជាជីវៈសម្រាប់",
-      category: "Physic",
-      image: "/api/placeholder/240/120",
-      rating: "4.8",
-      studentCount: "22ក 30នាក់",
-      modules: "8",
-      hours: "506",
-      subject: "Finance"
-    },
-    {
-      id: 4,
-      title: "វគ្គបណ្តុះបណ្តាល និងការអភិវឌ្ឍន៍ជំនាញវិជ្ជាជីវៈសម្រាប់",
-      category: "Physic",
-      image: "/api/placeholder/240/120",
-      rating: "4.8",
-      studentCount: "22ក 30នាក់",
-      modules: "8",
-      hours: "506",
-      subject: "Finance"
-    },
-    {
-      id: 5,
-      title: "វគ្គបណ្តុះបណ្តាល និងការអភិវឌ្ឍន៍ជំនាញវិជ្ជាជីវៈសម្រាប់",
-      category: "Physic",
-      image: "/api/placeholder/240/120",
-      rating: "4.8",
-      studentCount: "22ក 30នាក់",
-      modules: "8",
-      hours: "506",
-      subject: "Chemistry"
-    },
-    {
-      id: 6,
-      title: "វគ្គបណ្តុះបណ្តាល និងការអភិវឌ្ឍន៍ជំនាញវិជ្ជាជីវៈសម្រាប់",
-      category: "Physic",
-      image: "/api/placeholder/240/120",
-      rating: "4.8",
-      studentCount: "22ក 30នាក់",
-      modules: "8",
-      hours: "506",
-      subject: "Economics"
-    },
-    {
-      id: 7,
-      title: "វគ្គបណ្តុះបណ្តាល និងការអភិវឌ្ឍន៍ជំនាញវិជ្ជាជីវៈសម្រាប់",
-      category: "Physic",
-      image: "/api/placeholder/240/120",
-      rating: "4.8",
-      studentCount: "22ក 30នាក់",
-      modules: "8",
-      hours: "506",
-      subject: "Civil Engineering"
-    },
-    {
-      id: 8,
-      title: "វគ្គបណ្តុះបណ្តាល និងការអភិវឌ្ឍន៍ជំនាញវិជ្ជាជីវៈសម្រាប់",
-      category: "Physic",
-      image: "/api/placeholder/240/120",
-      rating: "4.8",
-      studentCount: "22ក 30នាក់",
-      modules: "8",
-      hours: "506",
-      subject: "Linux"
-    },
-    {
-      id: 9,
-      title: "វគ្គបណ្តុះបណ្តាល និងការអភិវឌ្ឍន៍ជំនាញវិជ្ជាជីវៈសម្រាប់",
-      category: "Physic",
-      image: "/api/placeholder/240/120",
-      rating: "4.8",
-      studentCount: "22ក 30នាក់",
-      modules: "8",
-      hours: "506",
-      subject: "CS Courses"
-    },
-  ];
-  
-  const coursesOnPage = courses;
-  
   return (
-    // <div className="max-w-6xl mx-auto p-6">
-    //   <div className="flex gap-8">
-    //     {/* Main Content */}
-    //     <div className="w-3/4">
-    //       <h1 className="text-2xl font-bold mb-6">All Articles</h1>
+    <div className="container mx-auto p-4 font-sans">
+      <div className="flex flex-wrap">
+        {/* Main Content */}
+        <div className="w-full lg:w-3/4 pr-0 lg:pr-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {coursesOnPage.map((course) => (
+              <CourseCard key={course.id}  course={course} />
+            ))}
+          </div>
           
-    //       <div className="grid grid-cols-2 gap-6">
-    //         {articles.map((article, index) => (
-    //           <ArticleCard key={index} {...article} />
-    //         ))}
-    //       </div>
-
-    //       <Pagination />
-    //     </div>
-
-    //     {/* Sidebar */}
-    //     <div className="w-1/4">
-    //       <div className="mb-8">
-    //         <h2 className="text-lg font-semibold mb-4">Category</h2>
-    //         <div className="divide-y">
-    //           {categories.map((category, index) => (
-    //             <CategoryItem key={index} {...category} />
-    //           ))}
-    //         </div>
-    //       </div>
-
-    //       <div>
-    //         <h2 className="text-lg font-semibold mb-4">Recent Posts</h2>
-    //         {articles.slice(0, 3).map((article, index) => (
-    //           <RecentPost key={index} {...article} />
-    //         ))}
-    //       </div>
-    //     </div>
-    //   </div>
-    // </div>
-    <div>
-      <Conten/>
+          {/* Pagination */}
+          <div className="flex justify-center mt-8 mb-8">
+            <button className="mx-1 p-2 rounded-full hover:bg-gray-200 text-gray-500">
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7" />
+              </svg>
+            </button>
+            
+            <button className={`mx-1 w-8 h-8 text-sm rounded-full ${currentPage === 1 ? 'bg-blue-600 text-white' : 'hover:bg-gray-200'}`}>
+              1
+            </button>
+            <button className={`mx-1 w-8 h-8 text-sm rounded-full ${currentPage === 2 ? 'bg-blue-600 text-white' : 'hover:bg-gray-200'}`}>
+              2
+            </button>
+            <button className={`mx-1 w-8 h-8 text-sm rounded-full ${currentPage === 3 ? 'bg-blue-600 text-white' : 'hover:bg-gray-200'}`}>
+              3
+            </button>
+            
+            <button className="mx-1 p-2 rounded-full hover:bg-gray-200 text-gray-500">
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" />
+              </svg>
+            </button>
+          </div>
+        </div>
+        
+        {/* Sidebar Filters */}
+        <div className="w-full lg:w-1/4 bg-white p-6 rounded-lg">
+          <div className="mb-8">
+            <h3 className="text-lg font-medium mb-4">តម្លៃ</h3>
+            <div className="space-y-2">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center">
+                  <input id="price1" type="checkbox" className="h-4 w-4 text-blue-600 border-gray-300 rounded" />
+                  <label htmlFor="price1" className="ml-2 text-sm text-gray-700">ឥតគិតថ្លៃ</label>
+                </div>
+                <span className="text-sm text-gray-500">16</span>
+              </div>
+              <div className="flex items-center justify-between">
+                <div className="flex items-center">
+                  <input id="price2" type="checkbox" className="h-4 w-4 text-blue-600 border-gray-300 rounded" checked />
+                  <label htmlFor="price2" className="ml-2 text-sm text-gray-700">គិតថ្លៃ</label>
+                </div>
+                <span className="text-sm text-gray-500">16</span>
+              </div>
+            </div>
+          </div>
+          
+          <div className="mb-8">
+            <h3 className="text-lg font-medium mb-4">ប្រភេទ</h3>
+            <div className="space-y-2">
+              {['ភាសាបម្រើ', 'ភាសាបម្រើ', 'ភាសាបម្រើ', 'ភាសាបម្រើ', 'ភាសាបម្រើ', 'ភាសាបម្រើ', 'ភាសាបម្រើ'].map((filter, index) => (
+                <div key={index} className="flex items-center justify-between">
+                  <div className="flex items-center">
+                    <input 
+                      id={`type-${index}`} 
+                      type="checkbox" 
+                      className="h-4 w-4 text-blue-600 border-gray-300 rounded" 
+                      checked={index === 1 || index === 2}
+                    />
+                    <label htmlFor={`type-${index}`} className="ml-2 text-sm text-gray-700">{filter}</label>
+                  </div>
+                  <span className="text-sm text-gray-500">16</span>
+                </div>
+              ))}
+            </div>
+          </div>
+          
+          <div className="mb-8">
+            <h3 className="text-lg font-medium mb-4">Tags</h3>
+            <div className="space-y-2">
+              {['ភាសាបម្រើ', 'ភាសាបម្រើ', 'ភាសាបម្រើ', 'ភាសាបម្រើ', 'ភាសាបម្រើ'].map((tag, index) => (
+                <div key={index} className="flex items-center justify-between">
+                  <div className="flex items-center">
+                    <input 
+                      id={`tag-${index}`} 
+                      type="checkbox" 
+                      className="h-4 w-4 text-blue-600 border-gray-300 rounded" 
+                      checked={index === 1}
+                    />
+                    <label htmlFor={`tag-${index}`} className="ml-2 text-sm text-gray-700">{tag}</label>
+                  </div>
+                  <span className="text-sm text-gray-500">16</span>
+                </div>
+              ))}
+            </div>
+          </div>
+          
+          <div className="mb-8">
+            <h3 className="text-lg font-medium mb-4">ត្រៀមខ្លួន</h3>
+            <div className="space-y-2">
+              {['ពូម', 'ពូម', 'ពូម', 'ពូម'].map((level, index) => (
+                <div key={index} className="flex items-center justify-between">
+                  <div className="flex items-center">
+                    <input 
+                      id={`level-${index}`} 
+                      type="checkbox" 
+                      className="h-4 w-4 text-blue-600 border-gray-300 rounded"
+                      checked={index === 1} 
+                    />
+                    <label htmlFor={`level-${index}`} className="ml-2 text-sm text-gray-700">{level}</label>
+                  </div>
+                  <span className="text-sm text-gray-500">16</span>
+                </div>
+              ))}
+            </div>
+          </div>
+          
+          <div className="mb-8">
+            <h3 className="text-lg font-medium mb-4">ថ្ងៃ</h3>
+            <div className="space-y-2">
+              {['ភ្ជាប់ទៅលើ', 'ភ្ជាប់ទៅលើ', 'ភ្ជាប់ទៅលើ', 'ភ្ជាប់ទៅលើ'].map((duration, index) => (
+                <div key={index} className="flex items-center justify-between">
+                  <div className="flex items-center">
+                    <input 
+                      id={`duration-${index}`} 
+                      type="checkbox" 
+                      className="h-4 w-4 text-blue-600 border-gray-300 rounded"
+                      checked={index === 1}
+                    />
+                    <label htmlFor={`duration-${index}`} className="ml-2 text-sm text-gray-700">{duration}</label>
+                  </div>
+                  <span className="text-sm text-gray-500">16</span>
+                </div>
+              ))}
+            </div>
+          </div>
+          
+          <div className="flex space-x-4">
+            <button className="bg-blue-600 text-white py-2 px-6 rounded-lg hover:bg-blue-700 transition-colors w-1/2">
+              អនុវត្ត
+            </button>
+            <button className="text-gray-700 py-2 px-6 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors w-1/2">
+              សម្អាតទាំងអស់
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
-  );
-};
+  )
+}
 
-export default BlogPage;
+export default BlogPage

@@ -1,7 +1,7 @@
-import Footer from "../components/layout/footer/Footer";
+import Footer from "../components/footer/Footer";
 
-import Stickynav from "../components/layout/navbar/Stickynav";
-import MainNavbar from "../components/layout/navbar/MainNavbar";
+import Stickynav from "../components/navbar/Stickynav";
+import MainNavbar from "../components/navbar/MainNavbar";
 
 // import { Slider } from "@material-tailwind/react";
 // import Banner from "../components/card/banner";

@@ -30,51 +30,6 @@ const TeacherCard = ({ teacher }) => (
 );
 
 const LecturerPage = () => {
-  const [currentPage, setCurrentPage] = useState(1);
-
-  const teachers = [
-    {
-      name: "Jessica Nephi",
-      image: "/api/placeholder/400/400",
-      description: "បង្រៀនកម្មវិធីសរសេរកូដ និងការអភិវឌ្ឍន៍គេហទំព័រ"
-    },
-    {
-      name: "Henry, Arthur",
-      image: "/api/placeholder/400/400",
-      description: "បង្រៀនកម្មវិធីសរសេរកូដ និងការអភិវឌ្ឍន៍គេហទំព័រ"
-    },
-    {
-      name: "Flores, Juanita",
-      image: "/api/placeholder/400/400",
-      description: "បង្រៀនកម្មវិធីសរសេរកូដ និងការអភិវឌ្ឍន៍គេហទំព័រ"
-    },
-    {
-      name: "Nguyen, Shane",
-      image: "/api/placeholder/400/400",
-      description: "បង្រៀនកម្មវិធីសរសេរកូដ និងការអភិវឌ្ឍន៍គេហទំព័រ"
-    },
-    {
-      name: "Courtney Henry",
-      image: "/api/placeholder/400/400",
-      description: "បង្រៀនកម្មវិធីសរសេរកូដ និងការអភិវឌ្ឍន៍គេហទំព័រ"
-    },
-    {
-      name: "Leslie Alexander",
-      image: "/api/placeholder/400/400",
-      description: "បង្រៀនកម្មវិធីសរសេរកូដ និងការអភិវឌ្ឍន៍គេហទំព័រ"
-    },
-    {
-      name: "Jerome Bell",
-      image: "/api/placeholder/400/400",
-      description: "បង្រៀនកម្មវិធីសរសេរកូដ និងការអភិវឌ្ឍន៍គេហទំព័រ"
-    },
-    {
-      name: "Arlene McCoy",
-      image: "/api/placeholder/400/400",
-      description: "បង្រៀនកម្មវិធីសរសេរកូដ និងការអភិវឌ្ឍន៍គេហទំព័រ"
-    }
-  ];
-
   return (
     <div className="max-w-7xl mx-auto p-6">
       {/* Header */}
@@ -90,7 +45,31 @@ const LecturerPage = () => {
       </div>
 
       {/* Pagination */}
-       <CircularPagination/> 
+      <div className="flex justify-center mt-8 gap-2">
+        <button 
+          className="w-8 h-8 rounded-full border flex items-center justify-center hover:bg-gray-50"
+          onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
+        >
+          ←
+        </button>
+        {[1, 2, 3].map((page) => (
+          <button
+            key={page}
+            className={`w-8 h-8 rounded-full flex items-center justify-center ${
+              currentPage === page ? 'bg-blue-500 text-white' : 'border hover:bg-gray-50'
+            }`}
+            onClick={() => setCurrentPage(page)}
+          >
+            {page}
+          </button>
+        ))}
+        <button 
+          className="w-8 h-8 rounded-full border flex items-center justify-center hover:bg-gray-50"
+          onClick={() => setCurrentPage(Math.min(3, currentPage + 1))}
+        >
+          →
+        </button>
+      </div>
 
       {/* Certificate Section */}
       <div className="mt-16">
