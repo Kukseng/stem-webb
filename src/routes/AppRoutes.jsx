@@ -1,13 +1,16 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router";
 import MainLayout from "../layouts/MainLayout";
-import HomePage from "../pages/contents/homepage";
-import AboutPage from "../pages/contents/aboutpage";
-import BlogPage from "../pages/contents/blogpage";
-import LecturerPage from "../pages/contents/lecturerpage";
-import CoursePage from "../pages/contents/allcoursepage";
-import AuthForm from "../pages/auth/loginPage";
-import SigupPage from "../pages/auth/sigupPage";
+import HomePage from "../pages/contents/HomePage";
+import AboutPage from "../pages/contents/AboutPage";
+import BlogPage from "../pages/contents/BlogPage";
+import LecturerPage from "../pages/contents/LecturerPage";
+import CoursePage from "../pages/contents/CoursePage";
+import LoginForm from "../pages/auth/LoginFrom";
+import MathPage from "../pages/contents/MathPage";
+import PhysicsPage from "../pages/contents/PhysicsPage";
+import BiologyPage from "../pages/contents/BiologyPage";
+import KhmerPage from "../pages/contents/KhmerPage";
 import AllCoursePage from "../pages/contents/allcoursepage";
 import CourseDetailPage from "../pages/contents/course-detail-page";
 
@@ -68,7 +71,47 @@ export default function AppRoutes() {
           path="/វគ្គសិក្សា"
           element={
             <MainLayout>
-              <AllCoursePage />
+              <LoginForm />
+            </MainLayout>
+          }
+        />
+        <Route
+          path="/physics"
+          element={
+            <MainLayout>
+              <PhysicsPage />
+            </MainLayout>
+          }
+        />
+        <Route
+          path="/mathematics"
+          element={
+            <MainLayout>
+              <MathPage />
+            </MainLayout>
+          }
+        />
+        <Route
+          path="/biology"
+          element={
+            <MainLayout>
+              <BiologyPage />
+            </MainLayout>
+          }
+        />
+        <Route
+          path="/Khmer"
+          element={
+            <MainLayout>
+              <KhmerPage />
+            </MainLayout>
+          }
+        />
+        <Route
+          path="/Physic"
+          element={
+            <MainLayout>
+              <KhmerPage />
             </MainLayout>
           }
         />

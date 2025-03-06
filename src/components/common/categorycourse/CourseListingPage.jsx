@@ -18,10 +18,10 @@ const CourseCard = () => (
         </div>
       </div>
     </div>
-    
+
     <div className="p-4">
       <h3 className="text-lg font-medium mb-2 ml-7">UI/UX Design for Beginners</h3>
-      
+
       <div className="flex justify-around items-center space-x-4 text-sm text-gray-600 mb-4">
         <div className="flex items-center">
           <Clock className="w-4 h-4 mr-1" />
@@ -58,57 +58,57 @@ const FeatureCard = ({ icon, title, description }) => (
 const SubjectCarousel = ({ subjects }) => {
   const scrollRef = useRef(null);
   const [scrollPosition, setScrollPosition] = useState(0);
-  
+
   const scroll = (direction) => {
     const container = scrollRef.current;
     const scrollAmount = 280; // Adjust based on item width + gap
-    
+
     if (container) {
       if (direction === 'left') {
         container.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
       } else {
         container.scrollBy({ left: scrollAmount, behavior: 'smooth' });
       }
-      
+
       // Update scroll position after scrolling
       setTimeout(() => {
         setScrollPosition(container.scrollLeft);
       }, 300);
     }
   };
-  
+
   const handleScroll = () => {
     if (scrollRef.current) {
       setScrollPosition(scrollRef.current.scrollLeft);
     }
   };
-  
+
   const showLeftButton = scrollPosition > 10;
-  const showRightButton = scrollRef.current ? 
-    scrollRef.current.scrollWidth > scrollRef.current.clientWidth + scrollPosition + 10 : 
+  const showRightButton = scrollRef.current ?
+    scrollRef.current.scrollWidth > scrollRef.current.clientWidth + scrollPosition + 10 :
     true;
-  
+
   return (
     <div className="relative mt-8 mb-12">
       <h2 className="text-2xl font-bold mb-6">មុខវិជ្ជាដែលមាន</h2>
-      
+
       {showLeftButton && (
-        <button 
+        <button
           onClick={() => scroll('left')}
           className="absolute left-0 top-1/2 transform -translate-y-1/2 -ml-4 z-10 bg-white rounded-full p-2 shadow-md hover:bg-gray-100"
         >
           <ChevronLeft className="w-6 h-6 text-gray-700" />
         </button>
       )}
-      
-      <div 
+
+      <div
         ref={scrollRef}
         className="flex overflow-x-auto gap-4 pb-4 scroll-smooth hide-scrollbar"
         onScroll={handleScroll}
         style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
       >
         {subjects.map((subject, index) => (
-          <div 
+          <div
             key={index}
             className="flex-shrink-0 w-64 p-6 bg-white rounded-xl shadow-md hover:shadow-lg transition-all transform hover:-translate-y-1 cursor-pointer"
           >
@@ -122,20 +122,20 @@ const SubjectCarousel = ({ subjects }) => {
           </div>
         ))}
       </div>
-      
+
       {showRightButton && (
-        <button 
+        <button
           onClick={() => scroll('right')}
           className="absolute right-0 top-1/2 transform -translate-y-1/2 -mr-4 z-10 bg-white rounded-full p-2 shadow-md hover:bg-gray-100"
         >
           <ChevronRight className="w-6 h-6 text-gray-700" />
         </button>
       )}
-      
+
       {/* Custom pagination dots */}
       <div className="flex justify-center mt-4">
         {Array.from({ length: Math.ceil(subjects.length / 3) }).map((_, i) => (
-          <div 
+          <div
             key={i}
             className={`w-2 h-2 mx-1 rounded-full ${i * 3 <= scrollPosition / 200 && (i + 1) * 3 > scrollPosition / 200 ? 'bg-emerald-500' : 'bg-gray-300'}`}
           ></div>
@@ -187,8 +187,13 @@ const STEMTutoring = () => {
                   <div className="h-24 w-16 bg-gray-200 rounded mr-2"></div>
                   <div className="h-28 w-16 bg-gray-200 rounded"></div>
                 </div>
+<<<<<<< HEAD
                 
           
+=======
+
+                {/* Students illustration */}
+>>>>>>> a82abe5dbbf9d525910dfa8255581e9fb6c03c5c
                 <div className="flex justify-around items-center">
                   <img src={person} alt="person" className="w-full h-full" />
                 </div>
@@ -199,8 +204,8 @@ const STEMTutoring = () => {
 
         {/* Subjects Carousel instead of Grid */}
         <SubjectCarousel subjects={subjects} />
-        
-        
+
+
         <div className="mt-16">
           {/* <div className="flex justify-between items-center mb-6">
             <h2 className="text-2xl font-bold">វគ្គសិក្សាដែលពេញនិយម</h2>
@@ -209,7 +214,7 @@ const STEMTutoring = () => {
               <ChevronRight className="w-4 h-4 ml-2" />
             </button>
           </div> */}
-          
+
           {/* <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             <CourseCard />
             <CourseCard />
@@ -229,4 +234,4 @@ const CourseListingPage = () => {
   );
 };
 
-export default CourseListingPage;
+export default CourseListingPage
