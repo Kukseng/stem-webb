@@ -2,10 +2,6 @@ import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router";
 import MainLayout from "../layouts/MainLayout";
 import LoginForm from "../pages/auth/LoginFrom";
-import MathPage from "../pages/contents/MathPage";
-import PhysicsPage from "../pages/contents/physicspage";
-import BiologyPage from "../pages/contents/biologypage";
-import KhmerPage from "../pages/contents/khmerpage";
 import AllCoursePage from "../pages/contents/allcoursepage";
 import CourseDetailPage from "../pages/contents/course-detail-page";
 import AboutPage from "../pages/contents/AboutPage";
@@ -13,6 +9,10 @@ import CoursePage from "../pages/contents/Course/CoursePage";
 import HomePage from "../pages/contents/homepage";
 import BlogPage from "../pages/contents/BlogPage";
 import LecturerPage from "../pages/contents/LecturerPage";
+import PhysicsPage from "../pages/contents/physicspage";
+import MathPage from "../pages/contents/MathPage";
+import BiologyPage from "../pages/contents/BiologyPage";
+import KhmerPage from "../pages/contents/KhmerPage";
 
 
 export default function AppRoutes() {
@@ -89,7 +89,7 @@ export default function AppRoutes() {
           path="/physics"
           element={
             <MainLayout>
-              <PhysicsPage />
+              <PhysicsPage/>
             </MainLayout>
           }
         />
@@ -97,7 +97,7 @@ export default function AppRoutes() {
           path="/mathematics"
           element={
             <MainLayout>
-              <MathPage />
+              <MathPage/>
             </MainLayout>
           }
         />
@@ -105,7 +105,7 @@ export default function AppRoutes() {
           path="/biology"
           element={
             <MainLayout>
-              <BiologyPage />
+            <BiologyPage/>
             </MainLayout>
           }
         />
@@ -113,18 +113,11 @@ export default function AppRoutes() {
           path="/Khmer"
           element={
             <MainLayout>
-              <KhmerPage />
+              <KhmerPage/>
             </MainLayout>
           }
         />
-        <Route
-          path="/Physic"
-          element={
-            <MainLayout>
-              <KhmerPage />
-            </MainLayout>
-          }
-        />
+       
 
         <Route path="/courses/:courseId" element={<CourseDetailPage />} />
         <Route path="/វគ្គសិក្សា/${lessonId}" element={<AllCoursePage/>} />
