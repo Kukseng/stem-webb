@@ -1,7 +1,7 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router";
 import MainLayout from "../layouts/MainLayout";
-import HomePage from "../pages/contents/homepage";
+import HomePage from "../pages/contents/Homepage";
 import CoursePage from "../pages/contents/Course/CoursePage";
 import LecturerPage from "../pages/contents/LecturerPage";
 import AboutPage from "../pages/contents/AboutPage";
