@@ -9,10 +9,10 @@ import CoursePage from "../pages/contents/Course/CoursePage";
 import HomePage from "../pages/contents/homepage";
 import BlogPage from "../pages/contents/BlogPage";
 import LecturerPage from "../pages/contents/LecturerPage";
-import PhysicsPage from "../pages/contents/physicspage";
-import MathPage from "../pages/contents/MathPage";
-import BiologyPage from "../pages/contents/BiologyPage";
-import KhmerPage from "../pages/contents/KhmerPage";
+// import PhysicsPage from "../pages/contents/physicspage";
+// import MathPage from "../pages/contents/MathPage";
+// import BiologyPage from "../pages/contents/BiologyPage";
+// import KhmerPage from "../pages/contents/KhmerPage";
 
 
 export default function AppRoutes() {
@@ -85,7 +85,7 @@ export default function AppRoutes() {
           }
         />
       
-        <Route
+        {/* <Route
           path="/physics"
           element={
             <MainLayout>
@@ -116,7 +116,7 @@ export default function AppRoutes() {
               <KhmerPage/>
             </MainLayout>
           }
-        />
+        /> */}
        
 
         <Route path="/courses/:courseId" element={<CourseDetailPage />} />
