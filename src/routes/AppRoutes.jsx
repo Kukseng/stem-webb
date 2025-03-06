@@ -1,15 +1,15 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router";
 import MainLayout from "../layouts/MainLayout";
-import LoginForm from "../pages/auth/LoginFrom";
-import AllCoursePage from "../pages/contents/allcoursepage";
-import CourseDetailPage from "../pages/contents/course-detail-page";
-import AboutPage from "../pages/contents/AboutPage";
+// import LoginForm from "../pages/auth/LoginForm";
+import AllCoursePage from "../pages/contents/AllCoursePage";
+import CourseDetailPage from "../pages/contents/course-detail-page.jsx";
+import AboutPage from "../pages/contents/aboutpage.jsx";
 import CoursePage from "../pages/contents/Course/CoursePage";
-import HomePage from "../pages/contents/homepage";
+import HomePage from "../pages/contents/HomePage";
 import BlogPage from "../pages/contents/BlogPage";
 import LecturerPage from "../pages/contents/LecturerPage";
-import PhysicsPage from "../pages/contents/physicspage";
+import PhysicsPage from "../pages/contents/PhysicsPage";
 import MathPage from "../pages/contents/MathPage";
 import BiologyPage from "../pages/contents/BiologyPage";
 import KhmerPage from "../pages/contents/KhmerPage";
@@ -66,14 +66,14 @@ export default function AppRoutes() {
             </MainLayout>
           }
         />
-        <Route
+        {/* <Route
           path="/ចូលគណនី"
           element={
             <MainLayout>
               <LoginForm />
             </MainLayout>
           }
-        />
+        /> */}
         <Route
           path="/physics"
           element={
