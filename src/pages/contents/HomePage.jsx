@@ -8,13 +8,16 @@ import FinancialEducationCards from "../../components/common/Deetailcard";
 import MainCategory from "../../components/common/MainCategory";
 import TeacherCourseUploadForm from "../../components/common/TeacherCourseUploadForm";
 import CourseList from "../../components/common/courses/course-list";
+import ExampleWrapper from "../../components/common/SpringModel";
 
 const HomePage = () => {
   return (
     <>
       <div>
+      
         <Banner />
         <MainCategory />
+        <ExampleWrapper/>
         <CourseCategories />
         <CourseList />
         <CourseListingPage />

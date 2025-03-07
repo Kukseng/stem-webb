@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-
 import {
   Search,
   ChevronDown,
@@ -15,66 +14,43 @@ import {
   LucideHelpingHand,
   LogOut,
 } from "lucide-react";
-
-import image from "../../assets/markup-cropped.svg";
-import { Link } from "react-router";
-import { Dropdown, Button } from "flowbite-react";
+import { Link, useNavigate } from "react-router"; // Added useNavigate
+import { Dropdown } from "flowbite-react";
 import logomodified from "../../assets/images/logo/o-removebg-preview.png";
-
+import { useGetProfileQuery } from "../../api/auth-api";
 
 const stemMenuItems = [
-  {
-    label: "ALL",
-    description: "រៀនអំពីជីវវិទ្យា គីមីវិទ្យា និងរូបវិទ្យា",
-    icon: Beaker,
-    href: "/allcourse",
-  },
-  {
-    label: "រូបវិទ្យា",
-    description: "រៀនអំពីជីវវិទ្យា គីមីវិទ្យា និងរូបវិទ្យា",
-    icon: Beaker,
-    href: "",
-  },
-  {
-    label: "ជីវវិទ្យា",
-    description: "កម្មវិធីកុំព្យូទ័រ និងវិស្វកម្ម",
-    icon: Code,
-    href: "",
-  },
-  {
-    label: "ភាសារខ្មែរ",
-    description: "វិស្វកម្មអេឡិចត្រូនិច និងមេកានិច",
-    icon: Calculator,
-    href: "",
-  },
-  {
-    label: "គណិតវិទ្យា",
-    description: "ពីជគណិត ធរណីមាត្រ និងស្ថិតិ",
-    icon: Leaf,
-    href: "",
-  },
+  { label: "ALL", description: "រៀនអំពីជីវវិទ្យា គីមីវិទ្យា និងរូបវិទ្យា", icon: Beaker, href: "/allcourse" },
+  { label: "រូបវិទ្យា", description: "រៀនអំពីជីវវិទ្យា គីមីវិទ្យា និងរូបវិទ្យា", icon: Beaker, href: "" },
+  { label: "ជីវវិទ្យា", description: "កម្មវិធីកុំព្យូទ័រ និងវិស្វកម្ម", icon: Code, href: "" },
+  { label: "ភាសារខ្មែរ", description: "វិស្វកម្មអេឡិចត្រូនិច និងមេកានិច", icon: Calculator, href: "" },
+  { label: "គណិតវិទ្យា", description: "ពីជគណិត ធរណីមាត្រ និងស្ថិតិ", icon: Leaf, href: "" },
 ];
 
 const profileMenuItems = [
-  { label: "ប្រវត្តិរូប", icon: UserCircle },
-  { label: "កែប្រែប្រវត្តិរូប", icon: Settings },
-  { label: "សារ", icon: Inbox },
-  { label: "ជំនួយ", icon: LucideHelpingHand },
-  { label: "ចាកចេញ", icon: LogOut },
+  { label: "ប្រវត្តិរូប", icon: UserCircle, href: "/profile" },
+  { label: "កែប្រែប្រវត្តិរូប", icon: Settings, href: "/edit-profile" },
+  { label: "សារ", icon: Inbox, href: "/messages" },
+  { label: "ជំនួយ", icon: LucideHelpingHand, href: "/help" },
 ];
 
 const navItems = [
   { label: "ទំព័រដើម", href: "/" },
-  { label: "វគ្គសិក្សា",icon:Dropdown, hasDropdown: true },
+  { label: "វគ្គសិក្សា", hasDropdown: true },
   { label: "គ្រូបង្រៀន", href: "/teacher" },
   { label: "មាតិកា", href: "/blog" },
   { label: "អំពីពួកយើង", href: "/aboutus" },
 ];
-function MainNavbar() {
 
+function MainNavbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem("access_token"));
+  const navigate = useNavigate(); // For redirecting after logout
+
+  const { data: profile, isLoading: profileLoading } = useGetProfileQuery(undefined, {
+    skip: !isLoggedIn,
+  });
 
   useEffect(() => {
     const handleScroll = () => {
@@ -86,19 +62,30 @@ function MainNavbar() {
 
   const handleLinkClick = () => {
     setIsMobileMenuOpen(false);
-
   };
+
+  const handleLogout = () => {
+    // Clear tokens from localStorage
+    localStorage.removeItem("access_token");
+    localStorage.removeItem("refresh_token");
+    // Update login state
+    setIsLoggedIn(false);
+    // Redirect to home or login page
+    navigate("/login"); // Change to "/" if you prefer home page
+  };
+
+  const userName = profileLoading ? "Loading..." : profile?.first_name || "User";
 
   return (
     <nav
-      className={`bg-white bg-opacity-30 backdrop-blur-md sticky top-0 z-50 transition-shadow duration-200 ${isScrolled ? "shadow-md" : "border-b border-gray-100"
-        }`}
+      className={`bg-white bg-opacity-30 backdrop-blur-md sticky top-0 z-50 transition-shadow duration-200 ${
+        isScrolled ? "shadow-md" : "border-b border-gray-100"
+      }`}
     >
       <div className="w-full">
-        <div className=" mx-auto flex items-center justify-between py-3 px-4 md:px-6 lg:px-8 2xl:mx-14">
+        <div className="mx-auto flex items-center justify-between py-3 px-4 md:px-6 lg:px-8 2xl:mx-14">
           {/* Logo */}
-
-          <Link to="/" className="flex-shrink-0 ">
+          <Link to="/" className="flex-shrink-0">
             <div className="flex items-center space-x-1 sm:space-x-2">
               <div className="h-16 w-16 md:h-18 md:w-18 lg:h-20 lg:w-20 rounded-full flex items-center justify-center text-white font-bold text-lg">
                 <img
@@ -107,8 +94,12 @@ function MainNavbar() {
                   className="h-16 w-16 md:h-18 md:w-18 lg:h-20 lg:w-20 object-cover object-center"
                 />
               </div>
-              <h1 className="text-xl md:text-2xl lg:text-[26px] text-primary font-bold font-suwannaphum">
-                ISTEM
+              <h1 className="text-xl md:text-2xl lg:text-[26px] font-bold font-suwannaphum">
+                <span className="text-primary">I</span>
+                <span className="text-primary">S</span>
+                <span className="text-primary">T</span>
+                <span className="text-primary">E</span>
+                <span className="text-primary">M</span>
               </h1>
             </div>
           </Link>
@@ -123,15 +114,10 @@ function MainNavbar() {
                   inline={true}
                   placement="bottom"
                   arrowIcon={true}
-                  trigger="hover" 
+                  trigger="hover"
                   className="relative"
                 >
-                  <Dropdown.Header>
-                    {/* <div className="flex items-center px-1 lg:px-2 text-descrid hover:text-[#1e8fb8] transition-colors duration-200 text-sm lg:text-base xl:text-lg font-semibold whitespace-nowrap cursor-pointer">
-                      វគ្គសិក្សា
-                      <ChevronDown className="ml-1 w-4 h-4" />
-                    </div> */}
-                  </Dropdown.Header>
+                  <Dropdown.Header />
                   <div className="p-2 w-[320px] bg-white shadow-2xl rounded-xl border border-gray-100">
                     <div className="space-y-2">
                       {stemMenuItems.map((stemItem) => (
@@ -139,7 +125,6 @@ function MainNavbar() {
                           key={stemItem.label}
                           to={stemItem.href}
                           onClick={handleLinkClick}
-                         
                           className="block p-3 hover:bg-gray-50 rounded-lg transition-colors group"
                         >
                           <div className="flex items-center space-x-4">
@@ -150,9 +135,7 @@ function MainNavbar() {
                               <h4 className="text-base font-semibold text-gray-800 group-hover:text-primary transition-colors">
                                 {stemItem.label}
                               </h4>
-                              <p className="text-sm text-gray-500 mt-1">
-                                {stemItem.description}
-                              </p>
+                              <p className="text-sm text-gray-500 mt-1">{stemItem.description}</p>
                             </div>
                           </div>
                         </Link>
@@ -189,7 +172,7 @@ function MainNavbar() {
             {isLoggedIn ? (
               <div className="flex items-center space-x-1 sm:space-x-2">
                 <span className="text-gray-700 text-xs xl:text-sm hidden sm:block">
-                  សូដា
+                  {userName?.fullName}
                 </span>
                 <div className="relative">
                   <Dropdown
@@ -201,26 +184,21 @@ function MainNavbar() {
                     )}
                   >
                     {profileMenuItems.map((item) => (
-                      <Dropdown.Item key={item.label} icon={item.icon}>
+                      <Dropdown.Item key={item.label} icon={item.icon} as={Link} to={item.href}>
                         <span>{item.label}</span>
                       </Dropdown.Item>
                     ))}
                     <Dropdown.Divider />
-                    <Dropdown.Item
-                      icon={LogOut}
-                      onClick={() => setIsLoggedIn(false)}
-                    >
+                    <Dropdown.Item icon={LogOut} onClick={handleLogout}>
                       <span>ចាកចេញ</span>
                     </Dropdown.Item>
                   </Dropdown>
                 </div>
               </div>
             ) : (
-              <Link to="/ចូលគណនី">
+              <Link to="/login">
                 <div className="flex items-center space-x-4 sm:space-x-3">
-                  <button
-                    className="hidden sm:block text-primary hover:text-[#1e8fb8] text-[16px] xl:text-[16px] font-medium transition-colors whitespace-nowrap"
-                  >
+                  <button className="hidden sm:block text-primary hover:text-[#1e8fb8] text-[16px] xl:text-[16px] font-medium transition-colors whitespace-nowrap">
                     ចូលគណនី
                   </button>
                 </div>
@@ -287,9 +265,7 @@ function MainNavbar() {
                               <h4 className="text-base font-semibold text-gray-800 group-hover:text-primary transition-colors">
                                 {stemItem.label}
                               </h4>
-                              <p className="text-sm text-gray-500 mt-1">
-                                {stemItem.description}
-                              </p>
+                              <p className="text-sm text-gray-500 mt-1">{stemItem.description}</p>
                             </div>
                           </div>
                         </Link>
@@ -309,18 +285,15 @@ function MainNavbar() {
               )}
             </div>
             {!isLoggedIn && (
-              <div className="ចូ-4 pt-3 border-t border-gray-100">
+              <div className="pt-4 border-t border-gray-100">
                 <div className="flex flex-col space-y-2">
-                  
-                  <button
-                    onClick={() => {
-                      setIsLoggedIn(true);
-                      setIsMobileMenuOpen(false);
-                    }}
+                  <Link
+                    to="/login"
+                    onClick={handleLinkClick}
                     className="w-full py-2 px-4 text-primary border border-primary rounded-lg text-center text-sm font-medium hover:bg-primary hover:text-white transition-colors"
                   >
                     ចូលគណនី
-                  </button>
+                  </Link>
                 </div>
               </div>
             )}

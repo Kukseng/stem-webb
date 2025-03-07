@@ -9,25 +9,29 @@ import AllCoursePage from "../pages/contents/AllCoursePage";
 import CourseDetailPage from "../pages/contents/coursedetailpage";
 import AllCourseDetail from "../pages/contents/allcourse-detail";
 import MainLayout from "../layouts/MainLayout";
+import LoginForm from "../pages/auth/LoginFrom";
+import SigupPage from "../pages/auth/SigupPage";
+import ForgetForm from "../pages/auth/ForgetForm";
+import VerifyOtp from "../pages/auth/VerifyOtp";
 
 export default function AppRoutes() {
   return (
     <Router>
       <Routes>
+        {/* Navbar */}
         <Route
           path="/"
           element={
             <MainLayout>
-              <HomePage/>
-              </MainLayout>
-           
+              <HomePage />
+            </MainLayout>
           }
         />
         <Route
           path="/courses"
           element={
             <MainLayout>
-              <CoursePage/>
+              <CoursePage />
             </MainLayout>
           }
         />
@@ -35,7 +39,7 @@ export default function AppRoutes() {
           path="/teacher"
           element={
             <MainLayout>
-              <LecturerPage/>
+              <LecturerPage />
             </MainLayout>
           }
         />
@@ -43,7 +47,7 @@ export default function AppRoutes() {
           path="/aboutus"
           element={
             <MainLayout>
-             <AboutPage/>
+              <AboutPage />
             </MainLayout>
           }
         />
@@ -51,21 +55,32 @@ export default function AppRoutes() {
           path="/blog"
           element={
             <MainLayout>
-              <BlogPage/>
+              <BlogPage />
             </MainLayout>
           }
         />
+        {/* coures */}
         <Route
           path="/allcourse"
           element={
             <MainLayout>
-              <AllCoursePage/>
+              <AllCoursePage />
             </MainLayout>
           }
         />
 
-        <Route path="/courses/:courseId" element={<CourseDetailPage/>} />
-        <Route path="/lesson/${lessonId}" element={<AllCourseDetail/>} />
+        <Route path="/courses/:courseId" element={<CourseDetailPage />} />
+        <Route path="/lesson/${lessonId}" element={<AllCourseDetail />} />
+
+
+        {/* Form */}
+        <Route path="/login" element={<LoginForm />} />
+        <Route path="/signup" element={<SigupPage/>} />
+        <Route path="/verify-otp" element={<VerifyOtp/>} />
+        <Route path="/forgot-password" element={<ForgetForm/>} />
+
+  
+        
       </Routes>
     </Router>
   );

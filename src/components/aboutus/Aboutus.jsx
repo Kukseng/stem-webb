@@ -18,6 +18,7 @@ import Tailwind from "../../assets/Tailwind.png";
 import Reactjs from "../../assets/React.png";
 
 import { motion } from "framer-motion"; //motin for animation
+import ShuffleHero from "../common/Hero/SuffleHero";
 
 const Aboutus = () => {
     const containerVariants = {
@@ -81,8 +82,8 @@ const Aboutus = () => {
 
   return (
     <div className="w-full overflow-x-hidden bg-gradient-to-b from-white to-gray-50">
-      <div className="max-w-content mx-4 sm:mx-8 lg:mx-16 my-10 lg:my-20">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+      <div className="max-w-content mx-4 sm:mx-8 lg:mx-16 my-5 lg:my-5">
+        {/* <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           <motion.div
             initial={{ x: -100, opacity: 0 }}
             animate={{ x: 0, opacity: 1 }}
@@ -135,7 +136,8 @@ const Aboutus = () => {
             />
             <div className="absolute -z-10 w-64 h-64 bg-blue-200 rounded-full blur-3xl opacity-30 -bottom-10 -right-10"></div>
           </motion.div>
-        </div>
+        </div> */}
+          <ShuffleHero/>
       </div>
 
             {/* Divider */}

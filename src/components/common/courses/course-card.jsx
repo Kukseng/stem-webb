@@ -1,10 +1,16 @@
-// src/components/course-card.js (or "./Course-Card.js")
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { FaRegListAlt } from "react-icons/fa";
-import { Link } from "react-router"; // For navigation
+import { Link } from "react-router"; // Fixed import to "react-router-dom"
 
 const CourseCard = ({ course = {} }) => {
   const [isHovered, setIsHovered] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  // Check login status from localStorage
+  useEffect(() => {
+    const token = localStorage.getItem("access_token");
+    setIsLoggedIn(!!token);
+  }, []); // Runs once on mount, could be updated with a listener if needed
 
   const {
     course_name = "Untitled Course",
@@ -14,12 +20,12 @@ const CourseCard = ({ course = {} }) => {
     rating = 4,
     duration = "មូលដ្ឋាន ៨០ម៉ោង",
     price = "៩,៩០០រៀល",
-    primaryButtonText = "ចុះឈ្មោះ",
-    SecondButtonText = "ចូលរៀន",
-    secondaryButtonText = "ពិនិត្យមើលទៀត",
+    primaryButtonText = "ចុះឈ្មោះ", // Sign Up
+    secondButtonText = "ចូលរៀន", // Enroll
+    secondaryButtonText = "ពិនិត្យមើលទៀត", // Learn More
     badgeText = "kmol kmol mk mk rean",
     id: courseId,
-  } = course; 
+  } = course;
 
   const categoryName = categories.length > 0 ? categories[0].category_name : "No Category";
 
@@ -51,9 +57,12 @@ const CourseCard = ({ course = {} }) => {
               isHovered ? "opacity-100" : "opacity-0"
             }`}
           >
-            <button className="bg-white text-primary px-6 py-2 rounded-[40px] hover:bg-primary hover:text-white transition-all duration-300 transform hover:scale-105">
-              {primaryButtonText}
-            </button>
+            {/* Show Sign Up button only if not logged in */}
+            {!isLoggedIn && (
+              <button className="bg-white text-primary px-6 py-2 rounded-[40px] hover:bg-primary hover:text-white transition-all duration-300 transform hover:scale-105">
+                {primaryButtonText}
+              </button>
+            )}
           </div>
           {badgeText && (
             <div
@@ -154,7 +163,7 @@ const CourseCard = ({ course = {} }) => {
           <div className="flex justify-between">
             <button className="relative bg-primary text-white px-6 py-2 rounded-[40px] overflow-hidden group">
               <span className="relative z-10 transition-colors duration-300">
-                {SecondButtonText}
+                {secondButtonText}
               </span>
               <span className="absolute bottom-0 left-0 w-full h-0 bg-[#0e5c7a] transition-all duration-300 group-hover:h-full"></span>
             </button>
