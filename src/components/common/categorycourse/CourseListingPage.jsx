@@ -178,20 +178,17 @@ const STEMTutoring = () => {
               ចុះឈ្មោះដើម្បីសិក្សា
             </button>
           </div>
-
-          {/* Illustration Section */}
           <div className="w-full md:w-1/2 relative">
             <div className="relative">
-              {/* Large phone frame */}
               <div className="border-4 border-gray-200 rounded-3xl p-4 bg-white shadow-lg">
-                {/* Books stack illustration */}
+        
                 <div className="flex items-end mb-4">
                   <div className="h-32 w-16 bg-gray-200 rounded mr-2"></div>
                   <div className="h-24 w-16 bg-gray-200 rounded mr-2"></div>
                   <div className="h-28 w-16 bg-gray-200 rounded"></div>
                 </div>
-
-                {/* Students illustration */}
+                
+          
                 <div className="flex justify-around items-center">
                   <img src={person} alt="person" className="w-full h-full" />
                 </div>

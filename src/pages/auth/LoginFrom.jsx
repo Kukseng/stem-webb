@@ -1,12 +1,13 @@
-import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
-
-
+import React from "react";
+import LoginComponent from "../../components/authcom/SigninComponent";
+import LoginPage from "../../components/authcom/SigninComponent";
 
 const LoginForm = () => {
-    <h1>
-        sfsdfdfsdfdsfsdsd
-    </h1>
+  return (
+    <>
+      <LoginPage />
+    </>
+  );
 };
 
 export default LoginForm;

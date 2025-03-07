@@ -1,4 +1,4 @@
-import Biology from "../../components/layout/biology/Biology"
+import Biology from "../../components/biology/Biology"
 
 
 const BiologyPage = () => {

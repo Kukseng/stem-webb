@@ -1,27 +1,23 @@
 import AppRoutes from "./routes/AppRoutes";
-import { motion, useScroll } from "motion/react"
-
+import { motion, useScroll } from "framer-motion"
 function App() {
-  const { scrollYProgress } = useScroll()
+  const { scrollYProgress } = useScroll();
   return (
     <>
-      <motion.div
-        id="scroll-indicator"
+       <motion.div
         style={{
           scaleX: scrollYProgress,
           position: "fixed",
           top: 0,
           left: 0,
           right: 0,
-          height: 5,
+          height: 3,
           originX: 0,
-          backgroundColor: "#ffffff",
+          backgroundColor: "#FFFFFF",
           zIndex: 1000,
         }}
       />
-      <div>
-        <AppRoutes />
-      </div>
+      <AppRoutes />
     </>
   )
 }
