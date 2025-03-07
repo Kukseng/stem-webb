@@ -33,7 +33,11 @@ export default {
         footer:"#79D4F7"
       },
       maxWidth: {
-        content: "1300px",
+        content: "1400px",
+        contentlg:"900px",
+        contentmd:"700px",
+        contentsm:"200px",
+        content2xl:"1700px",
       },
     },
   },

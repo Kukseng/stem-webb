@@ -169,9 +169,8 @@ const LoginPage = () => {
 
             <button
               type="submit"
-              className={`mt-4 bg-primary rounded-[40px] text-white py-2.5 hover:bg-hover transition-colors focus:ring-4 focus:ring-purple-300 focus:outline-none ${
-                isLoading ? "opacity-75 cursor-not-allowed" : ""
-              }`}
+              className={`mt-4 bg-primary rounded-[40px] text-white py-2.5 hover:bg-hover transition-colors focus:ring-4 focus:ring-purple-300 focus:outline-none ${isLoading ? "opacity-75 cursor-not-allowed" : ""
+                }`}
               disabled={isLoading}
             >
               {isLoading ? (

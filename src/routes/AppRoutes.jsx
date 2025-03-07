@@ -9,6 +9,7 @@ import AllCoursePage from "../pages/contents/AllCoursePage";
 import CourseDetailPage from "../pages/contents/coursedetailpage";
 import AllCourseDetail from "../pages/contents/allcourse-detail";
 import MainLayout from "../layouts/MainLayout";
+import Profile from "../components/layout/counten/Profile";
 import LoginForm from "../pages/auth/LoginFrom";
 import SigupPage from "../pages/auth/SigupPage";
 import ForgetForm from "../pages/auth/ForgetForm";
@@ -17,6 +18,7 @@ import Khmer from "../components/khmer/Khmer";
 import Math from "../components/math/Math";
 import Biology from "../components/biology/Biology";
 import Physics from "../components/physics/Physics";
+import { RevealLinks } from "../components/navbar/MainNavbar";
 
 export default function AppRoutes() {
   return (
@@ -43,7 +45,7 @@ export default function AppRoutes() {
           path="/teacher"
           element={
             <MainLayout>
-              <LecturerPage />
+              <RevealLinks />
             </MainLayout>
           }
         />

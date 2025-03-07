@@ -1,7 +1,7 @@
 // src/pages/course-detail-page.js
 import React, { useEffect } from "react";
 import { useParams, useNavigate } from "react-router";
-import { useGetAllCoursesQuery } from "../../api/courses-api"; 
+import { useGetAllCoursesQuery } from "../../api/courses-api";
 
 const CourseDetailPage = () => {
   const { courseId } = useParams();
@@ -14,7 +14,7 @@ const CourseDetailPage = () => {
   useEffect(() => {
     console.log("Course ID:", courseId, "Course Found:", !!course, "Courses:", courses);
     if (!course && !isLoading && !isError) {
-      navigate("/all-courses"); 
+      navigate("/all-courses");
     }
   }, [course, isLoading, isError, navigate, courseId]);
 
@@ -33,7 +33,7 @@ const CourseDetailPage = () => {
         />
         <p className="text-gray-700 mb-4">{course.course_description}</p>
         <p className="text-gray-600">Category: {course.categories?.[0]?.category_name || "No Category"}</p>
-        <p className="text-gray-600">Rating: {course.rating || 0} / 5</p>
+        <p className="text-gray-600">Rating: {course.rating || 0} /5</p>
         <p className="text-gray-600">Duration: {course.duration || "N/A"}</p>
         <p className="text-gray-600">Price: {course.price || "Free"}</p>
       </div>

@@ -74,8 +74,12 @@ function MainNavbar() {
     navigate("/login"); // Change to "/" if you prefer home page
   };
 
-  const userName = profileLoading ? "Loading..." : profile?.first_name || "User";
 
+
+
+
+
+  const userName = profileLoading ? "Loading..." : profile?.first_name || "User";
   return (
     <nav
       className={`bg-white bg-opacity-30 backdrop-blur-md sticky top-0 z-50 transition-shadow duration-200 ${isScrolled ? "shadow-md" : "border-b border-gray-100"
@@ -94,11 +98,7 @@ function MainNavbar() {
                 />
               </div>
               <h1 className="text-xl md:text-2xl lg:text-[26px] font-bold font-suwannaphum">
-                <span className="text-primary">I</span>
-                <span className="text-primary">S</span>
-                <span className="text-primary">T</span>
-                <span className="text-primary">E</span>
-                <span className="text-primary">M</span>
+                <RevealLinks />
               </h1>
             </div>
           </Link>
@@ -304,3 +304,77 @@ function MainNavbar() {
 }
 
 export default MainNavbar;
+
+
+// IstemMotin
+import { motion } from "framer-motion";
+
+export const RevealLinks = () => {
+  return (
+    <section className="grid place-content-center gap-2 text-primary">
+      <FlipLink href="/">iSTEM</FlipLink>
+    </section>
+  );
+};
+const DURATION = 0.25;
+const STAGGER = 0.04;
+const FlipLink = ({ children, href }) => {
+  return (
+    <motion.a
+      initial="initial"
+      whileHover="hovered"
+      href={href}
+      className="relative block overflow-hidden whitespace-nowrap text-2xl font-black uppercase sm:text-3xl md:text-4xl lg:text-4xl"
+      style={{
+        lineHeight: 0.85,
+      }}
+    >
+      <div>
+        {children.split("").map((l, i) => (
+          <motion.span
+            variants={{
+              initial: {
+                y: 0,
+              },
+              hovered: {
+                y: "-100%",
+              },
+            }}
+            transition={{
+              duration: DURATION,
+              ease: "easeInOut",
+              delay: STAGGER * i,
+            }}
+            className="inline-block"
+            key={i}
+          >
+            {l}
+          </motion.span>
+        ))}
+      </div>
+      <div className="absolute inset-0">
+        {children.split("").map((l, i) => (
+          <motion.span
+            variants={{
+              initial: {
+                y: "100%",
+              },
+              hovered: {
+                y: 0,
+              },
+            }}
+            transition={{
+              duration: DURATION,
+              ease: "easeInOut",
+              delay: STAGGER * i,
+            }}
+            className="inline-block"
+            key={i}
+          >
+            {l}
+          </motion.span>
+        ))}
+      </div>
+    </motion.a>
+  );
+};
