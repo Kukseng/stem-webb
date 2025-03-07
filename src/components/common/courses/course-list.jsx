@@ -27,7 +27,7 @@ const CoursesList = () => {
 
   return (
     <div className="bg-gray-50">
-      <div className="max-w-[1300px] mx-auto px-4">
+      <div className="xl:max-w-[1300px] 2xl:max-w-content2xl lg:max-w-contentlg md:max-w-contentmd   mx-auto px-4">
         <header className="flex mb-10 justify-between items-center relative overflow-hidden">
           <div className="flex items-center group">
             <div className="w-8 h-8 text-primary rounded flex items-center justify-center mr-3 transition-all duration-300 group-hover:rotate-12">

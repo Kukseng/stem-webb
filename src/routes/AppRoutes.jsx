@@ -9,7 +9,7 @@ import AllCoursePage from "../pages/contents/AllCoursePage";
 import CourseDetailPage from "../pages/contents/coursedetailpage";
 import AllCourseDetail from "../pages/contents/allcourse-detail";
 import MainLayout from "../layouts/MainLayout";
-
+import Profile from "../components/layout/counten/Profile"; 
 export default function AppRoutes() {
   return (
     <Router>
@@ -60,6 +60,14 @@ export default function AppRoutes() {
           element={
             <MainLayout>
               <AllCoursePage/>
+            </MainLayout>
+          }
+        />
+        <Route
+          path="/profile"
+          element={
+            <MainLayout>
+              <Profile/>
             </MainLayout>
           }
         />

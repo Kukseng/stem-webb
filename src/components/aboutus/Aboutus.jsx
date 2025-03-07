@@ -8,7 +8,6 @@ import {
 } from "lucide-react";
 import img from "../../assets/images/logo/cher.png";
 import img1 from "../../assets/images/logo/ISTAD.png";
-import react from "../../assets/React.png";
 import java from "../../assets/Java.png";
 import JS from "../../assets/JS.png";
 import phyton from "../../assets/Phyton.png";

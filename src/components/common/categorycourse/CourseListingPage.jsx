@@ -159,7 +159,7 @@ const STEMTutoring = () => {
 
   return (
     <div className="min-h-screen bg-white p-4 md:p-8 mt-[100px]">
-      <div className="max-w-6xl mx-auto">
+      <div className="xl:max-w-[1300px] 2xl:max-w-content2xl lg:max-w-contentlg  mx-auto">
         {/* Header Section */}
         <div className="flex flex-col md:flex-row justify-between items-center mb-12">
           <div className="w-full md:w-1/2 mb-8 md:mb-0">

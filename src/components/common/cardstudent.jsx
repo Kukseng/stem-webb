@@ -17,7 +17,7 @@ const StemEducationHeader = () => {
 
   return (
     <div className="w-full py-4">
-      <div className="max-w-content  mx-auto px-4">
+      <div className="xl:max-w-[1300px] 2xl:max-w-content2xl lg:max-w-contentlg md:max-w-contentmd  mx-auto px-4">
         <div className="flex justify-center items-center">
           <div 
             className={`bg-gradient-to-r from-blue-500 to-teal-100 p-6 rounded-lg flex flex-col md:flex-row md:items-center md:justify-between w-full gap-4 transition-all duration-700 transform ${isLoaded ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}

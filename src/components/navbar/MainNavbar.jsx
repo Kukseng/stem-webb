@@ -66,7 +66,7 @@ const profileMenuItems = [
 const navItems = [
   { label: "ទំព័រដើម", href: "/" },
   { label: "វគ្គសិក្សា",icon:Dropdown, hasDropdown: true },
-  { label: "គ្រូបង្រៀន", href: "/teacher" },
+  { label: "គ្រូបង្រៀន", href: "/profile" },
   { label: "មាតិកា", href: "/blog" },
   { label: "អំពីពួកយើង", href: "/aboutus" },
 ];
