@@ -7,7 +7,7 @@ import Mathcard from "./Mathcard"
 const Math = () => {
     return (
         <div>
-            {/* <MathHero /> */}
+            <MathHero />
             <div className="flex justify-center">
                 <Coursenav />
             </div>

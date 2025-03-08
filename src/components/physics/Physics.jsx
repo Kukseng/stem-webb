@@ -8,7 +8,7 @@ import Coursenav from "../math/Coursenav";
 const Physics = () => {
     return (
         <div>
-            {/* <PhysicsHero /> */}
+            <PhysicsHero />
             <div className="flex justify-center">
                 <Coursenav />
             </div>
