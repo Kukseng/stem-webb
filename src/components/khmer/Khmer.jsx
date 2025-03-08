@@ -1,7 +1,11 @@
+import Coursenav from "../math/Coursenav";
+
 const Khmer = () => {
   return (
     <div>
-      <h1 className="text-center text-8xl">Khmer</h1>
+      <div className="flex justify-center">
+        <Coursenav />
+      </div>
     </div>
   );
 };

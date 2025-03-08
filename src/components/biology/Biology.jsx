@@ -1,9 +1,11 @@
-
+import Coursenav from "../math/Coursenav";
 
 const Biology = () => {
     return (
         <div>
-            <h1 className="text-[300px] text-center">Biology</h1>
+            <div className="flex justify-center">
+                <Coursenav />
+            </div>
         </div>
     )
 }

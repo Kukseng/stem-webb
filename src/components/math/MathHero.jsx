@@ -3,7 +3,7 @@ import React from 'react'
 import { Clock } from 'lucide-react'
 import { FileQuestion } from 'lucide-react'
 import { GraduationCap } from 'lucide-react'
-
+import { Book } from 'lucide-react'
 
 const MathHero = () => {
     return (
@@ -16,11 +16,9 @@ const MathHero = () => {
                     </div>
                     <h1 className="text-white font-suwannaphum text-5xl pl-[80px] pt-5 font-bold">ការរៀន HTML ដែលពេញនិយមនៅឆ្នាំ2025សម្រាប់កម្រិតដំបូង</h1>
                     <div className="flex ml-[150px] gap-4 mt-[70px]">
-                        <p className="flex gap-2 text-white font-suwannaphum text-2xl items-center"><Clock /> ២ សប្តាហ័</p>
-                        <p className="flex gap-2 text-white font-suwannaphum text-2xl items-center"><GraduationCap /> 2weeks</p>
-                        <p className="flex gap-2 text-white font-suwannaphum text-2xl items-center"><Clock /> 2weeks</p>
-                        <p className="flex gap-2 text-white font-suwannaphum text-2xl items-center"><Clock /> 2weeks</p>
-                        <p className="flex gap-2 text-white font-suwannaphum text-2xl items-center"><FileQuestion /> តេស្ត</p>
+                        <p className="flex gap-2 text-white font-suwannaphum text-2xl items-center"><Clock /> ២សប្តាហ័</p>
+                        <p className="flex gap-2 text-white font-suwannaphum text-2xl items-center"><GraduationCap /> ១៧០/សិស្ស</p>
+                        <p className="flex gap-2 text-white font-suwannaphum text-2xl items-center"><FileQuestion />តេស្ត</p>
                     </div>
                 </div>
                 <div className="flex justify-center items-end">

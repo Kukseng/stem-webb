@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { FaRegListAlt } from "react-icons/fa";
 import { useGetAllCoursesQuery } from "../../api/courses-api";
 import CourseCard from "../../components/common/courses/allcourse/allcourse-card";
+import Coursenav from "../../components/math/Coursenav";
 const AllCoursePage = () => {
   const { data, isLoading, isError, error } = useGetAllCoursesQuery({
     pollingInterval: 0,
@@ -23,6 +24,9 @@ const AllCoursePage = () => {
 
   return (
     <div className="bg-gray-50">
+      <div className="flex justify-center">
+        <Coursenav />
+      </div>
       <div className="max-w-[1300px] mx-auto px-4">
         <header className="flex mb-10 justify-between items-center relative overflow-hidden">
           <div className="flex items-center group">

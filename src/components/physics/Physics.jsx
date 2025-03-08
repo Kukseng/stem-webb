@@ -1,6 +1,6 @@
 import PhysicsCard from "./PhysicCard"
 import PhysicsHero from "./PhysicsHero"
-
+import Coursenav from "../math/Coursenav";
 
 
 
@@ -8,7 +8,10 @@ import PhysicsHero from "./PhysicsHero"
 const Physics = () => {
     return (
         <div>
-            <PhysicsHero />
+            {/* <PhysicsHero /> */}
+            <div className="flex justify-center">
+                <Coursenav />
+            </div>
             <PhysicsCard />
         </div>
     )

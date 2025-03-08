@@ -19,6 +19,7 @@ import Math from "../components/math/Math";
 import Biology from "../components/biology/Biology";
 import Physics from "../components/physics/Physics";
 import { RevealLinks } from "../components/navbar/MainNavbar";
+import Uploadfrom from "../components/upload/Uploadfrom";
 
 export default function AppRoutes() {
   return (
@@ -45,7 +46,7 @@ export default function AppRoutes() {
           path="/teacher"
           element={
             <MainLayout>
-              <RevealLinks />
+              <Uploadfrom />
             </MainLayout>
           }
         />
