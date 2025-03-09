@@ -1,5 +1,6 @@
 import MathHero from "../math/MathHero"
 import Coursenav from "./Coursenav"
+import Inputform from "./Inputform"
 import Mathcard from "./Mathcard"
 
 
@@ -14,6 +15,7 @@ const Math = () => {
             <div className="flex text-center justify-center ">
                 <Mathcard />
             </div>
+            <Inputform />
         </div>
     )
 }
