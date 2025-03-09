@@ -6,6 +6,7 @@ const CourseCard = ({ course = {}, lesson = {} }) => {
   const [isHovered, setIsHovered] = useState(false);
 
   const {
+
     course_name = "Untitled Course",
     course_thumbnail = null,
     categories = [],
@@ -33,7 +34,7 @@ const CourseCard = ({ course = {}, lesson = {} }) => {
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      {/* Course Image with Zoom and Overlay Effect */}
+      
       <div className="relative h-48 overflow-hidden">
         {lesson_image ? (
           
@@ -92,7 +93,7 @@ const CourseCard = ({ course = {}, lesson = {} }) => {
             isHovered ? "text-primary translate-x-3" : "text-gray-800"
           }`}
         >
-          {course_name}
+          {categoryName}
         </h3>
 
         <div

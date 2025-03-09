@@ -14,17 +14,45 @@ import {
   LucideHelpingHand,
   LogOut,
 } from "lucide-react";
-import { Link, useNavigate } from "react-router"; // Added useNavigate
+import { Link, useNavigate } from "react-router";
 import { Dropdown } from "flowbite-react";
 import logomodified from "../../assets/images/logo/o-removebg-preview.png";
 import { useGetProfileQuery } from "../../api/auth-api";
+import { useDispatch } from "react-redux";
+import { setCredentials, logout } from "../../redux/services/authSlice";
+import { motion, AnimatePresence } from "framer-motion"; // For animations
 
 const stemMenuItems = [
-  { label: "ALL", description: "រៀនអំពីជីវវិទ្យា គីមីវិទ្យា និងរូបវិទ្យា", icon: Beaker, href: "/allcourse" },
-  { label: "រូបវិទ្យា", description: "រៀនអំពីជីវវិទ្យា គីមីវិទ្យា និងរូបវិទ្យា", icon: Beaker, href: "" },
-  { label: "ជីវវិទ្យា", description: "កម្មវិធីកុំព្យូទ័រ និងវិស្វកម្ម", icon: Code, href: "" },
-  { label: "ភាសារខ្មែរ", description: "វិស្វកម្មអេឡិចត្រូនិច និងមេកានិច", icon: Calculator, href: "" },
-  { label: "គណិតវិទ្យា", description: "ពីជគណិត ធរណីមាត្រ និងស្ថិតិ", icon: Leaf, href: "" },
+  {
+    label: "ALL",
+    description: "រៀនអំពីជីវវិទ្យា គីមីវិទ្យា និងរូបវិទ្យា",
+    icon: Beaker,
+    href: "/allcourse",
+  },
+  {
+    label: "រូបវិទ្យា",
+    description: "រៀនអំពីជីវវិទ្យា គីមីវិទ្យា និងរូបវិទ្យា",
+    icon: Beaker,
+    href: "",
+  },
+  {
+    label: "ជីវវិទ្យា",
+    description: "កម្មវិធីកុំព្យូទ័រ និងវិស្វកម្ម",
+    icon: Code,
+    href: "",
+  },
+  {
+    label: "ភាសារខ្មែរ",
+    description: "វិស្វកម្មអេឡិចត្រូនិច និងមេកានិច",
+    icon: Calculator,
+    href: "",
+  },
+  {
+    label: "គណិតវិទ្យា",
+    description: "ពីជគណិត ធរណីមាត្រ និងស្ថិតិ",
+    icon: Leaf,
+    href: "",
+  },
 ];
 
 const profileMenuItems = [
@@ -45,10 +73,26 @@ const navItems = [
 function MainNavbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem("access_token"));
-  const navigate = useNavigate(); // For redirecting after logout
+  const [isLoggedIn, setIsLoggedIn] = useState(
+    !!localStorage.getItem("access_token")
+  );
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
-  const { data: profile, isLoading: profileLoading } = useGetProfileQuery(undefined, {
+  useEffect(() => {
+    const accessToken = localStorage.getItem("access_token");
+    const refreshToken = localStorage.getItem("refresh_token");
+    if (accessToken && refreshToken) {
+      dispatch(setCredentials({ access: accessToken, refresh: refreshToken }));
+      setIsLoggedIn(true);
+    }
+  }, [dispatch]);
+
+  const {
+    data: profile,
+    isLoading: profileLoading,
+    error: profileError,
+  } = useGetProfileQuery(undefined, {
     skip: !isLoggedIn,
   });
 
@@ -65,21 +109,28 @@ function MainNavbar() {
   };
 
   const handleLogout = () => {
-    // Clear tokens from localStorage
     localStorage.removeItem("access_token");
     localStorage.removeItem("refresh_token");
-    // Update login state
+    dispatch(logout());
     setIsLoggedIn(false);
-    // Redirect to home or login page
-    navigate("/login"); // Change to "/" if you prefer home page
+    navigate("/login");
   };
 
-  const userName = profileLoading ? "Loading..." : profile?.first_name || "User";
+  const userName = profileLoading
+    ? "Loading..."
+    : profile?.username || "User";
+
+  // Dropdown Animation Variants
+  const dropdownVariants = {
+    hidden: { opacity: 0, y: -10, scale: 0.95 },
+    visible: { opacity: 1, y: 0, scale: 1 },
+    exit: { opacity: 0, y: -10, scale: 0.95 },
+  };
 
   return (
     <nav
-      className={`bg-white bg-opacity-30 backdrop-blur-md sticky top-0 z-50 transition-shadow duration-200 ${
-        isScrolled ? "shadow-md" : "border-b border-gray-100"
+      className={`bg-white bg-opacity-30 backdrop-blur-md sticky top-0 z-50 transition-shadow duration-300 ${
+        isScrolled ? "shadow-lg" : "border-b border-gray-100"
       }`}
     >
       <div className="w-full">
@@ -118,37 +169,51 @@ function MainNavbar() {
                   className="relative"
                 >
                   <Dropdown.Header />
-                  <div className="p-2 w-[320px] bg-white shadow-2xl rounded-xl border border-gray-100">
-                    <div className="space-y-2">
-                      {stemMenuItems.map((stemItem) => (
-                        <Link
-                          key={stemItem.label}
-                          to={stemItem.href}
-                          onClick={handleLinkClick}
-                          className="block p-3 hover:bg-gray-50 rounded-lg transition-colors group"
-                        >
-                          <div className="flex items-center space-x-4">
-                            <div className="bg-primary/10 p-2.5 rounded-lg">
-                              <stemItem.icon className="w-6 h-6 text-primary group-hover:scale-110 transition-transform" />
+                  <AnimatePresence>
+                    <motion.div
+                      className="p-4 w-[480px] bg-white shadow-2xl rounded-2xl border border-gray-100 backdrop-blur-sm bg-opacity-80"
+                      initial="hidden"
+                      animate="visible"
+                      exit="exit"
+                      variants={dropdownVariants}
+                      transition={{ duration: 0.3, ease: "easeInOut" }}
+                    >
+                      <div className="grid grid-cols-2 gap-4">
+                        {stemMenuItems.map((stemItem) => (
+                          <Link
+                            key={stemItem.label}
+                            to={stemItem.href}
+                            onClick={handleLinkClick}
+                            className="block p-3 hover:bg-gradient-to-r hover:from-primary/10 hover:to-blue-50 rounded-lg transition-all group"
+                          >
+                            <div className="flex items-center space-x-3">
+                              <motion.div
+                                className="bg-primary/10 p-2 rounded-full group-hover:bg-primary/20 transition-colors"
+                                whileHover={{ scale: 1.1 }}
+                              >
+                                <stemItem.icon className="w-5 h-5 text-primary group-hover:text-[#1e8fb8] transition-colors" />
+                              </motion.div>
+                              <div>
+                                <h4 className="text-sm font-semibold text-gray-800 group-hover:text-[#1e8fb8] transition-colors">
+                                  {stemItem.label}
+                                </h4>
+                                <p className="text-xs text-gray-500 mt-1">
+                                  {stemItem.description}
+                                </p>
+                              </div>
                             </div>
-                            <div>
-                              <h4 className="text-base font-semibold text-gray-800 group-hover:text-primary transition-colors">
-                                {stemItem.label}
-                              </h4>
-                              <p className="text-sm text-gray-500 mt-1">{stemItem.description}</p>
-                            </div>
-                          </div>
-                        </Link>
-                      ))}
-                    </div>
-                  </div>
+                          </Link>
+                        ))}
+                      </div>
+                    </motion.div>
+                  </AnimatePresence>
                 </Dropdown>
               ) : (
                 <Link
                   key={item.label}
                   to={item.href}
                   onClick={handleLinkClick}
-                  className="px-1 lg:px-2 text-descrid hover:text-[#1e8fb8] transition-colors duration-200 text-sm lg:text-base xl:text-lg font-semibold whitespace-nowrap"
+                  className="px-1 lg:px-2 text-gray-700 hover:text-[#1e8fb8] transition-colors duration-200 text-sm lg:text-base xl:text-lg font-semibold whitespace-nowrap"
                 >
                   {item.label}
                 </Link>
@@ -172,19 +237,34 @@ function MainNavbar() {
             {isLoggedIn ? (
               <div className="flex items-center space-x-1 sm:space-x-2">
                 <span className="text-gray-700 text-xs xl:text-sm hidden sm:block">
-                  {userName?.fullName}
+                  {userName}
                 </span>
                 <div className="relative">
                   <Dropdown
                     label=""
                     renderTrigger={() => (
-                      <div className="h-8 w-8 xl:h-10 xl:w-10 rounded-full bg-gray-200 flex items-center justify-center cursor-pointer">
-                        <UserCircle className="h-5 w-5 xl:h-6 xl:w-6 text-gray-600" />
+                      <div className="h-10 w-10 xl:h-12 xl:w-12 rounded-full bg-gray-200 flex items-center justify-center cursor-pointer shadow-md hover:scale-105 transition-all">
+                        {profile?.image ? (
+                          <img
+                            src={profile.image}
+                            alt="User Profile"
+                            className="h-full w-full rounded-full object-cover"
+                          />
+                        ) : (
+                          <span className="text-gray-600 text-sm font-semibold">
+                            👤
+                          </span>
+                        )}
                       </div>
                     )}
                   >
                     {profileMenuItems.map((item) => (
-                      <Dropdown.Item key={item.label} icon={item.icon} as={Link} to={item.href}>
+                      <Dropdown.Item
+                        key={item.label}
+                        icon={item.icon}
+                        as={Link}
+                        to={item.href}
+                      >
                         <span>{item.label}</span>
                       </Dropdown.Item>
                     ))}
@@ -265,7 +345,9 @@ function MainNavbar() {
                               <h4 className="text-base font-semibold text-gray-800 group-hover:text-primary transition-colors">
                                 {stemItem.label}
                               </h4>
-                              <p className="text-sm text-gray-500 mt-1">{stemItem.description}</p>
+                              <p className="text-sm text-gray-500 mt-1">
+                                {stemItem.description}
+                              </p>
                             </div>
                           </div>
                         </Link>

@@ -13,6 +13,10 @@ import LoginForm from "../pages/auth/LoginFrom";
 import SigupPage from "../pages/auth/SigupPage";
 import ForgetForm from "../pages/auth/ForgetForm";
 import VerifyOtp from "../pages/auth/VerifyOtp";
+import UserProfile from "../components/common/userprofile/UserProfilecom";
+import CategoryDetailsPage from "../components/common/courses/Detail/Category-Detail";
+import Categories from "../components/common/courses/Categories";
+import LessonsCard from "../components/lesson/LessonCard";
 
 export default function AppRoutes() {
   return (
@@ -69,9 +73,9 @@ export default function AppRoutes() {
           }
         />
 
-        <Route path="/courses/:courseId" element={<CourseDetailPage />} />
+        <Route path="/courses/:courseId/categories" element={<Categories/>} />
         <Route path="/lesson/${lessonId}" element={<AllCourseDetail />} />
-
+        <Route path="/courses/:courseId/categories/:categoryId/lessons" element={<LessonsCard/>} />
 
         {/* Form */}
         <Route path="/login" element={<LoginForm />} />
@@ -79,7 +83,10 @@ export default function AppRoutes() {
         <Route path="/verify-otp" element={<VerifyOtp/>} />
         <Route path="/forgot-password" element={<ForgetForm/>} />
 
-  
+        <Route path="/profile" element={<UserProfile/>} />
+
+
+
         
       </Routes>
     </Router>

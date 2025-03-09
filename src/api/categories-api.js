@@ -15,8 +15,15 @@ export const categoryApi = apiSlice.injectEndpoints({
       query: () => "categories/",
       providesTags: ["Category"],
     }),
+    getCategoryById: builder.query({
+      query: (id) => `categories/${id}/`, // Fetch category by ID
+      providesTags: (result, error, id) => [{ type: "Category", id }], // Tag specific category
+    }),
   }),
 });
 
-export const { useCreateCategoryMutation, useGetAllCategoriesQuery } =
-  categoryApi;
+export const {
+  useCreateCategoryMutation,
+  useGetAllCategoriesQuery,
+  useGetCategoryByIdQuery, // Export the new hook
+} = categoryApi;

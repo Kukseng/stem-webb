@@ -13,6 +13,7 @@
 import React from 'react'
 import ForgotPasswordPage from '../../components/authcom/ForgotPasswordComponent'
 
+
 const ForgetForm = () => {
   return (
     <div>

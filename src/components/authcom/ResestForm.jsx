@@ -1,21 +1,28 @@
-// src/components/ForgotPasswordPage.jsx
+// src/components/ResetPasswordPage.jsx
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router"; // Fixed import
-import { useForgotPasswordMutation } from "../../api/auth-api"; // Adjusted path
+import { Link, useNavigate, useParams } from "react-router"; 
+import { useResetPasswordMutation } from "../../api/auth-api"; 
 import logomodified from "../../assets/images/logo/o-removebg-preview.png";
 
-const ForgotPasswordPage = () => {
+const ResetPasswordPage = () => {
+  const { token } = useParams(); 
   const navigate = useNavigate();
-  const [email, setEmail] = useState("");
-  const [forgotPassword, { isLoading, error }] = useForgotPasswordMutation();
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [resetPassword, { isLoading, error }] = useResetPasswordMutation();
   const [message, setMessage] = useState("");
   const [formError, setFormError] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!email) {
-      setFormError("Please enter your email");
+    if (!password || !confirmPassword) {
+      setFormError("Please fill in all fields");
+      return;
+    }
+
+    if (password !== confirmPassword) {
+      setFormError("Passwords do not match");
       return;
     }
 
@@ -23,15 +30,16 @@ const ForgotPasswordPage = () => {
     setMessage("");
 
     try {
-      console.log("Sending forgot password request:", { email });
-      const response = await forgotPassword({ email }).unwrap();
-      console.log("Forgot password response:", response);
-      setMessage("A reset link has been sent to your email.");
-      setEmail("");
-      setTimeout(() => navigate("/login"), 3000); // Redirect after 3 seconds
+      console.log("Sending reset password data:", { token, password });
+      const response = await resetPassword({ token, password }).unwrap();
+      console.log("Reset password response:", response);
+      setMessage("Password reset successfully. Redirecting to login...");
+      setPassword("");
+      setConfirmPassword("");
+      setTimeout(() => navigate("/login"), 3000);
     } catch (err) {
-      console.error("Forgot password error:", err);
-      let errorMessage = "Failed to send reset link. Please try again.";
+      console.error("Reset password error:", err);
+      let errorMessage = "Failed to reset password. Please try again.";
       if (err.data) {
         if (typeof err.data === "string") {
           errorMessage = err.data;
@@ -80,10 +88,8 @@ const ForgotPasswordPage = () => {
       </div>
 
       <div className="bg-white rounded-2xl shadow-lg max-w-md p-6 md:p-8">
-        <h2 className="font-bold text-2xl text-primary">Reset Password</h2>
-        <p className="text-sm mt-2 text-gray-600">
-          Enter your email to receive a password reset link.
-        </p>
+        <h2 className="font-bold text-2xl text-primary">Set New Password</h2>
+        <p className="text-sm mt-2 text-gray-600">Enter your new password below.</p>
 
         {message && (
           <div className="mt-4 p-2 bg-green-50 border border-green-200 text-green-600 text-sm rounded">
@@ -98,17 +104,33 @@ const ForgotPasswordPage = () => {
 
         <form onSubmit={handleSubmit} className="flex flex-col gap-4 mt-6">
           <div>
-            <label htmlFor="email" className="text-sm font-medium text-gray-700 block mb-1">
-              Email
+            <label htmlFor="password" className="text-sm font-medium text-gray-700 block mb-1">
+              New Password
             </label>
             <input
-              id="email"
+              id="password"
               className="p-2.5 rounded-lg border w-full focus:border-purple-400 focus:ring-2 focus:ring-purple-200 focus:outline-none transition-all"
-              type="email"
-              name="email"
-              placeholder="your@email.com"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              type="password"
+              name="password"
+              placeholder="Enter new password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+          </div>
+
+          <div>
+            <label htmlFor="confirmPassword" className="text-sm font-medium text-gray-700 block mb-1">
+              Confirm Password
+            </label>
+            <input
+              id="confirmPassword"
+              className="p-2.5 rounded-lg border w-full focus:border-purple-400 focus:ring-2 focus:ring-purple-200 focus:outline-none transition-all"
+              type="password"
+              name="confirmPassword"
+              placeholder="Confirm new password"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
               required
             />
           </div>
@@ -142,10 +164,10 @@ const ForgotPasswordPage = () => {
                     d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
                   ></path>
                 </svg>
-                Sending...
+                Resetting...
               </span>
             ) : (
-              "Send Reset Link"
+              "Reset Password"
             )}
           </button>
         </form>
@@ -169,4 +191,4 @@ const ForgotPasswordPage = () => {
   );
 };
 
-export default ForgotPasswordPage;
+export default ResetPasswordPage;

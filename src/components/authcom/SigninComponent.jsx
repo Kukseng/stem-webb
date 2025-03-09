@@ -1,11 +1,16 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router";
 import { useLoginMutation } from "../../api/auth-api";
+import { useDispatch } from "react-redux";
+import { setCredentials } from "../../redux/services/authSlice"; // Updated import
+
 import person from "../../assets/person.svg";
 import logomodified from "../../assets/images/logo/o-removebg-preview.png";
 
 const LoginPage = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const [rememberMe, setRememberMe] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
     email: "",
@@ -42,10 +47,14 @@ const LoginPage = () => {
       const response = await login(loginData).unwrap();
       console.log("Login response:", response);
 
-      // Store tokens (adjust based on actual response keys)
       if (response.access && response.refresh) {
+        // Store tokens in localStorage
         localStorage.setItem("access_token", response.access);
         localStorage.setItem("refresh_token", response.refresh);
+
+        // Dispatch tokens to Redux store
+        dispatch(setCredentials({ access: response.access, refresh: response.refresh }));
+
         navigate("/");
       } else {
         setLoginError("Invalid response format from server. Missing tokens.");
@@ -58,7 +67,7 @@ const LoginPage = () => {
         if (typeof err.data === "string") {
           errorMessage = err.data;
         } else if (err.data.detail) {
-          errorMessage = err.data.detail; // e.g., "Invalid credentials"
+          errorMessage = err.data.detail;
         } else {
           errorMessage = Object.entries(err.data)
             .map(([key, value]) => {
@@ -166,6 +175,26 @@ const LoginPage = () => {
                 </button>
               </div>
             </div>
+            <div className="flex items-center justify-between mt-1">
+              <div className="flex items-center">
+                <input
+                  id="remember-me"
+                  name="remember-me"
+                  type="checkbox"
+                  checked={rememberMe}
+                  onChange={(e) => setRememberMe(e.target.checked)}
+                  className="h-4 w-4 text-purple-600 focus:ring-purple-500 border-gray-300 rounded"
+                />
+                <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-700">
+                  Remember me
+                </label>
+              </div>
+              <div>
+                <Link to="/forgot-password" className="text-sm font-medium text-purple-600 hover:text-purple-500">
+                  Forgot password?
+                </Link>
+              </div>
+            </div>
 
             <button
               type="submit"
@@ -219,9 +248,9 @@ const LoginPage = () => {
               src={person}
               alt="Educational-illustration"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-purple-900/70 to-transparent flex flex-col justify-end p-6">
-              <h3 className="text-white font-bold text-xl">Welcome Back!</h3>
-              <p className="text-white/90 mt-2">Continue your learning journey with ISTEM</p>
+            <div className="absolute inset-0 bg-gradient-to-t from-yellow-900/70 to-transparent flex flex-col justify-end p-6">
+              <h3 className="text-white font-bold text-xl">សូមស្វាគមន៍ការត្រឡប់មកវិញ!</h3>
+              <p className="text-white/90 mt-2">បន្តដំណើរសិក្សារបស់អ្នកជាមួយ ISTEM</p>
               <ul className="mt-4 space-y-2">
                 <li className="flex items-center text-white text-sm">
                   <svg className="w-4 h-4 mr-2 text-green-300" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">

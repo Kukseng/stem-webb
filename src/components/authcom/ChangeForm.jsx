@@ -1,21 +1,38 @@
-// src/components/ForgotPasswordPage.jsx
+// src/components/ChangePasswordPage.jsx
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router"; // Fixed import
-import { useForgotPasswordMutation } from "../../api/auth-api"; // Adjusted path
+import { useChangePasswordMutation } from "../../api/auth-api"; // Adjusted path
 import logomodified from "../../assets/images/logo/o-removebg-preview.png";
 
-const ForgotPasswordPage = () => {
+const ChangePasswordPage = () => {
   const navigate = useNavigate();
-  const [email, setEmail] = useState("");
-  const [forgotPassword, { isLoading, error }] = useForgotPasswordMutation();
+  const [formData, setFormData] = useState({
+    old_password: "",
+    new_password: "",
+    confirm_password: "",
+  });
+  const [changePassword, { isLoading, error }] = useChangePasswordMutation();
   const [message, setMessage] = useState("");
   const [formError, setFormError] = useState("");
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!email) {
-      setFormError("Please enter your email");
+    if (!formData.old_password || !formData.new_password || !formData.confirm_password) {
+      setFormError("Please fill in all fields");
+      return;
+    }
+
+    if (formData.new_password !== formData.confirm_password) {
+      setFormError("New passwords do not match");
       return;
     }
 
@@ -23,15 +40,21 @@ const ForgotPasswordPage = () => {
     setMessage("");
 
     try {
-      console.log("Sending forgot password request:", { email });
-      const response = await forgotPassword({ email }).unwrap();
-      console.log("Forgot password response:", response);
-      setMessage("A reset link has been sent to your email.");
-      setEmail("");
-      setTimeout(() => navigate("/login"), 3000); // Redirect after 3 seconds
+      console.log("Sending change password data:", {
+        old_password: formData.old_password,
+        new_password: formData.new_password,
+      });
+      const response = await changePassword({
+        old_password: formData.old_password,
+        new_password: formData.new_password,
+      }).unwrap();
+      console.log("Change password response:", response);
+      setMessage("Password changed successfully!");
+      setFormData({ old_password: "", new_password: "", confirm_password: "" });
+      setTimeout(() => navigate("/profile"), 3000);
     } catch (err) {
-      console.error("Forgot password error:", err);
-      let errorMessage = "Failed to send reset link. Please try again.";
+      console.error("Change password error:", err);
+      let errorMessage = "Failed to change password. Please try again.";
       if (err.data) {
         if (typeof err.data === "string") {
           errorMessage = err.data;
@@ -80,10 +103,8 @@ const ForgotPasswordPage = () => {
       </div>
 
       <div className="bg-white rounded-2xl shadow-lg max-w-md p-6 md:p-8">
-        <h2 className="font-bold text-2xl text-primary">Reset Password</h2>
-        <p className="text-sm mt-2 text-gray-600">
-          Enter your email to receive a password reset link.
-        </p>
+        <h2 className="font-bold text-2xl text-primary">Change Password</h2>
+        <p className="text-sm mt-2 text-gray-600">Update your password below.</p>
 
         {message && (
           <div className="mt-4 p-2 bg-green-50 border border-green-200 text-green-600 text-sm rounded">
@@ -98,17 +119,49 @@ const ForgotPasswordPage = () => {
 
         <form onSubmit={handleSubmit} className="flex flex-col gap-4 mt-6">
           <div>
-            <label htmlFor="email" className="text-sm font-medium text-gray-700 block mb-1">
-              Email
+            <label htmlFor="old_password" className="text-sm font-medium text-gray-700 block mb-1">
+              Old Password
             </label>
             <input
-              id="email"
+              id="old_password"
               className="p-2.5 rounded-lg border w-full focus:border-purple-400 focus:ring-2 focus:ring-purple-200 focus:outline-none transition-all"
-              type="email"
-              name="email"
-              placeholder="your@email.com"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              type="password"
+              name="old_password"
+              placeholder="Enter old password"
+              value={formData.old_password}
+              onChange={handleChange}
+              required
+            />
+          </div>
+
+          <div>
+            <label htmlFor="new_password" className="text-sm font-medium text-gray-700 block mb-1">
+              New Password
+            </label>
+            <input
+              id="new_password"
+              className="p-2.5 rounded-lg border w-full focus:border-purple-400 focus:ring-2 focus:ring-purple-200 focus:outline-none transition-all"
+              type="password"
+              name="new_password"
+              placeholder="Enter new password"
+              value={formData.new_password}
+              onChange={handleChange}
+              required
+            />
+          </div>
+
+          <div>
+            <label htmlFor="confirm_password" className="text-sm font-medium text-gray-700 block mb-1">
+              Confirm New Password
+            </label>
+            <input
+              id="confirm_password"
+              className="p-2.5 rounded-lg border w-full focus:border-purple-400 focus:ring-2 focus:ring-purple-200 focus:outline-none transition-all"
+              type="password"
+              name="confirm_password"
+              placeholder="Confirm new password"
+              value={formData.confirm_password}
+              onChange={handleChange}
               required
             />
           </div>
@@ -142,18 +195,18 @@ const ForgotPasswordPage = () => {
                     d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
                   ></path>
                 </svg>
-                Sending...
+                Changing...
               </span>
             ) : (
-              "Send Reset Link"
+              "Change Password"
             )}
           </button>
         </form>
 
         <div className="mt-6 text-center text-sm text-gray-600">
           Back to{" "}
-          <Link to="/login" className="font-medium text-purple-600 hover:text-purple-500">
-            Login
+          <Link to="/profile" className="font-medium text-purple-600 hover:text-purple-500">
+            Profile
           </Link>
         </div>
       </div>
@@ -169,4 +222,4 @@ const ForgotPasswordPage = () => {
   );
 };
 
-export default ForgotPasswordPage;
+export default ChangePasswordPage;

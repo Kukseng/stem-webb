@@ -1,9 +1,9 @@
 import Banner from "../../components/common/Banner";
 import BlogCard from "../../components/common/blogcard/CardBlog";
 import StemEducationHeader from "../../components/common/cardstudent";
-import CourseCategories from "../../components/common/categorycourse/CourseCategories";
-import CourseListingPage from "../../components/common/categorycourse/CourseListingPage";
-import CourseCard from "../../components/common/courses/allcourse/allcourse-card";
+import CourseCategories from "../../components/categorycourse/CourseCategories";
+import CourseListingPage from "../../components/categorycourse/CourseListingPage";
+import CourseCard from "../../components/allcourse/allcourse-card";
 import FinancialEducationCards from "../../components/common/Deetailcard";
 import MainCategory from "../../components/common/MainCategory";
 import TeacherCourseUploadForm from "../../components/common/TeacherCourseUploadForm";
@@ -17,7 +17,7 @@ const HomePage = () => {
       
         <Banner />
         <MainCategory />
-        <ExampleWrapper/>
+        {/* <ExampleWrapper/> */}
         <CourseCategories />
         <CourseList />
         <CourseListingPage />
