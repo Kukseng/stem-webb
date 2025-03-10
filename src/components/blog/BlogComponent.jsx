@@ -56,7 +56,7 @@ const BlogComponent = () => {
           <p className="inline text-4xl font-bold pb-7 mb-2">អត្ថបទទាំងអស់</p>
           <a
               href="#"
-              className="flex items-center justify-center mb-2 text-sm px-6 w-[100px] h-[37px] text-white bg-primary rounded-[40px]"
+              className="mt-3 flex items-center justify-center mb-2 text-sm px-6 w-[100px] h-[37px] text-white bg-primary rounded-[40px]"
               >
               បង្ហោះថ្មី
           </a>
