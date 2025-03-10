@@ -1,15 +1,14 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router";
-import MainLayout from "../layouts/MainLayout";
 import HomePage from "../pages/contents/HomePage";
+import CoursePage from "../pages/contents/course/coursepage";
+import LecturerPage from "../pages/contents/LecturerPage";
 import AboutPage from "../pages/contents/AboutPage";
 import BlogPage from "../pages/contents/BlogPage";
-import LecturerPage from "../pages/contents/LecturerPage";
-import CoursePage from "../pages/contents/CoursePage";
-import SigninComponent from "../components/signupAndSignin/SigninComponent";
-import SignupComponent from "../components/signupAndSignin/SignupComponent";
-import ForgotPassword from "../components/signupAndSignin/ForgotPasswordComponent";
-import LoginPage from "../pages/auth/loginPage";
+import AllCoursePage from "../pages/contents/AllCoursePage";
+import CourseDetailPage from "../pages/contents/coursedetailpage";
+import AllCourseDetail from "../pages/contents/allcourse-detail";
+import MainLayout from "../layouts/MainLayout";
 
 export default function AppRoutes() {
   return (
@@ -19,58 +18,54 @@ export default function AppRoutes() {
           path="/"
           element={
             <MainLayout>
-              <HomePage />
+              <HomePage/>
+              </MainLayout>
+           
+          }
+        />
+        <Route
+          path="/courses"
+          element={
+            <MainLayout>
+              <CoursePage/>
             </MainLayout>
           }
         />
         <Route
-          path="/វគ្គសិក្សា"
+          path="/teacher"
           element={
             <MainLayout>
-              <CoursePage />
-            </MainLayout>
-          }
-        />
-
-        <Route
-          path="/គ្រូបង្រៀន"
-          element={
-            <MainLayout>
-              <LecturerPage />
+              <LecturerPage/>
             </MainLayout>
           }
         />
         <Route
-          path="/អំពីពួកយើង"
+          path="/aboutus"
           element={
             <MainLayout>
-              <AboutPage />
+             <AboutPage/>
             </MainLayout>
           }
         />
-        {/* <Route path="/" 
-                element={
-                    <MainLayout>
-                        <
-                    </MainLayout>
-                }
-                /> */}
         <Route
-          path="/មាតិកា"
+          path="/blog"
           element={
             <MainLayout>
-              <BlogPage />
+              <BlogPage/>
+            </MainLayout>
+          }
+        />
+        <Route
+          path="/allcourse"
+          element={
+            <MainLayout>
+              <AllCoursePage/>
             </MainLayout>
           }
         />
 
-        <Route path="/ចូលគណនី" element={ <LoginPage/> } />
-        
-        {/* <Route path="/ចូលគណនី" element={ <SigninComponent/> } /> */}
-
-        <Route path="/ចុះឈ្មោះថ្មី" element={<SignupComponent />} />
-
-        <Route path="/ភ្លេចលេខសម្ងាត់" element={<ForgotPassword />} />
+        <Route path="/courses/:courseId" element={<CourseDetailPage/>} />
+        <Route path="/lesson/${lessonId}" element={<AllCourseDetail/>} />
       </Routes>
     </Router>
   );
