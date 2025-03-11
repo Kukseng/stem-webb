@@ -9,6 +9,9 @@ const CoursesList = () => {
   });
   const courses = data?.results || [];
 
+  // Limit the courses to only 8
+  const limitedCourses = courses.slice(0, 6);
+
   useEffect(() => {
     console.log("Full courses data:", JSON.stringify(data, null, 2));
   }, [data]);
@@ -55,8 +58,8 @@ const CoursesList = () => {
         </header>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {courses.length > 0 ? (
-            courses.map((course) => (
+          {limitedCourses.length > 0 ? (
+            limitedCourses.map((course) => (
               <CourseCard key={course.id} course={course} />
             ))
           ) : (

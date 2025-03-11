@@ -2,7 +2,6 @@ import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router";
 import HomePage from "../pages/contents/HomePage";
 import CoursePage from "../pages/contents/course/coursepage";
-import LecturerPage from "../pages/contents/LecturerPage";
 import AboutPage from "../pages/contents/AboutPage";
 import BlogPage from "../pages/contents/BlogPage";
 import AllCoursePage from "../pages/contents/AllCoursePage";
@@ -14,9 +13,11 @@ import SigupPage from "../pages/auth/SigupPage";
 import ForgetForm from "../pages/auth/ForgetForm";
 import VerifyOtp from "../pages/auth/VerifyOtp";
 import UserProfile from "../components/common/userprofile/UserProfilecom";
-import CategoryDetailsPage from "../components/common/courses/Detail/Category-Detail";
+// import CategoryDetailsPage from "../components/common/courses/Detail/Category-Detail";
 import Categories from "../components/common/courses/Categories";
 import LessonsCard from "../components/lesson/LessonCard";
+import ForumPage from "../pages/contents/ForumPage";
+import BlogDetail from "../components/blog/BlogDetail";
 
 export default function AppRoutes() {
   return (
@@ -31,19 +32,19 @@ export default function AppRoutes() {
             </MainLayout>
           }
         />
-        <Route
+        {/* <Route
           path="/courses"
           element={
             <MainLayout>
               <CoursePage />
             </MainLayout>
           }
-        />
+        /> */}
         <Route
-          path="/teacher"
+          path="/forums"
           element={
             <MainLayout>
-              <LecturerPage />
+             <ForumPage/>
             </MainLayout>
           }
         />
@@ -63,9 +64,10 @@ export default function AppRoutes() {
             </MainLayout>
           }
         />
+         <Route path="/articles/:id" element={<BlogDetail/>} />
         {/* coures */}
         <Route
-          path="/allcourse"
+          path="/courses"
           element={
             <MainLayout>
               <AllCoursePage />
@@ -86,8 +88,22 @@ export default function AppRoutes() {
         <Route path="/profile" element={<UserProfile/>} />
 
 
-
-        
+        <Route path="/courses" element={<AllCoursePage />} />
+        <Route path="/courses/:courseId" element={
+           <MainLayout>
+          <AllCoursePage /></MainLayout>} />
+        <Route
+          path="/courses/:courseId/categories/:categoryId"
+          element={<AllCoursePage />}
+        />
+        <Route
+          path="/courses/:courseId/categories/:categoryId/lessons"
+          element={
+          <MainLayout>
+          <LessonsCard />
+          </MainLayout>
+          }
+        />
       </Routes>
     </Router>
   );

@@ -3,8 +3,6 @@ import { useParams, Link } from "react-router-dom";
 import { useGetCourseByUuidQuery } from "../../../api/courses-api";
 import { FaRegListAlt } from "react-icons/fa";
 
-
-
 const Categories = () => {
   const { courseId } = useParams();
   const { data, isLoading, isError, error, isFetching } = useGetCourseByUuidQuery(courseId);

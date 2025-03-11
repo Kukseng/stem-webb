@@ -1,63 +1,23 @@
-import React, { useState } from "react";
-import { FaCalendarAlt, FaEye, FaSearch, FaChevronLeft, FaChevronRight, FaBookmark, FaEdit, FaTrash, FaTimes } from "react-icons/fa";
-import { useSelector } from "react-redux";
+import React, { useState, useEffect } from "react";
+import { FaCalendarAlt, FaEye, FaSearch, FaChevronLeft, FaChevronRight, FaTags } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
-import {
-  useGetAllArticlesQuery,
-  useCreateArticleMutation,
-  useUpdateArticleMutation,
-  useDeleteArticleMutation,
-} from "../../api/articles-api"; // Adjust the import path based on your project structure
+import { useGetAllArticlesQuery } from "../../api/articles-api";
+import { motion, AnimatePresence } from "framer-motion";
+
 const BlogComponent = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState("");
-  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
-  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
-  const [selectedPost, setSelectedPost] = useState(null);
-  const [formData, setFormData] = useState({ title: "", content: "", image: "" });
+  const [isSearchFocused, setIsSearchFocused] = useState(false);
 
   const navigate = useNavigate();
-  const { user } = useSelector((state) => state.auth); // Assuming auth state is managed in Redux
-  const isLoggedIn = !!user;
 
   // Fetch all articles with pagination
   const { data, isLoading, isError, error } = useGetAllArticlesQuery({ page: currentPage });
 
-  // Mutations for CRUD operations
-  const [createArticle, { isLoading: isCreating }] = useCreateArticleMutation();
-  const [updateArticle, { isLoading: isUpdating }] = useUpdateArticleMutation();
-  const [deleteArticle, { isLoading: isDeleting }] = useDeleteArticleMutation();
-
-  // Popular posts and categories (static for now, can be fetched from API if needed)
-  const popularPosts = [
-    {
-      id: 7,
-      title: "បង្កើតកម្មវិធី ដែលលេចធ្លោមួយនៅឆ្នាំ 2023",
-      image: "https://via.placeholder.com/100x100/16789e/ffffff?text=Popular+1",
-      date: "មករា 24, 2023",
-    },
-    {
-      id: 8,
-      title: "បង្កើតកម្មវិធី ដែលលេចធ្លោមួយនៅឆ្នាំ 2023",
-      image: "https://via.placeholder.com/100x100/16789e/ffffff?text=Popular+2",
-      date: "មករា 20, 2023",
-    },
-    {
-      id: 9,
-      title: "បង្កើតកម្មវិធី ដែលលេចធ្លោមួយនៅឆ្នាំ 2023",
-      image: "https://via.placeholder.com/100x100/16789e/ffffff?text=Popular+3",
-      date: "មករា 18, 2023",
-    },
-  ];
-
-  const categories = [
-    { name: "ផ្នែក", count: 15 },
-    { name: "សេវាកម្ម", count: 15 },
-    { name: "អីវ៉ាន់", count: 15 },
-    { name: "ដំណឹង", count: 15 },
-    { name: "វិភាគលំហូរឥវ៉ាន់", count: 15 },
-    { name: "តម្លៃឥវ៉ាន់", count: 15 },
-  ];
+  // Handle view article
+  const handleViewArticle = (id) => {
+    navigate(`/articles/${id}`);
+  };
 
   // Handle page change
   const handlePageChange = (page) => {
@@ -69,399 +29,324 @@ const BlogComponent = () => {
   const handleSearch = (e) => {
     e.preventDefault();
     console.log("Searching for:", searchTerm);
-    // Implement search functionality here (e.g., filter articles or modify API query)
+    // Implement search functionality here
   };
 
-  // Handle form input changes
-  const handleInputChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
+  const totalPages = data?.count ? Math.ceil(data.count / 10) : 1;
 
-  // Handle create article
-  const handleCreateArticle = async (e) => {
-    e.preventDefault();
-    try {
-      await createArticle(formData).unwrap();
-      setIsCreateModalOpen(false);
-      setFormData({ title: "", content: "", image: "" });
-    } catch (err) {
-      console.error("Failed to create article:", err);
-    }
-  };
-
-  // Handle edit article
-  const handleEditArticle = (post) => {
-    setSelectedPost(post);
-    setFormData({ title: post.title, content: post.content, image: post.image });
-    setIsEditModalOpen(true);
-  };
-
-  const handleUpdateArticle = async (e) => {
-    e.preventDefault();
-    try {
-      await updateArticle({ id: selectedPost.id, ...formData }).unwrap();
-      setIsEditModalOpen(false);
-      setSelectedPost(null);
-      setFormData({ title: "", content: "", image: "" });
-    } catch (err) {
-      console.error("Failed to update article:", err);
-    }
-  };
-
-  // Handle delete article
-  const handleDeleteArticle = async (id) => {
-    if (window.confirm("Are you sure you want to delete this article?")) {
-      try {
-        await deleteArticle(id).unwrap();
-      } catch (err) {
-        console.error("Failed to delete article:", err);
+  // For pagination display
+  const getPageNumbers = () => {
+    const pages = [];
+    const maxVisiblePages = 5;
+    
+    if (totalPages <= maxVisiblePages) {
+      for (let i = 1; i <= totalPages; i++) {
+        pages.push(i);
+      }
+    } else {
+      if (currentPage <= 3) {
+        for (let i = 1; i <= 5; i++) {
+          pages.push(i);
+        }
+      } else if (currentPage >= totalPages - 2) {
+        for (let i = totalPages - 4; i <= totalPages; i++) {
+          pages.push(i);
+        }
+      } else {
+        for (let i = currentPage - 2; i <= currentPage + 2; i++) {
+          pages.push(i);
+        }
       }
     }
+    
+    return pages;
   };
 
-  // Calculate total pages for pagination
-  const totalPages = data?.count ? Math.ceil(data.count / 10) : 1; // Assuming 10 items per page
-
   return (
-    <div className="max-w-6xl mx-auto px-4 py-8 font-sans">
-      {/* Header */}
-      {/* <header className="flex flex-col md:flex-row justify-between items-center mb-8">
-        <h1 className="text-3xl font-bold text-gray-800 mb-4 md:mb-0">
-          អត្ថបទទាំងអស់
-        </h1>
-        <div className="w-full md:w-auto">
-          {isLoggedIn ? (
-            <button
-              onClick={() => setIsCreateModalOpen(true)}
-              className="w-full md:w-auto px-6 py-2 bg-[#16789e] text-white rounded-full hover:bg-opacity-90 transition-colors font-medium"
-            >
-              បង្កើតអត្ថបទថ្មី
-            </button>
-          ) : (
-            <button
-              onClick={() => navigate("/login")}
-              className="w-full md:w-auto px-6 py-2 bg-[#16789e] text-white rounded-full hover:bg-opacity-90 transition-colors font-medium"
-            >
-              ចាប់ផ្តើម
-            </button>
-          )}
-        </div>
-      </header> */}
-
+    <div className="max-w-6xl mx-auto px-4 py-12 font-sans bg-gray-50 min-h-screen">
+      <motion.h1 
+        className="text-3xl font-bold text-center mb-12 text-gray-800"
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+      >
+        ព័ត៌មាន និង អត្ថបទ
+      </motion.h1>
+      
       <div className="flex flex-col lg:flex-row gap-8">
         {/* Main Content */}
-        <div className="w-full lg:w-2/3">
-          {/* Loading and Error States */}
-          {isLoading && <p className="text-center text-gray-500">Loading articles...</p>}
-          {isError && (
-            <p className="text-center text-red-500">
-              Error loading articles: {error?.data?.message || "Something went wrong"}
-            </p>
-          )}
+        <motion.div 
+          className="w-full lg:w-2/3"
+          initial={{ opacity: 0, x: -20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.5, delay: 0.2 }}
+        >
+          {/* Loading State */}
+          <AnimatePresence>
+            {isLoading && (
+              <motion.div 
+                className="flex justify-center py-20"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+              >
+                <div className="flex flex-col items-center">
+                  <div className="w-12 h-12 border-4 border-t-[#16789e] border-gray-200 rounded-full animate-spin"></div>
+                  <p className="mt-4 text-gray-600">កំពុងផ្ទុកអត្ថបទ...</p>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+
+          {/* Error State */}
+          <AnimatePresence>
+            {isError && (
+              <motion.div 
+                className="bg-red-50 p-6 rounded-lg text-center"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+              >
+                <p className="text-red-500 font-medium">
+                  មានបញ្ហាក្នុងការផ្ទុកអត្ថបទ: {error?.data?.message || "សូមព្យាយាមម្តងទៀត"}
+                </p>
+              </motion.div>
+            )}
+          </AnimatePresence>
 
           {/* Blog Grid */}
           {!isLoading && !isError && data?.results && (
-            <div className="grid md:grid-cols-2 gap-6">
-              {data.results.map((post) => (
-                <div
-                  key={post.id}
-                  className="bg-white rounded-lg shadow-md overflow-hidden transform hover:-translate-y-1 transition-transform duration-300 hover:shadow-lg"
-                >
-                  <div className="relative">
-                    <img
-                      src={post.image}
-                      alt={post.title}
-                      className="w-full h-48 object-cover"
-                      onError={(e) => (e.target.src = "")}
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
-                    <button className="absolute top-3 right-3 bg-white p-2 rounded-full shadow-md hover:bg-gray-100 transition-colors">
-                      <FaBookmark className="text-[#16789e]" />
-                    </button>
-                  </div>
-                  <div className="p-5">
-                    <h2 className="text-xl font-bold text-gray-800 mb-2 hover:text-[#16789e] transition-colors">
-                      <a href="#">{post.title}</a>
-                    </h2>
-                    <div className="flex items-center text-gray-500 text-sm mb-3">
-                      <div className="flex items-center mr-4">
-                        <FaCalendarAlt className="mr-1 text-[#16789e]" />
-                        <span>{new Date(post.created_at).toLocaleDateString("km-KH")}</span>
-                      </div>
-                      <div className="flex items-center">
-                        <FaEye className="mr-1 text-[#16789e]" />
-                        <span>{post.views || 0}</span>
-                      </div>
+            <AnimatePresence>
+              <motion.div 
+                className="grid md:grid-cols-2 gap-6"
+                initial="hidden"
+                animate="visible"
+                variants={{
+                  visible: {
+                    transition: {
+                      staggerChildren: 0.1
+                    }
+                  }
+                }}
+              >
+                {data.results.map((post, index) => (
+                  <motion.div
+                    key={post.id}
+                    className="bg-white rounded-lg shadow-md overflow-hidden cursor-pointer group"
+                    onClick={() => handleViewArticle(post.id)}
+                    variants={{
+                      hidden: { opacity: 0, y: 20 },
+                      visible: { opacity: 1, y: 0, transition: { duration: 0.4 } }
+                    }}
+                    whileHover={{ 
+                      y: -8,
+                      transition: { duration: 0.2 }
+                    }}
+                  >
+                    <div className="relative overflow-hidden">
+                      <motion.img
+                        src={post.image}
+                        alt={post.title}
+                        className="w-full h-52 object-cover transition-transform"
+                        whileHover={{ scale: 1.05 }}
+                        transition={{ duration: 0.3 }}
+                        onError={(e) => (e.target.src = "https://via.placeholder.com/400x200?text=No+Image")}
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
                     </div>
-                    <p className="text-gray-600 mb-4 line-clamp-2">{post.content}</p>
-                    <div className="flex justify-between items-center">
-                      <a
-                        href="#"
-                        className="inline-block text-[#16789e] font-medium hover:underline"
-                      >
-                        អានបន្ថែម
-                      </a>
-                      {isLoggedIn && (
-                        <div className="flex space-x-2">
-                          <button
-                            onClick={() => handleEditArticle(post)}
-                            className="text-[#16789e] hover:text-[#1e8fb8] transition-colors"
-                          >
-                            <FaEdit />
-                          </button>
-                          <button
-                            onClick={() => handleDeleteArticle(post.id)}
-                            className="text-red-500 hover:text-red-600 transition-colors"
-                            disabled={isDeleting}
-                          >
-                            <FaTrash />
-                          </button>
+                    <div className="p-6">
+                      <h2 className="text-xl font-bold text-gray-800 mb-3 group-hover:text-[#16789e] transition-colors">
+                        {post.title}
+                      </h2>
+                      <div className="flex items-center text-gray-500 text-sm mb-4">
+                        <div className="flex items-center mr-4">
+                          <FaCalendarAlt className="mr-1 text-[#16789e]" />
+                          <span>{new Date(post.created_at).toLocaleDateString("km-KH")}</span>
                         </div>
-                      )}
+                        <div className="flex items-center">
+                          <FaEye className="mr-1 text-[#16789e]" />
+                          <span>{post.views || 0}</span>
+                        </div>
+                      </div>
+                      <p className="text-gray-600 mb-4 line-clamp-3">{post.content}</p>
+                      <div className="flex justify-between items-center pt-2 border-t border-gray-100">
+                        <motion.button
+                          className="inline-block px-4 py-2 rounded-md bg-[#16789e]/10 text-[#16789e] font-medium hover:bg-[#16789e]/20 transition-colors"
+                          whileHover={{ scale: 1.03 }}
+                          whileTap={{ scale: 0.98 }}
+                        >
+                          អានបន្ថែម
+                        </motion.button>
+                      </div>
                     </div>
-                  </div>
-                </div>
-              ))}
-            </div>
+                  </motion.div>
+                ))}
+              </motion.div>
+            </AnimatePresence>
+          )}
+
+          {/* No Results */}
+          {!isLoading && !isError && (!data?.results || data.results.length === 0) && (
+            <motion.div
+              className="bg-white p-10 rounded-lg shadow-md text-center"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+            >
+              <p className="text-gray-600">មិនមានអត្ថបទត្រូវបានរកឃើញ</p>
+            </motion.div>
           )}
 
           {/* Pagination */}
           {!isLoading && !isError && data?.count > 0 && (
-            <div className="flex justify-center mt-10">
-              <nav className="flex items-center space-x-2">
-                <button
+            <motion.div 
+              className="flex justify-center mt-12"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4, delay: 0.3 }}
+            >
+              <nav className="flex items-center space-x-1 bg-white px-2 py-1 rounded-lg shadow-md">
+                <motion.button
                   onClick={() => handlePageChange(Math.max(1, currentPage - 1))}
-                  className="p-2 rounded-md hover:bg-gray-100 text-gray-600"
+                  className="p-2 rounded-md hover:bg-gray-100 text-gray-600 disabled:opacity-50 disabled:cursor-not-allowed"
                   disabled={currentPage === 1}
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 0.9 }}
                 >
                   <FaChevronLeft />
-                </button>
+                </motion.button>
 
-                {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
-                  <button
+                {getPageNumbers().map((page) => (
+                  <motion.button
                     key={page}
                     onClick={() => handlePageChange(page)}
-                    className={`w-8 h-8 flex items-center justify-center rounded-md ${
+                    className={`w-9 h-9 flex items-center justify-center rounded-md font-medium ${
                       currentPage === page
                         ? "bg-[#16789e] text-white"
                         : "text-gray-700 hover:bg-gray-100"
                     }`}
+                    whileHover={currentPage !== page ? { scale: 1.1, backgroundColor: "#e5f5fa" } : {}}
+                    whileTap={{ scale: 0.95 }}
                   >
                     {page}
-                  </button>
+                  </motion.button>
                 ))}
 
-                <button
+                <motion.button
                   onClick={() => handlePageChange(currentPage + 1)}
-                  className="p-2 rounded-md hover:bg-gray-100 text-gray-600"
+                  className="p-2 rounded-md hover:bg-gray-100 text-gray-600 disabled:opacity-50 disabled:cursor-not-allowed"
                   disabled={currentPage === totalPages}
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 0.9 }}
                 >
                   <FaChevronRight />
-                </button>
+                </motion.button>
               </nav>
-            </div>
+            </motion.div>
           )}
-        </div>
+        </motion.div>
 
         {/* Sidebar */}
-        <div className="w-full lg:w-1/3">
+        <motion.div 
+          className="w-full lg:w-1/3"
+          initial={{ opacity: 0, x: 20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.5, delay: 0.3 }}
+        >
           {/* Search */}
-          <div className="bg-white p-5 rounded-lg shadow-md mb-6">
-            <form onSubmit={handleSearch} className="relative">
-              <input
-                type="text"
-                placeholder="ស្វែងរក..."
-                className="w-full py-2 px-4 pr-10 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#16789e] focus:border-transparent"
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-              />
-              <button
-                type="submit"
-                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-[#16789e]"
-              >
-                <FaSearch />
-              </button>
+          <motion.div 
+            className={`bg-white p-6 rounded-lg shadow-md mb-6 ${isSearchFocused ? 'ring-2 ring-[#16789e]/30' : ''}`}
+            whileHover={{ y: -3 }}
+            transition={{ duration: 0.2 }}
+          >
+            <form onSubmit={handleSearch}>
+              <div className="relative">
+                <input
+                  type="text"
+                  placeholder="ស្វែងរក..."
+                  className="w-full py-3 px-4 pr-10 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#16789e] focus:border-transparent transition-all"
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  onFocus={() => setIsSearchFocused(true)}
+                  onBlur={() => setIsSearchFocused(false)}
+                />
+                <motion.button
+                  type="submit"
+                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-[#16789e]"
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 0.9 }}
+                >
+                  <FaSearch />
+                </motion.button>
+              </div>
             </form>
-          </div>
+          </motion.div>
 
-          {/* Categories */}
-          <div className="bg-white p-5 rounded-lg shadow-md mb-6">
-            <h3 className="text-xl font-bold text-gray-800 mb-4">ប្រភេទ</h3>
-            <ul className="space-y-2">
-              {categories.map((category, index) => (
-                <li key={index} className="flex justify-between items-center py-2 border-b last:border-0">
-                  <a href="#" className="text-gray-700 hover:text-[#16789e]">
-                    {category.name}
-                  </a>
-                  <span className="bg-gray-100 text-gray-700 px-2 py-1 rounded-full text-xs">
-                    {category.count}
-                  </span>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Popular Posts */}
-          <div className="bg-white p-5 rounded-lg shadow-md">
-            <h3 className="text-xl font-bold text-gray-800 mb-4">អត្ថបទថ្មីៗ</h3>
+          {/* Featured or Recent Posts */}
+          <motion.div 
+            className="bg-white p-6 rounded-lg shadow-md mb-6"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.4 }}
+          >
+            <h3 className="text-xl font-bold mb-4 text-gray-800 border-b pb-2">អត្ថបទថ្មីៗ</h3>
             <div className="space-y-4">
-              {popularPosts.map((post) => (
-                <div key={post.id} className="flex gap-3">
-                  <img
-                    src={post.image}
-                    alt={post.title}
-                    className="w-20 h-20 object-cover rounded-md"
-                  />
-                  <div className="flex flex-col">
-                    <h4 className="font-medium hover:text-[#16789e]">
-                      <a href="#">{post.title}</a>
-                    </h4>
-                    <span className="text-sm text-gray-500 mt-1">{post.date}</span>
-                  </div>
-                </div>
+              {!isLoading && !isError && data?.results && 
+                data.results.slice(0, 3).map((post) => (
+                  <motion.div 
+                    key={`recent-${post.id}`}
+                    className="flex gap-3 cursor-pointer"
+                    onClick={() => handleViewArticle(post.id)}
+                    whileHover={{ x: 3 }}
+                  >
+                    <div className="w-20 h-20 bg-gray-200 rounded-md overflow-hidden flex-shrink-0">
+                      <img 
+                        src={post.image} 
+                        alt="" 
+                        className="w-full h-full object-cover"
+                        onError={(e) => (e.target.src = "https://via.placeholder.com/80?text=No+Image")}
+                      />
+                    </div>
+                    <div>
+                      <h4 className="font-medium text-gray-800 line-clamp-2 hover:text-[#16789e] transition-colors">
+                        {post.title}
+                      </h4>
+                      <div className="flex items-center mt-1 text-xs text-gray-500">
+                        <FaCalendarAlt className="mr-1 text-[#16789e]" />
+                        <span>{new Date(post.created_at).toLocaleDateString("km-KH")}</span>
+                      </div>
+                    </div>
+                  </motion.div>
+                ))
+              }
+            </div>
+          </motion.div>
+
+          {/* Tags or Categories */}
+          <motion.div 
+            className="bg-white p-6 rounded-lg shadow-md"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.5 }}
+          >
+            <h3 className="text-xl font-bold mb-4 text-gray-800 border-b pb-2">ប្រភេទអត្ថបទ</h3>
+            <div className="flex flex-wrap gap-2 mt-4">
+              {["ព័ត៌មានថ្មីៗ", "សុខភាព", "ការអប់រំ", "បច្ចេកវិទ្យា", "វប្បធម៌"].map((tag) => (
+                <motion.div 
+                  key={tag}
+                  className="px-3 py-1.5 bg-gray-100 rounded-full text-gray-700 text-sm flex items-center gap-1.5 cursor-pointer hover:bg-[#16789e]/10 hover:text-[#16789e]"
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  <FaTags className="text-xs" />
+                  <span>{tag}</span>
+                </motion.div>
               ))}
             </div>
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
       </div>
-
-      {/* Create Article Modal */}
-      {isCreateModalOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 backdrop-blur-sm">
-          <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-md transform transition-transform duration-300 scale-95 hover:scale-100">
-            <div className="flex justify-between items-center mb-4">
-              <h2 className="text-2xl font-bold">បង្កើតអត្ថបទថ្មី</h2>
-              <button
-                onClick={() => setIsCreateModalOpen(false)}
-                className="text-gray-500 hover:text-gray-700"
-              >
-                <FaTimes />
-              </button>
-            </div>
-            <form onSubmit={handleCreateArticle}>
-              <div className="mb-4">
-                <label className="block text-gray-700 mb-2">ចំណងជើង</label>
-                <input
-                  type="text"
-                  name="title"
-                  value={formData.title}
-                  onChange={handleInputChange}
-                  className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-[#16789e]"
-                  required
-                />
-              </div>
-              <div className="mb-4">
-                <label className="block text-gray-700 mb-2">ខ្លឹមសារ</label>
-                <textarea
-                  name="content"
-                  value={formData.content}
-                  onChange={handleInputChange}
-                  className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-[#16789e]"
-                  rows="4"
-                  required
-                ></textarea>
-              </div>
-              <div className="mb-4">
-                <label className="block text-gray-700 mb-2">រូបភាព (URL)</label>
-                <input
-                  type="text"
-                  name="image"
-                  value={formData.image}
-                  onChange={handleInputChange}
-                  className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-[#16789e]"
-                  required
-                />
-              </div>
-              <div className="flex justify-end space-x-2">
-                <button
-                  type="button"
-                  onClick={() => setIsCreateModalOpen(false)}
-                  className="px-4 py-2 bg-gray-300 rounded-lg hover:bg-gray-400"
-                >
-                  បោះបង់
-                </button>
-                <button
-                  type="submit"
-                  className="px-4 py-2 bg-[#16789e] text-white rounded-lg hover:bg-opacity-90"
-                  disabled={isCreating}
-                >
-                  {isCreating ? "កំពុងបង្កើត..." : "បង្កើត"}
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
-      )}
-
-      {/* Edit Article Modal */}
-      {isEditModalOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 backdrop-blur-sm">
-          <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-md transform transition-transform duration-300 scale-95 hover:scale-100">
-            <div className="flex justify-between items-center mb-4">
-              <h2 className="text-2xl font-bold">កែសម្រួលអត្ថបទ</h2>
-              <button
-                onClick={() => setIsEditModalOpen(false)}
-                className="text-gray-500 hover:text-gray-700"
-              >
-                <FaTimes />
-              </button>
-            </div>
-            <form onSubmit={handleUpdateArticle}>
-              <div className="mb-4">
-                <label className="block text-gray-700 mb-2">ចំណងជើង</label>
-                <input
-                  type="text"
-                  name="title"
-                  value={formData.title}
-                  onChange={handleInputChange}
-                  className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-[#16789e]"
-                  required
-                />
-              </div>
-              <div className="mb-4">
-                <label className="block text-gray-700 mb-2">ខ្លឹមសារ</label>
-                <textarea
-                  name="content"
-                  value={formData.content}
-                  onChange={handleInputChange}
-                  className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-[#16789e]"
-                  rows="4"
-                  required
-                ></textarea>
-              </div>
-              <div className="mb-4">
-                <label className="block text-gray-700 mb-2">រូបភាព (URL)</label>
-                <input
-                  type="text"
-                  name="image"
-                  value={formData.image}
-                  onChange={handleInputChange}
-                  className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-[#16789e]"
-                  required
-                />
-              </div>
-              <div className="flex justify-end space-x-2">
-                <button
-                  type="button"
-                  onClick={() => setIsEditModalOpen(false)}
-                  className="px-4 py-2 bg-gray-300 rounded-lg hover:bg-gray-400"
-                >
-                  បោះបង់
-                </button>
-                <button
-                  type="submit"
-                  className="px-4 py-2 bg-[#16789e] text-white rounded-lg hover:bg-opacity-90"
-                  disabled={isUpdating}
-                >
-                  {isUpdating ? "កំពុងកែសម្រួល..." : "កែសម្រួល"}
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
-      )}
     </div>
   );
 };
 
-export default BlogComponent; 
+export default BlogComponent;

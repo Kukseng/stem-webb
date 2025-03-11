@@ -27,7 +27,7 @@ const stemMenuItems = [
     label: "ALL",
     description: "រៀនអំពីជីវវិទ្យា គីមីវិទ្យា និងរូបវិទ្យា",
     icon: Beaker,
-    href: "/allcourse",
+    href: "/courses",
   },
   {
     label: "រូបវិទ្យា",
@@ -65,7 +65,7 @@ const profileMenuItems = [
 const navItems = [
   { label: "ទំព័រដើម", href: "/" },
   { label: "វគ្គសិក្សា", hasDropdown: true },
-  { label: "គ្រូបង្រៀន", href: "/teacher" },
+  { label: "វេទិកា", href: "/forums" },
   { label: "មាតិកា", href: "/blog" },
   { label: "អំពីពួកយើង", href: "/aboutus" },
 ];
@@ -155,7 +155,6 @@ function MainNavbar() {
             </div>
           </Link>
 
-          {/* Desktop Navigation */}
           <div className="hidden lg:flex items-center space-x-3 xl:space-x-6">
             {navItems.map((item) =>
               item.hasDropdown ? (
