@@ -1,10 +1,12 @@
 import React from "react";
 import loginIcon from "../../assets/iconsvg/signup.svg";
-import { Link } from "react-router";  
+import { Link } from "react-router";
+
+
 const LoginComponent = () => {
   return (
-    <>
-      <h1 className="font-suwannaphum font-bold text-4xl flex justify-center m-10 text-center sm:w-[95%] 2xl:w-[700px] max-w-[90%]">
+    <div className="">
+      <h1 className="font-suwannaphum font-bold text-4xl   m-10 text-center w-auto">
         ស្វាគមន៍មកកាន់ <span className="text-primary ml-2 sm:w-[95%]2xl:w-[700px] max-w-[90%]">ISTEM</span>
       </h1>
 
@@ -61,7 +63,7 @@ const LoginComponent = () => {
                 <input type="checkbox" className="mr-2" />
                 ចងចាំខ្ញុំ
               </label>
-              <Link to="/ភ្លេចលេខសម្ងាត់" className="text-gray-200 hover:underline">
+              <Link to="/forgotpassword" className="text-gray-200 hover:underline">
                 ភ្លេចលេខសម្ងាត់?
               </Link>
             </div>
@@ -77,11 +79,11 @@ const LoginComponent = () => {
             {/* No account? Register */}
             <div className="bg-primary text-sm font-light text-white text-center">
               មិនទាន់មានគណនី?{" "}
-              
-              <Link to="/ចុះឈ្មោះថ្មី" className="font-medium text-gray-200 hover:underline">
+
+              <Link to="/signup" className="font-medium text-gray-200 hover:underline">
                 ចុះឈ្មោះថ្មី
               </Link>
-              
+
             </div>
           </form>
 
@@ -134,7 +136,7 @@ const LoginComponent = () => {
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 }
 

@@ -11,7 +11,7 @@ const Inputform = () => {
 
     return (
         <div className='flex justify-center space-x-4 my-6 '>
-            <form className='w-[50%] grid gap-4'>
+            <form className='w-[60%] grid gap-4'>
                 <h4 className='text-2xl font-suwannaphum font-bold'>
                     ផ្តល់មតិ
                 </h4>
@@ -33,8 +33,8 @@ const Inputform = () => {
                 </div>
 
                 <div>
-                    <textarea name="" id="" placeholder='បញ្ចេញមតិ' className='w-full min-h-[130px] max-h-[130px]'>
-                        បញ្ចេញមតិ
+                    <textarea name="" id="" placeholder='បញ្ចេញមតិ' className='w-full min-h-[130px] max-h-[130px] rounded-md'>
+
                     </textarea>
                 </div>
 
@@ -44,7 +44,7 @@ const Inputform = () => {
                             type="checkbox"
                             checked={isChecked}
                             onChange={handleCheckboxChange}
-                            className='font-suwannaphum mr-4'
+                            className='font-suwannaphum mr-4 '
 
                         />
 
@@ -60,8 +60,8 @@ const Inputform = () => {
                     )}
                 </div>
                 <div>
-                    <button className=" rounded-full border-2 text-white bg-cyan-600 px-6 py-3 font-semibold uppercase transition-all duration-300 hover:translate-x-[-4px] hover:translate-y-[-10px] hover:shadow-[4px_4px_20px_black] active:translate-x-[0px] active:translate-y-[0px] active:rounded-2xl active:shadow-none">
-                        បង្ហោះ
+                    <button className=" rounded-full border-2 text-white bg-cyan-600 px-6 py-3 font-semibold uppercase transition-all duration-300 hover:translate-x-[-4px] hover:translate-y-[-10px] hover:shadow-[4px_4px_20px_black] active:translate-x-[0px] active:translate-y-[0px] active:rounded-full active:shadow-none">
+                        បង្ហោះមតិ
                     </button>
                 </div>
             </form>

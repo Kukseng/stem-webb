@@ -24,9 +24,6 @@ const AllCoursePage = () => {
 
   return (
     <div className="bg-gray-50">
-      <div className="flex justify-center">
-        <Coursenav />
-      </div>
       <div className="max-w-[1300px] mx-auto px-4">
         <header className="flex mb-10 justify-between items-center relative overflow-hidden">
           <div className="flex items-center group">

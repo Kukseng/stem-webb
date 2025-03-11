@@ -2,10 +2,10 @@ import React from "react";
 import forgotPasswordIcon from "../../assets/iconsvg/signup.svg";
 import { Link } from "react-router";
 
-  const  ForgotPassword = () => {
+const ForgotPassword = () => {
   return (
-    <>
-      <h1 className="font-suwannaphum font-bold text-4xl flex justify-center m-10 text-center sm:w-[95%] 2xl:w-[700px] max-w-[90%]">
+    <div className="">
+      <h1 className="font-suwannaphum font-bold text-4xl  m-10 text-center w-auto">
         ភ្លេចពាក្យសម្ងាត់?</h1>
 
       {/* mx-4 sm:mx-8 lg:mx-16 my-10
@@ -67,7 +67,7 @@ import { Link } from "react-router";
           </form>
         </div>
       </div>
-    </>
+    </div>
   );
 }
 

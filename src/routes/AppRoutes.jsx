@@ -2,7 +2,6 @@ import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router";
 import HomePage from "../pages/contents/HomePage";
 import CoursePage from "../pages/contents/course/coursepage";
-import LecturerPage from "../pages/contents/LecturerPage";
 import AboutPage from "../pages/contents/AboutPage";
 import BlogPage from "../pages/contents/BlogPage";
 import AllCoursePage from "../pages/contents/AllCoursePage";
@@ -20,6 +19,14 @@ import Biology from "../components/biology/Biology";
 import Physics from "../components/physics/Physics";
 import { RevealLinks } from "../components/navbar/MainNavbar";
 import Uploadfrom from "../components/upload/Uploadfrom";
+import TeacherCourseUploadForm from "../components/common/TeacherCourseUploadForm";
+import { Upload } from "lucide-react";
+import LecturerPage from "../pages/contents/LecturerPage";
+import SignupComponent from "../components/signupAndSignin/SignupComponent";
+import LoginComponent from "../components/signupAndSignin/SigninComponent";
+import ForgotPassword from "../components/signupAndSignin/ForgotPasswordComponent";
+
+
 
 export default function AppRoutes() {
   return (
@@ -46,7 +53,7 @@ export default function AppRoutes() {
           path="/teacher"
           element={
             <MainLayout>
-              <Uploadfrom />
+              <Profile />
             </MainLayout>
           }
         />
@@ -86,10 +93,10 @@ export default function AppRoutes() {
 
 
         {/* Form */}
-        <Route path="/login" element={<LoginForm />} />
-        <Route path="/signup" element={<SigupPage />} />
+        <Route path="/login" element={<LoginComponent />} />
+        <Route path="/signup" element={<SignupComponent />} />
         <Route path="/verify-otp" element={<VerifyOtp />} />
-        <Route path="/forgot-password" element={<ForgetForm />} />
+        <Route path="/forgotpassword" element={<ForgotPassword />} />
 
 
 

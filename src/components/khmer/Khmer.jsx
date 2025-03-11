@@ -6,7 +6,6 @@ const Khmer = () => {
     <div>
       <MathHero />
       <div className="flex justify-center">
-        <Coursenav />
       </div>
     </div>
   );

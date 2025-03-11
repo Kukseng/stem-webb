@@ -6,7 +6,6 @@ const Biology = () => {
         <div>
             <PhysicsHero />
             <div className="flex justify-center">
-                <Coursenav />
             </div>
         </div>
     )

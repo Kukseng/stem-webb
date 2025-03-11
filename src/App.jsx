@@ -1,10 +1,12 @@
 import AppRoutes from "./routes/AppRoutes";
 import { motion, useScroll } from "framer-motion"
+
+
 function App() {
   const { scrollYProgress } = useScroll();
   return (
     <>
-       <motion.div
+      <motion.div
         style={{
           scaleX: scrollYProgress,
           position: "fixed",
