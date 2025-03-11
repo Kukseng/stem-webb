@@ -10,6 +10,7 @@ import CourseDetailPage from "../pages/contents/coursedetailpage";
 import AllCourseDetail from "../pages/contents/allcourse-detail";
 import MainLayout from "../layouts/MainLayout";
 import Profile from "../components/layout/counten/Profile"; 
+import Profile_two from "../components/layout/counten/Profile_two";
 export default function AppRoutes() {
   return (
     <Router>
@@ -67,7 +68,7 @@ export default function AppRoutes() {
           path="/profile"
           element={
             <MainLayout>
-              <Profile/>
+              <Profile_two/>
             </MainLayout>
           }
         />

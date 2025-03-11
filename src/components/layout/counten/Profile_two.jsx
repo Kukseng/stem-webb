@@ -1,4 +1,3 @@
-
 import { Pin } from "lucide-react";
 import { Mail, Phone,MapPin,Timer,KeyRound,EyeOff } from "lucide-react";
 import lg from "../../../assets/logo-Conten.svg";
@@ -7,36 +6,12 @@ import { FaChevronRight } from "react-icons/fa6";
 import { MdOutlineWork } from "react-icons/md";
 import { VscSignOut } from "react-icons/vsc";
 
-const Profile = () => {
-  return (
-    <div className="font-suwannaphum max-w-[1300px] 2xl:max-w-content2xl lg:max-w-contentlg md:max-w-contentmd sm:max-w-contentsm mx-auto p-10 flex gap-10">
-        <div className="w-1/4 ">
-           <div className="mb-10">
-           <div className=" bg-white p-5 mb-10 justify-between">
-            <div className="text-gray-800 mb-10">
-                  <h2 ><a href="#" className="flex  items-center justify-between"><div className="flex items-center gap-2"><FaBook/> ការគ្រប់គ្រង</div> <FaChevronRight /></a></h2>
-                 </div>
-                  <div className="text-gray-800 mb-10">
-                     <h2 ><a href="#" className="flex  items-center justify-between"><div className="flex items-center gap-2"><FaBook/> វីដេអូសិក្សា</div> <FaChevronRight /></a></h2>
-                 </div>
-                 <div className="text-gray-800 mb-10">
-                        <h2 ><a href="#" className="flex  items-center justify-between"><div className="flex items-center gap-2"><FaBook/> របាយការណ៍ម៉ោង</div> <FaChevronRight /></a></h2>
-                 </div>
-                  <div className="text-gray-800 mb-10">
-                     <h2 ><a href="#" className="flex  items-center justify-between"><div className="flex items-center gap-2"><FaBook/> របាយការណ៍សំណួរ</div> <FaChevronRight /></a></h2>
-                 </div>
-          </div>
-            <div>
-            <button className=" border border-gray-500 text-gray-700 px-4 py-2 rounded-full flex items-center gap-5">
-             បោះបង់ <VscSignOut /> 
-          </button>
-            </div>
-           </div>
-        </div>
+import React from 'react'
 
-      <div className="w-3/4">
-      {/* Header */}
-      <div className="font-bold text-2xl text-gray-800 mb-6">
+const Profile_two = () => {
+  return (
+    <div className="font-suwannaphum max-w-[1300px] 2xl:max-w-content2xl lg:max-w-contentlg md:max-w-contentmd sm:max-w-contentsm mx-auto p-10">
+        <div className="font-bold text-2xl text-gray-800 mb-6">
         <h1>កម្រោងព័ត៍មាន​អ្នកប្រើប្រាស់</h1>
         <hr className="mb-6" />
       </div>
@@ -203,10 +178,8 @@ const Profile = () => {
           </button>
         </div>
       </div>
-      </div>
     </div>
-
-  );
+  )
 }
 
-export default Profile
+export default Profile_two

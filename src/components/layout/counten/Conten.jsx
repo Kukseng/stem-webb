@@ -14,7 +14,7 @@ import { BiSolidShare } from "react-icons/bi";
 import { CircularPagination } from "../../common/Pegenation";
 
 const Conten = () => (
-  <div className="font-suwannaphum max-w-[1300px] mx-auto p-10 flex gap-10">
+  <div className="font-suwannaphum max-w-[1300px] 2xl:max-w-content2xl lg:max-w-contentlg md:max-w-contentmd sm:max-w-contentsm mx-auto p-10 flex gap-10">
     {/* Main Content */}
     <div className="w-3/4">
       <h1 className="text-3xl font-bold mb-5">វគ្គសិក្សារ HTML ល្អបំផុតសម្រាប់ឆ្នាំ 2025 🚀</h1>

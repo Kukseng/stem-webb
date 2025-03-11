@@ -114,7 +114,7 @@ function MainNavbar() {
           </Link>
 
           {/* Desktop Navigation */}
-          <div className="hidden lg:flex items-center space-x-3 xl:space-x-6">
+          <div className="hidden lg:flex 2xl:max-w-content2xl lg:max-w-contentlg md:max-w-contentmd sm:max-w-contentsm items-center space-x-3 xl:space-x-8">
             {navItems.map((item) =>
               item.hasDropdown ? (
                 <Dropdown
