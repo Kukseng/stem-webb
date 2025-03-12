@@ -23,8 +23,8 @@ export default {
         "6xl": "4rem",
       },
       colors: {
-        primary: "#16789e",
-        secondary: "#9333EA",
+       primary:" #16789e",
+        secondary: "#FFFF8F",
         accent: "#F59E0B",
         descrid:"#384D6C",
         hover:"#1e8fb8",

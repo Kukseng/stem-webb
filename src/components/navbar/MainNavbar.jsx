@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-
 import {
   Search,
   ChevronDown,
@@ -15,19 +14,20 @@ import {
   LucideHelpingHand,
   LogOut,
 } from "lucide-react";
-
-import image from "../../assets/markup-cropped.svg";
-import { Link } from "react-router";
-import { Dropdown, Button } from "flowbite-react";
+import { Link, useNavigate } from "react-router";
+import { Dropdown } from "flowbite-react";
 import logomodified from "../../assets/images/logo/o-removebg-preview.png";
-
+import { useGetProfileQuery } from "../../api/auth-api";
+import { useDispatch } from "react-redux";
+import { setCredentials, logout } from "../../redux/services/authSlice";
+import { motion, AnimatePresence } from "framer-motion"; // For animations
 
 const stemMenuItems = [
   {
     label: "ALL",
     description: "រៀនអំពីជីវវិទ្យា គីមីវិទ្យា និងរូបវិទ្យា",
     icon: Beaker,
-    href: "/allcourse",
+    href: "/courses",
   },
   {
     label: "រូបវិទ្យា",
@@ -56,25 +56,45 @@ const stemMenuItems = [
 ];
 
 const profileMenuItems = [
-  { label: "ប្រវត្តិរូប", icon: UserCircle },
-  { label: "កែប្រែប្រវត្តិរូប", icon: Settings },
-  { label: "សារ", icon: Inbox },
-  { label: "ជំនួយ", icon: LucideHelpingHand },
-  { label: "ចាកចេញ", icon: LogOut },
+  { label: "ប្រវត្តិរូប", icon: UserCircle, href: "/profile" },
+  { label: "កែប្រែប្រវត្តិរូប", icon: Settings, href: "/edit-profile" },
+  { label: "សារ", icon: Inbox, href: "/messages" },
+  { label: "ជំនួយ", icon: LucideHelpingHand, href: "/help" },
 ];
 
 const navItems = [
   { label: "ទំព័រដើម", href: "/" },
-  { label: "វគ្គសិក្សា",icon:Dropdown, hasDropdown: true },
-  { label: "គ្រូបង្រៀន", href: "/teacher" },
+  { label: "វគ្គសិក្សា", hasDropdown: true },
+  { label: "វេទិកា", href: "/forums" },
   { label: "មាតិកា", href: "/blog" },
   { label: "អំពីពួកយើង", href: "/aboutus" },
 ];
-function MainNavbar() {
 
+function MainNavbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(
+    !!localStorage.getItem("access_token")
+  );
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const accessToken = localStorage.getItem("access_token");
+    const refreshToken = localStorage.getItem("refresh_token");
+    if (accessToken && refreshToken) {
+      dispatch(setCredentials({ access: accessToken, refresh: refreshToken }));
+      setIsLoggedIn(true);
+    }
+  }, [dispatch]);
+
+  const {
+    data: profile,
+    isLoading: profileLoading,
+    error: profileError,
+  } = useGetProfileQuery(undefined, {
+    skip: !isLoggedIn,
+  });
 
   useEffect(() => {
     const handleScroll = () => {
@@ -86,19 +106,37 @@ function MainNavbar() {
 
   const handleLinkClick = () => {
     setIsMobileMenuOpen(false);
+  };
 
+  const handleLogout = () => {
+    localStorage.removeItem("access_token");
+    localStorage.removeItem("refresh_token");
+    dispatch(logout());
+    setIsLoggedIn(false);
+    navigate("/login");
+  };
+
+  const userName = profileLoading
+    ? "Loading..."
+    : profile?.username || "User";
+
+  // Dropdown Animation Variants
+  const dropdownVariants = {
+    hidden: { opacity: 0, y: -10, scale: 0.95 },
+    visible: { opacity: 1, y: 0, scale: 1 },
+    exit: { opacity: 0, y: -10, scale: 0.95 },
   };
 
   return (
     <nav
-      className={`bg-white bg-opacity-30 backdrop-blur-md sticky top-0 z-50 transition-shadow duration-200 ${isScrolled ? "shadow-md" : "border-b border-gray-100"
-        }`}
+      className={`bg-white bg-opacity-30 backdrop-blur-md sticky top-0 z-50 transition-shadow duration-300 ${
+        isScrolled ? "shadow-lg" : "border-b border-gray-100"
+      }`}
     >
       <div className="w-full">
-        <div className=" mx-auto flex items-center justify-between py-3 px-4 md:px-6 lg:px-8 2xl:mx-14">
+        <div className="mx-auto flex items-center justify-between py-3 px-4 md:px-6 lg:px-8 2xl:mx-14">
           {/* Logo */}
-
-          <Link to="/" className="flex-shrink-0 ">
+          <Link to="/" className="flex-shrink-0">
             <div className="flex items-center space-x-1 sm:space-x-2">
               <div className="h-16 w-16 md:h-18 md:w-18 lg:h-20 lg:w-20 rounded-full flex items-center justify-center text-white font-bold text-lg">
                 <img
@@ -107,13 +145,16 @@ function MainNavbar() {
                   className="h-16 w-16 md:h-18 md:w-18 lg:h-20 lg:w-20 object-cover object-center"
                 />
               </div>
-              <h1 className="text-xl md:text-2xl lg:text-[26px] text-primary font-bold font-suwannaphum">
-                ISTEM
+              <h1 className="text-xl md:text-2xl lg:text-[26px] font-bold font-suwannaphum">
+                <span className="text-primary">I</span>
+                <span className="text-primary">S</span>
+                <span className="text-primary">T</span>
+                <span className="text-primary">E</span>
+                <span className="text-primary">M</span>
               </h1>
             </div>
           </Link>
 
-          {/* Desktop Navigation */}
           <div className="hidden lg:flex items-center space-x-3 xl:space-x-6">
             {navItems.map((item) =>
               item.hasDropdown ? (
@@ -123,49 +164,55 @@ function MainNavbar() {
                   inline={true}
                   placement="bottom"
                   arrowIcon={true}
-                  trigger="hover" 
+                  trigger="hover"
                   className="relative"
                 >
-                  <Dropdown.Header>
-                    {/* <div className="flex items-center px-1 lg:px-2 text-descrid hover:text-[#1e8fb8] transition-colors duration-200 text-sm lg:text-base xl:text-lg font-semibold whitespace-nowrap cursor-pointer">
-                      វគ្គសិក្សា
-                      <ChevronDown className="ml-1 w-4 h-4" />
-                    </div> */}
-                  </Dropdown.Header>
-                  <div className="p-2 w-[320px] bg-white shadow-2xl rounded-xl border border-gray-100">
-                    <div className="space-y-2">
-                      {stemMenuItems.map((stemItem) => (
-                        <Link
-                          key={stemItem.label}
-                          to={stemItem.href}
-                          onClick={handleLinkClick}
-                         
-                          className="block p-3 hover:bg-gray-50 rounded-lg transition-colors group"
-                        >
-                          <div className="flex items-center space-x-4">
-                            <div className="bg-primary/10 p-2.5 rounded-lg">
-                              <stemItem.icon className="w-6 h-6 text-primary group-hover:scale-110 transition-transform" />
+                  <Dropdown.Header />
+                  <AnimatePresence>
+                    <motion.div
+                      className="p-4 w-[480px] bg-white shadow-2xl rounded-2xl border border-gray-100 backdrop-blur-sm bg-opacity-80"
+                      initial="hidden"
+                      animate="visible"
+                      exit="exit"
+                      variants={dropdownVariants}
+                      transition={{ duration: 0.3, ease: "easeInOut" }}
+                    >
+                      <div className="grid grid-cols-2 gap-4">
+                        {stemMenuItems.map((stemItem) => (
+                          <Link
+                            key={stemItem.label}
+                            to={stemItem.href}
+                            onClick={handleLinkClick}
+                            className="block p-3 hover:bg-gradient-to-r hover:from-primary/10 hover:to-blue-50 rounded-lg transition-all group"
+                          >
+                            <div className="flex items-center space-x-3">
+                              <motion.div
+                                className="bg-primary/10 p-2 rounded-full group-hover:bg-primary/20 transition-colors"
+                                whileHover={{ scale: 1.1 }}
+                              >
+                                <stemItem.icon className="w-5 h-5 text-primary group-hover:text-[#1e8fb8] transition-colors" />
+                              </motion.div>
+                              <div>
+                                <h4 className="text-sm font-semibold text-gray-800 group-hover:text-[#1e8fb8] transition-colors">
+                                  {stemItem.label}
+                                </h4>
+                                <p className="text-xs text-gray-500 mt-1">
+                                  {stemItem.description}
+                                </p>
+                              </div>
                             </div>
-                            <div>
-                              <h4 className="text-base font-semibold text-gray-800 group-hover:text-primary transition-colors">
-                                {stemItem.label}
-                              </h4>
-                              <p className="text-sm text-gray-500 mt-1">
-                                {stemItem.description}
-                              </p>
-                            </div>
-                          </div>
-                        </Link>
-                      ))}
-                    </div>
-                  </div>
+                          </Link>
+                        ))}
+                      </div>
+                    </motion.div>
+                  </AnimatePresence>
                 </Dropdown>
               ) : (
                 <Link
                   key={item.label}
                   to={item.href}
                   onClick={handleLinkClick}
-                  className="px-1 lg:px-2 text-descrid hover:text-[#1e8fb8] transition-colors duration-200 text-sm lg:text-base xl:text-lg font-semibold whitespace-nowrap"
+                  className="px-1 lg:px-2 text-gray-700 hover:text-[#1e8fb8] transition-colors duration-200 text-sm lg:text-base xl:text-lg font-semibold whitespace-nowrap"
                 >
                   {item.label}
                 </Link>
@@ -189,38 +236,48 @@ function MainNavbar() {
             {isLoggedIn ? (
               <div className="flex items-center space-x-1 sm:space-x-2">
                 <span className="text-gray-700 text-xs xl:text-sm hidden sm:block">
-                  សូដា
+                  {userName}
                 </span>
                 <div className="relative">
                   <Dropdown
                     label=""
                     renderTrigger={() => (
-                      <div className="h-8 w-8 xl:h-10 xl:w-10 rounded-full bg-gray-200 flex items-center justify-center cursor-pointer">
-                        <UserCircle className="h-5 w-5 xl:h-6 xl:w-6 text-gray-600" />
+                      <div className="h-10 w-10 xl:h-12 xl:w-12 rounded-full bg-gray-200 flex items-center justify-center cursor-pointer shadow-md hover:scale-105 transition-all">
+                        {profile?.image ? (
+                          <img
+                            src={profile.image}
+                            alt="User Profile"
+                            className="h-full w-full rounded-full object-cover"
+                          />
+                        ) : (
+                          <span className="text-gray-600 text-sm font-semibold">
+                            👤
+                          </span>
+                        )}
                       </div>
                     )}
                   >
                     {profileMenuItems.map((item) => (
-                      <Dropdown.Item key={item.label} icon={item.icon}>
+                      <Dropdown.Item
+                        key={item.label}
+                        icon={item.icon}
+                        as={Link}
+                        to={item.href}
+                      >
                         <span>{item.label}</span>
                       </Dropdown.Item>
                     ))}
                     <Dropdown.Divider />
-                    <Dropdown.Item
-                      icon={LogOut}
-                      onClick={() => setIsLoggedIn(false)}
-                    >
+                    <Dropdown.Item icon={LogOut} onClick={handleLogout}>
                       <span>ចាកចេញ</span>
                     </Dropdown.Item>
                   </Dropdown>
                 </div>
               </div>
             ) : (
-              <Link to="/ចូលគណនី">
+              <Link to="/login">
                 <div className="flex items-center space-x-4 sm:space-x-3">
-                  <button
-                    className="hidden sm:block text-primary hover:text-[#1e8fb8] text-[16px] xl:text-[16px] font-medium transition-colors whitespace-nowrap"
-                  >
+                  <button className="hidden sm:block text-primary hover:text-[#1e8fb8] text-[16px] xl:text-[16px] font-medium transition-colors whitespace-nowrap">
                     ចូលគណនី
                   </button>
                 </div>
@@ -309,18 +366,15 @@ function MainNavbar() {
               )}
             </div>
             {!isLoggedIn && (
-              <div className="ចូ-4 pt-3 border-t border-gray-100">
+              <div className="pt-4 border-t border-gray-100">
                 <div className="flex flex-col space-y-2">
-                  
-                  <button
-                    onClick={() => {
-                      setIsLoggedIn(true);
-                      setIsMobileMenuOpen(false);
-                    }}
+                  <Link
+                    to="/login"
+                    onClick={handleLinkClick}
                     className="w-full py-2 px-4 text-primary border border-primary rounded-lg text-center text-sm font-medium hover:bg-primary hover:text-white transition-colors"
                   >
                     ចូលគណនី
-                  </button>
+                  </Link>
                 </div>
               </div>
             )}

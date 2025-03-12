@@ -1,8 +1,17 @@
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
+// vite.config.js
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
 
-// https://vite.dev/config/
+// vite.config.js
 export default defineConfig({
   plugins: [react()],
-  base:"/"
-})
+  server: {
+    proxy: {
+      '/api': {
+        target: 'https://stem-api.istad.co',
+        changeOrigin: true, // Ensures the Host header matches the target
+        // Remove rewrite to keep /api/ in the path
+      },
+    },
+  },
+});
