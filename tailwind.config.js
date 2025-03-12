@@ -7,7 +7,7 @@ export default {
       fontFamily: {
         sans: ["Inter", "sans-serif"],
         serif: ["Merriweather", "serif"],
-        suwannaphum: ["Suwannaphum", "serif"],
+        suwannaphum: ["Kantumruy Pro", "sans-serif"],
       },
       fontSize: {
         Descride:"16px",
@@ -33,8 +33,13 @@ export default {
         footer:"#79D4F7"
       },
       maxWidth: {
-        content: "1300px",
+        content: "1400px",
+        contentlg:"900px",
+        contentmd:"700px",
+        contentsm:"200px",
+        content2xl:"1700px",
       },
+
     },
   },
   plugins: [flowbite.plugin()],

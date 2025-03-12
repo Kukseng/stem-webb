@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { FaRegListAlt } from "react-icons/fa";
-import { Link, useNavigate } from "react-router-dom"; // Fixed import
+import { Link, useNavigate } from "react-router-dom"; 
 
 const CourseCard = ({ course = {} }) => {
   const [isHovered, setIsHovered] = useState(false);

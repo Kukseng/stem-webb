@@ -1,6 +1,9 @@
 /* Import the Suwannaphum font */
 @import url("https://fonts.googleapis.com/css2?family=Suwannaphum&display=swap");
 
+/* Import the Kantumruy Pro font */
+@import url("https://fonts.googleapis.com/css2?family=Kantumruy+Pro:wght@400;700&display=swap");
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;

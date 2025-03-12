@@ -117,10 +117,10 @@ function MainNavbar() {
   };
 
   const userName = profileLoading
-    ? "Loading..."
+    ? ""
     : profile?.username || "User";
 
-  // Dropdown Animation Variants
+
   const dropdownVariants = {
     hidden: { opacity: 0, y: -10, scale: 0.95 },
     visible: { opacity: 1, y: 0, scale: 1 },
@@ -135,7 +135,7 @@ function MainNavbar() {
     >
       <div className="w-full">
         <div className="mx-auto flex items-center justify-between py-3 px-4 md:px-6 lg:px-8 2xl:mx-14">
-          {/* Logo */}
+       
           <Link to="/" className="flex-shrink-0">
             <div className="flex items-center space-x-1 sm:space-x-2">
               <div className="h-16 w-16 md:h-18 md:w-18 lg:h-20 lg:w-20 rounded-full flex items-center justify-center text-white font-bold text-lg">
@@ -284,7 +284,7 @@ function MainNavbar() {
               </Link>
             )}
 
-            {/* Mobile Menu Button */}
+        =
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               className="lg:hidden p-1 sm:p-2"

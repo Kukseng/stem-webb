@@ -5,7 +5,7 @@ import image from "../../assets/markup-cropped.svg"; // Import the SVG
 const Banner = () => {
   return (
     <div className="relative overflow-hidden">
-      <div className="max-w-[1300px]  mx-auto px-4 sm:px-6 lg:px-4  py-10 sm:py-16">
+      <div className="xl:max-w-[1300px]  mx-auto px-4 sm:px-6 lg:px-4  py-10 sm:py-16">
       
         <div className="grid grid-cols-1 md:grid-cols-2 items-center gap-8">
         

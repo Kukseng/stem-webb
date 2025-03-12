@@ -9,6 +9,7 @@ import {
   useDeleteArticleMutation,
 } from '../../api/articles-api';
 import BlogComponent from '../../components/blog/BlogComponent';
+import CreateCourseForm from '../../components/CreateCourse';
 
 const BlogPage = () => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -57,6 +58,7 @@ const BlogPage = () => {
       </header>
 
       <BlogComponent/>
+      <CreateCourseForm/>
     </div>
   );
 };

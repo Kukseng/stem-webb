@@ -21,10 +21,7 @@ const LessonContent = ({
 
   return (
     <div className="bg-white rounded-xl shadow-lg overflow-hidden">
-      {/* Video or PDF container */}
       <MediaViewer content={content} lessonTitle={lesson.lesson_title} />
-
-      {/* Lesson details */}
       <div className="p-6">
         <div className="flex flex-col md:flex-row md:justify-between md:items-center mb-6 border-b pb-4">
           <h1 className="text-2xl font-bold text-gray-800 mb-2 md:mb-0">{lesson.lesson_title}</h1>
@@ -73,8 +70,6 @@ const LessonContent = ({
                 </ul>
               </div>
             )}
-
-            {/* Lesson navigation */}
             <div className="flex flex-col sm:flex-row justify-between mt-8 pt-4 border-t">
               <button
                 onClick={() => prevLesson && onLessonClick(prevLesson)}

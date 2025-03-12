@@ -9,7 +9,6 @@ const CoursesList = () => {
   });
   const courses = data?.results || [];
 
-  // Limit the courses to only 8
   const limitedCourses = courses.slice(0, 6);
 
   useEffect(() => {

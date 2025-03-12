@@ -3,7 +3,7 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
 export const apiSlice = createApi({
   baseQuery: fetchBaseQuery({
-    baseUrl: 'https://stem-api.istad.co/api/', // Proxy path, not the full URL
+    baseUrl: '/api/', // Proxy path, not the full URL
     prepareHeaders: (headers, { getState }) => {
       const token = getState().auth.accessToken;
       if (token) {

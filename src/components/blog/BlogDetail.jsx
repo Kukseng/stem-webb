@@ -117,7 +117,7 @@ const BlogDetail = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
         >
-          {/* Hero image */}
+      
           <div className="relative">
             <img
               src={article.image}
