@@ -42,7 +42,8 @@ const CreateCourseForm = () => {
     },
   });
 
-  const [isAddingToExistingCourse, setIsAddingToExistingCourse] = useState(false);
+  const [isAddingToExistingCourse, setIsAddingToExistingCourse] =
+    useState(false);
   const [selectedCourseId, setSelectedCourseId] = useState("");
   const [selectedCategoryId, setSelectedCategoryId] = useState("");
   const [createNewCategory, setCreateNewCategory] = useState(false);
@@ -52,7 +53,8 @@ const CreateCourseForm = () => {
   const [isHovered, setIsHovered] = useState({});
 
   const { data: courses, isLoading: coursesLoading } = useGetAllCoursesQuery();
-  const { data: categories, isLoading: categoriesLoading } = useGetAllCategoriesQuery();
+  const { data: categories, isLoading: categoriesLoading } =
+    useGetAllCategoriesQuery();
   const [createCourse] = useCreateCourseMutation();
   const [createCategory] = useCreateCategoryMutation();
   const [createLesson] = useCreateLessonMutation();
@@ -60,7 +62,9 @@ const CreateCourseForm = () => {
   const [createContent] = useCreateContentMutation();
 
   const courseCategories =
-    categories?.results?.filter((category) => category.course === selectedCourseId) || [];
+    categories?.results?.filter(
+      (category) => category.course === selectedCourseId
+    ) || [];
 
   const primaryColor = "#16789e";
   const primaryColorDark = "#106080";
@@ -166,10 +170,9 @@ const CreateCourseForm = () => {
         className="bg-white  rounded-xl p-8 max-w-2xl w-full relative"
       >
         <h1 className="text-3xl font-bold text-gray-800 mb-6 text-center">
-          Create or Update Course Structure
+          បង្កើតវគ្គសិក្សា
         </h1>
         <form onSubmit={handleSubmit}>
-          {/* Course Mode Toggle */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -177,7 +180,7 @@ const CreateCourseForm = () => {
           >
             <h2 className="text-xl font-semibold text-gray-700 mb-2 flex items-center">
               <FiList className="mr-2" style={{ color: primaryColor }} />
-              Course Mode
+              របៀបបង្កើតវគ្គសិក្សា
             </h2>
             <div className="flex space-x-4">
               <label className="flex items-center space-x-2">
@@ -190,7 +193,7 @@ const CreateCourseForm = () => {
                   className="form-radio"
                   style={{ color: primaryColor }}
                 />
-                <span className="text-gray-600">Create New Course</span>
+                <span className="text-gray-600">បង្កើតវគ្គសិក្សាថ្មី</span>
               </label>
               <label className="flex items-center space-x-2">
                 <input
@@ -202,12 +205,13 @@ const CreateCourseForm = () => {
                   className="form-radio"
                   style={{ color: primaryColor }}
                 />
-                <span className="text-gray-600">Add to Existing Course</span>
+                <span className="text-gray-600">
+                  បន្ថែមទៅវគ្គសិក្សាដែលមានស្រាប់
+                </span>
               </label>
             </div>
           </motion.div>
 
-          {/* Course Section */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -218,7 +222,9 @@ const CreateCourseForm = () => {
               type="button"
               onClick={() => toggleSection("course")}
               style={{
-                backgroundColor: isHovered.course ? primaryColorDark : primaryColor,
+                backgroundColor: isHovered.course
+                  ? primaryColorDark
+                  : primaryColor,
               }}
               className="w-full flex justify-between items-center p-4 text-white rounded-t-xl transition-all duration-300"
               onMouseEnter={() => handleHover("course", true)}
@@ -228,7 +234,9 @@ const CreateCourseForm = () => {
             >
               <span className="flex items-center space-x-2">
                 <FiBook className="text-xl" />
-                <span className="text-lg font-medium">Course Details</span>
+                <span className="text-lg font-medium">
+                  ព័ត៌មានលម្អិតអំពីវគ្គសិក្សា
+                </span>
               </span>
               <motion.div
                 animate={{ rotate: openSection === "course" ? 180 : 0 }}
@@ -252,7 +260,7 @@ const CreateCourseForm = () => {
                       <motion.div variants={itemVariants} className="mb-5">
                         <label className="flex items-center space-x-2 text-gray-700 font-medium mb-2">
                           <FiEdit style={{ color: primaryColor }} />
-                          <span>Course Name</span>
+                          <span>ឈ្មោះវគ្គសិក្សា</span>
                         </label>
                         <input
                           type="text"
@@ -269,7 +277,7 @@ const CreateCourseForm = () => {
                       <motion.div variants={itemVariants} className="mb-5">
                         <label className="flex items-center space-x-2 text-gray-700 font-medium mb-2">
                           <FiList style={{ color: primaryColor }} />
-                          <span>Course Description</span>
+                          <span>ពិពណ៌នាវគ្គសិក្សា</span>
                         </label>
                         <textarea
                           name="course_description"
@@ -285,7 +293,7 @@ const CreateCourseForm = () => {
                       <motion.div variants={itemVariants}>
                         <label className="flex items-center space-x-2 text-gray-700 font-medium mb-2">
                           <FiImage style={{ color: primaryColor }} />
-                          <span>Course Thumbnail URL</span>
+                          <span>វគ្គសិក្សា URL</span>
                         </label>
                         <input
                           type="text"
@@ -303,7 +311,9 @@ const CreateCourseForm = () => {
                             animate={{ opacity: 1, y: 0 }}
                             className="mt-3"
                           >
-                            <p className="text-xs text-gray-500 mb-2">Preview:</p>
+                            <p className="text-xs text-gray-500 mb-2">
+                              មើលជាមុន
+                            </p>
                             <div className="w-24 h-24 rounded-lg overflow-hidden border border-gray-200">
                               <div className="bg-gray-100 w-full h-full flex items-center justify-center text-gray-400">
                                 <FiImage className="text-3xl" />
@@ -317,7 +327,7 @@ const CreateCourseForm = () => {
                     <motion.div variants={itemVariants}>
                       <label className="flex items-center space-x-2 text-gray-700 font-medium mb-2">
                         <FiBook style={{ color: primaryColor }} />
-                        <span>Select Existing Course</span>
+                        <span>ជ្រើសរើសវគ្គសិក្សាដែលមានស្រាប់</span>
                       </label>
                       <div className="relative">
                         <select
@@ -327,7 +337,7 @@ const CreateCourseForm = () => {
                           style={{ focusRing: primaryColor }}
                           required
                         >
-                          <option value="">-- Select a Course --</option>
+                          <option value="">-- ជ្រើសរើសវគ្គសិក្សា --</option>
                           {courses?.results?.map((course) => (
                             <option key={course.id} value={course.id}>
                               {course.course_name}
@@ -345,9 +355,13 @@ const CreateCourseForm = () => {
                           className="mt-4 p-3 rounded-lg"
                           style={{ backgroundColor: `${primaryColor}10` }}
                         >
-                          <p className="text-sm" style={{ color: primaryColor }}>
-                            You've selected a course. Now you can add new categories, lessons,
-                            sections, and content to it.
+                          <p
+                            className="text-sm"
+                            style={{ color: primaryColor }}
+                          >
+                            អ្នកបានជ្រើសរើសវគ្គសិក្សា។
+                            ឥឡូវនេះអ្នកអាចបន្ថែមមុខវិជ្ជាថ្មី មេរៀន ផ្នែក
+                            និងខ្លឹមសាររបស់វា។
                           </p>
                         </motion.div>
                       )}
@@ -361,8 +375,8 @@ const CreateCourseForm = () => {
                   >
                     <div className="text-xs text-gray-500">
                       {!isAddingToExistingCourse
-                        ? "Create a new course with unique details and content structure."
-                        : "Add new content to an existing course from your library."}
+                        ? "បង្កើតវគ្គសិក្សាថ្មីជាមួយនឹងព័ត៌មានលម្អិតពិសេស និងរចនាសម្ព័ន្ធខ្លឹមសារ."
+                        : "បន្ថែមមាតិកាថ្មីទៅវគ្គសិក្សាដែលមានស្រាប់ពីបណ្របស់អ្នក។"}
                     </div>
                   </motion.div>
                 </motion.div>
@@ -371,7 +385,8 @@ const CreateCourseForm = () => {
           </motion.div>
 
           {/* Category Section */}
-          {(isAddingToExistingCourse && selectedCourseId) || !isAddingToExistingCourse ? (
+          {(isAddingToExistingCourse && selectedCourseId) ||
+          !isAddingToExistingCourse ? (
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -382,7 +397,9 @@ const CreateCourseForm = () => {
                 type="button"
                 onClick={() => toggleSection("category")}
                 style={{
-                  backgroundColor: isHovered.category ? primaryColorDark : primaryColor,
+                  backgroundColor: isHovered.category
+                    ? primaryColorDark
+                    : primaryColor,
                 }}
                 className="w-full flex justify-between items-center p-4 text-white rounded-t-xl transition-all duration-300"
                 onMouseEnter={() => handleHover("category", true)}
@@ -392,7 +409,9 @@ const CreateCourseForm = () => {
               >
                 <span className="flex items-center space-x-2">
                   <FiFolder className="text-xl" />
-                  <span className="text-lg font-medium">Category Details</span>
+                  <span className="text-lg font-medium">
+                    ព័ត៌មានលម្អិតអំពីមុខវិជ្ជា
+                  </span>
                 </span>
                 <motion.div
                   animate={{ rotate: openSection === "category" ? 180 : 0 }}
@@ -423,7 +442,9 @@ const CreateCourseForm = () => {
                               className="form-radio"
                               style={{ color: primaryColor }}
                             />
-                            <span className="text-gray-600">Use Existing Category</span>
+                            <span className="text-gray-600">
+                              ប្រើមុខវិជ្ជាដែលមានស្រាប់
+                            </span>
                           </label>
                           <label className="flex items-center space-x-2">
                             <input
@@ -435,7 +456,9 @@ const CreateCourseForm = () => {
                               className="form-radio"
                               style={{ color: primaryColor }}
                             />
-                            <span className="text-gray-600">Create New Category</span>
+                            <span className="text-gray-600">
+                              បង្កើតមុខវិជ្ជាថ្មី។
+                            </span>
                           </label>
                         </div>
                       </motion.div>
@@ -444,17 +467,19 @@ const CreateCourseForm = () => {
                       <motion.div variants={itemVariants}>
                         <label className="flex items-center space-x-2 text-gray-700 font-medium mb-2">
                           <FiFolder style={{ color: primaryColor }} />
-                          <span>Select Existing Category</span>
+                          <span>ជ្រើសរើសមុខវិជ្ជាដែលមានស្រាប់</span>
                         </label>
                         <div className="relative">
                           <select
                             value={selectedCategoryId}
-                            onChange={(e) => setSelectedCategoryId(e.target.value)}
+                            onChange={(e) =>
+                              setSelectedCategoryId(e.target.value)
+                            }
                             className="w-full p-3 pr-10 border border-gray-300 rounded-lg appearance-none focus:outline-none focus:ring-2 focus:border-transparent transition-all duration-200 bg-white"
                             style={{ focusRing: primaryColor }}
                             required={!createNewCategory}
                           >
-                            <option value="">-- Select a Category --</option>
+                            <option value="">-- ជ្រើសរើសមុខវិជ្ជា --</option>
                             {courseCategories.length > 0 ? (
                               courseCategories.map((category) => (
                                 <option key={category.id} value={category.id}>
@@ -463,7 +488,7 @@ const CreateCourseForm = () => {
                               ))
                             ) : (
                               <option value="" disabled>
-                                No categories available
+                                មិនមានមុខវិជ្ជាទេ។
                               </option>
                             )}
                           </select>
@@ -477,7 +502,7 @@ const CreateCourseForm = () => {
                         <motion.div variants={itemVariants} className="mb-5">
                           <label className="flex items-center space-x-2 text-gray-700 font-medium mb-2">
                             <FiEdit style={{ color: primaryColor }} />
-                            <span>Category Name</span>
+                            <span>ឈ្មោះមុខវិជ្ជា</span>
                           </label>
                           <input
                             type="text"
@@ -493,7 +518,7 @@ const CreateCourseForm = () => {
                         <motion.div variants={itemVariants}>
                           <label className="flex items-center space-x-2 text-gray-700 font-medium mb-2">
                             <FiList style={{ color: primaryColor }} />
-                            <span>Category Description</span>
+                            <span>ព័ត៌មានលម្អិតអំពីមុខវិជ្ជា</span>
                           </label>
                           <textarea
                             name="category_description"
@@ -524,7 +549,9 @@ const CreateCourseForm = () => {
               type="button"
               onClick={() => toggleSection("lesson")}
               style={{
-                backgroundColor: isHovered.lesson ? primaryColorDark : primaryColor,
+                backgroundColor: isHovered.lesson
+                  ? primaryColorDark
+                  : primaryColor,
               }}
               className="w-full flex justify-between items-center p-4 text-white rounded-t-xl transition-all duration-300"
               onMouseEnter={() => handleHover("lesson", true)}
@@ -534,7 +561,9 @@ const CreateCourseForm = () => {
             >
               <span className="flex items-center space-x-2">
                 <FiBook className="text-xl" />
-                <span className="text-lg font-medium">Lesson Details</span>
+                <span className="text-lg font-medium">
+                  ព័ត៌មានលម្អិតនៃមេរៀន
+                </span>
               </span>
               <motion.div
                 animate={{ rotate: openSection === "lesson" ? 180 : 0 }}
@@ -555,7 +584,7 @@ const CreateCourseForm = () => {
                   <motion.div variants={itemVariants} className="mb-5">
                     <label className="flex items-center space-x-2 text-gray-700 font-medium mb-2">
                       <FiEdit style={{ color: primaryColor }} />
-                      <span>Lesson Title</span>
+                      <span>ចំណងជើងមេរៀន</span>
                     </label>
                     <input
                       type="text"
@@ -571,7 +600,7 @@ const CreateCourseForm = () => {
                   <motion.div variants={itemVariants}>
                     <label className="flex items-center space-x-2 text-gray-700 font-medium mb-2">
                       <FiImage style={{ color: primaryColor }} />
-                      <span>Lesson Image URL</span>
+                      <span>រូបភាពមេរៀន URL</span>
                     </label>
                     <input
                       type="text"
@@ -589,7 +618,7 @@ const CreateCourseForm = () => {
                         animate={{ opacity: 1, y: 0 }}
                         className="mt-3"
                       >
-                        <p className="text-xs text-gray-500 mb-2">Preview:</p>
+                        <p className="text-xs text-gray-500 mb-2">មើលឡើងវិញ</p>
                         <div className="w-24 h-24 rounded-lg overflow-hidden border border-gray-200">
                           <div className="bg-gray-100 w-full h-full flex items-center justify-center text-gray-400">
                             <FiImage className="text-3xl" />
@@ -614,7 +643,9 @@ const CreateCourseForm = () => {
               type="button"
               onClick={() => toggleSection("section")}
               style={{
-                backgroundColor: isHovered.section ? primaryColorDark : primaryColor,
+                backgroundColor: isHovered.section
+                  ? primaryColorDark
+                  : primaryColor,
               }}
               className="w-full flex justify-between items-center p-4 text-white rounded-t-xl transition-all duration-300"
               onMouseEnter={() => handleHover("section", true)}
@@ -624,7 +655,9 @@ const CreateCourseForm = () => {
             >
               <span className="flex items-center space-x-2">
                 <FiList className="text-xl" />
-                <span className="text-lg font-medium">Section Details</span>
+                <span className="text-lg font-medium">
+                  ព័ត៌មានលម្អិត​​ជំពូក{" "}
+                </span>
               </span>
               <motion.div
                 animate={{ rotate: openSection === "section" ? 180 : 0 }}
@@ -645,7 +678,7 @@ const CreateCourseForm = () => {
                   <motion.div variants={itemVariants} className="mb-5">
                     <label className="flex items-center space-x-2 text-gray-700 font-medium mb-2">
                       <FiEdit style={{ color: primaryColor }} />
-                      <span>Section Title</span>
+                      <span>ចំណងជើង​​ជំពូក</span>
                     </label>
                     <input
                       type="text"
@@ -661,7 +694,7 @@ const CreateCourseForm = () => {
                   <motion.div variants={itemVariants} className="mb-5">
                     <label className="flex items-center space-x-2 text-gray-700 font-medium mb-2">
                       <FiList style={{ color: primaryColor }} />
-                      <span>Section Number</span>
+                      <span>លេខជំពូក</span>
                     </label>
                     <input
                       type="text"
@@ -684,7 +717,7 @@ const CreateCourseForm = () => {
                         className="form-checkbox"
                         style={{ color: primaryColor }}
                       />
-                      <span className="text-gray-600">Preview</span>
+                      <span className="text-gray-600">មើលឡើងវិញ</span>
                     </label>
                   </motion.div>
                 </motion.div>
@@ -703,7 +736,9 @@ const CreateCourseForm = () => {
               type="button"
               onClick={() => toggleSection("content")}
               style={{
-                backgroundColor: isHovered.content ? primaryColorDark : primaryColor,
+                backgroundColor: isHovered.content
+                  ? primaryColorDark
+                  : primaryColor,
               }}
               className="w-full flex justify-between items-center p-4 text-white rounded-t-xl transition-all duration-300"
               onMouseEnter={() => handleHover("content", true)}
@@ -713,7 +748,9 @@ const CreateCourseForm = () => {
             >
               <span className="flex items-center space-x-2">
                 <FiPlayCircle className="text-xl" />
-                <span className="text-lg font-medium">Content Details</span>
+                <span className="text-lg font-medium">
+                  ព័ត៌មានលម្អិតអំពីខ្លឹមសារ
+                </span>
               </span>
               <motion.div
                 animate={{ rotate: openSection === "content" ? 180 : 0 }}
@@ -734,7 +771,7 @@ const CreateCourseForm = () => {
                   <motion.div variants={itemVariants} className="mb-5">
                     <label className="flex items-center space-x-2 text-gray-700 font-medium mb-2">
                       <FiEdit style={{ color: primaryColor }} />
-                      <span>Content Title</span>
+                      <span>ចំណងជើងមាតិកា</span>
                     </label>
                     <input
                       type="text"
@@ -750,7 +787,7 @@ const CreateCourseForm = () => {
                   <motion.div variants={itemVariants} className="mb-5">
                     <label className="flex items-center space-x-2 text-gray-700 font-medium mb-2">
                       <FiList style={{ color: primaryColor }} />
-                      <span>Content Number</span>
+                      <span>លេខមាតិកា</span>
                     </label>
                     <input
                       type="text"
@@ -773,13 +810,13 @@ const CreateCourseForm = () => {
                         className="form-checkbox"
                         style={{ color: primaryColor }}
                       />
-                      <span className="text-gray-600">Preview</span>
+                      <span className="text-gray-600">មើលឡើងវិញ</span>
                     </label>
                   </motion.div>
                   <motion.div variants={itemVariants} className="mb-5">
                     <label className="flex items-center space-x-2 text-gray-700 font-medium mb-2">
                       <FiFileText style={{ color: primaryColor }} />
-                      <span>File URL</span>
+                      <span>ឯកសារ URL</span>
                     </label>
                     <input
                       type="text"
@@ -795,7 +832,7 @@ const CreateCourseForm = () => {
                   <motion.div variants={itemVariants} className="mb-5">
                     <label className="flex items-center space-x-2 text-gray-700 font-medium mb-2">
                       <FiPlayCircle style={{ color: primaryColor }} />
-                      <span>Video URL</span>
+                      <span>វីដេអូ URL</span>
                     </label>
                     <input
                       type="text"
@@ -811,7 +848,7 @@ const CreateCourseForm = () => {
                   <motion.div variants={itemVariants}>
                     <label className="flex items-center space-x-2 text-gray-700 font-medium mb-2">
                       <FiEdit style={{ color: primaryColor }} />
-                      <span>Video Title</span>
+                      <span>ចំណងជើងវីដេអូ</span>
                     </label>
                     <input
                       type="text"
@@ -837,7 +874,7 @@ const CreateCourseForm = () => {
             style={{ backgroundColor: primaryColor }}
             className="w-full p-4 text-white rounded-lg hover:bg-[#106080] transition-all duration-300"
           >
-            Update Course Structure
+            កែវគ្គសិក្សា
           </motion.button>
         </form>
 
@@ -870,10 +907,16 @@ const CreateCourseForm = () => {
                 <div className="relative z-10">
                   <div
                     className={`bg-white w-16 h-16 mb-2 rounded-full text-3xl ${
-                      modalContent.type === "success" ? "text-green-600" : "text-red-600"
+                      modalContent.type === "success"
+                        ? "text-green-600"
+                        : "text-red-600"
                     } grid place-items-center mx-auto`}
                   >
-                    {modalContent.type === "success" ? <FiCheckCircle /> : <FiAlertCircle />}
+                    {modalContent.type === "success" ? (
+                      <FiCheckCircle />
+                    ) : (
+                      <FiAlertCircle />
+                    )}
                   </div>
                   <h3 className="text-3xl font-bold text-center mb-2">
                     {modalContent.type === "success" ? "Success!" : "Error!"}
@@ -884,14 +927,14 @@ const CreateCourseForm = () => {
                       onClick={() => setIsModalOpen(false)}
                       className="bg-transparent hover:bg-white/10 transition-colors text-white font-semibold w-full py-2 rounded"
                     >
-                      Close
+                      បិទ
                     </button>
                     {modalContent.type === "error" && (
                       <button
                         onClick={() => setIsModalOpen(false)}
                         className="bg-white hover:opacity-90 transition-opacity text-red-600 font-semibold w-full py-2 rounded"
                       >
-                        Try Again
+                        ព្យាយាមម្តងទៀត
                       </button>
                     )}
                   </div>

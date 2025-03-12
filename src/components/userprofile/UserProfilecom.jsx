@@ -300,8 +300,7 @@ const VideoLessonsContent = () => {
   );
 };
 
-// Component for Time Reports content
-const Myforum = () => {
+const TimeReportsContent = () => {
   return <div className="p-6 transition-all duration-500 animate-fadeIn"></div>;
 };
 

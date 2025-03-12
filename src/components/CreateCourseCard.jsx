@@ -57,7 +57,7 @@ const CreateCourseCard = ({
       >
         <span className="flex items-center space-x-2">
           <FiBook className="text-xl" />
-          <span className="text-lg font-medium">Course Details</span>
+          <span className="text-lg font-medium">ព័ត៌មានលម្អិតអំពីមុខវិជ្ជា</span>
         </span>
         <motion.div
           animate={{ rotate: openSection === "course" ? 180 : 0 }}
@@ -84,7 +84,7 @@ const CreateCourseCard = ({
                 >
                   <label className="flex items-center space-x-2 text-gray-700 font-medium mb-2">
                     <FiEdit style={{ color: primaryColor }} />
-                    <span>Course Name</span>
+                    <span>ឈ្មោះវគ្គសិក្សា</span>
                   </label>
                   <input
                     type="text"

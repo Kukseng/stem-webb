@@ -16,7 +16,7 @@ import {
   FiSend,
   FiX,
   FiChevronDown,
-  FiChevronUp, // Added for toggle icon
+  FiChevronUp, 
 } from "react-icons/fi";
 import { useGetProfileQuery } from "../../api/auth-api";
 
@@ -25,7 +25,7 @@ const ForumPage = () => {
   const [showCreateForm, setShowCreateForm] = useState(false);
   const [showEditForm, setShowEditForm] = useState(null);
   const [showReplyForm, setShowReplyForm] = useState(null);
-  const [expandedComments, setExpandedComments] = useState(null); // State for toggling comments
+  const [expandedComments, setExpandedComments] = useState(null); 
   const [forumData, setForumData] = useState({ title: "", description: "", image: "" });
   const [editData, setEditData] = useState({ title: "", description: "", image: "" });
   const [replyContent, setReplyContent] = useState("");
@@ -362,7 +362,7 @@ const ForumPage = () => {
                                 className="text-sm font-medium"
                                 style={{ color: primaryColor }}
                               >
-                                Reply
+                                មតិ
                               </motion.button>
                             )}
                             {forumComments.length > 0 && (
