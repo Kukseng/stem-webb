@@ -1,47 +1,48 @@
 import { motion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import {
-    ArrowRight,
-    Facebook,
-    Linkedin,
-    Github,
-    Instagram,
+  ArrowRight,
+  Facebook,
+  Linkedin,
+  Github,
+  Instagram,
 } from "lucide-react";
 const ShuffleHero = () => {
   return (
     <section className="w-full px-8  grid grid-cols-1 md:grid-cols-2 items-center gap-8 max-w-6xl mx-auto">
       <div className="">
-      <motion.div
-            initial={{ x: -100, opacity: 0 }}
-            animate={{ x: 0, opacity: 1 }}
-            transition={{ duration: 0.8 }}
-            className="hero-text"
+        <motion.div
+          initial={{ x: -100, opacity: 0 }}
+          animate={{ x: 0, opacity: 1 }}
+          transition={{ duration: 0.8 }}
+          className="hero-text"
+        >
+
+          <h1 className="text-primary font-suwannaphum text-4xl lg:text-5xl font-bold bg-gradient-to-r from-primary to-blue-400 bg-clip-text text-transparent">
+            iSTEM
+          </h1>
+          <h2 className="text-gray-700 text-3xl lg:text-4xl my-6 lg:my-10 font-bold">
+            ផ្តល់ឱកាសល្អបំផុតដល់សិស្ស
+          </h2>
+          <p className="font-suwannaphum text-lg lg:text-xl text-descrid leading-relaxed">
+            សិស្សបន្ទាប់ពីបញ្ចប់ថ្នាក់មធ្យមសិក្សាទុតិយភូមិឬមិនទាន់បញ្ចប់ក៍អាចសិក្សានៅលើវេសាយពួកយើងបានដែរពួកយើងអាចផ្តល់អោយនូវចំណេះដឹងថ្មីៗផ្លែកៗទាន់សម័យ។យើងប្តេជ្ញាផ្តល់ជូននូវបទពិសោធន៍
+            អប់រំផ្លាស់ប្តូរដែលផ្តល់អំណាចដល់បុគ្គលម្នាក់ៗឱ្យឈានដល់សក្តានពលពេញលេញរបស់ពួកគេ។
+            មិនថាអ្នកជាសិស្សអ្នកសិក្សាពេញមួយជីវិត
+            ឬជាអ្នកជំនាញដែលស្វែងរកជំនាញថ្មីនោះទេ យើងផ្តល់ធនធាន
+            និងការគាំទ្រដើម្បីជួយអ្នកឱ្យទទួលបានជោគជ័យ។
+            យើងផ្តល់ជូននូវកម្មវិធីអប់រំជាច្រើនដែលត្រូវបានរចនាឡើងដើម្បីបំពេញតម្រូវការសិក្សាចម្រុះវគ្គសិក្សារបស់យើងគ្របដណ្តប់លើមុខវិជ្ជាផ្សេងៗគ្នា
+          </p>
+          <motion.button
+            whileHover={{
+              scale: 1.05,
+              boxShadow: "0 10px 25px rgba(0, 128, 255, 0.25)",
+            }}
+            whileTap={{ scale: 0.95 }}
+            className="text-white font-suwannaphum items-center px-6 py-3 my-6 flex cursor-pointer bg-primary hover:bg-cyan-700 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-lg lg:text-2xl text-center transition-all duration-300"
           >
-            <h1 className="text-primary font-suwannaphum text-4xl lg:text-5xl font-bold bg-gradient-to-r from-primary to-blue-400 bg-clip-text text-transparent">
-              iSTEM
-            </h1>
-            <h2 className="text-gray-700 text-3xl lg:text-4xl my-6 lg:my-10 font-bold">
-              ផ្តល់ឱកាសល្អបំផុតដល់សិស្ស
-            </h2>
-            <p className="font-suwannaphum text-lg lg:text-xl text-descrid leading-relaxed">
-              សិស្សបន្ទាប់ពីបញ្ចប់ថ្នាក់មធ្យមសិក្សាទុតិយភូមិឬមិនទាន់បញ្ចប់ក៍អាចសិក្សានៅលើវេសាយពួកយើងបានដែរពួកយើងអាចផ្តល់អោយនូវចំណេះដឹងថ្មីៗផ្លែកៗទាន់សម័យ។យើងប្តេជ្ញាផ្តល់ជូននូវបទពិសោធន៍
-              អប់រំផ្លាស់ប្តូរដែលផ្តល់អំណាចដល់បុគ្គលម្នាក់ៗឱ្យឈានដល់សក្តានពលពេញលេញរបស់ពួកគេ។
-              មិនថាអ្នកជាសិស្សអ្នកសិក្សាពេញមួយជីវិត
-              ឬជាអ្នកជំនាញដែលស្វែងរកជំនាញថ្មីនោះទេ យើងផ្តល់ធនធាន
-              និងការគាំទ្រដើម្បីជួយអ្នកឱ្យទទួលបានជោគជ័យ។
-              យើងផ្តល់ជូននូវកម្មវិធីអប់រំជាច្រើនដែលត្រូវបានរចនាឡើងដើម្បីបំពេញតម្រូវការសិក្សាចម្រុះវគ្គសិក្សារបស់យើងគ្របដណ្តប់លើមុខវិជ្ជាផ្សេងៗគ្នា
-            </p>
-            <motion.button
-              whileHover={{
-                scale: 1.05,
-                boxShadow: "0 10px 25px rgba(0, 128, 255, 0.25)",
-              }}
-              whileTap={{ scale: 0.95 }}
-              className="text-white font-suwannaphum items-center px-6 py-3 my-6 flex cursor-pointer bg-primary hover:bg-cyan-700 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-lg lg:text-2xl text-center transition-all duration-300"
-            >
-              ចាប់ផ្តើមរៀន <ArrowRight className="ml-2 animate-pulse" />
-            </motion.button>
-          </motion.div>
+            ចាប់ផ្តើមរៀន <ArrowRight className="ml-2 animate-pulse" />
+          </motion.button>
+        </motion.div>
       </div>
       <ShuffleGrid />
     </section>
