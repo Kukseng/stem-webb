@@ -1,4 +1,3 @@
-// src/components/courses-list.js
 import React, { useEffect } from "react";
 import { FaRegListAlt } from "react-icons/fa";
 import { useGetAllCoursesQuery } from "../../../api/courses-api";
@@ -10,20 +9,17 @@ const CoursesList = () => {
   });
   const courses = data?.results || [];
 
+  const limitedCourses = courses.slice(0, 6);
+
   useEffect(() => {
-    console.log(
-      "Courses (sample):",
-      JSON.stringify(courses.slice(0, 2), null, 2)
-    );
-  }, [courses]);
+    console.log("Full courses data:", JSON.stringify(data, null, 2));
+  }, [data]);
 
   if (isLoading) return <div>Loading courses...</div>;
   if (isError)
     return (
       <div>Error: {error?.data?.message || "Failed to fetch courses"}</div>
     );
-
-  console.log("Rendering courses:", courses.length, courses);
 
   return (
     <div className="bg-gray-50">
@@ -61,8 +57,8 @@ const CoursesList = () => {
         </header>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {courses.length > 0 ? (
-            courses.map((course) => (
+          {limitedCourses.length > 0 ? (
+            limitedCourses.map((course) => (
               <CourseCard key={course.id} course={course} />
             ))
           ) : (

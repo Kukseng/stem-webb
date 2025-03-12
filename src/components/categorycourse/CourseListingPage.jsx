@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { Clock, Users, BookOpen, ChevronLeft, ChevronRight } from 'lucide-react';
-import CourseImage from '../../../assets/image (9).png';
-import person from '../../../assets/person.svg';
+import CourseImage from '../../assets/image (9).png';
+import person from '../../assets/person.svg';
 
 const CourseCard = () => (
   <div className="bg-white overflow-hidden shadow-sm">

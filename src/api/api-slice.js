@@ -3,17 +3,17 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
 export const apiSlice = createApi({
   baseQuery: fetchBaseQuery({
-    baseUrl: 'https://stem-api.istad.co/api/',
+    baseUrl: '/api/', // Proxy path, not the full URL
     prepareHeaders: (headers, { getState }) => {
       const token = getState().auth.accessToken;
       if (token) {
         headers.set('Authorization', `Bearer ${token}`);
       }
-      return headers; 
+      return headers;
     },
   }),
   tagTypes: [
-    'Auth', 'Forum', 'Article', 'Course', 'Category', 'Lesson', 
+    'Auth', 'Forum', 'Article', 'Course', 'Category', 'Lesson',
     'Section', 'Content', 'Comment', 'Follow', 'File'
   ],
   endpoints: () => ({}),

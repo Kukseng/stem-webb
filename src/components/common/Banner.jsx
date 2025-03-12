@@ -7,6 +7,7 @@ const Banner = () => {
     <div className="relative overflow-hidden">
       <div className="xl:max-w-[1300px] 2xl:max-w-content2xl lg:max-w-contentlg  md:max-w-contentmd sm:max-w-contentsm   mx-auto px-4 sm:px-6 lg:px-4  py-10 sm:py-16">
         <div className="grid grid-cols-1 md:grid-cols-2 items-center gap-8">
+        
           <div className="w-full flex justify-start">
             <div className="text-left ml-0 font-suwannaphum">
               <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold text-primary mb-4 sm:mb-6 leading-tight animate-fade-in">

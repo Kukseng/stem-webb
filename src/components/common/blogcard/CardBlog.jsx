@@ -234,7 +234,6 @@ const BlogCard = () => {
           </div>
         ))}
       </div>
-
       {/* No results message */}
       {visiblePosts.length === 0 && (
         <div className="flex flex-col items-center justify-center py-12">

@@ -1,5 +1,5 @@
 // src/api/followApi.js
-import { apiSlice } from './apiSlice';
+import { apiSlice } from './api-slice';
 
 export const followApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
