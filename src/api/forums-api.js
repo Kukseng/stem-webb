@@ -1,5 +1,7 @@
 // src/api/forumApi.js
-import { apiSlice } from './apiSlice';
+import { apiSlice } from './api-slice';
+
+
 
 export const forumApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
@@ -34,13 +36,17 @@ export const forumApi = apiSlice.injectEndpoints({
       }),
       invalidatesTags: ['Forum'],
     }),
-    replyToForum: builder.mutation({
-      query: (commentData) => ({
-        url: 'comments/',
-        method: 'POST',
-        body: commentData,
-      }),
-      invalidatesTags: ['Forum', 'Comment'],
+   replyToForum: builder.mutation({
+  query: (commentData) => ({
+    url: 'comments/',
+    method: 'POST',
+    body: commentData,
+  }),
+  invalidatesTags: ['Forum', 'Comment'], // This should trigger refetch
+}),
+    getAllComments: builder.query({
+      query: () => 'comments/',
+      providesTags: ['Comment'],
     }),
   }),
 });
@@ -52,4 +58,5 @@ export const {
   useUpdateForumMutation,
   useDeleteForumMutation,
   useReplyToForumMutation,
+  useGetAllCommentsQuery,
 } = forumApi;

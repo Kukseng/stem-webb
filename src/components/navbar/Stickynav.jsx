@@ -2,7 +2,7 @@
 
 const Stickynav = () => {
   return (
-    <section className="w-full flex justify-center items-center p-2 bg-primary  font-suwan">
+    <section className="w-full flex justify-center items-center p-2 bg-primary     font-suwan">
       <div className="flex justify-center items-center">
        
         <p className="text-[#FFFFFF] font-normal  text-sm sm:text-md">

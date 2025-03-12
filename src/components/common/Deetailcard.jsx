@@ -50,10 +50,10 @@ const FinancialEducationCards = () => {
           <div className="mb-4">
             {card.icon()}
           </div>
-          <h2 className="text-[24px] font-bold mb-2">{card.title}</h2>
+          <h2 className="text-[28px] font-bold mb-2">{card.title}</h2>
           
-          <p className="text-Descride  text-descrid  mb-2">{card.subtitle}</p>
-          <p className="text-Descride  text-descrid  mb-4 w-[320px]">{card.description}</p>
+          <p className="text-[22px]  text-descrid  mb-2">{card.subtitle}</p>
+          <p className="text-[22px] text-descrid  mb-4 w-[320px]">{card.description}</p>
         </div>
       ))}
     </div>

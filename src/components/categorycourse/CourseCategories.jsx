@@ -108,7 +108,7 @@ const CourseCategories = () => {
               key={index}
               data-aos="zoom-in"
               data-aos-delay={index * 100}
-              className="group relative overflow-hidden rounded-2xl shadow-lg hover:shadow-xl transition-all duration-500 transform hover:-translate-y-2 h-72"
+              className="group relative overflow-hidden rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 h-72"
             >
               {/* Background pattern */}
               <div className="absolute top-0 right-0 w-32 h-32 opacity-10">
@@ -117,26 +117,25 @@ const CourseCategories = () => {
                 </svg>
               </div>
 
-    
               <div 
-                className={`absolute inset-0 bg-gradient-to-br ${category.color} opacity-0 group-hover:opacity-100 transition-opacity duration-500`} 
+                className={`absolute inset-0 bg-gradient-to-br ${category.color} opacity-0 group-hover:opacity-100 transition-opacity duration-300`} 
               />
               
               {/* Card content */}
-              <div className={`relative p-6 ${category.bgLight} h-full transition-colors duration-500 group-hover:bg-opacity-0`}>
+              <div className={`relative p-6 ${category.bgLight} h-full transition-colors duration-300 group-hover:bg-opacity-0`}>
                 <div className="flex items-start justify-between mb-4">
-                  <div className={`p-3 rounded-xl ${category.bgLight} ${category.textColor} group-hover:text-white transition-colors duration-500 shadow-md`}>
+                  <div className={`p-3 rounded-xl ${category.bgLight} ${category.textColor} group-hover:text-white transition-colors duration-300 shadow-md`}>
                     {category.icon}
                   </div>
-                  <span className="text-sm font-medium bg-primary/10 px-3 py-1 rounded-full text-primary group-hover:bg-white/20 group-hover:text-white transition-colors duration-500">
+                  <span className="text-sm font-medium bg-primary/10 px-3 py-1 rounded-full text-primary group-hover:bg-white/20 group-hover:text-white transition-colors duration-300">
                     {category.courses} វគ្គសិក្សា
                   </span>
                 </div>
 
-                <h3 className="text-2xl font-bold text-gray-800 mb-2 group-hover:text-white transition-colors duration-500">
+                <h3 className="text-2xl font-bold text-gray-800 mb-2 group-hover:text-white transition-colors duration-300">
                   {category.title}
                 </h3>
-                <p className="text-sm text-gray-600 mb-4 group-hover:text-white/90 transition-colors duration-500">
+                <p className="text-sm text-gray-600 mb-4 group-hover:text-white/90 transition-colors duration-300">
                   {category.enTitle}
                 </p>
                 <div className="absolute bottom-6 left-6 right-6">
@@ -146,9 +145,8 @@ const CourseCategories = () => {
                 </div>
               </div>
 
-           
               <div 
-                className="absolute inset-0 bg-gradient-to-br from-primary/95 to-primary/80 backdrop-blur-sm translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out p-6 flex flex-col justify-between z-10"
+                className="absolute inset-0 bg-gradient-to-br from-primary/95 to-primary/80 backdrop-blur-sm translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out p-6 flex flex-col justify-between z-10"
               >
                 <div>
                   <h3 className="text-xl font-bold text-white mb-2">

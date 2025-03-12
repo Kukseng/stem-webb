@@ -1,5 +1,5 @@
 // src/api/articleApi.js
-import { apiSlice } from './apiSlice';
+import { apiSlice } from './api-slice';
 
 export const articleApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({

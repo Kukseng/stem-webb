@@ -31,8 +31,10 @@ const CourseDetailPage = () => {
           alt={course.course_name}
           className="w-full h-64 object-cover rounded-lg mb-4"
         />
-        <p className="text-gray-700 mb-4">{course.course_description}</p>
-        <p className="text-gray-600">Category: {course.categories?.[0]?.category_name || "No Category"}</p>
+        <p className="text-gray-700 mb-4">{course.course_name}</p>
+        <p className="text-gray-600">Category: {course.course_description || "No Category"}</p>
+        {/* <p className="text-gray-600">Category: {course.categories?.[0]?.category_name || "No Category"}</p> */}
+
         <p className="text-gray-600">Rating: {course.rating || 0} / 5</p>
         <p className="text-gray-600">Duration: {course.duration || "N/A"}</p>
         <p className="text-gray-600">Price: {course.price || "Free"}</p>
