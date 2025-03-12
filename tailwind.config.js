@@ -7,16 +7,16 @@ export default {
       fontFamily: {
         sans: ["Inter", "sans-serif"],
         serif: ["Merriweather", "serif"],
-        suwannaphum: ["Suwannaphum", "serif"],
+        suwannaphum: ["Kantumruy Pro", "sans-serif"],
       },
       fontSize: {
         Descride:"16px",
         xs: ".75rem",
-        sm: ".875rem",
-        base: "1rem",
-        lg: "1.125rem",
-        xl: "1.25rem",
-        "2xl": "1.5rem",
+        sm: "22px",
+        base: "26px",
+        lg: "30px",
+        xl: "34px",
+        "2xl": "38px",
         "3xl": "1.875rem",
         "4xl": "2.25rem",
         "5xl": "3rem",
@@ -33,8 +33,13 @@ export default {
         footer:"#79D4F7"
       },
       maxWidth: {
-        content: "1300px",
+        content: "1400px",
+        contentlg:"900px",
+        contentmd:"700px",
+        contentsm:"200px",
+        content2xl:"1700px",
       },
+
     },
   },
   plugins: [flowbite.plugin()],

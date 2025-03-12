@@ -12,14 +12,14 @@ const LessonsCard = () => {
   const [selectedLesson, setSelectedLesson] = useState(lessons[0] || null);
   const [isSidebarOpen, setSidebarOpen] = useState(true);
   const [progress, setProgress] = useState(0); 
-  // Handle lesson selection
+
   const handleLessonClick = (lesson) => {
     setSelectedLesson(lesson);
-    const randomProgress = Math.floor(Math.random() * 101); // Simulate progress
+    const randomProgress = Math.floor(Math.random() * 101); 
     setProgress(randomProgress);
   };
 
-  // Set the document title when lesson changes
+
   useEffect(() => {
     if (selectedLesson) {
       document.title = `${selectedLesson.lesson_title} | ${courseTitle}`;

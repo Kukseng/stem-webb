@@ -12,7 +12,7 @@ import LoginForm from "../pages/auth/LoginFrom";
 import SigupPage from "../pages/auth/SigupPage";
 import ForgetForm from "../pages/auth/ForgetForm";
 import VerifyOtp from "../pages/auth/VerifyOtp";
-import UserProfile from "../components/common/userprofile/UserProfilecom";
+import UserProfile from "../components/userprofile/UserProfilecom";
 // import CategoryDetailsPage from "../components/common/courses/Detail/Category-Detail";
 import Categories from "../components/common/courses/Categories";
 import LessonsCard from "../components/lesson/LessonCard";
@@ -44,7 +44,7 @@ export default function AppRoutes() {
           path="/forums"
           element={
             <MainLayout>
-             <ForumPage/>
+              <ForumPage />
             </MainLayout>
           }
         />
@@ -56,6 +56,7 @@ export default function AppRoutes() {
             </MainLayout>
           }
         />
+        {/* blog */}
         <Route
           path="/blog"
           element={
@@ -64,7 +65,14 @@ export default function AppRoutes() {
             </MainLayout>
           }
         />
-         <Route path="/articles/:id" element={<BlogDetail/>} />
+        <Route
+          path="/articles/:id"
+          element={
+            <MainLayout>
+              <BlogDetail />
+            </MainLayout>
+          }
+        />
         {/* coures */}
         <Route
           path="/courses"
@@ -74,24 +82,31 @@ export default function AppRoutes() {
             </MainLayout>
           }
         />
-
-        <Route path="/courses/:courseId/categories" element={<Categories/>} />
+        {/* courses */}
+        <Route path="/courses/:courseId/categories" element={<Categories />} />
         <Route path="/lesson/${lessonId}" element={<AllCourseDetail />} />
-        <Route path="/courses/:courseId/categories/:categoryId/lessons" element={<LessonsCard/>} />
+        <Route
+          path="/courses/:courseId/categories/:categoryId/lessons"
+          element={<LessonsCard />}
+        />
 
         {/* Form */}
         <Route path="/login" element={<LoginForm />} />
-        <Route path="/signup" element={<SigupPage/>} />
-        <Route path="/verify-otp" element={<VerifyOtp/>} />
-        <Route path="/forgot-password" element={<ForgetForm/>} />
+        <Route path="/signup" element={<SigupPage />} />
+        <Route path="/verify-otp" element={<VerifyOtp />} />
+        <Route path="/forgot-password" element={<ForgetForm />} />
 
-        <Route path="/profile" element={<UserProfile/>} />
-
+        <Route path="/profile" element={<UserProfile />} />
 
         <Route path="/courses" element={<AllCoursePage />} />
-        <Route path="/courses/:courseId" element={
-           <MainLayout>
-          <AllCoursePage /></MainLayout>} />
+        <Route
+          path="/courses/:courseId"
+          element={
+            <MainLayout>
+              <AllCoursePage />
+            </MainLayout>
+          }
+        />
         <Route
           path="/courses/:courseId/categories/:categoryId"
           element={<AllCoursePage />}
@@ -99,9 +114,9 @@ export default function AppRoutes() {
         <Route
           path="/courses/:courseId/categories/:categoryId/lessons"
           element={
-          <MainLayout>
-          <LessonsCard />
-          </MainLayout>
+            <MainLayout>
+              <LessonsCard />
+            </MainLayout>
           }
         />
       </Routes>
