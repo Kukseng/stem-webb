@@ -4,11 +4,11 @@ import image from "../../assets/markup-cropped.svg"; // Import the SVG
 
 const Banner = () => {
   return (
-    <div className="relative overflow-hidden">
-      <div className="xl:max-w-[1300px]  mx-auto px-4 sm:px-6 lg:px-4  py-10 sm:py-16">
-      
-        <div className="grid grid-cols-1 md:grid-cols-2 items-center gap-8">
-        
+    <div className="relative overflow-hidden mx-10">
+      <div className="  mx-auto px-4 sm:px-6 lg:px-4   py-10 sm:py-16">
+
+        <div className="grid grid-cols-1 md:grid-cols-2 items-center 2xl:mx-28 ">
+
           <div className="w-full flex justify-start">
             <div className="text-left ml-0 font-suwannaphum">
               <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold text-primary mb-4 sm:mb-6 leading-tight animate-fade-in">
@@ -28,8 +28,8 @@ const Banner = () => {
               </p>
               <button className="bg-primary text-white px-6 py-3 sm:px-8 sm:py-4 rounded-full flex items-center space-x-2 hover:bg-opacity-90 transition-all shadow-md animate-bounce-in">
                 <span className="font-medium">ចាប់ផ្តើមឥឡូវ</span>
-               
-              </button> 
+
+              </button>
             </div>
           </div>
           <div className="hidden sm:block w-full">

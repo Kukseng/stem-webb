@@ -1,10 +1,10 @@
 import React, { useEffect } from "react";
 import {
-    ArrowRight,
-    Facebook,
-    Linkedin,
-    Github,
-    Instagram,
+  ArrowRight,
+  Facebook,
+  Linkedin,
+  Github,
+  Instagram,
 } from "lucide-react";
 import img from "../../assets/images/logo/cher.png";
 import img1 from "../../assets/images/logo/ISTAD.png";
@@ -21,28 +21,28 @@ import { motion } from "framer-motion"; //motin for animation
 import ShuffleHero from "../common/Hero/SuffleHero";
 
 const Aboutus = () => {
-    const containerVariants = {
-        hidden: { opacity: 0 },
-        visible: {
-            opacity: 1,
-            transition: {
-                staggerChildren: 0.3,
-            },
-        },
-    };
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.3,
+      },
+    },
+  };
 
-    const itemVariants = {
-        hidden: { y: 50, opacity: 0 },
-        visible: {
-            y: 0,
-            opacity: 1,
-            transition: {
-                type: "spring",
-                stiffness: 100,
-                damping: 12,
-            },
-        },
-    };
+  const itemVariants = {
+    hidden: { y: 50, opacity: 0 },
+    visible: {
+      y: 0,
+      opacity: 1,
+      transition: {
+        type: "spring",
+        stiffness: 100,
+        damping: 12,
+      },
+    },
+  };
 
   const techIconVariants = {
     hidden: { scale: 0.8, opacity: 0 },
@@ -63,91 +63,37 @@ const Aboutus = () => {
     },
   };
 
-    useEffect(() => {
-        const handleScroll = () => {
-            const scrollY = window.scrollY;
-            const heroImage = document.querySelector(".hero-image");
-            const heroText = document.querySelector(".hero-text");
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollY = window.scrollY;
+      const heroImage = document.querySelector(".hero-image");
+      const heroText = document.querySelector(".hero-text");
 
-            if (heroImage && heroText) {
-                heroImage.style.transform = `translateY(${scrollY * 0.2
-                    }px) rotate(-10deg)`;
-                heroText.style.transform = `translateY(${scrollY * 0.1}px)`;
-            }
-        };
+      if (heroImage && heroText) {
+        heroImage.style.transform = `translateY(${scrollY * 0.2
+          }px) rotate(-10deg)`;
+        heroText.style.transform = `translateY(${scrollY * 0.1}px)`;
+      }
+    };
 
-        window.addEventListener("scroll", handleScroll);
-        return () => window.removeEventListener("scroll", handleScroll);
-    }, []);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   return (
     <div className="w-full overflow-x-hidden bg-gradient-to-b from-white to-gray-50">
-      <div className="max-w-content mx-4 sm:mx-8 lg:mx-16 my-5 lg:my-5">
-        {/* <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          <motion.div
-            initial={{ x: -100, opacity: 0 }}
-            animate={{ x: 0, opacity: 1 }}
-            transition={{ duration: 0.8 }}
-            className="hero-text"
-          >
-            <h1 className="text-primary font-suwannaphum text-4xl lg:text-5xl font-bold bg-gradient-to-r from-primary to-blue-400 bg-clip-text text-transparent">
-              iSTEM
-            </h1>
-            <h2 className="text-gray-700 text-3xl lg:text-4xl my-6 lg:my-10 font-bold">
-              ផ្តល់ឱកាសល្អបំផុតដល់សិស្ស
-            </h2>
-            <p className="font-suwannaphum text-lg lg:text-xl text-descrid leading-relaxed">
-              សិស្សបន្ទាប់ពីបញ្ចប់ថ្នាក់មធ្យមសិក្សាទុតិយភូមិឬមិនទាន់បញ្ចប់ក៍អាចសិក្សានៅលើវេសាយពួកយើងបានដែរពួកយើងអាចផ្តល់អោយនូវចំណេះដឹងថ្មីៗផ្លែកៗទាន់សម័យ។យើងប្តេជ្ញាផ្តល់ជូននូវបទពិសោធន៍
-              អប់រំផ្លាស់ប្តូរដែលផ្តល់អំណាចដល់បុគ្គលម្នាក់ៗឱ្យឈានដល់សក្តានពលពេញលេញរបស់ពួកគេ។
-              មិនថាអ្នកជាសិស្សអ្នកសិក្សាពេញមួយជីវិត
-              ឬជាអ្នកជំនាញដែលស្វែងរកជំនាញថ្មីនោះទេ យើងផ្តល់ធនធាន
-              និងការគាំទ្រដើម្បីជួយអ្នកឱ្យទទួលបានជោគជ័យ។
-              យើងផ្តល់ជូននូវកម្មវិធីអប់រំជាច្រើនដែលត្រូវបានរចនាឡើងដើម្បីបំពេញតម្រូវការសិក្សាចម្រុះវគ្គសិក្សារបស់យើងគ្របដណ្តប់លើមុខវិជ្ជាផ្សេងៗគ្នា
-            </p>
-            <motion.button
-              whileHover={{
-                scale: 1.05,
-                boxShadow: "0 10px 25px rgba(0, 128, 255, 0.25)",
-              }}
-              whileTap={{ scale: 0.95 }}
-              className="text-white font-suwannaphum items-center px-6 py-3 my-6 flex cursor-pointer bg-primary hover:bg-cyan-700 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-lg lg:text-2xl text-center transition-all duration-300"
-            >
-              ចាប់ផ្តើមរៀន <ArrowRight className="ml-2 animate-pulse" />
-            </motion.button>
-          </motion.div>
-          <motion.div
-            initial={{ x: 100, opacity: 0 }}
-            animate={{ x: 0, opacity: 1 }}
-            transition={{ duration: 0.8 }}
-            className="relative flex justify-center lg:justify-end"
-          >
-            <motion.img
-              src={img}
-              alt="Hero"
-              className="w-64 lg:w-96 rotate-[-10deg] hero-image drop-shadow-2xl"
-              animate={{
-                y: [0, -15, 0],
-                rotate: [-10, -12, -10],
-              }}
-              transition={{
-                y: { repeat: Infinity, duration: 3, ease: "easeInOut" },
-                rotate: { repeat: Infinity, duration: 5, ease: "easeInOut" },
-              }}
-            />
-            <div className="absolute -z-10 w-64 h-64 bg-blue-200 rounded-full blur-3xl opacity-30 -bottom-10 -right-10"></div>
-          </motion.div>
-        </div> */}
-          <ShuffleHero/>
+      <div className=" mx-4 sm:mx-8 lg:mx-16 my-5 lg:my-5 2xl:mx-36">
+        <ShuffleHero />
       </div>
 
-            {/* Divider */}
-            <motion.div
-                initial={{ scaleX: 0 }}
-                whileInView={{ scaleX: 1 }}
-                transition={{ duration: 1 }}
-                viewport={{ once: true }}
-                className="h-24 bg-gradient-to-r from-primary via-cyan-500 to-blue-600"
-            ></motion.div>
+      {/* Divider */}
+      <motion.div
+        initial={{ scaleX: 0 }}
+        whileInView={{ scaleX: 1 }}
+        transition={{ duration: 1 }}
+        viewport={{ once: true }}
+        className="h-24 bg-gradient-to-r from-primary via-cyan-500 to-blue-600"
+      ></motion.div>
 
       <motion.div
         initial={{ opacity: 0 }}
@@ -161,79 +107,15 @@ const Aboutus = () => {
         </h3>
       </motion.div>
 
-            {/* Teacher Cards */}
-            <motion.div
-                variants={containerVariants}
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true }}
-                className="mx-4 sm:mx-8 lg:mx-16 flex flex-wrap justify-center gap-8 py-10"
-            >
-                {[1, 2].map((_, index) => (
-                    <motion.div
-                        key={index}
-                        variants={itemVariants}
-                        whileHover={{
-                            y: -10,
-                            boxShadow:
-                                "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
-                        }}
-                        className="max-w-sm bg-white border border-gray-200 rounded-lg shadow-sm transform transition-all duration-300"
-                    >
-                        <div className="flex justify-center p-6">
-                            <img
-                                className="rounded-full w-48 h-48 object-cover border-4 border-primary"
-                                src={img}
-                                alt="Teacher"
-                            />
-                        </div>
-                        <div className="p-5 text-center">
-                            <h5 className="text-2xl font-bold text-gray-900">
-                                គឹម ចាន់សុផេង
-                            </h5>
-                            <p className="text-cyan-700 font-suwannaphum">Mentor</p>
-                            <p className="mb-3 text-gray-700">
-                                ភ្ជាប់ទំនាក់ទំនងជាមួយអ្នកណែនាំដែលមានបទពិសោធន៍ក្នុងវិស័យ iSTEM
-                                ដែលផ្តល់ការណែនាំ ចែករំលែកការយល់ដឹងអំពីឧស្សាហកម្ម
-                                និងជួយអ្នកក្នុងការច្នៃប្រឌិត និងអភិវឌ្ឍ។
-                            </p>
-                            <motion.div
-                                className="flex justify-center gap-4"
-                                animate={{ y: [0, 5, 0] }}
-                                transition={{ repeat: Infinity, duration: 2 }}
-                            >
-                                <motion.div whileHover={{ scale: 1.2, color: "#1877F2" }}>
-                                    <Facebook className="text-gray-700" />
-                                </motion.div>
-                                <motion.div whileHover={{ scale: 1.2, color: "#0A66C2" }}>
-                                    <Linkedin className="text-gray-700" />
-                                </motion.div>
-                            </motion.div>
-                        </div>
-                    </motion.div>
-                ))}
-            </motion.div>
-
-      <motion.div
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        transition={{ duration: 1 }}
-        viewport={{ once: true }}
-        className="text-center py-16"
-      >
-        <h3 className="text-primary text-4xl lg:text-5xl font-bold bg-gradient-to-r from-primary to-blue-500 bg-clip-text text-transparent">
-          សមាជិកក្រុម
-        </h3>
-      </motion.div>
-
+      {/* Teacher Cards */}
       <motion.div
         variants={containerVariants}
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true }}
-        className="mx-4 sm:mx-8 lg:mx-16 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 py-10"
+        className="mx-4 sm:mx-8 lg:mx-16 flex flex-wrap justify-center gap-8 py-10"
       >
-        {[1, 2, 3, 4, 5, 6].map((_, index) => (
+        {[1, 2].map((_, index) => (
           <motion.div
             key={index}
             variants={itemVariants}
@@ -246,48 +128,112 @@ const Aboutus = () => {
           >
             <div className="flex justify-center p-6">
               <img
-                className="rounded-full w-48 h-48 object-cover border-4 border-cyan-500"
-                src={img1}
-                alt="Team Member"
+                className="rounded-full w-48 h-48 object-cover border-4 border-primary"
+                src={img}
+                alt="Teacher"
               />
             </div>
             <div className="p-5 text-center">
-              <h5 className="text-2xl font-bold text-gray-900">ស្រេង ជីប៉</h5>
+              <h5 className="text-2xl font-bold text-gray-900">
+                គឹម ចាន់សុផេង
+              </h5>
               <p className="text-cyan-700 font-suwannaphum">Mentor</p>
               <p className="mb-3 text-gray-700">
                 ភ្ជាប់ទំនាក់ទំនងជាមួយអ្នកណែនាំដែលមានបទពិសោធន៍ក្នុងវិស័យ iSTEM
                 ដែលផ្តល់ការណែនាំ ចែករំលែកការយល់ដឹងអំពីឧស្សាហកម្ម
-                និងជួយអ្នកក្នុងការច្នៃប្រឌិត និងអភិវឌ្ឍគម្រោងក្នុងពិភពពិត។
+                និងជួយអ្នកក្នុងការច្នៃប្រឌិត និងអភិវឌ្ឍ។
               </p>
-              <div className="flex justify-center gap-4">
+              <motion.div
+                className="flex justify-center gap-4"
+                animate={{ y: [0, 5, 0] }}
+                transition={{ repeat: Infinity, duration: 2 }}
+              >
                 <motion.div whileHover={{ scale: 1.2, color: "#1877F2" }}>
                   <Facebook className="text-gray-700" />
                 </motion.div>
                 <motion.div whileHover={{ scale: 1.2, color: "#0A66C2" }}>
                   <Linkedin className="text-gray-700" />
                 </motion.div>
-                <motion.div whileHover={{ scale: 1.2, color: "#171515" }}>
-                  <Github className="text-gray-700" />
-                </motion.div>
-                <motion.div whileHover={{ scale: 1.2, color: "#E4405F" }}>
-                  <Instagram className="text-gray-700" />
-                </motion.div>
-              </div>
+              </motion.div>
             </div>
           </motion.div>
         ))}
       </motion.div>
 
-            {/* Divider */}
-            <div className="flex justify-center py-10">
-                <motion.div
-                    initial={{ width: 0 }}
-                    whileInView={{ width: "6rem" }}
-                    transition={{ duration: 1 }}
-                    viewport={{ once: true }}
-                    className="h-1 bg-gradient-to-r from-purple-700 to-pink-500"
-                ></motion.div>
-            </div>
+      <motion.div
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        transition={{ duration: 1 }}
+        viewport={{ once: true }}
+        className="text-center py-16"
+      >
+        <h3 className="text-primary text-4xl lg:text-5xl font-bold bg-gradient-to-r from-primary to-blue-500 bg-clip-text text-transparent">
+          សមាជិកក្រុម
+        </h3>
+      </motion.div>
+      <div className=" flex justify-center">
+        <motion.div
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          className="mx-4 sm:mx-8 lg:mx-16 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 py-10"
+        >
+          {[1, 2, 3, 4, 5, 6].map((_, index) => (
+            <motion.div
+              key={index}
+              variants={itemVariants}
+              whileHover={{
+                y: -10,
+                boxShadow:
+                  "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
+              }}
+              className="max-w-sm bg-white border border-gray-200 rounded-lg shadow-sm transform transition-all duration-300"
+            >
+              <div className="flex justify-center p-6">
+                <img
+                  className="rounded-full w-48 h-48 object-cover border-4 border-cyan-500"
+                  src={img1}
+                  alt="Team Member"
+                />
+              </div>
+              <div className="p-5 text-center">
+                <h5 className="text-2xl font-bold text-gray-900">ស្រេង ជីប៉</h5>
+                <p className="text-cyan-700 font-suwannaphum">Mentor</p>
+                <p className="mb-3 text-gray-700">
+                  ភ្ជាប់ទំនាក់ទំនងជាមួយអ្នកណែនាំដែលមានបទពិសោធន៍ក្នុងវិស័យ iSTEM
+                  ដែលផ្តល់ការណែនាំ ចែករំលែកការយល់ដឹងអំពីឧស្សាហកម្ម
+                  និងជួយអ្នកក្នុងការច្នៃប្រឌិត និងអភិវឌ្ឍគម្រោងក្នុងពិភពពិត។
+                </p>
+                <div className="flex justify-center gap-4">
+                  <motion.div whileHover={{ scale: 1.2, color: "#1877F2" }}>
+                    <Facebook className="text-gray-700" />
+                  </motion.div>
+                  <motion.div whileHover={{ scale: 1.2, color: "#0A66C2" }}>
+                    <Linkedin className="text-gray-700" />
+                  </motion.div>
+                  <motion.div whileHover={{ scale: 1.2, color: "#171515" }}>
+                    <Github className="text-gray-700" />
+                  </motion.div>
+                  <motion.div whileHover={{ scale: 1.2, color: "#E4405F" }}>
+                    <Instagram className="text-gray-700" />
+                  </motion.div>
+                </div>
+              </div>
+            </motion.div>
+          ))}
+        </motion.div>
+      </div>
+      {/* Divider */}
+      <div className="flex justify-center py-10">
+        <motion.div
+          initial={{ width: 0 }}
+          whileInView={{ width: "6rem" }}
+          transition={{ duration: 1 }}
+          viewport={{ once: true }}
+          className="h-1 bg-gradient-to-r from-purple-700 to-pink-500"
+        ></motion.div>
+      </div>
 
       {/* Tech Stack Section */}
       <motion.div
@@ -304,7 +250,7 @@ const Aboutus = () => {
           Tech Stack
         </h3>
         <motion.div
-          className="flex justify-center gap-4 flex-wrap py-10"
+          className="flex justify-center gap-4 flex-wrap py-10 2xl:gap-20"
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
@@ -435,7 +381,7 @@ const Aboutus = () => {
                     initial={{ height: 0, opacity: 0 }}
                     animate={{ height: "auto", opacity: 1 }}
                     transition={{ duration: 0.5 }}
-                    className="text-lg lg:text-xl text-descrid font-suwannaphum leading-relaxed"
+                    className="text-lg lg:text-xl text-descrid font-suwannaphum leading-relaxed 2xl:text-lg"
                   >
                     iSTEM Education រួមបញ្ចូលវិទ្យាសាស្ត្រ បច្ចេកវិទ្យា
                     វិស្វកម្ម និងគណិតវិទ្យា (STEM) ដោយផ្តោតលើការច្នៃប្រឌិត

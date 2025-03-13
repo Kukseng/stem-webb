@@ -161,14 +161,14 @@ const STEMTutoring = () => {
     <div className="min-h-screen bg-white p-4 md:p-8 mt-[100px]">
       <div className="max-w-6xl mx-auto">
         {/* Header Section */}
-        <div className="flex flex-col md:flex-row justify-between items-center mb-12">
+        <div className="flex flex-col md:flex-row justify-between items-center mb-12 2xl:gap-20">
           <div className="w-full md:w-1/2 mb-8 md:mb-0">
-            <h1 className="text-3xl md:text-4xl font-bold mb-4">
+            <h1 className="text-3xl md:text-4xl font-bold mb-4 2xl:text-5xl">
               បង្កើនជំនាញរបស់អ្នកៗ
               <br />
               ជាមួយ STEM Tutoring
             </h1>
-            <p className="text-gray-600 mb-6">
+            <p className="text-gray-600 mb-6 2xl:text-lg  ">
               ការរៀនសូត្រអកុលរបស់អ្នក ជាមួយការសិក្សាភាសាវិទ្យាសាស្ត្រនិងជំនាញ
               ដែលមានរកាវិទ្យាល័យ និងជំនាញផ្សេងៗ
               <br />
@@ -180,16 +180,16 @@ const STEMTutoring = () => {
           </div>
           <div className="w-full md:w-1/2 relative">
             <div className="relative">
-              <div className="border-4 border-gray-200 rounded-3xl p-4 bg-white shadow-lg">
-        
+              <div className="border-4 border-gray-200 rounded-3xl p-4 bg-white ">
+
                 <div className="flex items-end mb-4">
                   <div className="h-32 w-16 bg-gray-200 rounded mr-2"></div>
                   <div className="h-24 w-16 bg-gray-200 rounded mr-2"></div>
                   <div className="h-28 w-16 bg-gray-200 rounded"></div>
                 </div>
-                
-          
-                <div className="flex justify-around items-center">
+
+
+                <div className="flex justify-around items-center ">
                   <img src={person} alt="person" className="w-full h-full" />
                 </div>
               </div>

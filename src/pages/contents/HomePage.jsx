@@ -14,10 +14,10 @@ const HomePage = () => {
   return (
     <>
       <div>
-      
+
         <Banner />
         <MainCategory />
-        <ExampleWrapper/>
+        <ExampleWrapper />
         <CourseCategories />
         <CourseList />
         <CourseListingPage />

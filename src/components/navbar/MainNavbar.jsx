@@ -129,13 +129,12 @@ function MainNavbar() {
 
   return (
     <nav
-      className={`bg-white bg-opacity-30 backdrop-blur-md sticky top-0 z-50 transition-shadow duration-300 ${
-        isScrolled ? "shadow-lg" : "border-b border-gray-100"
-      }`}
+      className={`bg-white bg-opacity-30 backdrop-blur-md sticky top-0 z-50 transition-shadow duration-300 ${isScrolled ? "shadow-lg" : "border-b border-gray-100"
+        }`}
     >
       <div className="w-full">
         <div className="mx-auto flex items-center justify-between py-3 px-4 md:px-6 lg:px-8 2xl:mx-14">
-       
+
           <Link to="/" className="flex-shrink-0">
             <div className="flex items-center space-x-1 sm:space-x-2">
               <div className="h-16 w-16 md:h-18 md:w-18 lg:h-20 lg:w-20 rounded-full flex items-center justify-center text-white font-bold text-lg">
@@ -155,7 +154,7 @@ function MainNavbar() {
             </div>
           </Link>
 
-          <div className="hidden lg:flex items-center space-x-3 xl:space-x-6">
+          <div className="hidden lg:flex 2xl:text-lg text-gray-700 font-bold items-center space-x-3 xl:space-x-6">
             {navItems.map((item) =>
               item.hasDropdown ? (
                 <Dropdown
@@ -277,14 +276,12 @@ function MainNavbar() {
             ) : (
               <Link to="/login">
                 <div className="flex items-center space-x-4 sm:space-x-3">
-                  <button className="hidden sm:block text-primary hover:text-[#1e8fb8] text-[16px] xl:text-[16px] font-medium transition-colors whitespace-nowrap">
+                  <button className="hidden sm:block text-primary hover:text-[#1e8fb8] text-[18px] xl:text-[16px] 2xl:text-sm font-medium transition-colors whitespace-nowrap">
                     ចូលគណនី
                   </button>
                 </div>
               </Link>
             )}
-
-        =
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               className="lg:hidden p-1 sm:p-2"
