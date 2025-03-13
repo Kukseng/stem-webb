@@ -3,11 +3,13 @@ import { BrowserRouter as Router, Routes, Route } from "react-router";
 import HomePage from "../pages/contents/HomePage";
 import CoursePage from "../pages/contents/course/coursepage";
 import AboutPage from "../pages/contents/AboutPage";
-import BlogPage from "../pages/contents/BlogPage";
+// import BlogPage from "../pages/contents/BlogPage";
 import AllCoursePage from "../pages/contents/AllCoursePage";
 import CourseDetailPage from "../pages/contents/coursedetailpage";
 import AllCourseDetail from "../pages/contents/allcourse-detail";
 import MainLayout from "../layouts/MainLayout";
+import Profile from "../components/layout/counten/Profile"; 
+import Profile_two from "../components/layout/counten/Profile_two";
 import LoginForm from "../pages/auth/LoginFrom";
 import SigupPage from "../pages/auth/SigupPage";
 import ForgetForm from "../pages/auth/ForgetForm";
@@ -57,14 +59,14 @@ export default function AppRoutes() {
           }
         />
         {/* blog */}
-        <Route
+        {/* <Route
           path="/blog"
           element={
             <MainLayout>
               <BlogPage />
             </MainLayout>
           }
-        />
+        /> */}
         <Route
           path="/articles/:id"
           element={
@@ -73,21 +75,13 @@ export default function AppRoutes() {
             </MainLayout>
           }
         />
-        {/* coures */}
         <Route
-          path="/courses"
+          path="/profile"
           element={
             <MainLayout>
-              <AllCoursePage />
+              <Profile_two/>
             </MainLayout>
           }
-        />
-        {/* courses */}
-        <Route path="/courses/:courseId/categories" element={<Categories />} />
-        <Route path="/lesson/${lessonId}" element={<AllCourseDetail />} />
-        <Route
-          path="/courses/:courseId/categories/:categoryId/lessons"
-          element={<LessonsCard />}
         />
 
         {/* Form */}

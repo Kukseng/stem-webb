@@ -39,6 +39,9 @@ export default {
         contentsm:"200px",
         content2xl:"1700px",
       },
+      texsize: {
+        text:"22px"
+      },
 
     },
   },

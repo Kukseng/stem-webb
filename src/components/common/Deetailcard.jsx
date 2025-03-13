@@ -43,17 +43,17 @@ const FinancialEducationCards = () => {
   ];
 
   return (
-    <div className='w-max-content mx-auto'>
+    <div className='xl:max-w-[1300px] 2xl:max-w-content2xl lg:max-w-contentlg md:max-w-contentmd  mx-auto'>
     <div className="flex flex-col md:flex-row gap-4 p-4 py-[100px]">
       {cards.map((card, index) => (
         <div key={index} className="rounded-xl border border-gray-200 p-6 flex flex-col items-center text-center bg-white w-full md:w-1/3">
           <div className="mb-4">
             {card.icon()}
           </div>
-          <h2 className="text-[24px] font-bold mb-2">{card.title}</h2>
+          <h2 className="text-[28px] font-bold mb-2">{card.title}</h2>
           
-          <p className="text-Descride  text-descrid  mb-2">{card.subtitle}</p>
-          <p className="text-Descride  text-descrid  mb-4 w-[320px]">{card.description}</p>
+          <p className="text-[22px]  text-descrid  mb-2">{card.subtitle}</p>
+          <p className="text-[22px] text-descrid  mb-4 w-[320px]">{card.description}</p>
         </div>
       ))}
     </div>

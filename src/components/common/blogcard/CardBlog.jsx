@@ -16,38 +16,38 @@ const BlogCard = () => {
       image: 'https://plus.unsplash.com/premium_photo-1661339265887-be15949790ff?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8YmxvZ3xlbnwwfHwwfHx8MA%3D%3D',
       categories: ['Research', 'UI UX','Mobile', 'UI Design', 'Programming']
     },
-    // {
-    //   id: 2,
-    //   date: 'September 24, 2017',
-    //   title: 'មូលដ្ឋានគ្រឹះនៃការរចនាគេហទំព័រ',
-    //   description: 'មូលដ្ឋានគ្រឹះរបស់អ្នកអភិវឌ្ឍគេហទំព័រជាមួយភាសា HTML សម្រាប់រចនាសម្ព័ន្ធ CSS សម្រាប់រចនាប្លង់ និង JavaScript សម្រាប់...',
-    //   image: 'https://plus.unsplash.com/premium_photo-1661339265887-be15949790ff?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8YmxvZ3xlbnwwfHwwfHx8MA%3D%3D',
-    //   categories: ['Research', 'UI Design']
-    // },
-    // {
-    //   id: 3,
-    //   date: 'March 13, 2014',
-    //   title: 'ភាពងាយស្រួលនៃការសិក្សាសូហ្វវែរប្រកាស',
-    //   description: 'វិធីសាស្ត្រដែលហាក់ដូចជាកាន់តែងាយបំផុតសម្រាប់អ្នកចាប់ផ្តើមការសិក្សាអភិវឌ្ឍន៍កម្មវិធីគឺត្រូវផ្ដល់ពេលវេលាគ្រប់គ្រាន់ដល់ការសិក្សាគោលការណ៍និងការអនុវត្តជាក់ស្ដែង។',
-    //   image: 'https://plus.unsplash.com/premium_photo-1661339265887-be15949790ff?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8YmxvZ3xlbnwwfHwwfHx8MA%3D%3D',
-    //   categories: ['Programming', 'Research', 'Developments']
-    // },
-    // {
-    //   id: 4,
-    //   date: 'May 21, 2022',
-    //   title: 'បច្ចេកវិទ្យា AI ក្នុងការអភិវឌ្ឍកម្មវិធី',
-    //   description: 'ការប្រើប្រាស់បច្ចេកវិទ្យាបញ្ញាសិប្បនិម្មិត (AI) ក្នុងការបង្កើតកម្មវិធីតាមតម្រូវការរបស់អតិថិជន និងការជួយសម្រួលដល់ការអភិវឌ្ឍសូហ្វវែរ...',
-    //   image: 'https://plus.unsplash.com/premium_photo-1661339265887-be15949790ff?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8YmxvZ3xlbnwwfHwwfHx8MA%3D%3D',
-    //   categories: ['AI', 'Programming', 'Developments']
-    // },
-    // {
-    //   id: 5,
-    //   date: 'August 9, 2023',
-    //   title: 'របៀបបង្កើតកម្មវិធីលើទូរស័ព្ទ',
-    //   description: 'ជំហានក្នុងការបង្កើតកម្មវិធីលើទូរស័ព្ទដែលមានដំណើរការលើប្រព័ន្ធប្រតិបត្តិការ Android និង iOS ដោយប្រើប្រាស់ React Native ឬ Flutter...',
-    //   image: 'https://plus.unsplash.com/premium_photo-1661339265887-be15949790ff?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8YmxvZ3xlbnwwfHwwfHx8MA%3D%3D',
-    //   categories: ['Mobile', 'UI Design', 'Programming']
-    // }
+    {
+      id: 2,
+      date: 'September 24, 2017',
+      title: 'មូលដ្ឋានគ្រឹះនៃការរចនាគេហទំព័រ',
+      description: 'មូលដ្ឋានគ្រឹះរបស់អ្នកអភិវឌ្ឍគេហទំព័រជាមួយភាសា HTML សម្រាប់រចនាសម្ព័ន្ធ CSS សម្រាប់រចនាប្លង់ និង JavaScript សម្រាប់...',
+      image: 'https://plus.unsplash.com/premium_photo-1661339265887-be15949790ff?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8YmxvZ3xlbnwwfHwwfHx8MA%3D%3D',
+      categories: ['Research', 'UI Design']
+    },
+    {
+      id: 3,
+      date: 'March 13, 2014',
+      title: 'ភាពងាយស្រួលនៃការសិក្សាសូហ្វវែរប្រកាស',
+      description: 'វិធីសាស្ត្រដែលហាក់ដូចជាកាន់តែងាយបំផុតសម្រាប់អ្នកចាប់ផ្តើមការសិក្សាអភិវឌ្ឍន៍កម្មវិធីគឺត្រូវផ្ដល់ពេលវេលាគ្រប់គ្រាន់ដល់ការសិក្សាគោលការណ៍និងការអនុវត្តជាក់ស្ដែង។',
+      image: 'https://plus.unsplash.com/premium_photo-1661339265887-be15949790ff?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8YmxvZ3xlbnwwfHwwfHx8MA%3D%3D',
+      categories: ['Programming', 'Research', 'Developments']
+    },
+    {
+      id: 4,
+      date: 'May 21, 2022',
+      title: 'បច្ចេកវិទ្យា AI ក្នុងការអភិវឌ្ឍកម្មវិធី',
+      description: 'ការប្រើប្រាស់បច្ចេកវិទ្យាបញ្ញាសិប្បនិម្មិត (AI) ក្នុងការបង្កើតកម្មវិធីតាមតម្រូវការរបស់អតិថិជន និងការជួយសម្រួលដល់ការអភិវឌ្ឍសូហ្វវែរ...',
+      image: 'https://plus.unsplash.com/premium_photo-1661339265887-be15949790ff?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8YmxvZ3xlbnwwfHwwfHx8MA%3D%3D',
+      categories: ['AI', 'Programming', 'Developments']
+    },
+    {
+      id: 5,
+      date: 'August 9, 2023',
+      title: 'របៀបបង្កើតកម្មវិធីលើទូរស័ព្ទ',
+      description: 'ជំហានក្នុងការបង្កើតកម្មវិធីលើទូរស័ព្ទដែលមានដំណើរការលើប្រព័ន្ធប្រតិបត្តិការ Android និង iOS ដោយប្រើប្រាស់ React Native ឬ Flutter...',
+      image: 'https://plus.unsplash.com/premium_photo-1661339265887-be15949790ff?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8YmxvZ3xlbnwwfHwwfHx8MA%3D%3D',
+      categories: ['Mobile', 'UI Design', 'Programming']
+    }
   ];
 
   // Get all unique categories
@@ -150,7 +150,7 @@ const BlogCard = () => {
   );
 
   return (
-    <div className={`max-w-content mx-auto px-4 py-8 transition-opacity duration-1000 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}>
+    <div className={`xl:max-w-content 2xl:max-w-content2xl lg:max-w-contentlg md:max-w-contentmd   mx-auto px-4 py-8 transition-opacity duration-1000 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}>
       <div className={`flex flex-col md:flex-row justify-between items-start md:items-center mb-8 transition-transform duration-700 ${isLoaded ? 'translate-y-0' : 'translate-y-10'}`}>
         <div className="mb-4 md:mb-0">
           <h1 className="text-3xl font-bold">អត្ថបទចុងក្រោយ</h1>
@@ -234,7 +234,6 @@ const BlogCard = () => {
           </div>
         ))}
       </div>
-
       {/* No results message */}
       {visiblePosts.length === 0 && (
         <div className="flex flex-col items-center justify-center py-12">

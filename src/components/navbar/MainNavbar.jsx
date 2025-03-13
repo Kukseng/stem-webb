@@ -64,8 +64,8 @@ const profileMenuItems = [
 
 const navItems = [
   { label: "ទំព័រដើម", href: "/" },
-  { label: "វគ្គសិក្សា", hasDropdown: true },
-  { label: "វេទិកា", href: "/forums" },
+  { label: "វគ្គសិក្សា",icon:Dropdown, hasDropdown: true },
+  { label: "គ្រូបង្រៀន", href: "/profile" },
   { label: "មាតិកា", href: "/blog" },
   { label: "អំពីពួកយើង", href: "/aboutus" },
 ];
@@ -155,7 +155,8 @@ function MainNavbar() {
             </div>
           </Link>
 
-          <div className="hidden lg:flex items-center space-x-3 xl:space-x-6">
+          {/* Desktop Navigation */}
+          <div className="hidden lg:flex 2xl:max-w-content2xl lg:max-w-contentlg md:max-w-contentmd sm:max-w-contentsm items-center space-x-3 xl:space-x-8">
             {navItems.map((item) =>
               item.hasDropdown ? (
                 <Dropdown

@@ -91,7 +91,7 @@ const CourseCategories = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white py-[100px]">
-      <div className="max-w-content mx-auto px-4 sm:px-6 lg:px-4">
+      <div className="xl:max-w-[1300px] 2xl:max-w-content2xl lg:max-w-contentlg md:max-w-contentmd    mx-auto px-4 sm:px-6 lg:px-4">
         <div className="text-center mb-16" data-aos="fade-up">
           <h2 className="text-4xl font-bold text-gray-900 mb-4">
             ជ្រើសយកវគ្គសិក្សាដែលអ្នកចាប់អារម្មណ៍
@@ -102,7 +102,7 @@ const CourseCategories = () => {
           <div className="w-24 h-1 bg-primary mx-auto mt-6 rounded-full"></div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4 gap-8">
           {categories.map((category, index) => (
             <div
               key={index}
