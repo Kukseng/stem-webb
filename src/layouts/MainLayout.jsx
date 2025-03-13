@@ -14,13 +14,15 @@ const MainLayout = ({ children }) => {
         <MainNavbar />
       </header>
 
-      <main className="">
+      <main className="mb-20">
         <div>{children}</div>
 
       </main>
 
-      {/* Footer */}
+   <footer className="relative w-full mx-auto overflow-hidden bg-footer  bg-opacity-30 backdrop-blur-md">
+    
       <Footer />
+    </footer>
     </div>
   );
 };

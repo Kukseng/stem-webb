@@ -17,7 +17,7 @@ const HomePage = () => {
       
         <Banner />
         <MainCategory />
-        <ExampleWrapper/>
+    
         <CourseCategories />
         <CourseList />
         <CourseListingPage />

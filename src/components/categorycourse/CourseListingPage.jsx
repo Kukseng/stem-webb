@@ -110,7 +110,7 @@ const SubjectCarousel = ({ subjects }) => {
         {subjects.map((subject, index) => (
           <div
             key={index}
-            className="flex-shrink-0 w-64 p-6 bg-white rounded-xl shadow-md hover:shadow-lg transition-all transform hover:-translate-y-1 cursor-pointer"
+            className="flex-shrink-0 w-64 p-6 bg-white rounded-xl broder-1  hover:shadow-sm transition-all transform hover:-translate-y-1 cursor-pointer"
           >
             <div className="w-12 h-12 bg-emerald-100 rounded-full mb-4 flex items-center justify-center">
               <span className="text-emerald-600">✓</span>
@@ -159,7 +159,7 @@ const STEMTutoring = () => {
 
   return (
     <div className="min-h-screen bg-white p-4 md:p-8 mt-[100px]">
-      <div className="max-w-6xl mx-auto">
+      <div className="max-w-content mx-auto">
         {/* Header Section */}
         <div className="flex flex-col md:flex-row justify-between items-center mb-12">
           <div className="w-full md:w-1/2 mb-8 md:mb-0">
@@ -168,7 +168,7 @@ const STEMTutoring = () => {
               <br />
               ជាមួយ STEM Tutoring
             </h1>
-            <p className="text-gray-600 mb-6">
+            <p className="text-gray-600 mb-6 w-[450px] text-base">
               ការរៀនសូត្រអកុលរបស់អ្នក ជាមួយការសិក្សាភាសាវិទ្យាសាស្ត្រនិងជំនាញ
               ដែលមានរកាវិទ្យាល័យ និងជំនាញផ្សេងៗ
               <br />
@@ -180,7 +180,7 @@ const STEMTutoring = () => {
           </div>
           <div className="w-full md:w-1/2 relative">
             <div className="relative">
-              <div className="border-4 border-gray-200 rounded-3xl p-4 bg-white shadow-lg">
+              <div className="border-2 border-gray-200 rounded-3xl p-4 bg-white ">
         
                 <div className="flex items-end mb-4">
                   <div className="h-32 w-16 bg-gray-200 rounded mr-2"></div>

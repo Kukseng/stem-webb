@@ -52,11 +52,18 @@ export const authApi = apiSlice.injectEndpoints({
     }),
     changePassword: builder.mutation({
       query: ({ old_password, new_password }) => ({
-        url: 'change-password/', // Adjust if your backend uses a different endpoint
+        url: 'change-password/',
         method: 'POST',
         body: { old_password, new_password },
       }),
-      invalidatesTags: ['Auth'], // Refresh profile if needed
+      invalidatesTags: ['Auth'],
+    }),
+    googleLogin: builder.mutation({
+      query: (token) => ({
+        url: 'google-login/',
+        method: 'POST',
+        body: { token },
+      }),
     }),
   }),
 });
@@ -69,5 +76,6 @@ export const {
   useVerifyOtpMutation,
   useForgotPasswordMutation,
   useResetPasswordMutation,
-  useChangePasswordMutation, // Added export
+  useChangePasswordMutation,
+  useGoogleLoginMutation,
 } = authApi;

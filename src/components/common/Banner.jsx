@@ -5,21 +5,21 @@ import image from "../../assets/markup-cropped.svg"; // Import the SVG
 const Banner = () => {
   return (
     <div className="relative overflow-hidden">
-      <div className="xl:max-w-[1300px]  mx-auto px-4 sm:px-6 lg:px-4  py-10 sm:py-16">
+      <div className="lg:max-w-[1300px] mx-auto px-4 sm:px-6 lg:px-4  py-10 sm:py-16">
       
         <div className="grid grid-cols-1 md:grid-cols-2 items-center gap-8">
         
           <div className="w-full flex justify-start">
             <div className="text-left ml-0 font-suwannaphum">
-              <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold text-primary mb-4 sm:mb-6 leading-tight animate-fade-in">
+              <h1 className="text-xl 2xl:text-2xl md:text-3xl lg:text-lg xl:text-xl font-semibold text-primary mb-4 sm:mb-6 leading-tight animate-fade-in">
                 ការសេក្សាវីដេអូបង្រៀនសិក្សាដោយសេរីបច្ចេកវិទ្យាថ្មីៗ
               </h1>
-              <h2 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-semibold text-descrid  mb-4 sm:mb-6 leading-normal animate-fade-in">
+              <h2 className="text-lg sm:text-base md:text-base lg:text-xl font-semibold text-descrid  mb-4 sm:mb-6 leading-normal animate-fade-in">
                 បទពិសោធន៍សិក្សាដោយសេរីសម្រាប់អ្នក
                 <br />
                 រៀនបានគ្រប់ទីកន្លែង គ្រប់ពេលវេលា
               </h2>
-              <p className="text-descrid  text-sm sm:text-base md:text-lg lg:text-xl mb-6 leading-relaxed animate-fade-in">
+              <p className="text-descrid  text-sm sm:text-base md:text-lg lg:text-lg mb-6 leading-relaxed animate-fade-in">
                 អ្នកអាចស្វែងយល់អំពីវិស័យ STEM (វិទ្យាសាស្ត្រ, បច្ចេកវិទ្យា,
                 វិស្វកម្ម, និងគណិតវិទ្យា) តាមរយៈមេរៀនអន្តរកម្ម, វីដេអូបង្រៀន,
                 លំហាត់អនុវត្ត, និងការណែនាំជាចុងដៃពីគ្រូបង្រៀនជំនាញ។

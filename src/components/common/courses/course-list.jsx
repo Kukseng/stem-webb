@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { FaRegListAlt } from "react-icons/fa";
 import { useGetAllCoursesQuery } from "../../../api/courses-api";
 import CourseCard from "./course-card";
-
+import { FaSpinner } from "react-icons/fa";
 const CoursesList = () => {
   const { data, isLoading, isError, error } = useGetAllCoursesQuery({
     pollingInterval: 0,
@@ -15,11 +15,33 @@ const CoursesList = () => {
     console.log("Full courses data:", JSON.stringify(data, null, 2));
   }, [data]);
 
-  if (isLoading) return <div>Loading courses...</div>;
-  if (isError)
-    return (
-      <div>Error: {error?.data?.message || "Failed to fetch courses"}</div>
-    );
+  if (isLoading) {
+     return (
+       <div className="flex flex-col justify-center items-center h-screen bg-gray-50">
+         <FaSpinner className="animate-spin text-primary h-12 w-12 mb-4" />
+         <p className="​​​lg:text-lg text-gray-600 font-medium​​​​​​">កំពុងទាយវគ្គសិក្សា...</p>
+       </div>
+     );
+   }
+ 
+   if (isError) {
+     return (
+       <div className="flex flex-col justify-center items-center h-screen bg-gray-50">
+         <div className="bg-red-50 border border-red-200 rounded-lg p-6 max-w-lg w-full text-center">
+           <h2 className="text-red-600 font-bold text-lg mb-2">មានបញ្ហាកើតឡើង</h2>
+           <p className="text-red-500">
+             {error?.data?.message || error?.message || "មិនអាចទាញយកវគ្គសិក្សាបានទេ"}
+           </p>
+           <button
+             onClick={() => window.location.reload()}
+             className="mt-4 bg-red-600 hover:bg-red-700 text-white font-medium py-2 px-4 rounded-lg transition-all"
+           >
+             ព្យាយាមម្តងទៀត
+           </button>
+         </div>
+       </div>
+     );
+   }
 
   return (
     <div className="bg-gray-50">

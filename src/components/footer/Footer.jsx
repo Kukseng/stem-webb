@@ -14,13 +14,13 @@ const Footer = () => {
 
   return (
     <footer className="relative w-full mx-auto overflow-hidden bg-footer  bg-opacity-30 backdrop-blur-md">
-      {/* Decorative Elements */}
+  
       <div className="absolute inset-0 -z-10">
         <div className="absolute inset-y-0 left-0 w-32 bg-gradient-to-r from-teal-50/50 to-transparent" />
         <div className="absolute inset-y-0 right-0 w-32 bg-gradient-to-l from-teal-50/50 to-transparent" />
       </div>
 
-      {/* Main Content */}
+     
       <div className="relative z-10 max-w-content mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-16">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-8">
           {/* STEM Club Section */}
@@ -132,9 +132,9 @@ const Footer = () => {
         </div>
       </div>
 
-      {/* Copyright Bar */}
+  
       <div className="relative z-10 border-t border-gray-200 bg-white/50 backdrop-blur-sm">
-        <div className="max-w-content mx-auto px-4 sm:px-6 lg:px-8 py-4">
+        <div className="max-w-content mx-auto px-4 sm:px-6 lg:px-8 ">
           <p className="text-center text-gray-600 text-sm">
             © {new Date().getFullYear()} STEM Club. All rights reserved.
           </p>

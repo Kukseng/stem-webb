@@ -46,14 +46,12 @@ const Sidebar = ({ lessons, selectedLesson, onLessonClick, courseTitle, isOpen, 
           <h2 className="text-xl font-bold text-gray-800">មេរៀន</h2>
         </div>
 
-        {/* Course navigation breadcrumb */}
         <div className="mb-4 px-2 py-1 bg-gray-50 rounded-md text-sm text-gray-600">
           <Link to="/courses/:courseId" className="hover:text-primary">វគ្គសិក្សា</Link>
           <span className="mx-1">›</span>
           <span className="font-medium">{courseTitle}</span>
         </div>
 
-        {/* Progress indicator */}
         <div className="mb-4 px-2">
           <div className="flex justify-between text-sm mb-1">
             <span className="text-gray-600">ការរីកចម្រើន</span>
@@ -72,7 +70,7 @@ const Sidebar = ({ lessons, selectedLesson, onLessonClick, courseTitle, isOpen, 
         </div>
       </div>
 
-      {/* Scrollable lesson list */}
+  
       <div className="flex-1 overflow-y-auto p-4">
         <ul className="space-y-1.5">
           {lessons.length > 0 ? (

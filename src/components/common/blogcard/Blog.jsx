@@ -27,7 +27,7 @@ const ArticleCard = ({ image, date, title, description, categories }) => (
   <div className="flex gap-6 mb-8">
     <div className="w-1/3">
       <img
-        src={image || "/api/placeholder/400/300"}
+        src={image || ""}
         alt={title}
         className="w-full h-48 object-cover rounded-lg"
       />

@@ -20,16 +20,13 @@ const BlogPage = () => {
   const [formData, setFormData] = useState({ title: '', content: '', image: '' });
 
   const navigate = useNavigate();
-  const { user } = useSelector((state) => state.auth); // Access user from auth state
-  const isLoggedIn = !!user; // Check if user exists
+  const { user } = useSelector((state) => state.auth); 
+  const isLoggedIn = !!user; 
 
   // Fetch all articles with pagination
   const { data, isLoading, isError, error } = useGetAllArticlesQuery({ page: currentPage });
 
-  // Mutations for CRUD operations
-  const [createArticle, { isLoading: isCreating }] = useCreateArticleMutation();
-  const [updateArticle, { isLoading: isUpdating }] = useUpdateArticleMutation();
-  const [deleteArticle, { isLoading: isDeleting }] = useDeleteArticleMutation();
+
 
   return (
     <div className="max-w-6xl mx-auto px-4 py-8 font-sans">

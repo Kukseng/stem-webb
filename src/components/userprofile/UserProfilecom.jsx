@@ -17,17 +17,23 @@ import {
 } from "lucide-react";
 import { FaBook, FaChevronRight } from "react-icons/fa6";
 import { VscSignOut } from "react-icons/vsc";
+import { useSelector } from "react-redux"; // Add this
 import {
   useGetProfileQuery,
   useUpdateProfileMutation,
   useChangePasswordMutation,
 } from "../../api/auth-api";
 import CreateCourseForm from "../CreateCourse";
+
 const UserProfile = () => {
   const [activeSection, setActiveSection] = useState(0);
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
   const { data, isLoading, isError, error } = useGetProfileQuery();
+  const { accessToken } = useSelector((state) => state.auth); // Retrieve token
+
+  console.log("UserProfile Access Token:", accessToken); // Debug token
+
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -42,6 +48,7 @@ const UserProfile = () => {
     location: "",
     about: "",
   });
+
   useEffect(() => {
     if (data) {
       setFormData({
@@ -55,7 +62,7 @@ const UserProfile = () => {
       });
     }
   }, [data]);
-  // Sidebar menu items with associated content
+
   const sidebarItems = [
     {
       icon: <Settings size={18} />,
@@ -65,7 +72,7 @@ const UserProfile = () => {
     {
       icon: <BookOpen size={18} />,
       text: "បង្គើតសិក្សា",
-      component: <CreateCourseForm />,
+      component: <CreateCourseForm accessToken={accessToken} />, // Pass token
     },
     {
       icon: <Clock size={18} />,
@@ -78,6 +85,9 @@ const UserProfile = () => {
       component: <QuestionReportsContent />,
     },
   ];
+
+  if (isLoading) return <div>Loading...</div>;
+  if (isError) return <div>Error: {error.message}</div>;
 
   return (
     <div className="font-suwannaphum w-full bg-gray-50">
@@ -304,7 +314,7 @@ const TimeReportsContent = () => {
   return <div className="p-6 transition-all duration-500 animate-fadeIn"></div>;
 };
 
-// Component for Question Reports content
+
 const QuestionReportsContent = () => {
   return (
     <div className="p-6 transition-all duration-500 animate-fadeIn">

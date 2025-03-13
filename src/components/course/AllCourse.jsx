@@ -5,7 +5,7 @@ import { Link, useParams, useNavigate } from "react-router-dom";
 import { ArrowBigDown, ArrowUp } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion"; // Import Framer Motion
 
-const AllCoursePage = () => {
+const AllCourse = () => {
   const { courseId, categoryId } = useParams();
   const navigate = useNavigate();
   const { data, isLoading, isError, error } = useGetAllCoursesQuery({
@@ -107,6 +107,7 @@ const AllCoursePage = () => {
     setIsCategoryDropdownOpen(false);
   };
 
+  // Reset all filters
   const resetFilters = () => {
     setFilters({
       price: "all",
@@ -216,12 +217,7 @@ const AllCoursePage = () => {
           transition={{ duration: 0.5 }}
           className="flex flex-col md:flex-row md:justify-between md:items-center mb-8 gap-4"
         >
-          <div className="flex items-center space-x-3">
-            <div className="bg-primary bg-opacity-10 p-3 rounded-full">
-              <FaBook className="w-6 h-6 text-primary" />
-            </div>
-            
-          </div>
+          
 
           <div className="flex flex-col sm:flex-row gap-2 w-full md:w-auto">
             <div className="relative flex-grow sm:max-w-xs">
@@ -794,4 +790,4 @@ const AllCoursePage = () => {
   );
 };
 
-export default AllCoursePage;
+export default AllCourse;
