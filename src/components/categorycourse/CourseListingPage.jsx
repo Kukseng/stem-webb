@@ -163,7 +163,7 @@ const STEMTutoring = () => {
         {/* Header Section */}
         <div className="flex flex-col md:flex-row justify-between items-center mb-12">
           <div className="w-full md:w-1/2 mb-8 md:mb-0">
-            <h1 className="text-3xl md:text-4xl font-bold mb-4">
+            <h1 className="text-[16px] md:text- font-bold mb-4">
               បង្កើនជំនាញរបស់អ្នកៗ
               <br />
               ជាមួយ STEM Tutoring

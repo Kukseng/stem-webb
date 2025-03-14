@@ -1,11 +1,6 @@
 import React, { useState, useEffect } from "react";
 import {
   Search,
-  ChevronDown,
-  Beaker,
-  Code,
-  Calculator,
-  Leaf,
   Menu,
   X,
   UserCircle,
@@ -22,12 +17,13 @@ import { useDispatch } from "react-redux";
 import { setCredentials, logout } from "../../redux/services/authSlice";
 import { motion, AnimatePresence } from "framer-motion";
 
-// STEM menu items for the "វគ្គសិក្សា" dropdown (example data)
-const stemMenuItems = [
-  { label: "វិទ្យាសាស្ត្រ", icon: Beaker, href: "/courses/science", description: "ស្វែងយល់ពីវិទ្យាសាស្ត្រ" },
-  { label: "បច្ចេកវិទ្យា", icon: Code, href: "/courses/technology", description: "រៀនកូដនិងបច្ចេកវិទ្យា" },
-  { label: "វិស្វកម្ម", icon: Calculator, href: "/courses/engineering", description: "សាងសង់និងរចនា" },
-  { label: "គណិតវិទ្យា", icon: Leaf, href: "/courses/math", description: "ជំនាញគណនា" },
+// Navigation items (removed dropdown from "វគ្គសិក្សា")
+const navItems = [
+  { label: "ទំព័រដើម", href: "/" },
+  { label: "វគ្គសិក្សា", href: "/courses" }, // Removed hasDropdown and dropdownItems
+  { label: "វេទិកា", href: "/forums" },
+  { label: "មាតិកា", href: "/blog" },
+  { label: "អំពីពួកយើង", href: "/aboutus" },
 ];
 
 // Profile menu items
@@ -36,20 +32,6 @@ const profileMenuItems = [
   { label: "កែប្រែប្រវត្តិរូប", icon: Settings, href: "/edit-profile" },
   { label: "សារ", icon: Inbox, href: "/messages" },
   { label: "ជំនួយ", icon: HelpingHand, href: "/help" },
-];
-
-// Navigation items
-const navItems = [
-  { label: "ទំព័រដើម", href: "/" },
-  { 
-    label: "វគ្គសិក្សា", 
-    href: "/courses",
-    hasDropdown: true,
-    dropdownItems: stemMenuItems, 
-  },
-  { label: "វេទិកា", href: "/forums" },
-  { label: "មាតិកា", href: "/blog" },
-  { label: "អំពីពួកយើង", href: "/aboutus" },
 ];
 
 function MainNavbar() {
@@ -73,7 +55,6 @@ function MainNavbar() {
     skip: !isLoggedIn,
   });
 
-
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 20);
@@ -82,16 +63,15 @@ function MainNavbar() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  
   useEffect(() => {
-    console.log("Route changed to:", location.pathname); // Debug: Log route changes
-    window.scrollTo({ top: 0, behavior: "smooth" }); // Scroll to top
+    console.log("Route changed to:", location.pathname); 
+    window.scrollTo({ top: 0, behavior: "smooth" }); 
   }, [location.pathname]);
 
   const handleLinkClick = (href) => {
     setIsMobileMenuOpen(false);
     navigate(href);
-    console.log("Navigating to:", href); // Debug: Log navigation
+    console.log("Navigating to:", href); 
   };
 
   const handleLogout = () => {
@@ -124,90 +104,44 @@ function MainNavbar() {
     >
       <div className=" mx-auto">
         <div className="flex items-center justify-between py-3 px-4 md:px-6 lg:px-8">
-          {/* Logo */}
+     
           <Link to="/" className="flex-shrink-0">
             <div className="flex items-center space-x-1 sm:space-x-2">
               <div className="h-16 w-16 md:h-18 md:w-18 lg:h-20 lg:w-20 rounded-full flex items-center justify-center text-white font-bold text-lg">
                 <img
                   src={logomodified}
                   alt="ISTEM"
-                  className="h-16 w-16 md:h-18 md:w-18 lg:h-20 lg:w-20 object-cover object-center"
+                  className="h-19 w-19 md:h-18 md:w-18 lg:h-20 lg:w-20 object-cover object-center"
                 />
               </div>
-              <h1 className="2xl:text-2xl xl:text-xl md:text-base lg:text:lg font-medium font-sans">
-                <span className="text-primary">I</span>
-                <span className="text-primary">S</span>
-                <span className="text-primary">T</span>
-                <span className="text-primary">E</span>
-                <span className="text-primary">M</span>
+              <h1 className="2xl:text-2xl xl:text-xl md:text-base lg:text:lg font-bold font-popins">
+                <span className="text-yellow-300 font-bold">i</span>
+                <span className="text-primary font-bold">S</span>
+                <span className="text-primary font-bold">T</span>
+                <span className="text-primary font-bold">E</span>
+                <span className="text-yellow-300 font-bold">M</span>
               </h1>
             </div>
           </Link>
 
-     
+          {/* Desktop Navigation */}
           <div className="hidden lg:flex items-center space-x-3 xl:space-x-6">
-            {navItems.map((item) =>
-              item.hasDropdown ? (
-                <Dropdown
-                  key={item.label}
-                  label={item.label}
-                  inline
-                  renderTrigger={() => (
-                    <button className="px-1 lg:px-2 text-gray-700 hover:text-[#1e8fb8] transition-colors duration-200 text-sm lg:text-lg  xl:text-xl 2xl:text-2xl  font-medium flex items-center whitespace-nowrap">
-                      {item.label}
-                      <ChevronDown className="ml-1 h-4 w-4" />
-                    </button>
-                  )}
-                >
-                  <AnimatePresence>
-                    <motion.div
-                      variants={dropdownVariants}
-                      initial="hidden"
-                      animate="visible"
-                      exit="exit"
-                      className="space-y-2 p-2"
-                    >
-                      {item.dropdownItems.map((dropdownItem) => (
-                        <Dropdown.Item
-                          key={dropdownItem.label}
-                          as={Link}
-                          to={dropdownItem.href}
-                          onClick={() => handleLinkClick(dropdownItem.href)}
-                          className="block p-3 hover:bg-gray-50 rounded-lg transition-colors group"
-                        >
-                          <div className="flex items-center space-x-4">
-                            <div className="bg-primary/10 p-2.5 rounded-lg">
-                              <dropdownItem.icon className="w-6 h-6 text-primary group-hover:scale-110 transition-transform" />
-                            </div>
-                            <div>
-                              <h4 className="text-base font-semibold text-gray-800 group-hover:text-primary transition-colors">
-                                {dropdownItem.label}
-                              </h4>
-                              <p className="text-sm text-gray-500 mt-1">{dropdownItem.description}</p>
-                            </div>
-                          </div>
-                        </Dropdown.Item>
-                      ))}
-                    </motion.div>
-                  </AnimatePresence>
-                </Dropdown>
-              ) : (
-                <Link
-                  key={item.label}
-                  to={item.href}
-                  onClick={() => handleLinkClick(item.href)}
-                  className="px-1 lg:px-2 text-gray-700 hover:text-[#1e8fb8] transition-colors duration-200 text-sm lg:text-base xl:text-lg font-medium whitespace-nowrap"
-                >
-                  {item.label}
-                </Link>
-              )
-            )}
+            {navItems.map((item) => (
+              <Link
+                key={item.label}
+                to={item.href}
+                onClick={() => handleLinkClick(item.href)}
+                className="px-1 lg:px-2 text-gray-700 hover:text-[#1e8fb8] transition-colors duration-200 font-medium  text-sm lg:text-lg  xl:text-xl 2xl:text-2xl  font-medium flex items-center whitespace-nowrap"
+              >
+                {item.label}
+              </Link>
+            ))}
           </div>
 
           <div className="flex items-center space-x-2 md:space-x-3 lg:space-x-4">
-       
+            {/* Desktop Search Bar */}
             <div className="hidden lg:flex items-center relative bg-white bg-opacity-30 backdrop-blur-md border rounded-[40px] border-card overflow-hidden">
-              <Search className="h-4 w-4 text-gray-400 ml-2 lg:ml-3" />
+              <Search className="h-5 w-10 text-gray-400 ml-2 lg:ml-3" />
               <input
                 type="text"
                 placeholder="ស្វែងរក..."
@@ -218,7 +152,7 @@ function MainNavbar() {
                   }
                 }}
               />
-              <button className="bg-primary text-xs text-white px-3 lg:px-4 xl:px-6 py-1.5 rounded-[40px] font-medium hover:bg-[#1e8fb8] transition-colors">
+              <button className="bg-primary text-md text-white px-3 lg:px-4 xl:px-6 py-1.5 rounded-[40px] font-medium hover:bg-[#1e8fb8] transition-colors">
                 ស្វែងរក
               </button>
             </div>
@@ -226,66 +160,36 @@ function MainNavbar() {
             {/* Profile or Login */}
             {isLoggedIn ? (
               <div className="flex items-center space-x-1 sm:space-x-2">
-                <span className="text-gray-700 text-xs xl:text-sm hidden sm:block">
-                  {userName}
-                </span>
-                <div className="relative">
-                  <Dropdown
-                    label=""
-                    renderTrigger={() => (
-                      <div
-                        className="h-10 w-10 xl:h-12 xl:w-12 rounded-full bg-gray-200 flex items-center justify-center cursor-pointer shadow-md hover:scale-105 transition-all"
-                        role="button"
-                        aria-label="បើកម៉ឺនុយប្រវត្តិរូប"
-                        tabIndex={0}
-                        onKeyDown={(e) => {
-                          if (e.key === "Enter" || e.key === " ") {
-                            e.preventDefault();
-                            document.querySelector(".dropdown-toggle")?.click();
-                          }
-                        }}
-                      >
-                        {profileLoading ? (
-                          <div className="animate-pulse bg-gray-300 h-full w-full rounded-full"></div>
-                        ) : profile?.image ? (
-                          <img
-                            src={profile.image}
-                            alt="User Profile"
-                            className="h-full w-full rounded-full object-cover"
-                          />
-                        ) : (
-                          <span className="text-gray-600 text-sm font-semibold">👤</span>
-                        )}
-                      </div>
-                    )}
-                  >
-                    <AnimatePresence>
-                      <motion.div
-                        variants={dropdownVariants}
-                        initial="hidden"
-                        animate="visible"
-                        exit="exit"
-                      >
-                        {profileMenuItems.map((item) => (
-                          <Dropdown.Item
-                            key={item.label}
-                            icon={item.icon}
-                            as={Link}
-                            to={item.href}
-                            onClick={() => handleLinkClick(item.href)}
-                          >
-                            <span>{item.label}</span>
-                          </Dropdown.Item>
-                        ))}
-                        <Dropdown.Divider />
-                        <Dropdown.Item icon={LogOut} onClick={handleLogout}>
-                          <span>ចាកចេញ</span>
-                        </Dropdown.Item>
-                      </motion.div>
-                    </AnimatePresence>
-                  </Dropdown>
-                </div>
-              </div>
+  <span className="text-gray-700 text-xs xl:text-sm hidden sm:block">
+    {userName}
+  </span>
+  <Link
+    to="/profile"
+    onClick={() => handleLinkClick("/profile")}
+    className="h-10 w-10 xl:h-12 xl:w-12 rounded-full bg-gray-200 flex items-center justify-center cursor-pointer shadow-md hover:scale-105 transition-all overflow-hidden"
+    role="button"
+    aria-label="ទៅកាន់ប្រវត្តិរូប"
+    tabIndex={0}
+    onKeyDown={(e) => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        handleLinkClick("/profile");
+      }
+    }}
+  >
+    {profileLoading ? (
+      <div className="animate-pulse bg-gray-300 h-full w-full rounded-full"></div>
+    ) : profile?.image ? (
+      <img
+        src={profile.image}
+        alt="User Profile"
+        className="h-full w-full rounded-full object-cover object-center"
+      />
+    ) : (
+      <span className="text-gray-600 text-sm font-semibold">👤</span>
+    )}
+  </Link>
+</div>
             ) : (
               <Link to="/login">
                 <div className="flex items-center space-x-4 sm:space-x-3">
@@ -308,7 +212,7 @@ function MainNavbar() {
                 <Menu className="h-6 w-6 text-gray-600" />
               )}
             </button>
-          </div> 
+          </div>
         </div>
 
         {/* Mobile Navigation */}
@@ -343,62 +247,16 @@ function MainNavbar() {
 
               {/* Mobile Navigation Items */}
               <div className="space-y-1">
-                {navItems.map((item) =>
-                  item.hasDropdown ? (
-                    <Dropdown
-                      key={item.label}
-                      label={item.label}
-                      inline
-                      renderTrigger={() => (
-                        <div className="flex justify-between items-center w-full py-2 px-3 text-gray-700 hover:bg-gray-50 rounded-lg transition-colors">
-                          <span>{item.label}</span>
-                          <ChevronDown className="w-5 h-5 text-gray-500" />
-                        </div>
-                      )}
-                    >
-                      <AnimatePresence>
-                        <motion.div
-                          variants={dropdownVariants}
-                          initial="hidden"
-                          animate="visible"
-                          exit="exit"
-                          className="space-y-2 p-2"
-                        >
-                          {item.dropdownItems.map((dropdownItem) => (
-                            <Dropdown.Item
-                              key={dropdownItem.label}
-                              as={Link}
-                              to={dropdownItem.href}
-                              onClick={() => handleLinkClick(dropdownItem.href)}
-                              className="block p-3 hover:bg-gray-50 rounded-lg transition-colors group"
-                            >
-                              <div className="flex items-center space-x-4">
-                                <div className="bg-primary/10 p-2.5 rounded-lg">
-                                  <dropdownItem.icon className="w-6 h-6 text-primary group-hover:scale-110 transition-transform" />
-                                </div>
-                                <div>
-                                  <h4 className="text-base font-semibold text-gray-800 group-hover:text-primary transition-colors">
-                                    {dropdownItem.label}
-                                  </h4>
-                                  <p className="text-sm text-gray-500 mt-1">{dropdownItem.description}</p>
-                                </div>
-                              </div>
-                            </Dropdown.Item>
-                          ))}
-                        </motion.div>
-                      </AnimatePresence>
-                    </Dropdown>
-                  ) : (
-                    <Link
-                      key={item.label}
-                      to={item.href}
-                      onClick={() => handleLinkClick(item.href)}
-                      className="block py-2 px-3 text-gray-700 hover:text-[#1e8fb8] hover:bg-gray-50 rounded-lg transition-colors"
-                    >
-                      {item.label}
-                    </Link>
-                  )
-                )}
+                {navItems.map((item) => (
+                  <Link
+                    key={item.label}
+                    to={item.href}
+                    onClick={() => handleLinkClick(item.href)}
+                    className="block py-2 px-3 text-gray-700 hover:text-[#1e8fb8] hover:bg-gray-50 rounded-lg transition-colors"
+                  >
+                    {item.label}
+                  </Link>
+                ))}
               </div>
 
               {/* Mobile Login Button (if not logged in) */}

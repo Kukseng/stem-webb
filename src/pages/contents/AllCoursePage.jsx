@@ -2,8 +2,8 @@ import React, { useEffect, useState, useRef, useMemo } from "react";
 import { FaBook, FaSearch, FaChevronLeft, FaFilter, FaSpinner, FaClock, FaTags, FaStar } from "react-icons/fa";
 import { useGetAllCoursesQuery } from "../../api/courses-api";
 import { Link, useParams, useNavigate } from "react-router-dom";
-import { ArrowBigDown, ArrowUp } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion"; // Import Framer Motion
+import { ArrowBigDown } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 
 const AllCoursePage = () => {
   const { courseId, categoryId } = useParams();
@@ -25,6 +25,7 @@ const AllCoursePage = () => {
     level: "all",
   });
   const [isCategoryDropdownOpen, setIsCategoryDropdownOpen] = useState(false);
+  const [visibleCoursesCount, setVisibleCoursesCount] = useState(6); // Initially show 6 courses
   const dropdownRef = useRef(null);
 
   // Memoized unique categories
@@ -105,6 +106,7 @@ const AllCoursePage = () => {
       [filterType]: value,
     }));
     setIsCategoryDropdownOpen(false);
+    setVisibleCoursesCount(6); // Reset visible courses when filters change
   };
 
   const resetFilters = () => {
@@ -115,6 +117,12 @@ const AllCoursePage = () => {
       level: "all",
     });
     setSearchTerm("");
+    setVisibleCoursesCount(6); // Reset visible courses when filters are cleared
+  };
+
+  // Load more courses
+  const handleLoadMore = () => {
+    setVisibleCoursesCount((prev) => prev + 6); // Load 6 more courses
   };
 
   // Handlers for navigation
@@ -220,7 +228,7 @@ const AllCoursePage = () => {
             <div className="bg-primary bg-opacity-10 p-3 rounded-full">
               <FaBook className="w-6 h-6 text-primary" />
             </div>
-            
+            {/* Removed static heading */}
           </div>
 
           <div className="flex flex-col sm:flex-row gap-2 w-full md:w-auto">
@@ -560,83 +568,101 @@ const AllCoursePage = () => {
             </div>
 
             {filteredCourses.length > 0 ? (
-              <motion.div
-                variants={containerVariants}
-                initial="hidden"
-                animate="visible"
-                className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
-              >
-                {filteredCourses.map((course) => (
-                  <motion.div
-                    key={course.id}
-                    variants={cardVariants}
-                    onClick={() => handleCourseClick(course)}
-                    className="bg-white rounded-xl shadow-sm hover:shadow-md transition-all duration-300 overflow-hidden cursor-pointer transform hover:-translate-y-1"
-                    role="button"
-                    tabIndex={0}
-                    aria-label={`មើលវគ្គសិក្សា ${course.course_name}`}
-                  >
-                    <div className="h-48 overflow-hidden relative">
-                      <img
-                        src={course.course_thumbnail || "/placeholder-course.jpg"}
-                        alt={course.course_name}
-                        className="w-full h-full object-cover transition-transform duration-300 ease-in-out hover:scale-105"
-                        loading="lazy"
-                      />
-                      {course.price > 0 ? (
-                        <div className="absolute top-3 right-3 bg-yellow-500 text-white text-sm font-bold py-1 px-3 rounded-full">
-                          ${course.price}
-                        </div>
-                      ) : (
-                        <div className="absolute top-3 right-3 bg-green-500 text-white text-sm font-bold py-1 px-3 rounded-full">
-                          ឥតគិតថ្លៃ
-                        </div>
-                      )}
-                      {course.level && (
-                        <div className="absolute top-3 left-3 bg-purple-500 bg-opacity-90 text-white text-xs font-medium py-1 px-2 rounded-md">
-                          {course.level === "beginner" && "កម្រិតដំបូង"}
-                          {course.level === "intermediate" && "កម្រិតមធ្យម"}
-                          {course.level === "advanced" && "កម្រិតខ្ពស់"}
-                        </div>
-                      )}
-                    </div>
-                    <div className="p-5">
-                      <h3 className="text-lg font-semibold text-gray-800 mb-2 line-clamp-2">
-                        {course.course_name}
-                      </h3>
-                      <p className="text-gray-600 text-sm mb-3 line-clamp-2">
-                        {course.course_description || "មិនមានការពិពណ៌នា"}
-                      </p>
-                      <div className="flex justify-between items-center text-sm">
-                        <span className="text-gray-500">
-                          {course.categories?.length || 0} មេរៀន
-                        </span>
-                        <span className="text-primary font-medium flex items-center gap-1">
-                          <FaClock className="text-xs" />
-                          {course.duration || "N/A"} នាទី
-                        </span>
+              <>
+                <motion.div
+                  variants={containerVariants}
+                  initial="hidden"
+                  animate="visible"
+                  className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
+                >
+                  {filteredCourses.slice(0, visibleCoursesCount).map((course) => (
+                    <motion.div
+                      key={course.id}
+                      variants={cardVariants}
+                      onClick={() => handleCourseClick(course)}
+                      className="bg-white rounded-xl shadow-sm hover:shadow-md transition-all duration-300 overflow-hidden cursor-pointer transform hover:-translate-y-1"
+                      role="button"
+                      tabIndex={0}
+                      aria-label={`មើលវគ្គសិក្សា ${course.course_name}`}
+                    >
+                      <div className="h-48 overflow-hidden relative">
+                        <img
+                          src={course.course_thumbnail || "/placeholder-course.jpg"}
+                          alt={course.course_name}
+                          className="w-full h-full object-cover transition-transform duration-300 ease-in-out hover:scale-105"
+                          loading="lazy"
+                        />
+                        {course.price > 0 ? (
+                          <div className="absolute top-3 right-3 bg-yellow-500 text-white text-sm font-bold py-1 px-3 rounded-full">
+                            ${course.price}
+                          </div>
+                        ) : (
+                          <div className="absolute top-3 right-3 bg-green-500 text-white text-sm font-bold py-1 px-3 rounded-full">
+                            ឥតគិតថ្លៃ
+                          </div>
+                        )}
+                        {course.level && (
+                          <div className="absolute top-3 left-3 bg-purple-500 bg-opacity-90 text-white text-xs font-medium py-1 px-2 rounded-md">
+                            {course.level === "beginner" && "កម្រិតដំបូង"}
+                            {course.level === "intermediate" && "កម្រិតមធ្យម"}
+                            {course.level === "advanced" && "កម្រិតខ្ពស់"}
+                          </div>
+                        )}
                       </div>
-
-                      {/* Popular or New badge */}
-                      {(course.categories?.some((cat) => cat.is_popular) ||
-                        course.categories?.some((cat) => cat.is_new)) && (
-                        <div className="mt-3 pt-3 border-t border-gray-100 flex gap-2">
-                          {course.categories?.some((cat) => cat.is_popular) && (
-                            <span className="bg-red-100 text-red-600 text-xs font-medium px-2 py-1 rounded">
-                              ពេញនិយម
-                            </span>
-                          )}
-                          {course.categories?.some((cat) => cat.is_new) && (
-                            <span className="bg-blue-100 text-blue-600 text-xs font-medium px-2 py-1 rounded">
-                              ថ្មី
-                            </span>
-                          )}
+                      <div className="p-5">
+                        <h3 className="text-lg font-semibold text-gray-800 mb-2 line-clamp-2">
+                          {course.course_name}
+                        </h3>
+                        <p className="text-gray-600 text-sm mb-3 line-clamp-2">
+                          {course.course_description || "មិនមានការពិពណ៌នា"}
+                        </p>
+                        <div className="flex justify-between items-center text-sm">
+                          <span className="text-gray-500">
+                            {course.categories?.length || 0} មេរៀន
+                          </span>
+                          <span className="text-primary font-medium flex items-center gap-1">
+                            <FaClock className="text-xs" />
+                            {course.duration || "N/A"} នាទី
+                          </span>
                         </div>
-                      )}
-                    </div>
+
+                        {(course.categories?.some((cat) => cat.is_popular) ||
+                          course.categories?.some((cat) => cat.is_new)) && (
+                          <div className="mt-3 pt-3 border-t border-gray-100 flex gap-2">
+                            {course.categories?.some((cat) => cat.is_popular) && (
+                              <span className="bg-red-100 text-red-600 text-xs font-medium px-2 py-1 rounded">
+                                ពេញនិយម
+                              </span>
+                            )}
+                            {course.categories?.some((cat) => cat.is_new) && (
+                              <span className="bg-blue-100 text-blue-600 text-xs font-medium px-2 py-1 rounded">
+                                ថ្មី
+                              </span>
+                            )}
+                          </div>
+                        )}
+                      </div>
+                    </motion.div>
+                  ))}
+                </motion.div>
+
+                {/* Load More Button */}
+                {visibleCoursesCount < filteredCourses.length && (
+                  <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ duration: 0.5 }}
+                    className="mt-8 text-center"
+                  >
+                    <button
+                      onClick={handleLoadMore}
+                      className="bg-primary text-white px-6 py-2 rounded-lg hover:bg-[#0e5c7a] transition-all duration-300 ease-in-out"
+                    >
+                      មើលវគ្គសិក្សាបន្ថែម
+                    </button>
                   </motion.div>
-                ))}
-              </motion.div>
+                )}
+              </>
             ) : (
               <motion.div
                 initial={{ opacity: 0 }}
@@ -701,32 +727,31 @@ const AllCoursePage = () => {
                     aria-label={`មើលប្រភេទ ${category.category_name}`}
                   >
                     <div className="p-6">
-  <div className="flex items-center justify-between mb-4">
-    <h3 className="text-lg font-semibold text-gray-800 line-clamp-1">
-      {category.category_name}
-    </h3>
-    <div className="bg-blue-100 text-blue-600 text-xs font-medium px-2 py-1 rounded">
-      {category.lessons?.length || 0} មេរៀន
-    </div>
-  </div>
-  {/* Image Section Inside p-6 */}
-  <div className="mb-4 aspect-[16/9] overflow-hidden rounded-md">
-    <img
-      src={category.lessons?.[0]?.lesson_image || "/placeholder-lesson.jpg"}
-      alt={category.category_name}
-      className="w-full h-full object-cover transition-transform duration-300 ease-in-out hover:scale-105"
-      loading="lazy"
-    />
-  </div>
-  <p className="text-gray-600 mb-4 line-clamp-2 text-sm">
-    {category.category_description || "មិនមានការពិពណ៌នា"}
-  </p>
-  <div className="flex justify-end">
-    <button className="text-primary text-sm font-medium hover:underline flex items-center gap-1">
-      មើលមេរៀន →
-    </button>
-  </div>
-</div>
+                      <div className="flex items-center justify-between mb-4">
+                        <h3 className="text-lg font-semibold text-gray-800 line-clamp-1">
+                          {category.category_name}
+                        </h3>
+                        <div className="bg-blue-100 text-blue-600 text-xs font-medium px-2 py-1 rounded">
+                          {category.lessons?.length || 0} មេរៀន
+                        </div>
+                      </div>
+                      <div className="mb-4 aspect-[16/9] overflow-hidden rounded-md">
+                        <img
+                          src={category.lessons?.[0]?.lesson_image || "/placeholder-lesson.jpg"}
+                          alt={category.category_name}
+                          className="w-full h-full object-cover transition-transform duration-300 ease-in-out hover:scale-105"
+                          loading="lazy"
+                        />
+                      </div>
+                      <p className="text-gray-600 mb-4 line-clamp-2 text-sm">
+                        {category.category_description || "មិនមានការពិពណ៌នា"}
+                      </p>
+                      <div className="flex justify-end">
+                        <button className="text-primary text-sm font-medium hover:underline flex items-center gap-1">
+                          មើលមេរៀន →
+                        </button>
+                      </div>
+                    </div>
                   </motion.div>
                 ))}
               </motion.div>
@@ -774,7 +799,7 @@ const AllCoursePage = () => {
                 <FaChevronLeft className="mr-1" />
                 ត្រលប់ទៅប្រភេទទាំងអស់
               </button>
-            </motion.div>
+                       </motion.div>
 
             <motion.div
               initial={{ opacity: 0 }}

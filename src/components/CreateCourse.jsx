@@ -26,7 +26,8 @@ import {
 } from "react-icons/fi";
 import "tailwindcss/tailwind.css";
 
-const CreateCourseForm = ({ accessToken }) => { // Accept token as prop
+const CreateCourseForm = ({ accessToken }) => {
+  const [step, setStep] = useState(1); // Multi-step form
   const [formData, setFormData] = useState({
     course: { course_name: "", course_description: "", course_thumbnail: "" },
     category: { category_name: "", category_description: "" },
@@ -42,16 +43,12 @@ const CreateCourseForm = ({ accessToken }) => { // Accept token as prop
     },
   });
 
-  console.log("CreateCourseForm Access Token:", accessToken); // Debug token
-
   const [isAddingToExistingCourse, setIsAddingToExistingCourse] = useState(false);
   const [selectedCourseId, setSelectedCourseId] = useState("");
   const [selectedCategoryId, setSelectedCategoryId] = useState("");
   const [createNewCategory, setCreateNewCategory] = useState(false);
-  const [openSection, setOpenSection] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalContent, setModalContent] = useState({ type: "", message: "" });
-  const [isHovered, setIsHovered] = useState({});
 
   const { data: courses, isLoading: coursesLoading } = useGetAllCoursesQuery();
   const { data: categories, isLoading: categoriesLoading } = useGetAllCategoriesQuery();
@@ -69,20 +66,6 @@ const CreateCourseForm = ({ accessToken }) => { // Accept token as prop
   const primaryColor = "#16789e";
   const primaryColorDark = "#106080";
 
-  const cardVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: { duration: 0.4, staggerChildren: 0.1 },
-    },
-  };
-
-  const itemVariants = {
-    hidden: { opacity: 0, x: -10 },
-    visible: { opacity: 1, x: 0 },
-  };
-
   const handleChange = (e, section) => {
     const { name, value, type, checked } = e.target;
     setFormData((prevData) => ({
@@ -94,12 +77,34 @@ const CreateCourseForm = ({ accessToken }) => { // Accept token as prop
     }));
   };
 
+  const resetForm = () => {
+    setFormData({
+      course: { course_name: "", course_description: "", course_thumbnail: "" },
+      category: { category_name: "", category_description: "" },
+      lesson: { lesson_title: "", lesson_image: "" },
+      section: { title: "", no: "", preview: false },
+      content: {
+        title: "",
+        no: "",
+        preview: false,
+        file: "",
+        video_url: "",
+        video_title: "",
+      },
+    });
+    setStep(1);
+    setIsAddingToExistingCourse(false);
+    setSelectedCourseId("");
+    setSelectedCategoryId("");
+    setCreateNewCategory(false);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!accessToken) {
       setModalContent({
         type: "error",
-        message: "Please log in to create a course.",
+        message: "សូមចូលគណនីដើម្បីបង្កើតវគ្គសិក្សា។",
       });
       setIsModalOpen(true);
       return;
@@ -133,17 +138,83 @@ const CreateCourseForm = ({ accessToken }) => { // Accept token as prop
 
       setModalContent({
         type: "success",
-        message: "Course structure updated successfully!",
+        message: "បានធ្វើបច្ចុប្បន្នភាពរចនាសម្ព័ន្ធវគ្គសិក្សាដោយជោគជ័យ!",
       });
       setIsModalOpen(true);
+      resetForm();
     } catch (error) {
       console.error("Error updating course structure:", error);
-      console.log("Error details:", error.status, error.data);
       setModalContent({
         type: "error",
-        message: "Failed to update course structure: " + (error.data?.detail || "Unknown error"),
+        message: "បរាជ័យក្នុងការធ្វើបច្ចុប្បន្នភាពរចនាសម្ព័ន្ធវគ្គសិក្សា: " + (error.data?.detail || "កំហុសមិនស្គាល់"),
       });
       setIsModalOpen(true);
+    }
+  };
+
+  const nextStep = () => setStep((prev) => prev + 1);
+  const prevStep = () => setStep((prev) => prev - 1);
+
+  // Validation functions for each step
+  const isStep1Valid = () => {
+    if (isAddingToExistingCourse) {
+      return selectedCourseId !== "";
+    }
+    return (
+      formData.course.course_name.trim() !== "" &&
+      formData.course.course_description.trim() !== "" &&
+      formData.course.course_thumbnail.trim() !== ""
+    );
+  };
+
+  const isStep2Valid = () => {
+    if (isAddingToExistingCourse && !createNewCategory) {
+      return selectedCategoryId !== "";
+    }
+    return (
+      formData.category.category_name.trim() !== "" &&
+      formData.category.category_description.trim() !== ""
+    );
+  };
+
+  const isStep3Valid = () => {
+    return (
+      formData.lesson.lesson_title.trim() !== "" &&
+      formData.lesson.lesson_image.trim() !== ""
+    );
+  };
+
+  const isStep4Valid = () => {
+    return (
+      formData.section.title.trim() !== "" && formData.section.no.trim() !== ""
+    );
+  };
+
+  const isStep5Valid = () => {
+    return (
+      formData.content.title.trim() !== "" &&
+      formData.content.no.trim() !== "" &&
+      formData.content.file.trim() !== "" &&
+      formData.content.video_url.trim() !== "" &&
+      formData.content.video_title.trim() !== ""
+    );
+  };
+
+  // Determine if the "Next" button should be enabled based on the current step
+  const isNextButtonEnabled = () => {
+    switch (step) {
+      case 1:
+        return isStep1Valid();
+      case 2:
+        return isStep2Valid();
+      case 3:
+        return isStep3Valid();
+      case 4:
+        return isStep4Valid();
+      case 5:
+        return isStep5Valid();
+      default:
+        return false;
     }
   };
 
@@ -160,734 +231,569 @@ const CreateCourseForm = ({ accessToken }) => { // Accept token as prop
     setCreateNewCategory(false);
   }, [selectedCourseId]);
 
-  const toggleSection = (section) => {
-    setOpenSection(openSection === section ? null : section);
-  };
-
-  const handleHover = (section, value) => {
-    setIsHovered((prev) => ({ ...prev, [section]: value }));
-  };
-
-  if (coursesLoading || categoriesLoading)
-    return <div className="text-center text-gray-500">Loading...</div>;
+  if (coursesLoading || categoriesLoading) {
+    return (
+      <div className="text-center text-gray-500 py-10 font-suwannaphum">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-gray-900 mx-auto"></div>
+        <p className="mt-4 text-sm sm:text-base">កំពុងផ្ទុក...</p>
+      </div>
+    );
+  }
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-6">
+    <div className="min-h-screen bg-gray-100 flex items-center justify-center p-6 font-suwannaphum">
       <motion.div
         initial={{ opacity: 0, y: 50 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
-        className="bg-white rounded-xl p-8 max-w-2xl w-full relative"
+        className="bg-white rounded-xl shadow-lg p-8 max-w-3xl w-full"
       >
-        <h1 className="text-3xl font-bold text-gray-800 mb-6 text-center">
-          បង្កើតវគ្គសិក្សា
+        <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-[34px] font-bold text-gray-800 mb-6 text-center">
+          បង្កើតវគ្គសិក្សាថ្មី
         </h1>
 
-        <form onSubmit={handleSubmit}>
-<motion.div
-  initial={{ opacity: 0 }}
-  animate={{ opacity: 1 }}
-  className="mb-6 bg-gray-50 p-4 rounded-lg"
->
-  <h2 className="text-xl font-semibold text-gray-700 mb-2 flex items-center">
-    <FiList className="mr-2" style={{ color: primaryColor }} />
-    របៀបបង្កើតវគ្គសិក្សា
-  </h2>
-  <div className="flex space-x-4">
-    <label className="flex items-center space-x-2">
-      <input
-        type="radio"
-        name="courseMode"
-        value="new"
-        checked={!isAddingToExistingCourse}
-        onChange={() => setIsAddingToExistingCourse(false)}
-        className="form-radio"
-        style={{ color: primaryColor }}
-      />
-      <span className="text-gray-600">បង្កើតវគ្គសិក្សាថ្មី</span>
-    </label>
-    <label className="flex items-center space-x-2">
-      <input
-        type="radio"
-        name="courseMode"
-        value="existing"
-        checked={isAddingToExistingCourse}
-        onChange={() => setIsAddingToExistingCourse(true)}
-        className="form-radio"
-        style={{ color: primaryColor }}
-      />
-      <span className="text-gray-600">
-        បន្ថែមទៅវគ្គសិក្សាដែលមានស្រាប់
-      </span>
-    </label>
-  </div>
-</motion.div>
-
-<motion.div
-  initial={{ opacity: 0 }}
-  animate={{ opacity: 1 }}
-  transition={{ duration: 0.5 }}
-  className="mb-6 overflow-hidden rounded-xl shadow-md bg-white"
->
-  <motion.button
-    type="button"
-    onClick={() => toggleSection("course")}
-    style={{
-      backgroundColor: isHovered.course
-        ? primaryColorDark
-        : primaryColor,
-    }}
-    className="w-full flex justify-between items-center p-4 text-white rounded-t-xl transition-all duration-300"
-    onMouseEnter={() => handleHover("course", true)}
-    onMouseLeave={() => handleHover("course", false)}
-    whileHover={{ scale: 1.01 }}
-    whileTap={{ scale: 0.98 }}
-  >
-    <span className="flex items-center space-x-2">
-      <FiBook className="text-xl" />
-      <span className="text-lg font-medium">
-        ព័ត៌មានលម្អិតអំពីវគ្គសិក្សា
-      </span>
-    </span>
-    <motion.div
-      animate={{ rotate: openSection === "course" ? 180 : 0 }}
-      transition={{ duration: 0.3 }}
-    >
-      <FiChevronDown className="text-xl" />
-    </motion.div>
-  </motion.button>
-
-  <AnimatePresence>
-    {openSection === "course" && (
-      <motion.div
-        initial="hidden"
-        animate="visible"
-        exit="hidden"
-        variants={cardVariants}
-        className="p-5 border-t border-gray-100"
-      >
-        {!isAddingToExistingCourse ? (
-          <>
-            <motion.div variants={itemVariants} className="mb-5">
-              <label className="flex items-center space-x-2 text-gray-700 font-medium mb-2">
-                <FiEdit style={{ color: primaryColor }} />
-                <span>ឈ្មោះវគ្គសិក្សា</span>
-              </label>
-              <input
-                type="text"
-                name="course_name"
-                value={formData.course.course_name}
-                onChange={(e) => handleChange(e, "course")}
-                className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:border-transparent transition-all duration-200"
-                style={{ focusRing: primaryColor }}
-                placeholder="Enter a descriptive name for your course"
-                required
-              />
-            </motion.div>
-
-            <motion.div variants={itemVariants} className="mb-5">
-              <label className="flex items-center space-x-2 text-gray-700 font-medium mb-2">
-                <FiList style={{ color: primaryColor }} />
-                <span>ពិពណ៌នាវគ្គសិក្សា</span>
-              </label>
-              <textarea
-                name="course_description"
-                value={formData.course.course_description}
-                onChange={(e) => handleChange(e, "course")}
-                className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:border-transparent transition-all duration-200 min-h-24"
-                style={{ focusRing: primaryColor }}
-                placeholder="Describe what students will learn in this course"
-                required
-              />
-            </motion.div>
-
-            <motion.div variants={itemVariants}>
-              <label className="flex items-center space-x-2 text-gray-700 font-medium mb-2">
-                <FiImage style={{ color: primaryColor }} />
-                <span>វគ្គសិក្សា URL</span>
-              </label>
-              <input
-                type="text"
-                name="course_thumbnail"
-                value={formData.course.course_thumbnail}
-                onChange={(e) => handleChange(e, "course")}
-                className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:border-transparent transition-all duration-200"
-                style={{ focusRing: primaryColor }}
-                placeholder="Add a URL for your course thumbnail image"
-                required
-              />
-              {formData.course.course_thumbnail && (
-                <motion.div
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  className="mt-3"
+        {/* Progress Bar */}
+        <div className="mb-8">
+          <div className="flex justify-between mb-2">
+            {["វគ្គសិក្សា", "ប្រភេទ", "មេរៀន", "ផ្នែក", "ខ្លឹមសារ"].map((label, index) => (
+              <div key={index} className="flex flex-col items-center">
+                <div
+                  className={`w-8 h-8 rounded-full flex items-center justify-center text-white font-semibold ${
+                    step > index + 1 ? "bg-green-500" : step === index + 1 ? "bg-blue-500" : "bg-gray-300"
+                  }`}
                 >
-                  <p className="text-xs text-gray-500 mb-2">
-                    មើលជាមុន
-                  </p>
-                  <div className="w-24 h-24 rounded-lg overflow-hidden border border-gray-200">
-                    <div className="bg-gray-100 w-full h-full flex items-center justify-center text-gray-400">
-                      <FiImage className="text-3xl" />
-                    </div>
-                  </div>
-                </motion.div>
-              )}
-            </motion.div>
-          </>
-        ) : (
-          <motion.div variants={itemVariants}>
-            <label className="flex items-center space-x-2 text-gray-700 font-medium mb-2">
-              <FiBook style={{ color: primaryColor }} />
-              <span>ជ្រើសរើសវគ្គសិក្សាដែលមានស្រាប់</span>
-            </label>
-            <div className="relative">
-              <select
-                value={selectedCourseId}
-                onChange={(e) => setSelectedCourseId(e.target.value)}
-                className="w-full p-3 pr-10 border border-gray-300 rounded-lg appearance-none focus:outline-none focus:ring-2 focus:border-transparent transition-all duration-200 bg-white"
-                style={{ focusRing: primaryColor }}
-                required
-              >
-                <option value="">-- ជ្រើសរើសវគ្គសិក្សា --</option>
-                {courses?.results?.map((course) => (
-                  <option key={course.id} value={course.id}>
-                    {course.course_name}
-                  </option>
-                ))}
-              </select>
-              <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                <FiChevronDown />
+                  {step > index + 1 ? "✓" : index + 1}
+                </div>
+                <span className="text-xs sm:text-sm md:text-base text-gray-600 mt-1">{label}</span>
               </div>
-            </div>
-            {selectedCourseId && (
-              <motion.div
-                initial={{ opacity: 0, height: 0 }}
-                animate={{ opacity: 1, height: "auto" }}
-                className="mt-4 p-3 rounded-lg"
-                style={{ backgroundColor: `${primaryColor}10` }}
-              >
-                <p
-                  className="text-sm"
-                  style={{ color: primaryColor }}
-                >
-                  អ្នកបានជ្រើសរើសវគ្គសិក្សា។
-                  ឥឡូវនេះអ្នកអាចបន្ថែមមុខវិជ្ជាថ្មី មេរៀន ផ្នែក
-                  និងខ្លឹមសាររបស់វា។
-                </p>
-              </motion.div>
-            )}
-          </motion.div>
-        )}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.3 }}
-          className="mt-4 pt-4 border-t border-gray-100"
-        >
-          <div className="text-xs text-gray-500">
-            {!isAddingToExistingCourse
-              ? "បង្កើតវគ្គសិក្សាថ្មីជាមួយនឹងព័ត៌មានលម្អិតពិសេស និងរចនាសម្ព័ន្ធខ្លឹមសារ."
-              : "បន្ថែមមាតិកាថ្មីទៅវគ្គសិក្សាដែលមានស្រាប់ពីបណ្របស់អ្នក។"}
+            ))}
           </div>
-        </motion.div>
-      </motion.div>
-    )}
-  </AnimatePresence>
-</motion.div>
+          <div className="h-2 bg-gray-200 rounded-full">
+            <div
+              className="h-full bg-blue-500 rounded-full transition-all duration-300"
+              style={{ width: `${(step / 5) * 100}%` }}
+            ></div>
+          </div>
+        </div>
 
-{/* Category Section */}
-{(isAddingToExistingCourse && selectedCourseId) ||
-!isAddingToExistingCourse ? (
-  <motion.div
-    initial={{ opacity: 0 }}
-    animate={{ opacity: 1 }}
-    transition={{ duration: 0.5 }}
-    className="mb-6 overflow-hidden rounded-xl shadow-md bg-white"
-  >
-    <motion.button
-      type="button"
-      onClick={() => toggleSection("category")}
-      style={{
-        backgroundColor: isHovered.category
-          ? primaryColorDark
-          : primaryColor,
-      }}
-      className="w-full flex justify-between items-center p-4 text-white rounded-t-xl transition-all duration-300"
-      onMouseEnter={() => handleHover("category", true)}
-      onMouseLeave={() => handleHover("category", false)}
-      whileHover={{ scale: 1.01 }}
-      whileTap={{ scale: 0.98 }}
-    >
-      <span className="flex items-center space-x-2">
-        <FiFolder className="text-xl" />
-        <span className="text-lg font-medium">
-          ព័ត៌មានលម្អិតអំពីមុខវិជ្ជា
-        </span>
-      </span>
-      <motion.div
-        animate={{ rotate: openSection === "category" ? 180 : 0 }}
-        transition={{ duration: 0.3 }}
-      >
-        <FiChevronDown className="text-xl" />
-      </motion.div>
-    </motion.button>
-    <AnimatePresence>
-      {openSection === "category" && (
-        <motion.div
-          initial="hidden"
-          animate="visible"
-          exit="hidden"
-          variants={cardVariants}
-          className="p-5 border-t border-gray-100"
-        >
-          {isAddingToExistingCourse && (
-            <motion.div variants={itemVariants} className="mb-5">
-              <div className="flex space-x-4">
-                <label className="flex items-center space-x-2">
-                  <input
-                    type="radio"
-                    name="categoryMode"
-                    value="existing"
-                    checked={!createNewCategory}
-                    onChange={() => setCreateNewCategory(false)}
-                    className="form-radio"
-                    style={{ color: primaryColor }}
-                  />
-                  <span className="text-gray-600">
-                    ប្រើមុខវិជ្ជាដែលមានស្រាប់
-                  </span>
+        <form onSubmit={handleSubmit}>
+          {/* Step 1: Course Details */}
+          {step === 1 && (
+            <motion.div
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -20 }}
+              transition={{ duration: 0.3 }}
+            >
+              <h2 className="text-lg sm:text-xl md:text-2xl font-semibold text-gray-700 mb-4 flex items-center">
+                <FiBook className="mr-2" style={{ color: primaryColor }} />
+                ព័ត៌មានវគ្គសិក្សា
+              </h2>
+              <div className="mb-6">
+                <label className="block text-gray-700 font-medium mb-2 text-sm sm:text-base md:text-lg">
+                  បង្កើតវគ្គសិក្សាថ្មី ឬបន្ថែមទៅវគ្គសិក្សាដែលមាន?
                 </label>
-                <label className="flex items-center space-x-2">
-                  <input
-                    type="radio"
-                    name="categoryMode"
-                    value="new"
-                    checked={createNewCategory}
-                    onChange={() => setCreateNewCategory(true)}
-                    className="form-radio"
-                    style={{ color: primaryColor }}
-                  />
-                  <span className="text-gray-600">
-                    បង្កើតមុខវិជ្ជាថ្មី។
-                  </span>
-                </label>
+                <div className="flex space-x-4">
+                  <label className="flex items-center space-x-2">
+                    <input
+                      type="radio"
+                      name="courseMode"
+                      value="new"
+                      checked={!isAddingToExistingCourse}
+                      onChange={() => setIsAddingToExistingCourse(false)}
+                      className="form-radio text-blue-500"
+                    />
+                    <span className="text-gray-600 text-sm sm:text-base md:text-lg">បង្កើតវគ្គសិក្សាថ្មី</span>
+                  </label>
+                  <label className="flex items-center space-x-2">
+                    <input
+                      type="radio"
+                      name="courseMode"
+                      value="existing"
+                      checked={isAddingToExistingCourse}
+                      onChange={() => setIsAddingToExistingCourse(true)}
+                      className="form-radio text-blue-500"
+                    />
+                    <span className="text-gray-600 text-sm sm:text-base md:text-lg">បន្ថែមទៅវគ្គសិក្សាដែលមាន</span>
+                  </label>
+                </div>
+              </div>
+
+              {!isAddingToExistingCourse ? (
+                <>
+                  <div className="mb-4">
+                    <label className="block text-gray-700 font-medium mb-2 text-sm sm:text-base md:text-lg">
+                      ឈ្មោះវគ្គសិក្សា
+                    </label>
+                    <input
+                      type="text"
+                      name="course_name"
+                      value={formData.course.course_name}
+                      onChange={(e) => handleChange(e, "course")}
+                      className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-xs sm:text-sm md:text-base"
+                      placeholder="បញ្ចូលឈ្មោះវគ្គសិក្សាដែលមានលក្ខណៈពិពណ៌នា"
+                      required
+                    />
+                  </div>
+                  <div className="mb-4">
+                    <label className="block text-gray-700 font-medium mb-2 text-sm sm:text-base md:text-lg">
+                      ការពិពណ៌នាវគ្គសិក្សា
+                    </label>
+                    <textarea
+                      name="course_description"
+                      value={formData.course.course_description}
+                      onChange={(e) => handleChange(e, "course")}
+                      className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 min-h-[100px] text-xs sm:text-sm md:text-base"
+                      placeholder="ពិពណ៌នាអំពីអ្វីដែលសិស្សនឹងរៀនក្នុងវគ្គសិក្សានេះ"
+                      required
+                    />
+                  </div>
+                  <div className="mb-4">
+                    <label className="block text-gray-700 font-medium mb-2 text-sm sm:text-base md:text-lg">
+                      URL រូបភាពតូចរបស់វគ្គសិក្សា
+                    </label>
+                    <input
+                      type="text"
+                      name="course_thumbnail"
+                      value={formData.course.course_thumbnail}
+                      onChange={(e) => handleChange(e, "course")}
+                      className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-xs sm:text-sm md:text-base"
+                      placeholder="បញ្ចូល URL សម្រាប់រូបភាពតូចរបស់វគ្គសិក្សា"
+                      required
+                    />
+                    {formData.course.course_thumbnail && (
+                      <div className="mt-2">
+                        <img
+                          src={formData.course.course_thumbnail}
+                          alt="ការមើលជាមុនរូបភាពតូច"
+                          className="w-32 h-32 object-cover rounded-lg border border-gray-200"
+                        />
+                      </div>
+                    )}
+                  </div>
+                </>
+              ) : (
+                <div className="mb-4">
+                  <label className="block text-gray-700 font-medium mb-2 text-sm sm:text-base md:text-lg">
+                    ជ្រើសរើសវគ្គសិក្សាដែលមានស្រាប់
+                  </label>
+                  <select
+                    value={selectedCourseId}
+                    onChange={(e) => setSelectedCourseId(e.target.value)}
+                    className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-xs sm:text-sm md:text-base"
+                    required
+                  >
+                    <option value="">-- ជ្រើសរើសវគ្គសិក្សា --</option>
+                    {courses?.results?.map((course) => (
+                      <option key={course.id} value={course.id}>
+                        {course.course_name}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              )}
+              <div className="flex justify-end">
+                <button
+                  type="button"
+                  onClick={nextStep}
+                  disabled={!isNextButtonEnabled()}
+                  className={`px-6 py-3 rounded-lg transition-all text-sm sm:text-base md:text-lg ${
+                    isNextButtonEnabled()
+                      ? "bg-blue-500 text-white hover:bg-blue-600"
+                      : "bg-gray-300 text-gray-500 cursor-not-allowed"
+                  }`}
+                >
+                  បន្ទាប់
+                </button>
               </div>
             </motion.div>
           )}
-          {!createNewCategory && isAddingToExistingCourse ? (
-            <motion.div variants={itemVariants}>
-              <label className="flex items-center space-x-2 text-gray-700 font-medium mb-2">
-                <FiFolder style={{ color: primaryColor }} />
-                <span>ជ្រើសរើសមុខវិជ្ជាដែលមានស្រាប់</span>
-              </label>
-              <div className="relative">
-                <select
-                  value={selectedCategoryId}
-                  onChange={(e) =>
-                    setSelectedCategoryId(e.target.value)
-                  }
-                  className="w-full p-3 pr-10 border border-gray-300 rounded-lg appearance-none focus:outline-none focus:ring-2 focus:border-transparent transition-all duration-200 bg-white"
-                  style={{ focusRing: primaryColor }}
-                  required={!createNewCategory}
-                >
-                  <option value="">-- ជ្រើសរើសមុខវិជ្ជា --</option>
-                  {courseCategories.length > 0 ? (
-                    courseCategories.map((category) => (
-                      <option key={category.id} value={category.id}>
-                        {category.category_name}
-                      </option>
-                    ))
-                  ) : (
-                    <option value="" disabled>
-                      មិនមានមុខវិជ្ជាទេ។
-                    </option>
-                  )}
-                </select>
-                <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                  <FiChevronDown />
+
+          {/* Step 2: Category Details */}
+          {step === 2 && (
+            <motion.div
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -20 }}
+              transition={{ duration: 0.3 }}
+            >
+              <h2 className="text-lg sm:text-xl md:text-2xl font-semibold text-gray-700 mb-4 flex items-center">
+                <FiFolder className="mr-2" style={{ color: primaryColor }} />
+                ព័ត៌មានប្រភេទ
+              </h2>
+              {isAddingToExistingCourse && (
+                <div className="mb-6">
+                  <label className="block text-gray-700 font-medium mb-2 text-sm sm:text-base md:text-lg">
+                    ប្រើប្រភេទដែលមានស្រាប់ ឬបង្កើតថ្មី?
+                  </label>
+                  <div className="flex space-x-4">
+                    <label className="flex items-center space-x-2">
+                      <input
+                        type="radio"
+                        name="categoryMode"
+                        value="existing"
+                        checked={!createNewCategory}
+                        onChange={() => setCreateNewCategory(false)}
+                        className="form-radio text-blue-500"
+                      />
+                      <span className="text-gray-600 text-sm sm:text-base md:text-lg">ប្រើប្រភេទដែលមានស្រាប់</span>
+                    </label>
+                    <label className="flex items-center space-x-2">
+                      <input
+                        type="radio"
+                        name="categoryMode"
+                        value="new"
+                        checked={createNewCategory}
+                        onChange={() => setCreateNewCategory(true)}
+                        className="form-radio text-blue-500"
+                      />
+                      <span className="text-gray-600 text-sm sm:text-base md:text-lg">បង្កើតប្រភេទថ្មី</span>
+                    </label>
+                  </div>
                 </div>
+              )}
+
+              {!createNewCategory && isAddingToExistingCourse ? (
+                <div className="mb-4">
+                  <label className="block text-gray-700 font-medium mb-2 text-sm sm:text-base md:text-lg">
+                    ជ្រើសរើសប្រភេទដែលមានស្រាប់
+                  </label>
+                  <select
+                    value={selectedCategoryId}
+                    onChange={(e) => setSelectedCategoryId(e.target.value)}
+                    className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-xs sm:text-sm md:text-base"
+                    required={!createNewCategory}
+                  >
+                    <option value="">-- ជ្រើសរើសប្រភេទ --</option>
+                    {courseCategories.length > 0 ? (
+                      courseCategories.map((category) => (
+                        <option key={category.id} value={category.id}>
+                          {category.category_name}
+                        </option>
+                      ))
+                    ) : (
+                      <option value="" disabled>
+                        គ្មានប្រភេទដែលអាចប្រើបានទេ
+                      </option>
+                    )}
+                  </select>
+                </div>
+              ) : (
+                <>
+                  <div className="mb-4">
+                    <label className="block text-gray-700 font-medium mb-2 text-sm sm:text-base md:text-lg">
+                      ឈ្មោះប្រភេទ
+                    </label>
+                    <input
+                      type="text"
+                      name="category_name"
+                      value={formData.category.category_name}
+                      onChange={(e) => handleChange(e, "category")}
+                      className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-xs sm:text-sm md:text-base"
+                      placeholder="បញ្ចូលឈ្មោះប្រភេទ"
+                      required
+                    />
+                  </div>
+                  <div className="mb-4">
+                    <label className="block text-gray-700 font-medium mb-2 text-sm sm:text-base md:text-lg">
+                      ការពិពណ៌នាប្រភេទ
+                    </label>
+                    <textarea
+                      name="category_description"
+                      value={formData.category.category_description}
+                      onChange={(e) => handleChange(e, "category")}
+                      className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 min-h-[100px] text-xs sm:text-sm md:text-base"
+                      placeholder="បញ្ចូលការពិពណ៌នាប្រភេទ"
+                      required
+                    />
+                  </div>
+                </>
+              )}
+              <div className="flex justify-between">
+                <button
+                  type="button"
+                  onClick={prevStep}
+                  className="px-6 py-3 bg-gray-300 text-gray-700 rounded-lg hover:bg-gray-400 transition-all text-sm sm:text-base md:text-lg"
+                >
+                  ថយក្រោយ
+                </button>
+                <button
+                  type="button"
+                  onClick={nextStep}
+                  disabled={!isNextButtonEnabled()}
+                  className={`px-6 py-3 rounded-lg transition-all text-sm sm:text-base md:text-lg ${
+                    isNextButtonEnabled()
+                      ? "bg-blue-500 text-white hover:bg-blue-600"
+                      : "bg-gray-300 text-gray-500 cursor-not-allowed"
+                  }`}
+                >
+                  បន្ទាប់
+                </button>
               </div>
             </motion.div>
-          ) : (
-            <>
-              <motion.div variants={itemVariants} className="mb-5">
-                <label className="flex items-center space-x-2 text-gray-700 font-medium mb-2">
-                  <FiEdit style={{ color: primaryColor }} />
-                  <span>ឈ្មោះមុខវិជ្ជា</span>
+          )}
+
+          {/* Step 3: Lesson Details */}
+          {step === 3 && (
+            <motion.div
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -20 }}
+              transition={{ duration: 0.3 }}
+            >
+              <h2 className="text-lg sm:text-xl md:text-2xl font-semibold text-gray-700 mb-4 flex items-center">
+                <FiBook className="mr-2" style={{ color: primaryColor }} />
+                ព័ត៌មានមេរៀន
+              </h2>
+              <div className="mb-4">
+                <label className="block text-gray-700 font-medium mb-2 text-sm sm:text-base md:text-lg">
+                  ចំណងជើងមេរៀន
                 </label>
                 <input
                   type="text"
-                  name="category_name"
-                  value={formData.category.category_name}
-                  onChange={(e) => handleChange(e, "category")}
-                  className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:border-transparent transition-all duration-200"
-                  style={{ focusRing: primaryColor }}
-                  placeholder="Enter category name"
+                  name="lesson_title"
+                  value={formData.lesson.lesson_title}
+                  onChange={(e) => handleChange(e, "lesson")}
+                  className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-xs sm:text-sm md:text-base"
+                  placeholder="បញ្ចូលចំណងជើងមេរៀន"
                   required
                 />
-              </motion.div>
-              <motion.div variants={itemVariants}>
-                <label className="flex items-center space-x-2 text-gray-700 font-medium mb-2">
-                  <FiList style={{ color: primaryColor }} />
-                  <span>ព័ត៌មានលម្អិតអំពីមុខវិជ្ជា</span>
+              </div>
+              <div className="mb-4">
+                <label className="block text-gray-700 font-medium mb-2 text-sm sm:text-base md:text-lg">
+                  URL រូបភាពមេរៀន
                 </label>
-                <textarea
-                  name="category_description"
-                  value={formData.category.category_description}
-                  onChange={(e) => handleChange(e, "category")}
-                  className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:border-transparent transition-all duration-200 min-h-24"
-                  style={{ focusRing: primaryColor }}
-                  placeholder="Enter category description"
+                <input
+                  type="text"
+                  name="lesson_image"
+                  value={formData.lesson.lesson_image}
+                  onChange={(e) => handleChange(e, "lesson")}
+                  className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-xs sm:text-sm md:text-base"
+                  placeholder="បញ្ចូល URL រូបភាព"
                   required
                 />
-              </motion.div>
-            </>
-          )}
-        </motion.div>
-      )}
-    </AnimatePresence>
-  </motion.div>
-) : null}
-
-{/* Lesson Section */}
-<motion.div
-  initial={{ opacity: 0 }}
-  animate={{ opacity: 1 }}
-  transition={{ duration: 0.5 }}
-  className="mb-6 overflow-hidden rounded-xl shadow-md bg-white"
->
-  <motion.button
-    type="button"
-    onClick={() => toggleSection("lesson")}
-    style={{
-      backgroundColor: isHovered.lesson
-        ? primaryColorDark
-        : primaryColor,
-    }}
-    className="w-full flex justify-between items-center p-4 text-white rounded-t-xl transition-all duration-300"
-    onMouseEnter={() => handleHover("lesson", true)}
-    onMouseLeave={() => handleHover("lesson", false)}
-    whileHover={{ scale: 1.01 }}
-    whileTap={{ scale: 0.98 }}
-  >
-    <span className="flex items-center space-x-2">
-      <FiBook className="text-xl" />
-      <span className="text-lg font-medium">
-        ព័ត៌មានលម្អិតនៃមេរៀន
-      </span>
-    </span>
-    <motion.div
-      animate={{ rotate: openSection === "lesson" ? 180 : 0 }}
-      transition={{ duration: 0.3 }}
-    >
-      <FiChevronDown className="text-xl" />
-    </motion.div>
-  </motion.button>
-  <AnimatePresence>
-    {openSection === "lesson" && (
-      <motion.div
-        initial="hidden"
-        animate="visible"
-        exit="hidden"
-        variants={cardVariants}
-        className="p-5 border-t border-gray-100"
-      >
-        <motion.div variants={itemVariants} className="mb-5">
-          <label className="flex items-center space-x-2 text-gray-700 font-medium mb-2">
-            <FiEdit style={{ color: primaryColor }} />
-            <span>ចំណងជើងមេរៀន</span>
-          </label>
-          <input
-            type="text"
-            name="lesson_title"
-            value={formData.lesson.lesson_title}
-            onChange={(e) => handleChange(e, "lesson")}
-            className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:border-transparent transition-all duration-200"
-            style={{ focusRing: primaryColor }}
-            placeholder="Enter lesson title"
-            required
-          />
-        </motion.div>
-        <motion.div variants={itemVariants}>
-          <label className="flex items-center space-x-2 text-gray-700 font-medium mb-2">
-            <FiImage style={{ color: primaryColor }} />
-            <span>រូបភាពមេរៀន URL</span>
-          </label>
-          <input
-            type="text"
-            name="lesson_image"
-            value={formData.lesson.lesson_image}
-            onChange={(e) => handleChange(e, "lesson")}
-            className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:border-transparent transition-all duration-200"
-            style={{ focusRing: primaryColor }}
-            placeholder="Enter image URL"
-            required
-          />
-          {formData.lesson.lesson_image && (
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="mt-3"
-            >
-              <p className="text-xs text-gray-500 mb-2">មើលឡើងវិញ</p>
-              <div className="w-24 h-24 rounded-lg overflow-hidden border border-gray-200">
-                <div className="bg-gray-100 w-full h-full flex items-center justify-center text-gray-400">
-                  <FiImage className="text-3xl" />
-                </div>
+                {formData.lesson.lesson_image && (
+                  <div className="mt-2">
+                    <img
+                      src={formData.lesson.lesson_image}
+                      alt="ការមើលជាមុនរូបភាពមេរៀន"
+                      className="w-32 h-32 object-cover rounded-lg border border-gray-200"
+                    />
+                  </div>
+                )}
+              </div>
+              <div className="flex justify-between">
+                <button
+                  type="button"
+                  onClick={prevStep}
+                  className="px-6 py-3 bg-gray-300 text-gray-700 rounded-lg hover:bg-gray-400 transition-all text-sm sm:text-base md:text-lg"
+                >
+                  ថយក្រោយ
+                </button>
+                <button
+                  type="button"
+                  onClick={nextStep}
+                  disabled={!isNextButtonEnabled()}
+                  className={`px-6 py-3 rounded-lg transition-all text-sm sm:text-base md:text-lg ${
+                    isNextButtonEnabled()
+                      ? "bg-blue-500 text-white hover:bg-blue-600"
+                      : "bg-gray-300 text-gray-500 cursor-not-allowed"
+                  }`}
+                >
+                  បន្ទាប់
+                </button>
               </div>
             </motion.div>
           )}
-        </motion.div>
-      </motion.div>
-    )}
-  </AnimatePresence>
-</motion.div>
 
-{/* Section Section */}
-<motion.div
-  initial={{ opacity: 0 }}
-  animate={{ opacity: 1 }}
-  transition={{ duration: 0.5 }}
-  className="mb-6 overflow-hidden rounded-xl shadow-md bg-white"
->
-  <motion.button
-    type="button"
-    onClick={() => toggleSection("section")}
-    style={{
-      backgroundColor: isHovered.section
-        ? primaryColorDark
-        : primaryColor,
-    }}
-    className="w-full flex justify-between items-center p-4 text-white rounded-t-xl transition-all duration-300"
-    onMouseEnter={() => handleHover("section", true)}
-    onMouseLeave={() => handleHover("section", false)}
-    whileHover={{ scale: 1.01 }}
-    whileTap={{ scale: 0.98 }}
-  >
-    <span className="flex items-center space-x-2">
-      <FiList className="text-xl" />
-      <span className="text-lg font-medium">
-        ព័ត៌មានលម្អិត​​ជំពូក{" "}
-      </span>
-    </span>
-    <motion.div
-      animate={{ rotate: openSection === "section" ? 180 : 0 }}
-      transition={{ duration: 0.3 }}
-    >
-      <FiChevronDown className="text-xl" />
-    </motion.div>
-  </motion.button>
-  <AnimatePresence>
-    {openSection === "section" && (
-      <motion.div
-        initial="hidden"
-        animate="visible"
-        exit="hidden"
-        variants={cardVariants}
-        className="p-5 border-t border-gray-100"
-      >
-        <motion.div variants={itemVariants} className="mb-5">
-          <label className="flex items-center space-x-2 text-gray-700 font-medium mb-2">
-            <FiEdit style={{ color: primaryColor }} />
-            <span>ចំណងជើង​​ជំពូក</span>
-          </label>
-          <input
-            type="text"
-            name="title"
-            value={formData.section.title}
-            onChange={(e) => handleChange(e, "section")}
-            className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:border-transparent transition-all duration-200"
-            style={{ focusRing: primaryColor }}
-            placeholder="Enter section title"
-            required
-          />
-        </motion.div>
-        <motion.div variants={itemVariants} className="mb-5">
-          <label className="flex items-center space-x-2 text-gray-700 font-medium mb-2">
-            <FiList style={{ color: primaryColor }} />
-            <span>លេខជំពូក</span>
-          </label>
-          <input
-            type="text"
-            name="no"
-            value={formData.section.no}
-            onChange={(e) => handleChange(e, "section")}
-            className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:border-transparent transition-all duration-200"
-            style={{ focusRing: primaryColor }}
-            placeholder="Enter section number"
-            required
-          />
-        </motion.div>
-        <motion.div variants={itemVariants}>
-          <label className="flex items-center space-x-2">
-            <input
-              type="checkbox"
-              name="preview"
-              checked={formData.section.preview}
-              onChange={(e) => handleChange(e, "section")}
-              className="form-checkbox"
-              style={{ color: primaryColor }}
-            />
-            <span className="text-gray-600">មើលឡើងវិញ</span>
-          </label>
-        </motion.div>
-      </motion.div>
-    )}
-  </AnimatePresence>
-</motion.div>
+          {/* Step 4: Section Details */}
+          {step === 4 && (
+            <motion.div
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -20 }}
+              transition={{ duration: 0.3 }}
+            >
+              <h2 className="text-lg sm:text-xl md:text-2xl font-semibold text-gray-700 mb-4 flex items-center">
+                <FiList className="mr-2" style={{ color: primaryColor }} />
+                ព័ត៌មានផ្នែក
+              </h2>
+              <div className="mb-4">
+                <label className="block text-gray-700 font-medium mb-2 text-sm sm:text-base md:text-lg">
+                  ចំណងជើងផ្នែក
+                </label>
+                <input
+                  type="text"
+                  name="title"
+                  value={formData.section.title}
+                  onChange={(e) => handleChange(e, "section")}
+                  className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-xs sm:text-sm md:text-base"
+                  placeholder="បញ្ចូលចំណងជើងផ្នែក"
+                  required
+                />
+              </div>
+              <div className="mb-4">
+                <label className="block text-gray-700 font-medium mb-2 text-sm sm:text-base md:text-lg">
+                  លេខផ្នែក
+                </label>
+                <input
+                  type="text"
+                  name="no"
+                  value={formData.section.no}
+                  onChange={(e) => handleChange(e, "section")}
+                  className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-xs sm:text-sm md:text-base"
+                  placeholder="បញ្ចូលលេខផ្នែក"
+                  required
+                />
+              </div>
+              <div className="mb-4">
+                <label className="flex items-center space-x-2">
+                  <input
+                    type="checkbox"
+                    name="preview"
+                    checked={formData.section.preview}
+                    onChange={(e) => handleChange(e, "section")}
+                    className="form-checkbox text-blue-500"
+                  />
+                  <span className="text-gray-600 text-sm sm:text-base md:text-lg">មានការមើលជាមុន</span>
+                </label>
+              </div>
+              <div className="flex justify-between">
+                <button
+                  type="button"
+                  onClick={prevStep}
+                  className="px-6 py-3 bg-gray-300 text-gray-700 rounded-lg hover:bg-gray-400 transition-all text-sm sm:text-base md:text-lg"
+                >
+                  ថយក្រោយ
+                </button>
+                <button
+                  type="button"
+                  onClick={nextStep}
+                  disabled={!isNextButtonEnabled()}
+                  className={`px-6 py-3 rounded-lg transition-all text-sm sm:text-base md:text-lg ${
+                    isNextButtonEnabled()
+                      ? "bg-blue-500 text-white hover:bg-blue-600"
+                      : "bg-gray-300 text-gray-500 cursor-not-allowed"
+                  }`}
+                >
+                  បន្ទាប់
+                </button>
+              </div>
+            </motion.div>
+          )}
 
-{/* Content Section */}
-<motion.div
-  initial={{ opacity: 0 }}
-  animate={{ opacity: 1 }}
-  transition={{ duration: 0.5 }}
-  className="mb-6 overflow-hidden rounded-xl shadow-md bg-white"
->
-  <motion.button
-    type="button"
-    onClick={() => toggleSection("content")}
-    style={{
-      backgroundColor: isHovered.content
-        ? primaryColorDark
-        : primaryColor,
-    }}
-    className="w-full flex justify-between items-center p-4 text-white rounded-t-xl transition-all duration-300"
-    onMouseEnter={() => handleHover("content", true)}
-    onMouseLeave={() => handleHover("content", false)}
-    whileHover={{ scale: 1.01 }}
-    whileTap={{ scale: 0.98 }}
-  >
-    <span className="flex items-center space-x-2">
-      <FiPlayCircle className="text-xl" />
-      <span className="text-lg font-medium">
-        ព័ត៌មានលម្អិតអំពីខ្លឹមសារ
-      </span>
-    </span>
-    <motion.div
-      animate={{ rotate: openSection === "content" ? 180 : 0 }}
-      transition={{ duration: 0.3 }}
-    >
-      <FiChevronDown className="text-xl" />
-    </motion.div>
-  </motion.button>
-  <AnimatePresence>
-    {openSection === "content" && (
-      <motion.div
-        initial="hidden"
-        animate="visible"
-        exit="hidden"
-        variants={cardVariants}
-        className="p-5 border-t border-gray-100"
-      >
-        <motion.div variants={itemVariants} className="mb-5">
-          <label className="flex items-center space-x-2 text-gray-700 font-medium mb-2">
-            <FiEdit style={{ color: primaryColor }} />
-            <span>ចំណងជើងមាតិកា</span>
-          </label>
-          <input
-            type="text"
-            name="title"
-            value={formData.content.title}
-            onChange={(e) => handleChange(e, "content")}
-            className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:border-transparent transition-all duration-200"
-            style={{ focusRing: primaryColor }}
-            placeholder="Enter content title"
-            required
-          />
-        </motion.div>
-        <motion.div variants={itemVariants} className="mb-5">
-          <label className="flex items-center space-x-2 text-gray-700 font-medium mb-2">
-            <FiList style={{ color: primaryColor }} />
-            <span>លេខមាតិកា</span>
-          </label>
-          <input
-            type="text"
-            name="no"
-            value={formData.content.no}
-            onChange={(e) => handleChange(e, "content")}
-            className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:border-transparent transition-all duration-200"
-            style={{ focusRing: primaryColor }}
-            placeholder="Enter content number"
-            required
-          />
-        </motion.div>
-        <motion.div variants={itemVariants} className="mb-5">
-          <label className="flex items-center space-x-2">
-            <input
-              type="checkbox"
-              name="preview"
-              checked={formData.content.preview}
-              onChange={(e) => handleChange(e, "content")}
-              className="form-checkbox"
-              style={{ color: primaryColor }}
-            />
-            <span className="text-gray-600">មើលឡើងវិញ</span>
-          </label>
-        </motion.div>
-        <motion.div variants={itemVariants} className="mb-5">
-          <label className="flex items-center space-x-2 text-gray-700 font-medium mb-2">
-            <FiFileText style={{ color: primaryColor }} />
-            <span>ឯកសារ URL</span>
-          </label>
-          <input
-            type="text"
-            name="file"
-            value={formData.content.file}
-            onChange={(e) => handleChange(e, "content")}
-            className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:border-transparent transition-all duration-200"
-            style={{ focusRing: primaryColor }}
-            placeholder="Enter file URL"
-            required
-          />
-        </motion.div>
-        <motion.div variants={itemVariants} className="mb-5">
-          <label className="flex items-center space-x-2 text-gray-700 font-medium mb-2">
-            <FiPlayCircle style={{ color: primaryColor }} />
-            <span>វីដេអូ URL</span>
-          </label>
-          <input
-            type="text"
-            name="video_url"
-            value={formData.content.video_url}
-            onChange={(e) => handleChange(e, "content")}
-            className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:border-transparent transition-all duration-200"
-            style={{ focusRing: primaryColor }}
-            placeholder="Enter video URL"
-            required
-          />
-        </motion.div>
-        <motion.div variants={itemVariants}>
-          <label className="flex items-center space-x-2 text-gray-700 font-medium mb-2">
-            <FiEdit style={{ color: primaryColor }} />
-            <span>ចំណងជើងវីដេអូ</span>
-          </label>
-          <input
-            type="text"
-            name="video_title"
-            value={formData.content.video_title}
-            onChange={(e) => handleChange(e, "content")}
-            className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:border-transparent transition-all duration-200"
-            style={{ focusRing: primaryColor }}
-            placeholder="Enter video title"
-            required
-          />
-        </motion.div>
-      </motion.div>
-    )}
-  </AnimatePresence>
-</motion.div>
-
-{/* Submit Button */}
-<motion.button
-  whileHover={{ scale: 1.05 }}
-  whileTap={{ scale: 0.95 }}
-  type="submit"
-  style={{ backgroundColor: primaryColor }}
-  className="w-full p-4 text-white rounded-lg hover:bg-[#106080] transition-all duration-300"
->
-  កែវគ្គសិក្សា
-</motion.button>
-</form>
+          {/* Step 5: Content Details */}
+          {step === 5 && (
+            <motion.div
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -20 }}
+              transition={{ duration: 0.3 }}
+            >
+              <h2 className="text-lg sm:text-xl md:text-2xl font-semibold text-gray-700 mb-4 flex items-center">
+                <FiPlayCircle className="mr-2" style={{ color: primaryColor }} />
+                ព័ត៌មានខ្លឹមសារ
+              </h2>
+              <div className="mb-4">
+                <label className="block text-gray-700 font-medium mb-2 text-sm sm:text-base md:text-lg">
+                  ចំណងជើងខ្លឹមសារ
+                </label>
+                <input
+                  type="text"
+                  name="title"
+                  value={formData.content.title}
+                  onChange={(e) => handleChange(e, "content")}
+                  className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-xs sm:text-sm md:text-base"
+                  placeholder="បញ្ចូលចំណងជើងខ្លឹមសារ"
+                  required
+                />
+              </div>
+              <div className="mb-4">
+                <label className="block text-gray-700 font-medium mb-2 text-sm sm:text-base md:text-lg">
+                  លេខខ្លឹមសារ
+                </label>
+                <input
+                  type="text"
+                  name="no"
+                  value={formData.content.no}
+                  onChange={(e) => handleChange(e, "content")}
+                  className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-xs sm:text-sm md:text-base"
+                  placeholder="បញ្ចូលលេខខ្លឹមសារ"
+                  required
+                />
+              </div>
+              <div className="mb-4">
+                <label className="flex items-center space-x-2">
+                  <input
+                    type="checkbox"
+                    name="preview"
+                    checked={formData.content.preview}
+                    onChange={(e) => handleChange(e, "content")}
+                    className="form-checkbox text-blue-500"
+                  />
+                  <span className="text-gray-600 text-sm sm:text-base md:text-lg">មានការមើលជាមុន</span>
+                </label>
+              </div>
+              <div className="mb-4">
+                <label className="block text-gray-700 font-medium mb-2 text-sm sm:text-base md:text-lg">
+                  URL ឯកសារ
+                </label>
+                <input
+                  type="text"
+                  name="file"
+                  value={formData.content.file}
+                  onChange={(e) => handleChange(e, "content")}
+                  className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-xs sm:text-sm md:text-base"
+                  placeholder="បញ្ចូល URL ឯកសារ"
+                  required
+                />
+              </div>
+              <div className="mb-4">
+                <label className="block text-gray-700 font-medium mb-2 text-sm sm:text-base md:text-lg">
+                  URL វីដេអូ
+                </label>
+                <input
+                  type="text"
+                  name="video_url"
+                  value={formData.content.video_url}
+                  onChange={(e) => handleChange(e, "content")}
+                  className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-xs sm:text-sm md:text-base"
+                  placeholder="បញ្ចូល URL វីដេអូ"
+                  required
+                />
+              </div>
+              <div className="mb-4">
+                <label className="block text-gray-700 font-medium mb-2 text-sm sm:text-base md:text-lg">
+                  ចំណងជើងវីដេអូ
+                </label>
+                <input
+                  type="text"
+                  name="video_title"
+                  value={formData.content.video_title}
+                  onChange={(e) => handleChange(e, "content")}
+                  className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-xs sm:text-sm md:text-base"
+                  placeholder="បញ្ចូលចំណងជើងវីដេអូ"
+                  required
+                />
+              </div>
+              <div className="flex justify-between">
+                <button
+                  type="button"
+                  onClick={prevStep}
+                  className="px-6 py-3 bg-gray-300 text-gray-700 rounded-lg hover:bg-gray-400 transition-all text-sm sm:text-base md:text-lg"
+                >
+                  ថយក្រោយ
+                </button>
+                <button
+                  type="submit"
+                  className="px-6 py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-all text-sm sm:text-base md:text-lg"
+                >
+                  ដាក់ស្នើវគ្គសិក្សា
+                </button>
+              </div>
+            </motion.div>
+          )}
+        </form>
 
         {/* Modal */}
         <AnimatePresence>
@@ -929,21 +835,21 @@ const CreateCourseForm = ({ accessToken }) => { // Accept token as prop
                       <FiAlertCircle />
                     )}
                   </div>
-                  <h3 className="text-3xl font-bold text-center mb-2">
-                    {modalContent.type === "success" ? "Success!" : "Error!"}
+                  <h3 className="text-xl sm:text-2xl md:text-3xl font-bold text-center mb-2">
+                    {modalContent.type === "success" ? "ជោគជ័យ!" : "កំហុស!"}
                   </h3>
-                  <p className="text-center mb-6">{modalContent.message}</p>
+                  <p className="text-center mb-6 text-sm sm:text-base md:text-lg">{modalContent.message}</p>
                   <div className="flex gap-2">
                     <button
                       onClick={() => setIsModalOpen(false)}
-                      className="bg-transparent hover:bg-white/10 transition-colors text-white font-semibold w-full py-2 rounded"
+                      className="bg-transparent hover:bg-white/10 transition-colors text-white font-semibold w-full py-2 rounded text-sm sm:text-base md:text-lg"
                     >
                       បិទ
                     </button>
                     {modalContent.type === "error" && (
                       <button
                         onClick={() => setIsModalOpen(false)}
-                        className="bg-white hover:opacity-90 transition-opacity text-red-600 font-semibold w-full py-2 rounded"
+                        className="bg-white hover:opacity-90 transition-opacity text-red-600 font-semibold w-full py-2 rounded text-sm sm:text-base md:text-lg"
                       >
                         ព្យាយាមម្តងទៀត
                       </button>
@@ -960,5 +866,3 @@ const CreateCourseForm = ({ accessToken }) => { // Accept token as prop
 };
 
 export default CreateCourseForm;
-
-

@@ -11,12 +11,12 @@ export default {
       },
       fontSize: {
         Descride: "16px",
-        xs: ".75rem",
-        sm: "18px", // Slightly larger for readability
-        base: "20px", // Standard body text
-        lg: "25px", // Headings
-        xl: "34px", // Larger headings
-        "2xl": "38px", // Extra large headings
+        xs: ".75rem",// 12px / 16px = .75rem
+        sm: "1.125rem", // 18px / 16px = 1.125rem
+        base: "1.375rem", // 22px / 16px = 1.375rem
+        lg: "1.625rem", // 26px / 16px = 1.625rem
+        xl: "1.75rem", // 28px / 16px = 1.75rem
+        "2xl": "1.875rem", // 30px / 16px = 1.875rem
 
         "3xl": "1.875rem",
         "4xl": "2.25rem",
