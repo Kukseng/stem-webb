@@ -7,7 +7,7 @@ const ProtectedRoute = ({ children }) => {
   const accessToken = useSelector((state) => state.auth.accessToken);
 
   if (!accessToken) {
-    // Redirect to login if not authenticated
+
     return <Navigate to="/login" replace />;
   }
 

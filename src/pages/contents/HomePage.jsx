@@ -10,6 +10,7 @@ import TeacherCourseUploadForm from "../../components/common/TeacherCourseUpload
 import CourseList from "../../components/common/courses/course-list";
 import ExampleWrapper from "../../components/common/SpringModel";
 
+
 const HomePage = () => {
   return (
     <>
