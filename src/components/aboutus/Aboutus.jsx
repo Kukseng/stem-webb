@@ -353,13 +353,13 @@ const Aboutus = () => {
         <p className="text-lg lg:text-xl text-descrid font-suwannaphum mt-4">
           5 សំណួរដែលគេសួរញឹកញាប់អំពី iSTEM Education
         </p>
-        <div className="flex justify-center flex-wrap py-10">
+        <div className="flex justify-center flex-wrap py-10 sm:mx-20">
           <motion.div
             className="w-full lg:w-2/3"
             variants={containerVariants}
             initial="hidden"
             whileInView="visible"
-            viewport={{ once: true, amount: 0.2 }}
+            viewport={{ once: true, amount: 0.3 }}
           >
             {[
               "តើ iSTEM Education ជាអ្វី?",
@@ -373,7 +373,7 @@ const Aboutus = () => {
                 variants={itemVariants}
                 className="border-l-4 border-gradient-to-b from-primary to-cyan-400 pl-4 mt-6 transform transition-all hover:scale-105 hover:bg-blue-50 rounded-r-lg hover:shadow-md p-2"
               >
-                <p className="text-lg lg:text-xl text-descrid font-bold font-suwannaphum py-4">
+                <p className="text-lg sm:text-sm lg:text-lg text-descrid font-bold font-suwannaphum py-4 2xl:text-4xl">
                   {question}
                 </p>
                 {index === 0 && (
@@ -381,7 +381,7 @@ const Aboutus = () => {
                     initial={{ height: 0, opacity: 0 }}
                     animate={{ height: "auto", opacity: 1 }}
                     transition={{ duration: 0.5 }}
-                    className="text-lg lg:text-xl text-descrid font-suwannaphum leading-relaxed 2xl:text-lg"
+                    className="text-lg lg:text-sm sm:text-sm text-descrid font-suwannaphum leading-relaxed 2xl:text-lg"
                   >
                     iSTEM Education រួមបញ្ចូលវិទ្យាសាស្ត្រ បច្ចេកវិទ្យា
                     វិស្វកម្ម និងគណិតវិទ្យា (STEM) ដោយផ្តោតលើការច្នៃប្រឌិត
@@ -396,13 +396,14 @@ const Aboutus = () => {
                     ប៉ុន្តែថែមទាំងអភិវឌ្ឍបច្ចេកវិទ្យាថ្មីៗ ដំណើរការ
                     និងដំណោះស្រាយដើម្បីដោះស្រាយបញ្ហាប្រឈមក្នុងសង្គមផងដែរ។
                   </motion.p>
+
                 )}
+
               </motion.div>
             ))}
           </motion.div>
         </div>
       </motion.div>
-
       <div className="fixed top-20 right-10 w-16 h-16 bg-blue-400 rounded-full opacity-20 animate-pulse"></div>
       <div className="fixed bottom-20 left-10 w-24 h-24 bg-purple-500 rounded-full opacity-20 animate-pulse"></div>
       <div className="fixed top-1/2 left-10 w-10 h-10 bg-pink-400 rounded-full opacity-20 animate-bounce"></div>

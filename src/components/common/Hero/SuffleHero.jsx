@@ -17,13 +17,13 @@ const ShuffleHero = () => {
           transition={{ duration: 0.8 }}
           className="hero-text"
         >
-          <h1 className="text-primary font-suwannaphum text-4xl 2xl:text-8xl lg:text-5xl font-bold bg-gradient-to-r from-primary to-blue-400 bg-clip-text text-transparent">
+          <h1 className="text-primary font-suwannaphum text-4xl 2xl:text-8xl lg:text-4 xl font-bold bg-gradient-to-r from-primary to-blue-400 bg-clip-text text-transparent">
             iSTEM
           </h1>
-          <h2 className="text-gray-700 text-3xl lg:text-4xl my-6 lg:my-10 font-bold">
+          <h2 className="text-gray-700 text-3xl lg:text-3xl my-6 lg:my-4 sm:my-2 font-bold">
             ផ្តល់ឱកាសល្អបំផុតដល់សិស្ស
           </h2>
-          <p className="font-suwannaphum text-lg lg:text-xl text-descrid leading-relaxed">
+          <p className="font-suwannaphum 2xl:text-[25px] sm:text-sm lg:text-[20px] text-descrid leading-relaxed">
             សិស្សបន្ទាប់ពីបញ្ចប់ថ្នាក់មធ្យមសិក្សាទុតិយភូមិឬមិនទាន់បញ្ចប់ក៍អាចសិក្សានៅលើវេសាយពួកយើងបានដែរពួកយើងអាចផ្តល់អោយនូវចំណេះដឹងថ្មីៗផ្លែកៗទាន់សម័យ។យើងប្តេជ្ញាផ្តល់ជូននូវបទពិសោធន៍
             អប់រំផ្លាស់ប្តូរដែលផ្តល់អំណាចដល់បុគ្គលម្នាក់ៗឱ្យឈានដល់សក្តានពលពេញលេញរបស់ពួកគេ។
             មិនថាអ្នកជាសិស្សអ្នកសិក្សាពេញមួយជីវិត

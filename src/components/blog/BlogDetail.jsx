@@ -12,12 +12,12 @@ const BlogDetail = () => {
   useEffect(() => {
     // Scroll to top when component mounts
     window.scrollTo(0, 0);
-    
+
     // Set page title based on article title
     if (article) {
       document.title = article.title;
     }
-    
+
     return () => {
       document.title = "Blog"; // Reset title on unmount
     };
@@ -35,7 +35,7 @@ const BlogDetail = () => {
   const renderContent = (content) => {
     // Split content by paragraphs for better styling
     if (!content) return null;
-    
+
     const paragraphs = content.split('\n').filter(p => p.trim().length > 0);
     return paragraphs.map((paragraph, index) => (
       <p key={index} className="text-gray-700 mb-4 leading-relaxed">
@@ -59,7 +59,7 @@ const BlogDetail = () => {
   // Error state with animation
   if (isError) {
     return (
-      <motion.div 
+      <motion.div
         className="max-w-4xl mx-auto px-4 py-16 bg-red-50 rounded-lg shadow-md text-center"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -117,7 +117,7 @@ const BlogDetail = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
         >
-      
+
           <div className="relative">
             <img
               src={article.image}
@@ -126,7 +126,7 @@ const BlogDetail = () => {
               onError={(e) => (e.target.src = "https://via.placeholder.com/1200x600?text=No+Image")}
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
-            
+
             {/* Title overlay */}
             <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
               <h1 className="text-3xl md:text-4xl font-bold mb-2">{article.title}</h1>
