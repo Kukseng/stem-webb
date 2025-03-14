@@ -79,6 +79,7 @@ function MainNavbar() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
+
   useEffect(() => {
     const accessToken = localStorage.getItem("access_token");
     const refreshToken = localStorage.getItem("refresh_token");
@@ -144,7 +145,7 @@ function MainNavbar() {
                   className="h-16 w-16 md:h-18 md:w-18 lg:h-20 lg:w-20 object-cover object-center"
                 />
               </div>
-              <h1 className="text-xl md:text-2xl lg:text-[26px] font-bold font-suwannaphum">
+              <h1 className="text-xl md:text-2xl lg:text-[26px] 2xl:text-4xl font-bold font-suwannaphum">
                 <span className="text-primary">I</span>
                 <span className="text-primary">S</span>
                 <span className="text-primary">T</span>
@@ -154,7 +155,7 @@ function MainNavbar() {
             </div>
           </Link>
 
-          <div className="hidden lg:flex 2xl:text-lg text-gray-700 font-bold items-center space-x-3 xl:space-x-6">
+          <div className="hidden lg:flex 2xl:text-lg text-gray-600 sm:text-sm font-semibold items-center space-x-3 xl:space-x-6">
             {navItems.map((item) =>
               item.hasDropdown ? (
                 <Dropdown
@@ -174,7 +175,7 @@ function MainNavbar() {
                       animate="visible"
                       exit="exit"
                       variants={dropdownVariants}
-                      transition={{ duration: 0.3, ease: "easeInOut" }}
+                      transition={{ duration: 0.5, ease: "easeInOut" }}
                     >
                       <div className="grid grid-cols-2 gap-4">
                         {stemMenuItems.map((stemItem) => (
@@ -192,7 +193,7 @@ function MainNavbar() {
                                 <stemItem.icon className="w-5 h-5 text-primary group-hover:text-[#1e8fb8] transition-colors" />
                               </motion.div>
                               <div>
-                                <h4 className="text-sm font-semibold text-gray-800 group-hover:text-[#1e8fb8] transition-colors">
+                                <h4 className="text-sm font-semibold text-gray-600 group-hover:text-[#1e8fb8] transition-colors">
                                   {stemItem.label}
                                 </h4>
                                 <p className="text-xs text-gray-500 mt-1">
@@ -211,7 +212,7 @@ function MainNavbar() {
                   key={item.label}
                   to={item.href}
                   onClick={handleLinkClick}
-                  className="px-1 lg:px-2 text-gray-700 hover:text-[#1e8fb8] transition-colors duration-200 text-sm lg:text-base xl:text-lg font-semibold whitespace-nowrap"
+                  className="px-1 lg:px-2 text-gray-600 hover:text-[#1e8fb8] transition-colors duration-200 text-sm lg:text-base xl:text-lg font-semibold whitespace-nowrap"
                 >
                   {item.label}
                 </Link>
@@ -227,7 +228,7 @@ function MainNavbar() {
                 placeholder="ស្វែងរក..."
                 className="w-20 lg:w-28 xl:w-36 px-1 lg:px-2 py-1.5 border-none outline-none focus:ring-0 focus:outline-none bg-transparent text-sm"
               />
-              <button className="bg-primary text-xs text-white px-3 lg:px-4 xl:px-6 py-1.5 rounded-[40px] font-medium hover:bg-[#1e8fb8] transition-colors">
+              <button className="bg-primary text-sm  text-white px-3 lg:px-4 xl:px-6 py-1.5 rounded-[40px] font-medium hover:bg-[#1e8fb8] transition-colors">
                 ស្វែងរក
               </button>
             </div>
