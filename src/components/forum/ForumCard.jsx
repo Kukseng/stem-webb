@@ -38,6 +38,7 @@ const ForumCard = ({
   handleUpdateForum,
   handleDeleteForum,
   handleReply,
+  handleShare, // Already passed from ForumPage
 }) => {
   const { user } = useContext(AuthContext);
   const navigate = useNavigate();
@@ -54,10 +55,9 @@ const ForumCard = ({
   const commentsRef = useRef(null);
   const defaultProfileImage = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTTOkHm3_mPQ5PPRvGtU6Si7FJg8DVDtZ47rw&s";
 
-  // Determine author ID from forum object
   const authorId = forum.author_id || forum.author?.id || forum.user_id || null;
-  console.log("Forum data:", forum); // Debug log to inspect forum structure
-  console.log("Author ID:", authorId); // Debug log to confirm author ID
+  console.log("Forum data:", forum);
+  console.log("Author ID:", authorId);
 
   const [followUser, { isLoading: isFollowing }] = useFollowUserMutation();
   const [unfollowUser, { isLoading: isUnfollowing }] = useUnfollowUserMutation();
@@ -321,9 +321,15 @@ const ForumCard = ({
           >
             <FiMessageSquare size={16} className="mr-1" /> Comments ({forumComments.length})
           </button>
-          <button className="flex items-center text-gray-600 hover:text-blue-600 transition-colors text-sm">
+          <motion.button
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.95 }}
+            onClick={() => handleShare(forum)} // Connect to handleShare
+            className="flex items-center text-gray-600 hover:text-blue-600 transition-colors text-sm"
+            title="Share on Facebook"
+          >
             <FiShare2 size={16} className="mr-1" /> Share
-          </button>
+          </motion.button>
         </div>
       </div>
 

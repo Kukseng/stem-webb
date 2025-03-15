@@ -127,7 +127,13 @@ const ForumPage = () => {
       setErrorMessage(error.data?.detail || "Failed to post comment");
     }
   };
-
+ // In ForumPage.jsx
+ const handleShare = (forum) => {
+  const baseUrl = window.location.origin;
+  const forumUrl = `${baseUrl}/share?type=forum&id=${forum.id}&title=${encodeURIComponent(forum.title)}&desc=${encodeURIComponent(forum.description)}&img=${encodeURIComponent(forum.image || "")}`;
+  const shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(forumUrl)}`;
+  window.open(shareUrl, "_blank", "width=600,height=400");
+};
   if (profileLoading || forumsLoading) {
     return (
       <div className="flex flex-col justify-center items-center min-h-screen bg-gray-50 px-4">
@@ -254,6 +260,7 @@ const ForumPage = () => {
                   handleUpdateForum={handleUpdateForum}
                   handleDeleteForum={handleDeleteForum}
                   handleReply={handleReply}
+                  handleShare={handleShare}
                 />
               ))}
             </div>

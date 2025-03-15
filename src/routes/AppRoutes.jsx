@@ -18,6 +18,7 @@ import Categories from "../components/common/courses/Categories";
 import LessonsCard from "../components/lesson/LessonCard";
 import ForumPage from "../pages/contents/ForumPage";
 import BlogDetail from "../components/blog/BlogDetail";
+import StemCommunity from "../pages/contents/StemCommunity.jsx";
 
 export default function AppRoutes() {
   return (
@@ -64,6 +65,7 @@ export default function AppRoutes() {
          
           }
         />
+        {/* <Route path="/stem-community" element={<StemCommunity />} />; */}
         <Route
           path="/forums"
           element={

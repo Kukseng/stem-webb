@@ -30,10 +30,10 @@ const CourseCategories = () => {
       duration: "4-6 months",
       icon: <BiMath className="w-8 h-8" />,
       subcategories: [
-        { name: "Algebra", href: "/math/algebra" },
-        { name: "Calculus", href: "/math/calculus" },
-        { name: "Geometry", href: "/math/geometry" },
-        { name: "Statistics", href: "/math/statistics" },
+        { name: "Algebra", },
+        { name: "Calculus", },
+        { name: "Geometry" },
+        { name: "Statistics" },
       ],
     },
     {
@@ -47,9 +47,9 @@ const CourseCategories = () => {
       features: ["Biology", "Physics", "Chemistry"],
       icon: <MdScience className="w-8 h-8" />,
       subcategories: [
-        { name: "Biology", href: "/science/biology" },
-        { name: "Physics", href: "/science/physics" },
-        { name: "Chemistry", href: "/science/chemistry" },
+        { name: "Biology",  },
+        { name: "Physics",},
+        { name: "Chemistry" },
       ],
     },
     {
@@ -63,9 +63,9 @@ const CourseCategories = () => {
       features: ["Programming", "AI", "Robotics"],
       icon: <GrTechnology className="w-8 h-8" />,
       subcategories: [
-        { name: "Programming", href: "/tech/programming" },
-        { name: "AI", href: "/tech/ai" },
-        { name: "Robotics", href: "/tech/robotics" },
+        { name: "Programming",  },
+        { name: "AI",  },
+        { name: "Robotics", },
       ],
     },
     {
@@ -79,9 +79,9 @@ const CourseCategories = () => {
       features: ["Electrical", "Mechanical", "Civil"],
       icon: <FcEngineering className="w-8 h-8" />,
       subcategories: [
-        { name: "Electrical", href: "/engineering/electrical" },
-        { name: "Mechanical", href: "/engineering/mechanical" },
-        { name: "Civil", href: "/engineering/civil" },
+        { name: "Electrical" },
+        { name: "Mechanical"},
+        { name: "Civil" },
       ],
     },
   ];
@@ -146,7 +146,7 @@ const CourseCategories = () => {
                   {category.subcategories.map((subcategory, idx) => (
                     <a
                       key={idx}
-                      href={subcategory.href}
+                      // href={subcategory.href}
                       className="text-xs px-3 py-1 bg-white/20 rounded-full text-white hover:bg-white/30 transition-colors duration-300"
                     >
                       {subcategory.name}

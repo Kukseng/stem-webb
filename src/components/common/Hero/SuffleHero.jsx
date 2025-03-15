@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import { ArrowRight, Facebook, Linkedin, Github, Instagram } from "lucide-react";
-
+import java from "../../../assets/banner-r.png";
 const ShuffleHero = () => {
   return (
     <section className="max-w-content px-6 py-16 md:py-24 bg-gradient-to-b from-gray-50 to-white grid grid-cols-1 md:grid-cols-2 items-center gap-12 w-full mx-auto">
@@ -53,7 +53,7 @@ const shuffle = (array) => {
 };
 
 const squareData = [
-  { id: 1, src: "https://images.unsplash.com/photo-1547347298-4074fc3086f0?ixlib=rb-4.0.3&auto=format&fit=crop&w=1740&q=80" },
+  { id: 1, src: {java} },
   { id: 2, src: "https://images.unsplash.com/photo-1510925758641-869d353cecc7?ixlib=rb-4.0.3&auto=format&fit=crop&w=687&q=80" },
   { id: 3, src: "https://images.unsplash.com/photo-1629901925121-8a141c2a42f4?ixlib=rb-4.0.3&auto=format&fit=crop&w=687&q=80" },
   { id: 4, src: "https://images.unsplash.com/photo-1580238053495-b9720401fd45?ixlib=rb-4.0.3&auto=format&fit=crop&w=687&q=80" },

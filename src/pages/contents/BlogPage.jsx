@@ -11,6 +11,7 @@ import {
 import BlogComponent from '../../components/blog/BlogComponent';
 import CreateCourseForm from '../../components/CreateCourse';
 import ArticleCrud from '../../components/ArticleCrud';
+import StemCommunity from './StemCommunity';
 
 const BlogPage = () => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -57,6 +58,7 @@ const BlogPage = () => {
 
       <BlogComponent/>
       {/* <CreateCourseForm/> */}
+      {/* <StemCommunity/> */}
       <ArticleCrud/>
     </div>
   );
