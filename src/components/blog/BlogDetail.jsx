@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { FaCalendarAlt, FaEye, FaArrowLeft, FaShare, FaBookmark, FaPrint } from "react-icons/fa";
-import { useGetArticleByIdQuery } from "../../api/articles-api"; // Updated import path
+import { useGetArticleByIdQuery } from "../../api/articles-api";
 
 const BlogDetail = () => {
   const { id } = useParams();
@@ -22,9 +22,11 @@ const BlogDetail = () => {
 
   useEffect(() => {
     if (isError) {
-      console.error("Error fetching article:", error); // Log error details
+      console.error("Fetch error details:", error);
+    } else if (article) {
+      console.log("Article fetched:", article);
     }
-  }, [isError, error]);
+  }, [isError, error, article]);
 
   const handleGoBack = () => {
     navigate(-1);
@@ -65,7 +67,9 @@ const BlogDetail = () => {
       >
         <h2 className="text-2xl font-bold text-red-600 mb-2">មានបញ្ហាក្នុងការផ្ទុកអត្ថបទ</h2>
         <p className="text-red-500 mb-4">
-          {error?.data?.message || "សូមព្យាយាមម្តងទៀត ឬត្រឡប់ទៅទំព័រមុន"}
+          {error?.status === "FETCH_ERROR"
+            ? "បញ្ហា CORS ឬបណ្តាញ៖ មិនអាចភ្ជាប់ទៅ API បានទេ"
+            : error?.data?.message || "សូមព្យាយាមម្តងទៀត ឬត្រឡប់ទៅទំព័រមុន"}
         </p>
         <motion.button
           className="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 transition-colors"
