@@ -1,22 +1,30 @@
-
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-
-const istemUrl = import.meta.env.VITE_API_ENDPOINT;
+// src/api/api-slice.js
+import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 export const apiSlice = createApi({
+  reducerPath: "api",
   baseQuery: fetchBaseQuery({
-    baseUrl: "/api/" ,
+    baseUrl: "https://stem-api.istad.co/api/", // Correct base URL
     prepareHeaders: (headers, { getState }) => {
-      const token = getState()?.auth?.accessToken;  
+      const token = getState().auth.access || localStorage.getItem("access_token");
       if (token) {
-        headers.set('Authorization', `Bearer ${token}`);  
+        headers.set("Authorization", `Bearer ${token}`);
       }
       return headers;
     },
   }),
   tagTypes: [
-    'Auth', 'Forum', 'Article', 'Course', 'Category', 'Lesson',
-    'Section', 'Content', 'Comment', 'Follow', 'File'
+    "Auth",
+    "Forum",
+    "Article",
+    "Course",
+    "Category",
+    "Lesson",
+    "Section",
+    "Content",
+    "Comment",
+    "Follow",
+    "File",
   ],
   endpoints: () => ({}),
 });

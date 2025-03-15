@@ -29,7 +29,7 @@ const OtpVerificationPage = () => {
       console.log("Sending OTP data:", otpData);
       const response = await verifyOtp(otpData).unwrap();
       console.log("OTP verification response:", response);
-      navigate("/"); // Adjust if tokens are returned
+      navigate("/"); 
     } catch (err) {
       console.error("OTP verification error:", err);
       const errorMessage = err.data?.detail || "Invalid OTP. Please try again.";

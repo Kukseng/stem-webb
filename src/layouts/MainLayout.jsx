@@ -1,3 +1,4 @@
+import React from "react";
 import Footer from "../components/footer/Footer";
 
 import Stickynav from "../components/navbar/Stickynav";

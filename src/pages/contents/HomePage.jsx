@@ -9,6 +9,7 @@ import MainCategory from "../../components/common/MainCategory";
 import TeacherCourseUploadForm from "../../components/common/TeacherCourseUploadForm";
 import CourseList from "../../components/common/courses/course-list";
 import ExampleWrapper from "../../components/common/SpringModel";
+// import Chatbot from "../../Chatbot";
 
 
 const HomePage = () => {
@@ -17,6 +18,7 @@ const HomePage = () => {
       <div>
       
         <Banner />
+          {/* <Chatbot/> */}
         <MainCategory />
     
         <CourseCategories />

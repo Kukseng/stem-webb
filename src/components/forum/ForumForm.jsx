@@ -1,8 +1,9 @@
+// src/components/forum/ForumForm.jsx
 import React from "react";
 import { motion } from "framer-motion";
 import { FiEdit, FiBook, FiImage } from "react-icons/fi";
 
-const ForumForm = ({ formData, setFormData, onSubmit, onCancel, submitText, primaryColor = "#2563EB" }) => {
+const ForumForm = ({ formData, setFormData, onSubmit, onCancel, submitText, primaryColor = "#16789e" }) => {
   return (
     <motion.div
       initial={{ opacity: 0, y: -10 }}

@@ -367,49 +367,46 @@ const Aboutus = () => {
         whileInView={{ opacity: 1 }}
         transition={{ duration: 1 }}
         viewport={{ once: true }}
-        className="text-center py-16 bg-gradient-to-b from-gray-50 to-white"
+        className="py-16 bg-white"
       >
-        <h3 className="text-4xl lg:text-5xl font-bold text-descrid font-suwannaphum">
+        <h3 className="text-3xl md:text-4xl font-bold text-gray-900 text-center font-suwannaphum">
           FAQ
         </h3>
-        <p className="text-lg lg:text-xl text-descrid font-suwannaphum mt-4">
-          5 សំណួរដែលគេសួរញឹកញាប់អំពី iSTEM Education
+        <p className="text-lg text-gray-600 text-center mt-4 font-suwannaphum">
+          សំណួរដែលគេសួរញឹកញាប់អំពី iSTEM Education
         </p>
-        <div className="flex justify-center flex-wrap py-10">
-          <motion.div
-            className="w-full lg:w-2/3"
-            variants={containerVariants}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.2 }}
-          >
-            {faqData.map((faq, index) => (
-              <motion.div
-                key={index}
-                variants={itemVariants}
-                className="border-l-4 border-gradient-to-b from-primary to-cyan-400 pl-4 mt-6 transform transition-all hover:scale-105 hover:bg-blue-50 rounded-r-lg hover:shadow-md p-2 cursor-pointer"
-                onClick={() => toggleQuestion(index)} // Toggle answer on click
-              >
-                <p className="text-lg lg:text-xl text-descrid font-bold font-suwannaphum py-4">
-                  {faq.question}
-                </p>
-                {openQuestion === index && (
-                  <motion.p
-                    initial={{ height: 0, opacity: 0 }}
-                    animate={{ height: "auto", opacity: 1 }}
-                    exit={{ height: 0, opacity: 0 }}
-                    transition={{ duration: 0.5 }}
-                    className="text-lg lg:text-xl text-descrid font-suwannaphum leading-relaxed"
-                  >
-                    {faq.answer}
-                  </motion.p>
-                )}
-              </motion.div>
-            ))}
-          </motion.div>
-        </div>
+        <motion.div
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          className="max-w-3xl mx-auto mt-12"
+        >
+          {faqData.map((faq, index) => (
+            <motion.div
+              key={index}
+              variants={itemVariants}
+              className="border-l-4 border-blue-500 bg-gray-50 rounded-r-lg p-4 mb-4 transition-all duration-300 hover:bg-blue-50 hover:shadow-md cursor-pointer"
+              onClick={() => toggleQuestion(index)}
+            >
+              <p className="text-lg font-semibold  text-gray-800 font-suwannaphum">
+                {faq.question}
+              </p>
+              {openQuestion === index && (
+                <motion.p
+                  initial={{ height: 0, opacity: 0 }}
+                  animate={{ height: "auto", opacity: 1 }}
+                  exit={{ height: 0, opacity: 0 }}
+                  transition={{ duration: 0.3 }}
+                  className="text-gray-600 mt-2 font-suwannaphum text-[20px]"
+                >
+                  {faq.answer}
+                </motion.p>
+              )}
+            </motion.div>
+          ))}
+        </motion.div>
       </motion.div>
-
       <div className="fixed top-20 right-10 w-16 h-16 bg-blue-400 rounded-full opacity-20 animate-pulse"></div>
       <div className="fixed bottom-20 left-10 w-24 h-24 bg-purple-500 rounded-full opacity-20 animate-pulse"></div>
       <div className="fixed top-1/2 left-10 w-10 h-10 bg-pink-400 rounded-full opacity-20 animate-bounce"></div>

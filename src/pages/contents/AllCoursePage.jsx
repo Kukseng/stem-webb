@@ -1,9 +1,10 @@
-import React, { useEffect, useState, useRef, useMemo } from "react";
+import React, { useEffect, useState, useRef, useMemo, useContext } from "react";
 import { FaBook, FaSearch, FaChevronLeft, FaFilter, FaSpinner, FaClock, FaTags, FaStar } from "react-icons/fa";
 import { useGetAllCoursesQuery } from "../../api/courses-api";
 import { Link, useParams, useNavigate } from "react-router-dom";
 import { ArrowBigDown } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import { AuthContext } from "../../components/context/AuthContext"; // Adjust the path based on your project structure
 
 const AllCoursePage = () => {
   const { courseId, categoryId } = useParams();
@@ -13,11 +14,15 @@ const AllCoursePage = () => {
   });
   const courses = data?.results || [];
 
+  // AuthContext
+  const { user, openLoginModal } = useContext(AuthContext);
+
   // State
   const [selectedCourse, setSelectedCourse] = useState(null);
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
   const [showFilters, setShowFilters] = useState(false);
+  const [showLoginPrompt, setShowLoginPrompt] = useState(false); // Added for login prompt
   const [filters, setFilters] = useState({
     price: "all",
     duration: "all",
@@ -25,7 +30,7 @@ const AllCoursePage = () => {
     level: "all",
   });
   const [isCategoryDropdownOpen, setIsCategoryDropdownOpen] = useState(false);
-  const [visibleCoursesCount, setVisibleCoursesCount] = useState(6); // Initially show 6 courses
+  const [visibleCoursesCount, setVisibleCoursesCount] = useState(6);
   const dropdownRef = useRef(null);
 
   // Memoized unique categories
@@ -45,7 +50,7 @@ const AllCoursePage = () => {
       const course = courses.find((c) => c.id === courseId);
       setSelectedCourse(course || null);
       if (categoryId && course) {
-        const category = course.categories.find((cat) => cat.id === categoryId);
+        const category = course.categories?.find((cat) => cat.id === categoryId);
         setSelectedCategory(category || null);
       } else {
         setSelectedCategory(null);
@@ -106,7 +111,7 @@ const AllCoursePage = () => {
       [filterType]: value,
     }));
     setIsCategoryDropdownOpen(false);
-    setVisibleCoursesCount(6); // Reset visible courses when filters change
+    setVisibleCoursesCount(6);
   };
 
   const resetFilters = () => {
@@ -117,28 +122,38 @@ const AllCoursePage = () => {
       level: "all",
     });
     setSearchTerm("");
-    setVisibleCoursesCount(6); // Reset visible courses when filters are cleared
+    setVisibleCoursesCount(6);
   };
 
   // Load more courses
   const handleLoadMore = () => {
-    setVisibleCoursesCount((prev) => prev + 6); // Load 6 more courses
+    setVisibleCoursesCount((prev) => prev + 6);
   };
 
-  // Handlers for navigation
+  // Handlers for navigation with login check
   const handleCourseClick = (course) => {
-    setSelectedCourse(course);
-    navigate(`/courses/${course.id}`);
+    if (!user) {
+      setShowLoginPrompt(true);
+      openLoginModal();
+    } else {
+      setSelectedCourse(course);
+      navigate(`/courses/${course.id}`);
+    }
   };
 
   const handleCategoryClick = (category) => {
-    setSelectedCategory(category);
-    navigate(`/courses/${selectedCourse.id}/categories/${category.id}/lessons`, {
-      state: {
-        lessons: category.lessons || [],
-        courseTitle: selectedCourse.course_name,
-      },
-    });
+    if (!user) {
+      setShowLoginPrompt(true);
+      openLoginModal();
+    } else {
+      setSelectedCategory(category);
+      navigate(`/courses/${selectedCourse.id}/categories/${category.id}/lessons`, {
+        state: {
+          lessons: category.lessons || [],
+          courseTitle: selectedCourse.course_name,
+        },
+      });
+    }
   };
 
   const resetToCourses = () => {
@@ -155,41 +170,24 @@ const AllCoursePage = () => {
   // Animation variants
   const containerVariants = {
     hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1,
-      },
-    },
+    visible: { opacity: 1, transition: { staggerChildren: 0.1 } },
   };
 
   const cardVariants = {
     hidden: { opacity: 0, y: 20 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: 0.3,
-      },
-    },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.3 } },
   };
 
   const filterPanelVariants = {
     hidden: { opacity: 0, height: 0 },
-    visible: {
-      opacity: 1,
-      height: "auto",
-      transition: {
-        duration: 0.3,
-      },
-    },
+    visible: { opacity: 1, height: "auto", transition: { duration: 0.3 } },
   };
 
   // Loading and error states
   if (isLoading) {
     return (
       <div className="flex flex-col justify-center items-center h-screen bg-gray-50">
-        <FaSpinner className="animate-spin text-primary h-12 w-12 mb-4" />
+        <FaSpinner className="animate-spin text-[#16789e] h-12 w-12 mb-4" />
         <p className="text-gray-600 font-medium">កំពុងផ្ទុកវគ្គសិក្សា...</p>
       </div>
     );
@@ -200,9 +198,7 @@ const AllCoursePage = () => {
       <div className="flex flex-col justify-center items-center h-screen bg-gray-50">
         <div className="bg-red-50 border border-red-200 rounded-lg p-6 max-w-md">
           <h2 className="text-red-600 font-bold text-lg mb-2">មានបញ្ហាកើតឡើង</h2>
-          <p className="text-red-500">
-            {error?.data?.message || error?.message || "មិនអាចទាញយកវគ្គសិក្សាបានទេ"}
-          </p>
+          <p className="text-red-500">{error?.data?.message || error?.message || "មិនអាចទាញយកវគ្គសិក្សាបានទេ"}</p>
           <button
             onClick={() => window.location.reload()}
             className="mt-4 bg-red-600 hover:bg-red-700 text-white font-medium py-2 px-4 rounded-lg transition-all"
@@ -225,10 +221,10 @@ const AllCoursePage = () => {
           className="flex flex-col md:flex-row md:justify-between md:items-center mb-8 gap-4"
         >
           <div className="flex items-center space-x-3">
-            <div className="bg-primary bg-opacity-10 p-3 rounded-full">
-              <FaBook className="w-6 h-6 text-primary" />
+            <div className="bg-[#16789e] bg-opacity-10 p-3 rounded-full">
+              <FaBook className="w-6 h-6 text-[#16789e]" />
             </div>
-            {/* Removed static heading */}
+            <h1 className="text-2xl font-bold text-gray-800">វគ្គសិក្សាទាំងអស់</h1>
           </div>
 
           <div className="flex flex-col sm:flex-row gap-2 w-full md:w-auto">
@@ -238,7 +234,7 @@ const AllCoursePage = () => {
                 placeholder="ស្វែងរកវគ្គសិក្សា..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full border border-gray-300 rounded-lg pl-10 pr-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-300 ease-in-out"
+                className="w-full border border-gray-300 rounded-lg pl-10 pr-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-[#16789e] focus:border-transparent transition-all duration-300 ease-in-out bg-white shadow-sm"
                 aria-label="ស្វែងរកវគ្គសិក្សា"
               />
               <FaSearch className="absolute top-1/2 left-3 transform -translate-y-1/2 text-gray-400" />
@@ -247,8 +243,8 @@ const AllCoursePage = () => {
               onClick={() => setShowFilters(!showFilters)}
               className={`flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg transition-all duration-300 ease-in-out ${
                 showFilters
-                  ? "bg-primary text-white"
-                  : "bg-white border border-gray-300 hover:bg-gray-50 text-gray-700"
+                  ? "bg-[#16789e] text-white shadow-md"
+                  : "bg-white border border-gray-300 hover:bg-gray-50 text-gray-700 shadow-sm"
               }`}
               aria-label={showFilters ? "បិទការចម្រាញ់" : "បើកការចម្រាញ់"}
             >
@@ -270,13 +266,10 @@ const AllCoursePage = () => {
             >
               <div className="flex justify-between items-center mb-4">
                 <h3 className="font-medium text-lg text-gray-800">ចម្រាញ់វគ្គសិក្សា</h3>
-                {(filters.price !== "all" ||
-                  filters.duration !== "all" ||
-                  filters.category !== "all" ||
-                  filters.level !== "all") && (
+                {(filters.price !== "all" || filters.duration !== "all" || filters.category !== "all" || filters.level !== "all") && (
                   <button
                     onClick={resetFilters}
-                    className="text-sm text-primary hover:underline flex items-center"
+                    className="text-sm text-[#16789e] hover:underline flex items-center"
                   >
                     សម្អាតការចម្រាញ់ទាំងអស់
                   </button>
@@ -287,12 +280,12 @@ const AllCoursePage = () => {
                 {/* Price Filter */}
                 <div>
                   <h4 className="font-medium text-gray-700 mb-2 flex items-center gap-2">
-                    <FaTags className="text-primary" />
+                    <FaTags className="text-[#16789e]" />
                     តម្លៃ
                   </h4>
                   <div className="flex flex-wrap gap-2">
                     {[
-                      { value: "all", label: "ទាំងអស់", color: "bg-primary" },
+                      { value: "all", label: "ទាំងអស់", color: "bg-[#16789e]" },
                       { value: "free", label: "ឥតគិតថ្លៃ", color: "bg-green-500" },
                       { value: "paid", label: "បង់ប្រាក់", color: "bg-yellow-500" },
                     ].map((option) => (
@@ -301,8 +294,8 @@ const AllCoursePage = () => {
                         onClick={() => handleFilterChange("price", option.value)}
                         className={`px-3 py-1.5 rounded-md text-sm transition-all duration-200 ease-in-out ${
                           filters.price === option.value
-                            ? `${option.color} text-white`
-                            : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                            ? `${option.color} text-white shadow-md`
+                            : "bg-gray-100 text-gray-700 hover:bg-gray-200 shadow-sm"
                         }`}
                         aria-label={`ចម្រាញ់តាម${option.label}`}
                       >
@@ -315,12 +308,12 @@ const AllCoursePage = () => {
                 {/* Duration Filter */}
                 <div>
                   <h4 className="font-medium text-gray-700 mb-2 flex items-center gap-2">
-                    <FaClock className="text-primary" />
+                    <FaClock className="text-[#16789e]" />
                     រយៈពេល
                   </h4>
                   <div className="flex flex-wrap gap-2">
                     {[
-                      { value: "all", label: "ទាំងអស់", color: "bg-primary" },
+                      { value: "all", label: "ទាំងអស់", color: "bg-[#16789e]" },
                       { value: "short", label: "ខ្លី", color: "bg-blue-500" },
                       { value: "medium", label: "មធ្យម (១-៣ម៉ោង)", color: "bg-blue-500" },
                       { value: "long", label: "វែង (>៣ម៉ោង)", color: "bg-blue-500" },
@@ -330,8 +323,8 @@ const AllCoursePage = () => {
                         onClick={() => handleFilterChange("duration", option.value)}
                         className={`px-3 py-1.5 rounded-md text-sm transition-all duration-200 ease-in-out ${
                           filters.duration === option.value
-                            ? `${option.color} text-white`
-                            : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                            ? `${option.color} text-white shadow-md`
+                            : "bg-gray-100 text-gray-700 hover:bg-gray-200 shadow-sm"
                         }`}
                         aria-label={`ចម្រាញ់តាម${option.label}`}
                       >
@@ -344,12 +337,12 @@ const AllCoursePage = () => {
                 {/* Level Filter */}
                 <div>
                   <h4 className="font-medium text-gray-700 mb-2 flex items-center gap-2">
-                    <FaStar className="text-primary" />
+                    <FaStar className="text-[#16789e]" />
                     កម្រិត
                   </h4>
                   <div className="flex flex-wrap gap-2">
                     {[
-                      { value: "all", label: "ទាំងអស់", color: "bg-primary" },
+                      { value: "all", label: "ទាំងអស់", color: "bg-[#16789e]" },
                       { value: "beginner", label: "កម្រិតដំបូង", color: "bg-purple-500" },
                       { value: "intermediate", label: "កម្រិតមធ្យម", color: "bg-purple-500" },
                       { value: "advanced", label: "កម្រិតខ្ពស់", color: "bg-purple-500" },
@@ -359,8 +352,8 @@ const AllCoursePage = () => {
                         onClick={() => handleFilterChange("level", option.value)}
                         className={`px-3 py-1.5 rounded-md text-sm transition-all duration-200 ease-in-out ${
                           filters.level === option.value
-                            ? `${option.color} text-white`
-                            : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                            ? `${option.color} text-white shadow-md`
+                            : "bg-gray-100 text-gray-700 hover:bg-gray-200 shadow-sm"
                         }`}
                         aria-label={`ចម្រាញ់តាម${option.label}`}
                       >
@@ -373,12 +366,12 @@ const AllCoursePage = () => {
                 {/* Category Filter */}
                 <div>
                   <h4 className="font-medium text-gray-700 mb-2 flex items-center gap-2">
-                    <FaBook className="text-primary" />
+                    <FaBook className="text-[#16789e]" />
                     ប្រភេទវគ្គសិក្សា
                   </h4>
                   <div className="flex flex-wrap gap-2">
                     {[
-                      { value: "all", label: "ទាំងអស់", color: "bg-primary" },
+                      { value: "all", label: "ទាំងអស់", color: "bg-[#16789e]" },
                       { value: "popular", label: "ពេញនិយម", color: "bg-red-500" },
                       { value: "new", label: "ថ្មីៗ", color: "bg-red-500" },
                     ].map((option) => (
@@ -387,8 +380,8 @@ const AllCoursePage = () => {
                         onClick={() => handleFilterChange("category", option.value)}
                         className={`px-3 py-1.5 rounded-md text-sm transition-all duration-200 ease-in-out ${
                           filters.category === option.value
-                            ? `${option.color} text-white`
-                            : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                            ? `${option.color} text-white shadow-md`
+                            : "bg-gray-100 text-gray-700 hover:bg-gray-200 shadow-sm"
                         }`}
                         aria-label={`ចម្រាញ់តាម${option.label}`}
                       >
@@ -399,7 +392,7 @@ const AllCoursePage = () => {
                       <div className="relative" ref={dropdownRef}>
                         <button
                           onClick={() => setIsCategoryDropdownOpen(!isCategoryDropdownOpen)}
-                          className="bg-gray-100 border border-gray-200 rounded-md px-3 py-1.5 text-sm text-gray-700 focus:outline-none focus:ring-1 focus:ring-primary flex items-center gap-2 transition-all duration-200 ease-in-out"
+                          className="bg-gray-100 border border-gray-200 rounded-md px-3 py-1.5 text-sm text-gray-700 focus:outline-none focus:ring-1 focus:ring-[#16789e] flex items-center gap-2 transition-all duration-200 ease-in-out shadow-sm"
                           aria-label="ជ្រើសរើសប្រភេទ"
                           aria-expanded={isCategoryDropdownOpen}
                         >
@@ -423,7 +416,7 @@ const AllCoursePage = () => {
                                 <li
                                   onClick={() => handleFilterChange("category", "all")}
                                   className={`px-4 py-2 hover:bg-gray-100 cursor-pointer transition-colors duration-200 ease-in-out ${
-                                    filters.category === "all" ? "bg-primary text-white" : ""
+                                    filters.category === "all" ? "bg-[#16789e] text-white" : ""
                                   }`}
                                   role="option"
                                   aria-selected={filters.category === "all"}
@@ -435,7 +428,7 @@ const AllCoursePage = () => {
                                     key={category}
                                     onClick={() => handleFilterChange("category", category)}
                                     className={`px-4 py-2 hover:bg-gray-100 cursor-pointer transition-colors duration-200 ease-in-out ${
-                                      filters.category === category ? "bg-primary text-white" : ""
+                                      filters.category === category ? "bg-[#16789e] text-white" : ""
                                     }`}
                                     role="option"
                                     aria-selected={filters.category === category}
@@ -465,7 +458,7 @@ const AllCoursePage = () => {
           aria-label="Breadcrumb"
         >
           <ol className="flex items-center text-sm text-gray-600">
-            <li className={`${!selectedCourse ? "font-medium text-primary" : "hover:text-primary"}`}>
+            <li className={`${!selectedCourse ? "font-medium text-[#16789e]" : "hover:text-[#16789e]"}`}>
               <Link to="/courses" onClick={resetToCourses} aria-current={!selectedCourse ? "page" : undefined}>
                 វគ្គសិក្សា
               </Link>
@@ -477,7 +470,7 @@ const AllCoursePage = () => {
                   <Link
                     to={`/courses/${selectedCourse.id}`}
                     onClick={resetToCategories}
-                    className={`hover:text-primary ${!selectedCategory ? "font-medium text-primary" : ""}`}
+                    className={`hover:text-[#16789e] ${!selectedCategory ? "font-medium text-[#16789e]" : ""}`}
                     aria-current={!selectedCategory ? "page" : undefined}
                   >
                     {selectedCourse.course_name}
@@ -486,7 +479,7 @@ const AllCoursePage = () => {
                 {selectedCategory && (
                   <li className="flex items-center">
                     <span className="mx-2 text-gray-400">/</span>
-                    <span className="font-medium text-primary" aria-current="page">
+                    <span className="font-medium text-[#16789e]" aria-current="page">
                       {selectedCategory.category_name}
                     </span>
                   </li>
@@ -550,18 +543,12 @@ const AllCoursePage = () => {
                   } else if (filters.category === "popular" && filters.price === "free") {
                     return `វគ្គសិក្សាឥតគិតថ្លៃដែលពេញនិយម (${filteredCourses.length})`;
                   } else {
-                    return `វគ្គសិក្សាដែលមាន (${filteredCourses.length})`;
+                    return `វគ្គសិក្សាទាំងអស់ (${filteredCourses.length})`;
                   }
                 })()}
               </h2>
-              {(filters.price !== "all" ||
-                filters.duration !== "all" ||
-                filters.category !== "all" ||
-                filters.level !== "all") && (
-                <button
-                  onClick={resetFilters}
-                  className="text-sm text-primary hover:underline"
-                >
+              {(filters.price !== "all" || filters.duration !== "all" || filters.category !== "all" || filters.level !== "all") && (
+                <button onClick={resetFilters} className="text-sm text-[#16789e] hover:underline">
                   សម្អាតការចម្រាញ់
                 </button>
               )}
@@ -580,7 +567,7 @@ const AllCoursePage = () => {
                       key={course.id}
                       variants={cardVariants}
                       onClick={() => handleCourseClick(course)}
-                      className="bg-white rounded-xl shadow-sm hover:shadow-md transition-all duration-300 overflow-hidden cursor-pointer transform hover:-translate-y-1"
+                      className="bg-white rounded-xl shadow-sm hover:shadow-md transition-all duration-300 overflow-hidden cursor-pointer transform hover:-translate-y-1 border border-gray-100"
                       role="button"
                       tabIndex={0}
                       aria-label={`មើលវគ្គសិក្សា ${course.course_name}`}
@@ -593,16 +580,16 @@ const AllCoursePage = () => {
                           loading="lazy"
                         />
                         {course.price > 0 ? (
-                          <div className="absolute top-3 right-3 bg-yellow-500 text-white text-sm font-bold py-1 px-3 rounded-full">
+                          <div className="absolute top-3 right-3 bg-yellow-500 text-white text-sm font-bold py-1 px-3 rounded-full shadow-md">
                             ${course.price}
                           </div>
                         ) : (
-                          <div className="absolute top-3 right-3 bg-green-500 text-white text-sm font-bold py-1 px-3 rounded-full">
+                          <div className="absolute top-3 right-3 bg-green-500 text-white text-sm font-bold py-1 px-3 rounded-full shadow-md">
                             ឥតគិតថ្លៃ
                           </div>
                         )}
                         {course.level && (
-                          <div className="absolute top-3 left-3 bg-purple-500 bg-opacity-90 text-white text-xs font-medium py-1 px-2 rounded-md">
+                          <div className="absolute top-3 left-3 bg-purple-500 bg-opacity-90 text-white text-xs font-medium py-1 px-2 rounded-md shadow-md">
                             {course.level === "beginner" && "កម្រិតដំបូង"}
                             {course.level === "intermediate" && "កម្រិតមធ្យម"}
                             {course.level === "advanced" && "កម្រិតខ្ពស់"}
@@ -617,17 +604,13 @@ const AllCoursePage = () => {
                           {course.course_description || "មិនមានការពិពណ៌នា"}
                         </p>
                         <div className="flex justify-between items-center text-sm">
-                          <span className="text-gray-500">
-                            {course.categories?.length || 0} មេរៀន
-                          </span>
-                          <span className="text-primary font-medium flex items-center gap-1">
+                          <span className="text-gray-500">{course.categories?.length || 0} មេរៀន</span>
+                          <span className="text-[#16789e] font-medium flex items-center gap-1">
                             <FaClock className="text-xs" />
                             {course.duration || "N/A"} នាទី
                           </span>
                         </div>
-
-                        {(course.categories?.some((cat) => cat.is_popular) ||
-                          course.categories?.some((cat) => cat.is_new)) && (
+                        {(course.categories?.some((cat) => cat.is_popular) || course.categories?.some((cat) => cat.is_new)) && (
                           <div className="mt-3 pt-3 border-t border-gray-100 flex gap-2">
                             {course.categories?.some((cat) => cat.is_popular) && (
                               <span className="bg-red-100 text-red-600 text-xs font-medium px-2 py-1 rounded">
@@ -656,7 +639,7 @@ const AllCoursePage = () => {
                   >
                     <button
                       onClick={handleLoadMore}
-                      className="bg-primary text-white px-6 py-2 rounded-lg hover:bg-[#0e5c7a] transition-all duration-300 ease-in-out"
+                      className="bg-[#16789e] text-white px-6 py-2 rounded-lg hover:bg-[#0e5c7a] transition-all duration-300 ease-in-out shadow-md"
                     >
                       មើលវគ្គសិក្សាបន្ថែម
                     </button>
@@ -673,15 +656,11 @@ const AllCoursePage = () => {
                 <div className="flex justify-center mb-4">
                   <FaSearch className="h-12 w-12 text-gray-300" />
                 </div>
-                <h3 className="text-lg font-medium text-gray-700 mb-2">
-                  មិនមានវគ្គសិក្សាដែលត្រូវគ្នានឹងការស្វែងរករបស់អ្នកទេ
-                </h3>
-                <p className="text-gray-500 mb-4">
-                  សាកល្បងការស្វែងរកផ្សេងឬសម្អាតការចម្រាញ់
-                </p>
+                <h3 className="text-lg font-medium text-gray-700 mb-2">មិនមានវគ្គសិក្សាដែលត្រូវគ្នានឹងការស្វែងរករបស់អ្នកទេ</h3>
+                <p className="text-gray-500 mb-4">សាកល្បងការស្វែងរកផ្សេងឬសម្អាតការចម្រាញ់</p>
                 <button
                   onClick={resetFilters}
-                  className="bg-primary text-white px-4 py-2 rounded-lg hover:bg-[#0e5c7a] transition-all duration-300 ease-in-out"
+                  className="bg-[#16789e] text-white px-4 py-2 rounded-lg hover:bg-[#0e5c7a] transition-all duration-300 ease-in-out shadow-md"
                 >
                   មើលវគ្គសិក្សាទាំងអស់
                 </button>
@@ -695,14 +674,12 @@ const AllCoursePage = () => {
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
-              className="flex justify-between items-center bg-white p-4 rounded-lg shadow-sm border-l-4 border-primary"
+              className="flex justify-between items-center bg-white p-4 rounded-lg shadow-sm border-l-4 border-[#16789e]"
             >
-              <h2 className="text-xl font-semibold text-gray-800">
-                {selectedCourse.course_name}
-              </h2>
+              <h2 className="text-xl font-semibold text-gray-800">{selectedCourse.course_name}</h2>
               <button
                 onClick={resetToCourses}
-                className="flex items-center text-primary hover:text-[#0e5c7a] bg-primary bg-opacity-10 px-3 py-2 rounded-lg transition-all duration-300 ease-in-out"
+                className="flex items-center text-[#16789e] hover:text-[#0e5c7a] bg-[#16789e] bg-opacity-10 px-3 py-2 rounded-lg transition-all duration-300 ease-in-out shadow-md"
               >
                 <FaChevronLeft className="mr-1" />
                 ត្រលប់ទៅវគ្គសិក្សាទាំងអស់
@@ -728,9 +705,7 @@ const AllCoursePage = () => {
                   >
                     <div className="p-6">
                       <div className="flex items-center justify-between mb-4">
-                        <h3 className="text-lg font-semibold text-gray-800 line-clamp-1">
-                          {category.category_name}
-                        </h3>
+                        <h3 className="text-lg font-semibold text-gray-800 line-clamp-1">{category.category_name}</h3>
                         <div className="bg-blue-100 text-blue-600 text-xs font-medium px-2 py-1 rounded">
                           {category.lessons?.length || 0} មេរៀន
                         </div>
@@ -747,7 +722,7 @@ const AllCoursePage = () => {
                         {category.category_description || "មិនមានការពិពណ៌នា"}
                       </p>
                       <div className="flex justify-end">
-                        <button className="text-primary text-sm font-medium hover:underline flex items-center gap-1">
+                        <button className="text-[#16789e] text-sm font-medium hover:underline flex items-center gap-1">
                           មើលមេរៀន →
                         </button>
                       </div>
@@ -762,15 +737,11 @@ const AllCoursePage = () => {
                 transition={{ duration: 0.5 }}
                 className="bg-white rounded-lg shadow-sm p-10 text-center"
               >
-                <h3 className="text-lg font-medium text-gray-700 mb-2">
-                  មិនមានប្រភេទសម្រាប់វគ្គសិក្សានេះទេ
-                </h3>
-                <p className="text-gray-500 mb-4">
-                  វគ្គសិក្សានេះមិនទាន់មានមាតិកាទេ
-                </p>
+                <h3 className="text-lg font-medium text-gray-700 mb-2">មិនមានប្រភេទសម្រាប់វគ្គសិក្សានេះទេ</h3>
+                <p className="text-gray-500 mb-4">វគ្គសិក្សានេះមិនទាន់មានមាតិកាទេ</p>
                 <button
                   onClick={resetToCourses}
-                  className="bg-primary text-white px-4 py-2 rounded-lg hover:bg-[#0e5c7a] transition-all duration-300 ease-in-out"
+                  className="bg-[#16789e] text-white px-4 py-2 rounded-lg hover:bg-[#0e5c7a] transition-all duration-300 ease-in-out shadow-md"
                 >
                   ត្រលប់ទៅវគ្គសិក្សាទាំងអស់
                 </button>
@@ -784,22 +755,20 @@ const AllCoursePage = () => {
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
-              className="flex justify-between items-center bg-white p-4 rounded-lg shadow-sm border-l-4 border-primary"
+              className="flex justify-between items-center bg-white p-4 rounded-lg shadow-sm border-l-4 border-[#16789e]"
             >
               <div>
                 <p className="text-sm text-gray-500 mb-1">{selectedCourse.course_name}</p>
-                <h2 className="text-xl font-semibold text-gray-800">
-                  {selectedCategory.category_name}
-                </h2>
+                <h2 className="text-xl font-semibold text-gray-800">{selectedCategory.category_name}</h2>
               </div>
               <button
                 onClick={resetToCategories}
-                className="flex items-center text-primary hover:text-[#0e5c7a] bg-primary bg-opacity-10 px-3 py-2 rounded-lg transition-all duration-300 ease-in-out"
+                className="flex items-center text-[#16789e] hover:text-[#0e5c7a] bg-[#16789e] bg-opacity-10 px-3 py-2 rounded-lg transition-all duration-300 ease-in-out shadow-md"
               >
                 <FaChevronLeft className="mr-1" />
                 ត្រលប់ទៅប្រភេទទាំងអស់
               </button>
-                       </motion.div>
+            </motion.div>
 
             <motion.div
               initial={{ opacity: 0 }}
@@ -807,10 +776,41 @@ const AllCoursePage = () => {
               transition={{ duration: 0.5 }}
               className="bg-white rounded-lg shadow-sm p-8 text-center"
             >
-              <FaSpinner className="animate-spin h-10 w-10 text-primary mx-auto mb-4" />
-              <p className="text-gray-600">
-                កំពុងបង្ហាញទំព័រមេរៀន...
-              </p>
+              <FaSpinner className="animate-spin h-10 w-10 text-[#16789e] mx-auto mb-4" />
+              <p className="text-gray-600">កំពុងបង្ហាញទំព័រមេរៀន...</p>
+            </motion.div>
+          </div>
+        )}
+
+        {/* Login Prompt Modal */}
+        {showLoginPrompt && (
+          <div className="fixed inset-0 bg-black/50 flex justify-center items-center z-50">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.9 }}
+              transition={{ duration: 0.3, ease: "easeInOut" }}
+              className="bg-white rounded-2xl p-8 max-w-md w-full text-center shadow-xl"
+            >
+              <h3 className="text-xl font-semibold text-gray-800 mb-4">សូមចូលគណនីដើម្បីបន្ត</h3>
+              <p className="text-gray-600 mb-6 text-base">អ្នកត្រូវតែចូលគណនីដើម្បីចូលមើលវគ្គសិក្សា។</p>
+              <div className="flex justify-center gap-4">
+                <button
+                  onClick={() => {
+                    setShowLoginPrompt(false);
+                    navigate("/login");
+                  }}
+                  className="bg-[#16789e] text-white px-6 py-2.5 rounded-full hover:bg-[#0e5c7a] transition-all duration-300 shadow-md"
+                >
+                  ចូលគណនី
+                </button>
+                <button
+                  onClick={() => setShowLoginPrompt(false)}
+                  className="bg-gray-200 text-gray-700 px-6 py-2.5 rounded-full hover:bg-gray-300 transition-all duration-300 shadow-md"
+                >
+                  បោះបង់
+                </button>
+              </div>
             </motion.div>
           </div>
         )}

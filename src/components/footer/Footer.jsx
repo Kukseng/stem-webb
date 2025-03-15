@@ -1,101 +1,172 @@
 import React from "react";
+import { motion } from "framer-motion";
 import ISTAD from "../../assets/images/logo/ISTAD.png";
 import logo from "../../assets/images/logo/o-removebg-preview.png";
 
 const Footer = () => {
   const menuItems = ["ទំព័រដើម", "អំពីស្ថាប័ន", "សេវាកម្ម", "តម្លៃ", "ទំនាក់ទំនង", "ប្លុក"];
+  const primaryColor = "#16789e"; // Primary teal
+  const primaryLight = "#4ba8c1"; // Lighter teal for hover
+  const bgGradient = "from-gray-900 via-teal-950 to-gray-900"; // Dark background
+
+  // Animation variants
+  const containerVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.5, ease: "easeOut", staggerChildren: 0.1 },
+    },
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 10 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.3 } },
+  };
 
   return (
-    <footer className="relative w-full mx-auto overflow-hidden bg-footer bg-opacity-30 backdrop-blur-md">
+    <footer className={`relative w-full bg-gradient-to-b ${bgGradient} py-8 overflow-hidden text-white font-suwannaphum`}>
+      {/* Decorative Background Elements */}
       <div className="absolute inset-0 -z-10">
-        <div className="absolute inset-y-0 left-0 w-32 bg-gradient-to-r from-teal-50/50 to-transparent" />
-        <div className="absolute inset-y-0 right-0 w-32 bg-gradient-to-l from-teal-50/50 to-transparent" />
+        <div className="absolute top-0 left-0 w-48 h-48 bg-gradient-to-br from-teal-500/20 to-transparent rounded-full blur-2xl animate-pulse" />
+        <div className="absolute bottom-0 right-0 w-56 h-56 bg-gradient-to-tl from-teal-500/20 to-transparent rounded-full blur-2xl animate-pulse delay-1000" />
+        <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8ZGVmcz4KICAgIDxsaW5lYXJHcmFkaWVudCBpZD0iZmFkZUdyYWRpZW50IiB4MT0iMCIgeDI9IjAiIHkxPSIwIiB5Mj0iMSI+CiAgICAgIDxzdG9wIG9mZnNldD0iMCUiIHN0b3AtY29sb3I9IiMxNjc4OWUiIHN0b3Atb3BhY2l0eT0iMC4xIi8+CiAgICAgIDxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iIzE2Nzg5ZSIgc3RvcC1vcGFjaXR5PSIwIi8+CiAgICA8L2xpbmVhckdyYWRpZW50PgogICAgPG1hc2sgaWQ9ImZhZGVNYXNrIj4KICAgICAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjIwMCIgaGVpZ2h0PSIyMDAiIGZpbGw9InVybCgjZmFkZUdyYWRpZW50KSIvPgogICAgPC9tYXNrPgogIDwvZGVmcz4KICA8cmVjdCB4PSIwIiB5PSIwIiB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgZmlsbD0iIzE2Nzg5ZSIgbWFzaz0idXJsKCNmYWRlTWFzaykiLz4KPC9zdmc+')] bg-repeat opacity-5"></div>
       </div>
 
-      <div className="relative z-10 max-w-content mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-16">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-8">
-          {/* STEM Club Section */}
-          <div className="flex flex-col items-center sm:items-start">
-            <div className="flex items-center gap-4 mb-6">
-              <img src={logo} alt="Logo-ISTEM" className="h-20 w-20 object-cover object-center" />
-              <h2 className="text-xl md:text-2xl font-bold text-primary font-popins">ISTEM</h2>
+      <motion.div
+        variants={containerVariants}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true }}
+        className="relative z-10 max-w-[1300px] mx-auto px-4 sm:px-6 lg:px-8"
+      >
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-6">
+          {/* iSTEM Section */}
+          <motion.div variants={itemVariants} className="flex flex-col items-center lg:items-start text-center lg:text-left">
+            <div className="flex items-center gap-4 mb-4">
+              <motion.img
+                whileHover={{ scale: 1.1 }}
+                src={logo}
+                alt="iSTEM Logo"
+                className="w-12 object-contain"
+              />
+              <h2 className="text-xl font-bold" style={{ color: primaryColor }}>
+                iSTEM
+              </h2>
             </div>
-            <p className="text-sm md:text-lg text-gray-600 text-center sm:text-left max-w-sm leading-relaxed">
-              យើងមានបំណងផ្តល់ការអប់រំកម្រិតខ្ពស់
-              ការផ្តល់មូលដ្ឋានគ្រឹះមានគុណភាពខ្ពស់សម្រាប់សិស្សក្នុងការសិក្សាត្រឹមត្រូវ។
+            <p className="text-base text-gray-300 leading-relaxed max-w-xs">
+              យើងផ្តល់ការអប់រំកម្រិតខ្ពស់ជាមួយមូលដ្ឋានគ្រឹះគុណភាពសម្រាប់សិស្សដើម្បីជោគជ័យក្នុងការសិក្សា។
             </p>
-          </div>
+          </motion.div>
 
           {/* Menu Section */}
-          <div className="flex flex-col items-center sm:items-start">
-            <h3 className="text-lg md:text-xl font-bold text-gray-800 mb-6">មាតិកា</h3>
-            <ul className="space-y-3 text-center sm:text-left">
+          <motion.div variants={itemVariants} className="flex flex-col items-center lg:items-start">
+            <h3 className="text-2xl font-bold text-white mb-4">មាតិកា</h3>
+            <ul className="space-y-2">
               {menuItems.map((item, index) => (
-                <li
+                <motion.li
                   key={index}
-                  className="text-sm md:text-base text-gray-600 hover:text-teal-600 cursor-pointer transition-all duration-200 hover:translate-x-1"
+                  whileHover={{ x: 5, color: primaryLight }}
+                  className="text-base text-gray-300 cursor-pointer transition-colors duration-200"
                 >
                   {item}
-                </li>
+                </motion.li>
               ))}
             </ul>
-          </div>
+          </motion.div>
 
-          {/* Contact */}
-          <div className="flex flex-col items-center sm:items-start">
-            <h3 className="text-lg md:text-xl font-bold text-gray-800 mb-6">ព័ត៌មានទំនាក់ទំនង</h3>
-            <div className="space-y-4 w-full max-w-sm">
-              <div className="flex items-center gap-3 justify-center sm:justify-start group cursor-pointer">
-                <div className="p-2 bg-green-100 rounded-lg group-hover:bg-green-200 transition-all duration-200">
-                  <svg className="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          {/* Contact Section */}
+          <motion.div variants={itemVariants} className="flex flex-col items-center lg:items-start">
+            <h3 className="text-2xl font-bold text-white mb-4">ទំនាក់ទំនង</h3>
+            <div className="space-y-3">
+              <motion.div
+                whileHover={{ scale: 1.05 }}
+                className="flex items-center gap-3 group cursor-pointer"
+              >
+                <div
+                  className="p-2 rounded-lg transition-all duration-300"
+                  style={{ backgroundColor: `${primaryColor}30`, color: primaryColor }}
+                >
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                   </svg>
                 </div>
-                <span className="text-sm md:text-base text-gray-600 group-hover:text-green-600 transition-colors duration-200">
+                <span
+                  className="text-base text-gray-300 group-hover:text-white transition-colors duration-300"
+                  style={{ color: primaryColor }}
+                >
                   stem.istad@gmail.com
                 </span>
-              </div>
-              <div className="flex items-center gap-3 justify-center sm:justify-start group cursor-pointer">
-                <div className="p-2 bg-green-100 rounded-lg group-hover:bg-green-200 transition-all duration-200">
-                  <svg className="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              </motion.div>
+              <motion.div
+                whileHover={{ scale: 1.05 }}
+                className="flex items-center gap-3 group cursor-pointer"
+              >
+                <div
+                  className="p-2 rounded-lg transition-all duration-300"
+                  style={{ backgroundColor: `${primaryColor}30`, color: primaryColor }}
+                >
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                   </svg>
                 </div>
-                <span className="text-sm md:text-base text-gray-600 group-hover:text-green-600 transition-colors duration-200">
+                <span className="text-base text-gray-300 group-hover:text-white transition-colors duration-300">
                   សង្កាត់ទឹកថ្លា ខណ្ឌសែនសុខ រាជធានីភ្នំពេញ
                 </span>
-              </div>
+              </motion.div>
             </div>
-          </div>
+          </motion.div>
 
-          {/* ISTAD Logo */}
-          <div className="flex flex-col items-center sm:items-start">
-            <h3 className="text-lg md:text-xl font-bold text-gray-800 mb-6">រៀបចំដោយ</h3>
-            <div className="group cursor-pointer">
-              <div className="flex items-center gap-4 p-4 rounded-xl transition-all duration-300 hover:bg-white/80 hover:shadow-lg">
-                <img
-                  src={ISTAD}
-                  alt="ISTAD Logo"
-                  className="w-16 md:w-20 object-contain transition-transform duration-300 group-hover:scale-110"
-                />
-                <span className="text-xl md:text-2xl text-blue-700 font-bold group-hover:text-blue-600">
-                  ISTAD
-                </span>
-              </div>
-            </div>
-          </div>
+          {/* ISTAD Section */}
+          <motion.div variants={itemVariants} className="flex flex-col items-center lg:items-start">
+            <h3 className="text-2xl font-bold text-white mb-4">រៀបចំដោយ</h3>
+            <motion.div
+              whileHover={{ scale: 1.05 }}
+              className="flex items-center gap-3 group cursor-pointer"
+            >
+              <img
+                src={ISTAD}
+                alt="ISTAD Logo"
+                className="w-12 object-contain transition-transform duration-300 group-hover:scale-110"
+              />
+              <span
+                className="text-xl font-bold transition-colors duration-300 group-hover:text-white"
+                style={{ color: primaryColor }}
+              >
+                ISTAD
+              </span>
+            </motion.div>
+          </motion.div>
         </div>
-      </div>
 
-      {/* Copyright */}
-      <div className="relative z-10 border-t border-gray-200 bg-white/50 backdrop-blur-sm">
-        <div className="max-w-content mx-auto px-4 sm:px-6 lg:px-8">
-          <p className="text-center text-sm md:text-base text-gray-600">
-            © {new Date().getFullYear()} STEM Club. All rights reserved.
+        {/* Copyright */}
+        <motion.div
+          variants={itemVariants}
+          className="mt-8 pt-4 border-t border-gray-700/50 text-center"
+        >
+          <p className="text-sm text-gray-400">
+            © {new Date().getFullYear()} iSTEM Club. រក្សាសិទ្ធិគ្រប់យ៉ាង។
           </p>
-        </div>
-      </div>
+        </motion.div>
+      </motion.div>
+
+      {/* Custom CSS */}
+      <style jsx>{`
+        html {
+          scroll-behavior: smooth;
+        }
+        @keyframes pulse {
+          0%, 100% { opacity: 0.5; }
+          50% { opacity: 0.8; }
+        }
+        .animate-pulse {
+          animation: pulse 4s infinite ease-in-out;
+        }
+        .delay-1000 {
+          animation-delay: 1s;
+        }
+      `}</style>
     </footer>
   );
 };

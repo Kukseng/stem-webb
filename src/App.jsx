@@ -1,3 +1,4 @@
+import React from "react";
 import AppRoutes from "./routes/AppRoutes";
 import { motion, useScroll } from "framer-motion"
 function App() {

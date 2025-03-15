@@ -10,6 +10,7 @@ import {
 } from '../../api/articles-api';
 import BlogComponent from '../../components/blog/BlogComponent';
 import CreateCourseForm from '../../components/CreateCourse';
+import ArticleCrud from '../../components/ArticleCrud';
 
 const BlogPage = () => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -55,7 +56,8 @@ const BlogPage = () => {
       </header>
 
       <BlogComponent/>
-      <CreateCourseForm/>
+      {/* <CreateCourseForm/> */}
+      <ArticleCrud/>
     </div>
   );
 };

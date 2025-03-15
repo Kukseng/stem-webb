@@ -17,7 +17,6 @@ import {
   FiBook,
   FiChevronDown,
   FiChevronUp,
-  FiEdit,
   FiImage,
   FiList,
   FiFolder,
@@ -27,22 +26,14 @@ import {
 import "tailwindcss/tailwind.css";
 
 const CreateCourseForm = ({ accessToken }) => {
-  const [step, setStep] = useState(1); // Multi-step form
+  const [step, setStep] = useState(1);
   const [formData, setFormData] = useState({
     course: { course_name: "", course_description: "", course_thumbnail: "" },
     category: { category_name: "", category_description: "" },
     lesson: { lesson_title: "", lesson_image: "" },
     section: { title: "", no: "", preview: false },
-    content: {
-      title: "",
-      no: "",
-      preview: false,
-      file: "",
-      video_url: "",
-      video_title: "",
-    },
+    content: { title: "", no: "", preview: false, file: "", video_url: "", video_title: "" },
   });
-
   const [isAddingToExistingCourse, setIsAddingToExistingCourse] = useState(false);
   const [selectedCourseId, setSelectedCourseId] = useState("");
   const [selectedCategoryId, setSelectedCategoryId] = useState("");
@@ -58,22 +49,14 @@ const CreateCourseForm = ({ accessToken }) => {
   const [createSection] = useCreateSectionMutation();
   const [createContent] = useCreateContentMutation();
 
-  const courseCategories =
-    categories?.results?.filter(
-      (category) => category.course === selectedCourseId
-    ) || [];
-
+  const courseCategories = categories?.results?.filter((category) => category.course === selectedCourseId) || [];
   const primaryColor = "#16789e";
-  const primaryColorDark = "#106080";
 
   const handleChange = (e, section) => {
     const { name, value, type, checked } = e.target;
-    setFormData((prevData) => ({
-      ...prevData,
-      [section]: {
-        ...prevData[section],
-        [name]: type === "checkbox" ? checked : value,
-      },
+    setFormData((prev) => ({
+      ...prev,
+      [section]: { ...prev[section], [name]: type === "checkbox" ? checked : value },
     }));
   };
 
@@ -83,14 +66,7 @@ const CreateCourseForm = ({ accessToken }) => {
       category: { category_name: "", category_description: "" },
       lesson: { lesson_title: "", lesson_image: "" },
       section: { title: "", no: "", preview: false },
-      content: {
-        title: "",
-        no: "",
-        preview: false,
-        file: "",
-        video_url: "",
-        video_title: "",
-      },
+      content: { title: "", no: "", preview: false, file: "", video_url: "", video_title: "" },
     });
     setStep(1);
     setIsAddingToExistingCourse(false);
@@ -102,10 +78,7 @@ const CreateCourseForm = ({ accessToken }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!accessToken) {
-      setModalContent({
-        type: "error",
-        message: "សូមចូលគណនីដើម្បីបង្កើតវគ្គសិក្សា។",
-      });
+      setModalContent({ type: "error", message: "សូមចូលគណនីដើម្បីបង្កើតវគ្គសិក្សា។" });
       setIsModalOpen(true);
       return;
     }
@@ -136,17 +109,14 @@ const CreateCourseForm = ({ accessToken }) => {
       const contentData = { ...formData.content, section: sectionId };
       await createContent(contentData).unwrap();
 
-      setModalContent({
-        type: "success",
-        message: "បានធ្វើបច្ចុប្បន្នភាពរចនាសម្ព័ន្ធវគ្គសិក្សាដោយជោគជ័យ!",
-      });
+      setModalContent({ type: "success", message: "បានបង្កើតវគ្គសិក្សាដោយជោគជ័យ!" });
       setIsModalOpen(true);
       resetForm();
     } catch (error) {
-      console.error("Error updating course structure:", error);
+      console.error("Error creating course:", error);
       setModalContent({
         type: "error",
-        message: "បរាជ័យក្នុងការធ្វើបច្ចុប្បន្នភាពរចនាសម្ព័ន្ធវគ្គសិក្សា: " + (error.data?.detail || "កំហុសមិនស្គាល់"),
+        message: "បរាជ័យក្នុងការបង្កើតវគ្គសិក្សា: " + (error.data?.detail || "កំហុសមិនស្គាល់"),
       });
       setIsModalOpen(true);
     }
@@ -155,64 +125,18 @@ const CreateCourseForm = ({ accessToken }) => {
   const nextStep = () => setStep((prev) => prev + 1);
   const prevStep = () => setStep((prev) => prev - 1);
 
-  // Validation functions for each step
-  const isStep1Valid = () => {
-    if (isAddingToExistingCourse) {
-      return selectedCourseId !== "";
-    }
-    return (
-      formData.course.course_name.trim() !== "" &&
-      formData.course.course_description.trim() !== "" &&
-      formData.course.course_thumbnail.trim() !== ""
-    );
-  };
-
-  const isStep2Valid = () => {
-    if (isAddingToExistingCourse && !createNewCategory) {
-      return selectedCategoryId !== "";
-    }
-    return (
-      formData.category.category_name.trim() !== "" &&
-      formData.category.category_description.trim() !== ""
-    );
-  };
-
-  const isStep3Valid = () => {
-    return (
-      formData.lesson.lesson_title.trim() !== "" &&
-      formData.lesson.lesson_image.trim() !== ""
-    );
-  };
-
-  const isStep4Valid = () => {
-    return (
-      formData.section.title.trim() !== "" && formData.section.no.trim() !== ""
-    );
-  };
-
-  const isStep5Valid = () => {
-    return (
-      formData.content.title.trim() !== "" &&
-      formData.content.no.trim() !== "" &&
-      formData.content.file.trim() !== "" &&
-      formData.content.video_url.trim() !== "" &&
-      formData.content.video_title.trim() !== ""
-    );
-  };
-
-  // Determine if the "Next" button should be enabled based on the current step
-  const isNextButtonEnabled = () => {
+  const isStepValid = () => {
     switch (step) {
       case 1:
-        return isStep1Valid();
+        return isAddingToExistingCourse ? selectedCourseId !== "" : Object.values(formData.course).every((v) => v.trim() !== "");
       case 2:
-        return isStep2Valid();
+        return isAddingToExistingCourse && !createNewCategory ? selectedCategoryId !== "" : Object.values(formData.category).every((v) => v.trim() !== "");
       case 3:
-        return isStep3Valid();
+        return Object.values(formData.lesson).every((v) => v.trim() !== "");
       case 4:
-        return isStep4Valid();
+        return formData.section.title.trim() !== "" && formData.section.no.trim() !== "";
       case 5:
-        return isStep5Valid();
+        return Object.values(formData.content).every((v) => v.trim() !== "");
       default:
         return false;
     }
@@ -233,636 +157,487 @@ const CreateCourseForm = ({ accessToken }) => {
 
   if (coursesLoading || categoriesLoading) {
     return (
-      <div className="text-center text-gray-500 py-10 font-suwannaphum">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-gray-900 mx-auto"></div>
-        <p className="mt-4 text-sm sm:text-base">កំពុងផ្ទុក...</p>
+      <div className="min-h-screen bg-gray-100 flex items-center justify-center font-suwannaphum">
+        <motion.div
+          animate={{ rotate: 360 }}
+          transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+          className="w-12 h-12 border-4 border-t-4 border-gray-200 border-t-blue-500 rounded-full"
+        />
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gray-100 flex items-center justify-center p-6 font-suwannaphum">
-      <motion.div
-        initial={{ opacity: 0, y: 50 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-        className="bg-white rounded-xl shadow-lg p-8 max-w-3xl w-full"
-      >
-        <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-[34px] font-bold text-gray-800 mb-6 text-center">
-          បង្កើតវគ្គសិក្សាថ្មី
-        </h1>
-
-        {/* Progress Bar */}
-        <div className="mb-8">
-          <div className="flex justify-between mb-2">
-            {["វគ្គសិក្សា", "ប្រភេទ", "មេរៀន", "ផ្នែក", "ខ្លឹមសារ"].map((label, index) => (
-              <div key={index} className="flex flex-col items-center">
-                <div
-                  className={`w-8 h-8 rounded-full flex items-center justify-center text-white font-semibold ${
-                    step > index + 1 ? "bg-green-500" : step === index + 1 ? "bg-blue-500" : "bg-gray-300"
-                  }`}
-                >
-                  {step > index + 1 ? "✓" : index + 1}
-                </div>
-                <span className="text-xs sm:text-sm md:text-base text-gray-600 mt-1">{label}</span>
-              </div>
-            ))}
-          </div>
-          <div className="h-2 bg-gray-200 rounded-full">
-            <div
-              className="h-full bg-blue-500 rounded-full transition-all duration-300"
-              style={{ width: `${(step / 5) * 100}%` }}
-            ></div>
-          </div>
-        </div>
-
-        <form onSubmit={handleSubmit}>
-          {/* Step 1: Course Details */}
-          {step === 1 && (
+    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-gray-200 py-12 px-4 font-suwannaphum">
+      <div className="max-w-4xl mx-auto flex flex-col md:flex-row gap-8">
+        {/* Progress Sidebar */}
+        <motion.div
+          initial={{ opacity: 0, x: -50 }}
+          animate={{ opacity: 1, x: 0 }}
+          className="md:w-1/4 bg-white rounded-xl shadow-lg p-6 sticky top-12 h-fit"
+        >
+          <h2 className="text-xl font-bold text-gray-800 mb-6">វគ្គសិក្សា</h2>
+          {["វគ្គសិក្សា", "ប្រភេទ", "មេរៀន", "ផ្នែក", "ខ្លឹមសារ"].map((label, index) => (
             <motion.div
-              initial={{ opacity: 0, x: 20 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: -20 }}
-              transition={{ duration: 0.3 }}
+              key={index}
+              whileHover={{ scale: 1.05 }}
+              className={`flex items-center mb-4 p-2 rounded-lg ${step === index + 1 ? "bg-blue-100" : ""}`}
             >
-              <h2 className="text-lg sm:text-xl md:text-2xl font-semibold text-gray-700 mb-4 flex items-center">
-                <FiBook className="mr-2" style={{ color: primaryColor }} />
-                ព័ត៌មានវគ្គសិក្សា
-              </h2>
-              <div className="mb-6">
-                <label className="block text-gray-700 font-medium mb-2 text-sm sm:text-base md:text-lg">
-                  បង្កើតវគ្គសិក្សាថ្មី ឬបន្ថែមទៅវគ្គសិក្សាដែលមាន?
-                </label>
-                <div className="flex space-x-4">
-                  <label className="flex items-center space-x-2">
-                    <input
-                      type="radio"
-                      name="courseMode"
-                      value="new"
-                      checked={!isAddingToExistingCourse}
-                      onChange={() => setIsAddingToExistingCourse(false)}
-                      className="form-radio text-blue-500"
-                    />
-                    <span className="text-gray-600 text-sm sm:text-base md:text-lg">បង្កើតវគ្គសិក្សាថ្មី</span>
-                  </label>
-                  <label className="flex items-center space-x-2">
-                    <input
-                      type="radio"
-                      name="courseMode"
-                      value="existing"
-                      checked={isAddingToExistingCourse}
-                      onChange={() => setIsAddingToExistingCourse(true)}
-                      className="form-radio text-blue-500"
-                    />
-                    <span className="text-gray-600 text-sm sm:text-base md:text-lg">បន្ថែមទៅវគ្គសិក្សាដែលមាន</span>
-                  </label>
-                </div>
+              <div
+                className={`w-8 h-8 rounded-full flex items-center justify-center text-white font-semibold mr-3 ${
+                  step > index + 1 ? "bg-green-500" : step === index + 1 ? "bg-blue-500" : "bg-gray-300"
+                }`}
+              >
+                {step > index + 1 ? "✓" : index + 1}
               </div>
+              <span className="text-gray-700">{label}</span>
+            </motion.div>
+          ))}
+        </motion.div>
 
-              {!isAddingToExistingCourse ? (
-                <>
-                  <div className="mb-4">
-                    <label className="block text-gray-700 font-medium mb-2 text-sm sm:text-base md:text-lg">
-                      ឈ្មោះវគ្គសិក្សា
-                    </label>
-                    <input
-                      type="text"
+        {/* Form Content */}
+        <motion.div
+          initial={{ opacity: 0, y: 50 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="md:w-3/4 bg-white rounded-xl shadow-lg p-8"
+        >
+          <h1 className="text-3xl font-bold text-gray-800 mb-6 text-center bg-gradient-to-r from-blue-600 to-teal-500 text-transparent bg-clip-text">
+            បង្កើតវគ្គសិក្សាថ្មី
+          </h1>
+
+          <form onSubmit={handleSubmit}>
+            {/* Step 1: Course */}
+            {step === 1 && (
+              <motion.div
+                key="step1"
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -20 }}
+              >
+                <StepHeader icon={<FiBook />} title="ព័ត៌មានវគ្គសិក្សា" />
+                <RadioToggle
+                  label="បង្កើតវគ្គសិក្សាថ្មី ឬបន្ថែមទៅវគ្គសិក្សាដែលមាន?"
+                  options={["បង្កើតថ្មី", "បន្ថែមទៅដែលមាន"]}
+                  value={isAddingToExistingCourse ? "បន្ថែមទៅដែលមាន" : "បង្កើតថ្មី"}
+                  onChange={(val) => setIsAddingToExistingCourse(val === "បន្ថែមទៅដែលមាន")}
+                />
+                {!isAddingToExistingCourse ? (
+                  <>
+                    <InputField
+                      label="ឈ្មោះវគ្គសិក្សា"
                       name="course_name"
                       value={formData.course.course_name}
                       onChange={(e) => handleChange(e, "course")}
-                      className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-xs sm:text-sm md:text-base"
-                      placeholder="បញ្ចូលឈ្មោះវគ្គសិក្សាដែលមានលក្ខណៈពិពណ៌នា"
-                      required
+                      placeholder="បញ្ចូលឈ្មោះវគ្គសិក្សា"
+                      icon={<FiBook />}
                     />
-                  </div>
-                  <div className="mb-4">
-                    <label className="block text-gray-700 font-medium mb-2 text-sm sm:text-base md:text-lg">
-                      ការពិពណ៌នាវគ្គសិក្សា
-                    </label>
-                    <textarea
+                    <TextAreaField
+                      label="ការពិពណ៌នាវគ្គសិក្សា"
                       name="course_description"
                       value={formData.course.course_description}
                       onChange={(e) => handleChange(e, "course")}
-                      className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 min-h-[100px] text-xs sm:text-sm md:text-base"
-                      placeholder="ពិពណ៌នាអំពីអ្វីដែលសិស្សនឹងរៀនក្នុងវគ្គសិក្សានេះ"
-                      required
+                      placeholder="ពិពណ៌នាអំពីវគ្គសិក្សា"
                     />
-                  </div>
-                  <div className="mb-4">
-                    <label className="block text-gray-700 font-medium mb-2 text-sm sm:text-base md:text-lg">
-                      URL រូបភាពតូចរបស់វគ្គសិក្សា
-                    </label>
-                    <input
-                      type="text"
+                    <InputField
+                      label="URL រូបភាពតូច"
                       name="course_thumbnail"
                       value={formData.course.course_thumbnail}
                       onChange={(e) => handleChange(e, "course")}
-                      className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-xs sm:text-sm md:text-base"
-                      placeholder="បញ្ចូល URL សម្រាប់រូបភាពតូចរបស់វគ្គសិក្សា"
-                      required
+                      placeholder="បញ្ចូល URL រូបភាព"
+                      icon={<FiImage />}
+                      preview={formData.course.course_thumbnail}
                     />
-                    {formData.course.course_thumbnail && (
-                      <div className="mt-2">
-                        <img
-                          src={formData.course.course_thumbnail}
-                          alt="ការមើលជាមុនរូបភាពតូច"
-                          className="w-32 h-32 object-cover rounded-lg border border-gray-200"
-                        />
-                      </div>
-                    )}
-                  </div>
-                </>
-              ) : (
-                <div className="mb-4">
-                  <label className="block text-gray-700 font-medium mb-2 text-sm sm:text-base md:text-lg">
-                    ជ្រើសរើសវគ្គសិក្សាដែលមានស្រាប់
-                  </label>
-                  <select
+                  </>
+                ) : (
+                  <SelectField
+                    label="ជ្រើសរើសវគ្គសិក្សា"
                     value={selectedCourseId}
                     onChange={(e) => setSelectedCourseId(e.target.value)}
-                    className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-xs sm:text-sm md:text-base"
-                    required
-                  >
-                    <option value="">-- ជ្រើសរើសវគ្គសិក្សា --</option>
-                    {courses?.results?.map((course) => (
-                      <option key={course.id} value={course.id}>
-                        {course.course_name}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-              )}
-              <div className="flex justify-end">
-                <button
-                  type="button"
-                  onClick={nextStep}
-                  disabled={!isNextButtonEnabled()}
-                  className={`px-6 py-3 rounded-lg transition-all text-sm sm:text-base md:text-lg ${
-                    isNextButtonEnabled()
-                      ? "bg-blue-500 text-white hover:bg-blue-600"
-                      : "bg-gray-300 text-gray-500 cursor-not-allowed"
-                  }`}
-                >
-                  បន្ទាប់
-                </button>
-              </div>
-            </motion.div>
-          )}
+                    options={courses?.results?.map((c) => ({ value: c.id, label: c.course_name })) || []}
+                  />
+                )}
+                <StepButtons nextStep={nextStep} isValid={isStepValid()} />
+              </motion.div>
+            )}
 
-          {/* Step 2: Category Details */}
-          {step === 2 && (
-            <motion.div
-              initial={{ opacity: 0, x: 20 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: -20 }}
-              transition={{ duration: 0.3 }}
-            >
-              <h2 className="text-lg sm:text-xl md:text-2xl font-semibold text-gray-700 mb-4 flex items-center">
-                <FiFolder className="mr-2" style={{ color: primaryColor }} />
-                ព័ត៌មានប្រភេទ
-              </h2>
-              {isAddingToExistingCourse && (
-                <div className="mb-6">
-                  <label className="block text-gray-700 font-medium mb-2 text-sm sm:text-base md:text-lg">
-                    ប្រើប្រភេទដែលមានស្រាប់ ឬបង្កើតថ្មី?
-                  </label>
-                  <div className="flex space-x-4">
-                    <label className="flex items-center space-x-2">
-                      <input
-                        type="radio"
-                        name="categoryMode"
-                        value="existing"
-                        checked={!createNewCategory}
-                        onChange={() => setCreateNewCategory(false)}
-                        className="form-radio text-blue-500"
-                      />
-                      <span className="text-gray-600 text-sm sm:text-base md:text-lg">ប្រើប្រភេទដែលមានស្រាប់</span>
-                    </label>
-                    <label className="flex items-center space-x-2">
-                      <input
-                        type="radio"
-                        name="categoryMode"
-                        value="new"
-                        checked={createNewCategory}
-                        onChange={() => setCreateNewCategory(true)}
-                        className="form-radio text-blue-500"
-                      />
-                      <span className="text-gray-600 text-sm sm:text-base md:text-lg">បង្កើតប្រភេទថ្មី</span>
-                    </label>
-                  </div>
-                </div>
-              )}
-
-              {!createNewCategory && isAddingToExistingCourse ? (
-                <div className="mb-4">
-                  <label className="block text-gray-700 font-medium mb-2 text-sm sm:text-base md:text-lg">
-                    ជ្រើសរើសប្រភេទដែលមានស្រាប់
-                  </label>
-                  <select
+            {/* Step 2: Category */}
+            {step === 2 && (
+              <motion.div
+                key="step2"
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -20 }}
+              >
+                <StepHeader icon={<FiFolder />} title="ព័ត៌មានប្រភេទ" />
+                {isAddingToExistingCourse && (
+                  <RadioToggle
+                    label="ប្រើប្រភេទដែលមានស្រាប់ ឬបង្កើតថ្មី?"
+                    options={["ប្រភេទដែលមាន", "បង្កើតថ្មី"]}
+                    value={createNewCategory ? "បង្កើតថ្មី" : "ប្រភេទដែលមាន"}
+                    onChange={(val) => setCreateNewCategory(val === "បង្កើតថ្មី")}
+                  />
+                )}
+                {!createNewCategory && isAddingToExistingCourse ? (
+                  <SelectField
+                    label="ជ្រើសរើសប្រភេទ"
                     value={selectedCategoryId}
                     onChange={(e) => setSelectedCategoryId(e.target.value)}
-                    className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-xs sm:text-sm md:text-base"
-                    required={!createNewCategory}
-                  >
-                    <option value="">-- ជ្រើសរើសប្រភេទ --</option>
-                    {courseCategories.length > 0 ? (
-                      courseCategories.map((category) => (
-                        <option key={category.id} value={category.id}>
-                          {category.category_name}
-                        </option>
-                      ))
-                    ) : (
-                      <option value="" disabled>
-                        គ្មានប្រភេទដែលអាចប្រើបានទេ
-                      </option>
-                    )}
-                  </select>
-                </div>
-              ) : (
-                <>
-                  <div className="mb-4">
-                    <label className="block text-gray-700 font-medium mb-2 text-sm sm:text-base md:text-lg">
-                      ឈ្មោះប្រភេទ
-                    </label>
-                    <input
-                      type="text"
+                    options={courseCategories.map((c) => ({ value: c.id, label: c.category_name }))}
+                  />
+                ) : (
+                  <>
+                    <InputField
+                      label="ឈ្មោះប្រភេទ"
                       name="category_name"
                       value={formData.category.category_name}
                       onChange={(e) => handleChange(e, "category")}
-                      className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-xs sm:text-sm md:text-base"
                       placeholder="បញ្ចូលឈ្មោះប្រភេទ"
-                      required
+                      icon={<FiFolder />}
                     />
-                  </div>
-                  <div className="mb-4">
-                    <label className="block text-gray-700 font-medium mb-2 text-sm sm:text-base md:text-lg">
-                      ការពិពណ៌នាប្រភេទ
-                    </label>
-                    <textarea
+                    <TextAreaField
+                      label="ការពិពណ៌នាប្រភេទ"
                       name="category_description"
                       value={formData.category.category_description}
                       onChange={(e) => handleChange(e, "category")}
-                      className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 min-h-[100px] text-xs sm:text-sm md:text-base"
-                      placeholder="បញ្ចូលការពិពណ៌នាប្រភេទ"
-                      required
+                      placeholder="បញ្ចូលការពិពណ៌នា"
                     />
-                  </div>
-                </>
-              )}
-              <div className="flex justify-between">
-                <button
-                  type="button"
-                  onClick={prevStep}
-                  className="px-6 py-3 bg-gray-300 text-gray-700 rounded-lg hover:bg-gray-400 transition-all text-sm sm:text-base md:text-lg"
-                >
-                  ថយក្រោយ
-                </button>
-                <button
-                  type="button"
-                  onClick={nextStep}
-                  disabled={!isNextButtonEnabled()}
-                  className={`px-6 py-3 rounded-lg transition-all text-sm sm:text-base md:text-lg ${
-                    isNextButtonEnabled()
-                      ? "bg-blue-500 text-white hover:bg-blue-600"
-                      : "bg-gray-300 text-gray-500 cursor-not-allowed"
-                  }`}
-                >
-                  បន្ទាប់
-                </button>
-              </div>
-            </motion.div>
-          )}
+                  </>
+                )}
+                <StepButtons prevStep={prevStep} nextStep={nextStep} isValid={isStepValid()} />
+              </motion.div>
+            )}
 
-          {/* Step 3: Lesson Details */}
-          {step === 3 && (
-            <motion.div
-              initial={{ opacity: 0, x: 20 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: -20 }}
-              transition={{ duration: 0.3 }}
-            >
-              <h2 className="text-lg sm:text-xl md:text-2xl font-semibold text-gray-700 mb-4 flex items-center">
-                <FiBook className="mr-2" style={{ color: primaryColor }} />
-                ព័ត៌មានមេរៀន
-              </h2>
-              <div className="mb-4">
-                <label className="block text-gray-700 font-medium mb-2 text-sm sm:text-base md:text-lg">
-                  ចំណងជើងមេរៀន
-                </label>
-                <input
-                  type="text"
+            {/* Step 3: Lesson */}
+            {step === 3 && (
+              <motion.div
+                key="step3"
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -20 }}
+              >
+                <StepHeader icon={<FiBook />} title="ព័ត៌មានមេរៀន" />
+                <InputField
+                  label="ចំណងជើងមេរៀន"
                   name="lesson_title"
                   value={formData.lesson.lesson_title}
                   onChange={(e) => handleChange(e, "lesson")}
-                  className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-xs sm:text-sm md:text-base"
                   placeholder="បញ្ចូលចំណងជើងមេរៀន"
-                  required
+                  icon={<FiBook />}
                 />
-              </div>
-              <div className="mb-4">
-                <label className="block text-gray-700 font-medium mb-2 text-sm sm:text-base md:text-lg">
-                  URL រូបភាពមេរៀន
-                </label>
-                <input
-                  type="text"
+                <InputField
+                  label="URL រូបភាពមេរៀន"
                   name="lesson_image"
                   value={formData.lesson.lesson_image}
                   onChange={(e) => handleChange(e, "lesson")}
-                  className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-xs sm:text-sm md:text-base"
                   placeholder="បញ្ចូល URL រូបភាព"
-                  required
+                  icon={<FiImage />}
+                  preview={formData.lesson.lesson_image}
                 />
-                {formData.lesson.lesson_image && (
-                  <div className="mt-2">
-                    <img
-                      src={formData.lesson.lesson_image}
-                      alt="ការមើលជាមុនរូបភាពមេរៀន"
-                      className="w-32 h-32 object-cover rounded-lg border border-gray-200"
-                    />
-                  </div>
-                )}
-              </div>
-              <div className="flex justify-between">
-                <button
-                  type="button"
-                  onClick={prevStep}
-                  className="px-6 py-3 bg-gray-300 text-gray-700 rounded-lg hover:bg-gray-400 transition-all text-sm sm:text-base md:text-lg"
-                >
-                  ថយក្រោយ
-                </button>
-                <button
-                  type="button"
-                  onClick={nextStep}
-                  disabled={!isNextButtonEnabled()}
-                  className={`px-6 py-3 rounded-lg transition-all text-sm sm:text-base md:text-lg ${
-                    isNextButtonEnabled()
-                      ? "bg-blue-500 text-white hover:bg-blue-600"
-                      : "bg-gray-300 text-gray-500 cursor-not-allowed"
-                  }`}
-                >
-                  បន្ទាប់
-                </button>
-              </div>
-            </motion.div>
-          )}
+                <StepButtons prevStep={prevStep} nextStep={nextStep} isValid={isStepValid()} />
+              </motion.div>
+            )}
 
-          {/* Step 4: Section Details */}
-          {step === 4 && (
-            <motion.div
-              initial={{ opacity: 0, x: 20 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: -20 }}
-              transition={{ duration: 0.3 }}
-            >
-              <h2 className="text-lg sm:text-xl md:text-2xl font-semibold text-gray-700 mb-4 flex items-center">
-                <FiList className="mr-2" style={{ color: primaryColor }} />
-                ព័ត៌មានផ្នែក
-              </h2>
-              <div className="mb-4">
-                <label className="block text-gray-700 font-medium mb-2 text-sm sm:text-base md:text-lg">
-                  ចំណងជើងផ្នែក
-                </label>
-                <input
-                  type="text"
+            {/* Step 4: Section */}
+            {step === 4 && (
+              <motion.div
+                key="step4"
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -20 }}
+              >
+                <StepHeader icon={<FiList />} title="ព័ត៌មានផ្នែក" />
+                <InputField
+                  label="ចំណងជើងផ្នែក"
                   name="title"
                   value={formData.section.title}
                   onChange={(e) => handleChange(e, "section")}
-                  className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-xs sm:text-sm md:text-base"
                   placeholder="បញ្ចូលចំណងជើងផ្នែក"
-                  required
+                  icon={<FiList />}
                 />
-              </div>
-              <div className="mb-4">
-                <label className="block text-gray-700 font-medium mb-2 text-sm sm:text-base md:text-lg">
-                  លេខផ្នែក
-                </label>
-                <input
-                  type="text"
+                <InputField
+                  label="លេខផ្នែក"
                   name="no"
                   value={formData.section.no}
                   onChange={(e) => handleChange(e, "section")}
-                  className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-xs sm:text-sm md:text-base"
                   placeholder="បញ្ចូលលេខផ្នែក"
-                  required
+                  icon={<FiFileText />}
                 />
-              </div>
-              <div className="mb-4">
-                <label className="flex items-center space-x-2">
-                  <input
-                    type="checkbox"
-                    name="preview"
-                    checked={formData.section.preview}
-                    onChange={(e) => handleChange(e, "section")}
-                    className="form-checkbox text-blue-500"
-                  />
-                  <span className="text-gray-600 text-sm sm:text-base md:text-lg">មានការមើលជាមុន</span>
-                </label>
-              </div>
-              <div className="flex justify-between">
-                <button
-                  type="button"
-                  onClick={prevStep}
-                  className="px-6 py-3 bg-gray-300 text-gray-700 rounded-lg hover:bg-gray-400 transition-all text-sm sm:text-base md:text-lg"
-                >
-                  ថយក្រោយ
-                </button>
-                <button
-                  type="button"
-                  onClick={nextStep}
-                  disabled={!isNextButtonEnabled()}
-                  className={`px-6 py-3 rounded-lg transition-all text-sm sm:text-base md:text-lg ${
-                    isNextButtonEnabled()
-                      ? "bg-blue-500 text-white hover:bg-blue-600"
-                      : "bg-gray-300 text-gray-500 cursor-not-allowed"
-                  }`}
-                >
-                  បន្ទាប់
-                </button>
-              </div>
-            </motion.div>
-          )}
+                <CheckboxField
+                  label="មានការមើលជាមុន"
+                  name="preview"
+                  checked={formData.section.preview}
+                  onChange={(e) => handleChange(e, "section")}
+                />
+                <StepButtons prevStep={prevStep} nextStep={nextStep} isValid={isStepValid()} />
+              </motion.div>
+            )}
 
-          {/* Step 5: Content Details */}
-          {step === 5 && (
-            <motion.div
-              initial={{ opacity: 0, x: 20 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: -20 }}
-              transition={{ duration: 0.3 }}
-            >
-              <h2 className="text-lg sm:text-xl md:text-2xl font-semibold text-gray-700 mb-4 flex items-center">
-                <FiPlayCircle className="mr-2" style={{ color: primaryColor }} />
-                ព័ត៌មានខ្លឹមសារ
-              </h2>
-              <div className="mb-4">
-                <label className="block text-gray-700 font-medium mb-2 text-sm sm:text-base md:text-lg">
-                  ចំណងជើងខ្លឹមសារ
-                </label>
-                <input
-                  type="text"
+            {/* Step 5: Content */}
+            {step === 5 && (
+              <motion.div
+                key="step5"
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -20 }}
+              >
+                <StepHeader icon={<FiPlayCircle />} title="ព័ត៌មានខ្លឹមសារ" />
+                <InputField
+                  label="ចំណងជើងខ្លឹមសារ"
                   name="title"
                   value={formData.content.title}
                   onChange={(e) => handleChange(e, "content")}
-                  className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-xs sm:text-sm md:text-base"
                   placeholder="បញ្ចូលចំណងជើងខ្លឹមសារ"
-                  required
+                  icon={<FiPlayCircle />}
                 />
-              </div>
-              <div className="mb-4">
-                <label className="block text-gray-700 font-medium mb-2 text-sm sm:text-base md:text-lg">
-                  លេខខ្លឹមសារ
-                </label>
-                <input
-                  type="text"
+                <InputField
+                  label="លេខខ្លឹមសារ"
                   name="no"
                   value={formData.content.no}
                   onChange={(e) => handleChange(e, "content")}
-                  className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-xs sm:text-sm md:text-base"
                   placeholder="បញ្ចូលលេខខ្លឹមសារ"
-                  required
+                  icon={<FiFileText />}
                 />
-              </div>
-              <div className="mb-4">
-                <label className="flex items-center space-x-2">
-                  <input
-                    type="checkbox"
-                    name="preview"
-                    checked={formData.content.preview}
-                    onChange={(e) => handleChange(e, "content")}
-                    className="form-checkbox text-blue-500"
-                  />
-                  <span className="text-gray-600 text-sm sm:text-base md:text-lg">មានការមើលជាមុន</span>
-                </label>
-              </div>
-              <div className="mb-4">
-                <label className="block text-gray-700 font-medium mb-2 text-sm sm:text-base md:text-lg">
-                  URL ឯកសារ
-                </label>
-                <input
-                  type="text"
+                <CheckboxField
+                  label="មានការមើលជាមុន"
+                  name="preview"
+                  checked={formData.content.preview}
+                  onChange={(e) => handleChange(e, "content")}
+                />
+                <InputField
+                  label="URL ឯកសារ"
                   name="file"
                   value={formData.content.file}
                   onChange={(e) => handleChange(e, "content")}
-                  className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-xs sm:text-sm md:text-base"
                   placeholder="បញ្ចូល URL ឯកសារ"
-                  required
+                  icon={<FiFileText />}
                 />
-              </div>
-              <div className="mb-4">
-                <label className="block text-gray-700 font-medium mb-2 text-sm sm:text-base md:text-lg">
-                  URL វីដេអូ
-                </label>
-                <input
-                  type="text"
+                <InputField
+                  label="URL វីដេអូ"
                   name="video_url"
                   value={formData.content.video_url}
                   onChange={(e) => handleChange(e, "content")}
-                  className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-xs sm:text-sm md:text-base"
                   placeholder="បញ្ចូល URL វីដេអូ"
-                  required
+                  icon={<FiPlayCircle />}
                 />
-              </div>
-              <div className="mb-4">
-                <label className="block text-gray-700 font-medium mb-2 text-sm sm:text-base md:text-lg">
-                  ចំណងជើងវីដេអូ
-                </label>
-                <input
-                  type="text"
+                <InputField
+                  label="ចំណងជើងវីដេអូ"
                   name="video_title"
                   value={formData.content.video_title}
                   onChange={(e) => handleChange(e, "content")}
-                  className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-xs sm:text-sm md:text-base"
                   placeholder="បញ្ចូលចំណងជើងវីដេអូ"
-                  required
+                  icon={<FiPlayCircle />}
                 />
-              </div>
-              <div className="flex justify-between">
-                <button
-                  type="button"
-                  onClick={prevStep}
-                  className="px-6 py-3 bg-gray-300 text-gray-700 rounded-lg hover:bg-gray-400 transition-all text-sm sm:text-base md:text-lg"
-                >
-                  ថយក្រោយ
-                </button>
-                <button
-                  type="submit"
-                  className="px-6 py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-all text-sm sm:text-base md:text-lg"
-                >
-                  ដាក់ស្នើវគ្គសិក្សា
-                </button>
-              </div>
-            </motion.div>
-          )}
-        </form>
-
-        {/* Modal */}
-        <AnimatePresence>
-          {isModalOpen && (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              onClick={() => setIsModalOpen(false)}
-              className="bg-slate-900/20 backdrop-blur p-8 fixed inset-0 z-50 grid place-items-center overflow-y-scroll cursor-pointer"
-            >
-              <motion.div
-                initial={{ scale: 0, rotate: "12.5deg" }}
-                animate={{ scale: 1, rotate: "0deg" }}
-                exit={{ scale: 0, rotate: "0deg" }}
-                onClick={(e) => e.stopPropagation()}
-                className={`${
-                  modalContent.type === "success"
-                    ? "bg-gradient-to-br from-green-600 to-teal-600"
-                    : "bg-gradient-to-br from-red-600 to-pink-600"
-                } text-white p-6 rounded-lg w-full max-w-lg shadow-xl cursor-default relative overflow-hidden`}
-              >
-                {modalContent.type === "success" ? (
-                  <FiCheckCircle className="text-white/10 rotate-12 text-[250px] absolute z-0 -top-24 -left-24" />
-                ) : (
-                  <FiAlertCircle className="text-white/10 rotate-12 text-[250px] absolute z-0 -top-24 -left-24" />
-                )}
-                <div className="relative z-10">
-                  <div
-                    className={`bg-white w-16 h-16 mb-2 rounded-full text-3xl ${
-                      modalContent.type === "success"
-                        ? "text-green-600"
-                        : "text-red-600"
-                    } grid place-items-center mx-auto`}
-                  >
-                    {modalContent.type === "success" ? (
-                      <FiCheckCircle />
-                    ) : (
-                      <FiAlertCircle />
-                    )}
-                  </div>
-                  <h3 className="text-xl sm:text-2xl md:text-3xl font-bold text-center mb-2">
-                    {modalContent.type === "success" ? "ជោគជ័យ!" : "កំហុស!"}
-                  </h3>
-                  <p className="text-center mb-6 text-sm sm:text-base md:text-lg">{modalContent.message}</p>
-                  <div className="flex gap-2">
-                    <button
-                      onClick={() => setIsModalOpen(false)}
-                      className="bg-transparent hover:bg-white/10 transition-colors text-white font-semibold w-full py-2 rounded text-sm sm:text-base md:text-lg"
-                    >
-                      បិទ
-                    </button>
-                    {modalContent.type === "error" && (
-                      <button
-                        onClick={() => setIsModalOpen(false)}
-                        className="bg-white hover:opacity-90 transition-opacity text-red-600 font-semibold w-full py-2 rounded text-sm sm:text-base md:text-lg"
-                      >
-                        ព្យាយាមម្តងទៀត
-                      </button>
-                    )}
-                  </div>
-                </div>
+                <StepButtons prevStep={prevStep} isValid={isStepValid()} submit />
               </motion.div>
+            )}
+          </form>
+        </motion.div>
+      </div>
+
+      {/* Modal */}
+      <AnimatePresence>
+        {isModalOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 bg-black/50 flex items-center justify-center z-50"
+            onClick={() => setIsModalOpen(false)}
+          >
+            <motion.div
+              initial={{ scale: 0.8, y: 50 }}
+              animate={{ scale: 1, y: 0 }}
+              exit={{ scale: 0.8, y: 50 }}
+              className={`p-6 rounded-xl shadow-2xl w-full max-w-md ${
+                modalContent.type === "success" ? "bg-gradient-to-br from-green-500 to-teal-600" : "bg-gradient-to-br from-red-500 to-pink-600"
+              } text-white`}
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="flex flex-col items-center">
+                <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center mb-4">
+                  {modalContent.type === "success" ? (
+                    <FiCheckCircle className="text-green-600 text-3xl" />
+                  ) : (
+                    <FiAlertCircle className="text-red-600 text-3xl" />
+                  )}
+                </div>
+                <h3 className="text-2xl font-bold mb-2">
+                  {modalContent.type === "success" ? "ជោគជ័យ!" : "បរាជ័យ!"}
+                </h3>
+                <p className="text-center mb-6">{modalContent.message}</p>
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={() => setIsModalOpen(false)}
+                  className="px-6 py-2 bg-white text-gray-800 rounded-full font-medium"
+                >
+                  បិទ
+                </motion.button>
+              </div>
             </motion.div>
-          )}
-        </AnimatePresence>
-      </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 };
+
+// Reusable Components
+const StepHeader = ({ icon, title }) => (
+  <motion.h2
+    initial={{ opacity: 0 }}
+    animate={{ opacity: 1 }}
+    className="text-2xl font-semibold text-gray-800 mb-6 flex items-center"
+  >
+    {React.cloneElement(icon, { className: "mr-3 text-blue-500" })}
+    {title}
+  </motion.h2>
+);
+
+const InputField = ({ label, name, value, onChange, placeholder, icon, preview }) => (
+  <motion.div
+    whileHover={{ scale: 1.01 }}
+    className="mb-6"
+  >
+    <label className="block text-gray-700 font-medium mb-2">{label}</label>
+    <div className="relative">
+      <input
+        type="text"
+        name={name}
+        value={value}
+        onChange={onChange}
+        className="w-full p-3 pl-10 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all"
+        placeholder={placeholder}
+        required
+      />
+      {icon && React.cloneElement(icon, { className: "absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" })}
+    </div>
+    {preview && (
+      <motion.img
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        src={preview}
+        alt="Preview"
+        className="mt-2 w-24 h-24 object-cover rounded-lg border border-gray-200"
+        onError={(e) => (e.target.src = "https://via.placeholder.com/150")}
+      />
+    )}
+  </motion.div>
+);
+
+const TextAreaField = ({ label, name, value, onChange, placeholder }) => (
+  <motion.div
+    whileHover={{ scale: 1.01 }}
+    className="mb-6"
+  >
+    <label className="block text-gray-700 font-medium mb-2">{label}</label>
+    <textarea
+      name={name}
+      value={value}
+      onChange={onChange}
+      className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 min-h-[120px] transition-all"
+      placeholder={placeholder}
+      required
+    />
+  </motion.div>
+);
+
+const CheckboxField = ({ label, name, checked, onChange }) => (
+  <motion.div
+    whileHover={{ scale: 1.01 }}
+    className="mb-6"
+  >
+    <label className="flex items-center space-x-2">
+      <input
+        type="checkbox"
+        name={name}
+        checked={checked}
+        onChange={onChange}
+        className="form-checkbox text-blue-500 h-5 w-5"
+      />
+      <span className="text-gray-700">{label}</span>
+    </label>
+  </motion.div>
+);
+
+const SelectField = ({ label, value, onChange, options }) => (
+  <motion.div
+    whileHover={{ scale: 1.01 }}
+    className="mb-6"
+  >
+    <label className="block text-gray-700 font-medium mb-2">{label}</label>
+    <select
+      value={value}
+      onChange={onChange}
+      className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all"
+      required
+    >
+      <option value="">-- ជ្រើសរើស --</option>
+      {options.length > 0 ? (
+        options.map((opt) => (
+          <option key={opt.value} value={opt.value}>
+            {opt.label}
+          </option>
+        ))
+      ) : (
+        <option value="" disabled>
+          គ្មានជម្រើស
+        </option>
+      )}
+    </select>
+  </motion.div>
+);
+
+const RadioToggle = ({ label, options, value, onChange }) => (
+  <motion.div
+    whileHover={{ scale: 1.01 }}
+    className="mb-6"
+  >
+    <label className="block text-gray-700 font-medium mb-2">{label}</label>
+    <div className="flex space-x-4">
+      {options.map((opt) => (
+        <label key={opt} className="flex items-center space-x-2">
+          <input
+            type="radio"
+            name="mode"
+            value={opt}
+            checked={value === opt}
+            onChange={() => onChange(opt)}
+            className="form-radio text-blue-500"
+          />
+          <span className="text-gray-700">{opt}</span>
+        </label>
+      ))}
+    </div>
+  </motion.div>
+);
+
+const StepButtons = ({ prevStep, nextStep, isValid, submit }) => (
+  <div className="flex justify-between mt-8">
+    {prevStep && (
+      <motion.button
+        whileHover={{ scale: 1.05 }}
+        whileTap={{ scale: 0.95 }}
+        type="button"
+        onClick={prevStep}
+        className="px-6 py-3 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-all"
+      >
+        ថយក្រោយ
+      </motion.button>
+    )}
+    <motion.button
+      whileHover={{ scale: 1.05 }}
+      whileTap={{ scale: 0.95 }}
+      type={submit ? "submit" : "button"}
+      onClick={!submit ? nextStep : undefined}
+      disabled={!isValid}
+      className={`px-6 py-3 rounded-lg transition-all ${
+        isValid ? "bg-gradient-to-r from-blue-500 to-teal-600 text-white hover:from-blue-600 hover:to-teal-700" : "bg-gray-300 text-gray-500 cursor-not-allowed"
+      }`}
+    >
+      {submit ? "ដាក់ស្នើ" : "បន្ទាប់"}
+    </motion.button>
+  </div>
+);
 
 export default CreateCourseForm;

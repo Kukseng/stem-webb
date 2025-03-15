@@ -1,61 +1,146 @@
 import React, { useEffect, useState } from "react";
-import iconStudy from "../../assets/iconsvg/iconStudy.svg";
-
+import { motion } from "framer-motion";
 import { Sparkles } from "lucide-react";
+import iconStudy from "../../assets/iconsvg/iconStudy.svg";
 
 const StemEducationHeader = () => {
   const [isLoaded, setIsLoaded] = useState(false);
-  
-  
-  const IconStudy = () => (
-    <img src={iconStudy} className="w-12 h-12 text-white" />
-  );
-  
+
   useEffect(() => {
     setIsLoaded(true);
   }, []);
 
+  // Animation variants
+  const containerVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.8, ease: "easeOut" },
+    },
+  };
+
+  const iconVariants = {
+    hidden: { scale: 0, rotate: -180 },
+    visible: {
+      scale: 1,
+      rotate: 0,
+      transition: { type: "spring", stiffness: 200, damping: 15, delay: 0.2 },
+    },
+    hover: { scale: 1.2, rotate: 10, transition: { duration: 0.3 } },
+  };
+
+  const textVariants = {
+    hidden: { opacity: 0, x: -20 },
+    visible: {
+      opacity: 1,
+      x: 0,
+      transition: { duration: 0.6, delay: 0.4 },
+    },
+  };
+
+  const buttonVariants = {
+    hidden: { opacity: 0, x: 20 },
+    visible: {
+      opacity: 1,
+      x: 0,
+      transition: { duration: 0.6, delay: 0.6 },
+    },
+    hover: { scale: 1.05, y: -5, transition: { duration: 0.3 } },
+    tap: { scale: 0.95 },
+  };
+
   return (
-    <div className="w-full py-4">
-      <div className="max-w-content  mx-auto px-4">
-        <div className="flex justify-center items-center">
-          <div 
-            className={`bg-gradient-to-r from-blue-500 to-teal-100 p-6 rounded-lg flex flex-col md:flex-row md:items-center md:justify-between w-full gap-4 transition-all duration-700 transform ${isLoaded ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}
-          >
-      
-            <div className={`flex items-center space-x-4 transition-all duration-500 delay-100 transform ${isLoaded ? 'translate-x-0 opacity-100' : 'translate-x-negative-10 opacity-0'}`}>
-      
-              <div className="relative w-16 h-16 group">
-                <div className="absolute w-full h-full bg-black rounded-full top-1 left-1 opacity-10 group-hover:opacity-20 transition-opacity duration-300"></div>
-                <div className="relative w-full h-full flex items-center justify-center rounded-full transform transition-transform duration-300 group-hover:scale-110">
-                  <IconStudy />
-                </div>
-              </div>
-              
-             
-              <h1 className="text-2xl font-bold text-gray-800 hover:text-blue-800 transition-colors duration-300">
-                គោលបំណងមុខវិជ្ជា STEM
-              </h1>
-            </div>
-            
-        
-            <div className={`flex space-x-4 transition-all duration-500 delay-200 transform ${isLoaded ? 'translate-x-0 opacity-100' : 'translate-x-10 opacity-0'}`}>
-              <button 
-                className="px-6 py-2 border-2 border-blue-400 text-blue-700 rounded-full bg-transparent hover:bg-blue-50 transition-all duration-300 hover:shadow-md transform hover:-translate-y-1"
-              >
-                ខ្មែរ/អង់គ្លេស
-              </button>
-              <button 
-                className="px-6 py-2 bg-teal-600 text-white rounded-full hover:bg-teal-700 transition-all duration-300 hover:shadow-md transform hover:-translate-y-1 relative overflow-hidden"
-              >
-                <span className="relative z-10">ក្លាយជាគ្រូបង្រៀន</span>
-                <span className="absolute inset-0 bg-teal-500 transform scale-x-0 origin-left transition-transform duration-300 hover:scale-x-100 z-0"></span>
-              </button>
-            </div>
+    <section className="w-full py-8 bg-gradient-to-b from-gray-50 to-gray-100">
+      <div className="max-w-[1300px] mx-auto px-4">
+        <motion.div
+          variants={containerVariants}
+          initial="hidden"
+          animate={isLoaded ? "visible" : "hidden"}
+          className="relative bg-gradient-to-r from-blue-600 via-teal-500 to-blue-400 p-6 rounded-xl shadow-lg flex flex-col md:flex-row items-center justify-between gap-6 overflow-hidden"
+        >
+          {/* Subtle Background Overlay */}
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.2)_0%,transparent_70%)] pointer-events-none"></div>
+
+          {/* Left Section: Icon + Title */}
+          <div className="flex items-center space-x-6 z-10">
+            {/* Animated Icon */}
+            <motion.div
+              variants={iconVariants}
+              whileHover="hover"
+              className="relative w-16 h-16 flex items-center justify-center"
+            >
+              <div className="absolute w-20 h-20 bg-white/20 rounded-full blur-md animate-pulse"></div>
+              <img
+                src={iconStudy}
+                alt="STEM Icon"
+                className="w-12 h-12 text-white relative z-10"
+              />
+            </motion.div>
+
+            {/* Title with Gradient Text */}
+            <motion.h1
+              variants={textVariants}
+              className="text-3xl md:text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-white to-teal-100 hover:from-teal-100 hover:to-white transition-all duration-500 font-suwannaphum"
+            >
+              គោលបំណងមុខវិជ្ជា STEM
+            </motion.h1>
           </div>
-        </div>
+
+          {/* Right Section: Buttons */}
+          <motion.div
+            variants={buttonVariants}
+            className="flex space-x-4 z-10"
+          >
+            {/* Language Button */}
+            <motion.button
+              variants={buttonVariants}
+              whileHover="hover"
+              whileTap="tap"
+              className="px-6 py-2 border-2 border-white text-white rounded-full bg-transparent hover:bg-white/20 transition-all duration-300 font-medium font-suwannaphum relative overflow-hidden group"
+            >
+              <span className="relative z-10">ខ្មែរ/អង់គ្លេស</span>
+              <span className="absolute inset-0 bg-teal-400/30 transform scale-x-0 origin-left transition-transform duration-300 group-hover:scale-x-100"></span>
+            </motion.button>
+
+            {/* Become a Teacher Button */}
+            <motion.button
+              variants={buttonVariants}
+              whileHover="hover"
+              whileTap="tap"
+              className="px-6 py-2 bg-white text-teal-600 rounded-full font-medium font-suwannaphum relative overflow-hidden group shadow-md"
+            >
+              <span className="relative z-10 flex items-center">
+                <Sparkles className="w-4 h-4 mr-2 text-teal-500 group-hover:text-teal-700 transition-colors" />
+                ក្លាយជាគ្រូបង្រៀន
+              </span>
+              <span className="absolute inset-0 bg-teal-200 transform scale-x-0 origin-right transition-transform duration-300 group-hover:scale-x-100"></span>
+            </motion.button>
+          </motion.div>
+
+          {/* Decorative Sparkles */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 0.8 }}
+            transition={{ delay: 0.8, duration: 1 }}
+            className="absolute top-4 right-4 text-white/50"
+          >
+            <Sparkles className="w-6 h-6 animate-twinkle" />
+          </motion.div>
+        </motion.div>
       </div>
-    </div>
+
+      {/* Custom CSS for Twinkle Animation */}
+      <style jsx>{`
+        @keyframes twinkle {
+          0%, 100% { opacity: 0.5; transform: scale(1); }
+          50% { opacity: 1; transform: scale(1.2); }
+        }
+        .animate-twinkle {
+          animation: twinkle 2s infinite ease-in-out;
+        }
+      `}</style>
+    </section>
   );
 };
 

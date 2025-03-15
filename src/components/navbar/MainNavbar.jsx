@@ -1,3 +1,4 @@
+// src/components/MainNavbar.jsx
 import React, { useState, useEffect } from "react";
 import {
   Search,
@@ -14,46 +15,40 @@ import { Dropdown } from "flowbite-react";
 import logomodified from "../../assets/images/logo/o-removebg-preview.png";
 import { useGetProfileQuery } from "../../api/auth-api";
 import { useDispatch } from "react-redux";
-import { setCredentials, logout } from "../../redux/services/authSlice";
+import { logout } from "../../redux/services/authSlice";
 import { motion, AnimatePresence } from "framer-motion";
+import { AuthContext } from "../../components/context/AuthContext.jsx";
 
-// Navigation items (removed dropdown from "វគ្គសិក្សា")
 const navItems = [
   { label: "ទំព័រដើម", href: "/" },
-  { label: "វគ្គសិក្សា", href: "/courses" }, // Removed hasDropdown and dropdownItems
+  { label: "វគ្គសិក្សា", href: "/courses" },
   { label: "វេទិកា", href: "/forums" },
   { label: "មាតិកា", href: "/blog" },
   { label: "អំពីពួកយើង", href: "/aboutus" },
 ];
 
-// Profile menu items
 const profileMenuItems = [
   { label: "ប្រវត្តិរូប", icon: UserCircle, href: "/profile" },
-  { label: "កែប្រែប្រវត្តិរូប", icon: Settings, href: "/edit-profile" },
-  { label: "សារ", icon: Inbox, href: "/messages" },
-  { label: "ជំនួយ", icon: HelpingHand, href: "/help" },
+ 
 ];
 
 function MainNavbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem("access_token"));
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const location = useLocation();
-
-  useEffect(() => {
-    const accessToken = localStorage.getItem("access_token");
-    const refreshToken = localStorage.getItem("refresh_token");
-    if (accessToken && refreshToken) {
-      dispatch(setCredentials({ access: accessToken, refresh: refreshToken }));
-      setIsLoggedIn(true);
-    }
-  }, [dispatch]);
+  const { user, logout: contextLogout } = React.useContext(AuthContext);
 
   const { data: profile, isLoading: profileLoading, error: profileError } = useGetProfileQuery(undefined, {
-    skip: !isLoggedIn,
+    skip: !user,
   });
+
+  useEffect(() => {
+    if (profileError) {
+      console.error("Profile fetch error in Navbar:", profileError);
+    }
+  }, [profileError]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -64,25 +59,23 @@ function MainNavbar() {
   }, []);
 
   useEffect(() => {
-    console.log("Route changed to:", location.pathname); 
-    window.scrollTo({ top: 0, behavior: "smooth" }); 
+    console.log("Route changed to:", location.pathname);
+    window.scrollTo({ top: 0, behavior: "smooth" });
   }, [location.pathname]);
 
   const handleLinkClick = (href) => {
     setIsMobileMenuOpen(false);
     navigate(href);
-    console.log("Navigating to:", href); 
+    console.log("Navigating to:", href);
   };
 
   const handleLogout = () => {
-    localStorage.removeItem("access_token");
-    localStorage.removeItem("refresh_token");
     dispatch(logout());
-    setIsLoggedIn(false);
+    contextLogout();
     navigate("/login");
   };
 
-  const userName = profileLoading ? "Loading..." : profile?.username || "User";
+  const userName = profileLoading ? "Loading..." : profile?.username || user?.username || "User";
 
   const mobileMenuVariants = {
     hidden: { opacity: 0, y: -20 },
@@ -102,11 +95,10 @@ function MainNavbar() {
         isScrolled ? "shadow-lg" : "border-b border-gray-100"
       }`}
     >
-      <div className=" mx-auto">
+      <div className="max-w-[1900px] mx-auto">
         <div className="flex items-center justify-between py-3 px-4 md:px-6 lg:px-8">
-     
           <Link to="/" className="flex-shrink-0">
-            <div className="flex items-center space-x-1 sm:space-x-2">
+            <div className="flex items-center ">
               <div className="h-16 w-16 md:h-18 md:w-18 lg:h-20 lg:w-20 rounded-full flex items-center justify-center text-white font-bold text-lg">
                 <img
                   src={logomodified}
@@ -114,7 +106,7 @@ function MainNavbar() {
                   className="h-19 w-19 md:h-18 md:w-18 lg:h-20 lg:w-20 object-cover object-center"
                 />
               </div>
-              <h1 className="2xl:text-2xl xl:text-xl md:text-base lg:text:lg font-bold font-popins">
+              <h1 className="2xl:text-2xl xl:text-xl md:text-base lg:text-lg text-[16px] font-bold font-popins">
                 <span className="text-yellow-300 font-bold">i</span>
                 <span className="text-primary font-bold">S</span>
                 <span className="text-primary font-bold">T</span>
@@ -124,14 +116,13 @@ function MainNavbar() {
             </div>
           </Link>
 
-          {/* Desktop Navigation */}
           <div className="hidden lg:flex items-center space-x-3 xl:space-x-6">
             {navItems.map((item) => (
               <Link
                 key={item.label}
                 to={item.href}
                 onClick={() => handleLinkClick(item.href)}
-                className="px-1 lg:px-2 text-gray-700 hover:text-[#1e8fb8] transition-colors duration-200 font-medium  text-sm lg:text-lg  xl:text-xl 2xl:text-2xl  font-medium flex items-center whitespace-nowrap"
+                className="px-1 lg:px-2 text-gray-700 hover:text-[#1e8fb8] transition-colors duration-200 font-medium 2xl:text-2xl xl:text-xl md:text-base lg:text-lg text-[16px] flex items-center whitespace-nowrap"
               >
                 {item.label}
               </Link>
@@ -139,7 +130,6 @@ function MainNavbar() {
           </div>
 
           <div className="flex items-center space-x-2 md:space-x-3 lg:space-x-4">
-            {/* Desktop Search Bar */}
             <div className="hidden lg:flex items-center relative bg-white bg-opacity-30 backdrop-blur-md border rounded-[40px] border-card overflow-hidden">
               <Search className="h-5 w-10 text-gray-400 ml-2 lg:ml-3" />
               <input
@@ -157,39 +147,62 @@ function MainNavbar() {
               </button>
             </div>
 
-            {/* Profile or Login */}
-            {isLoggedIn ? (
-              <div className="flex items-center space-x-1 sm:space-x-2">
-  <span className="text-gray-700 text-xs xl:text-sm hidden sm:block">
-    {userName}
-  </span>
-  <Link
-    to="/profile"
-    onClick={() => handleLinkClick("/profile")}
-    className="h-10 w-10 xl:h-12 xl:w-12 rounded-full bg-gray-200 flex items-center justify-center cursor-pointer shadow-md hover:scale-105 transition-all overflow-hidden"
-    role="button"
-    aria-label="ទៅកាន់ប្រវត្តិរូប"
-    tabIndex={0}
-    onKeyDown={(e) => {
-      if (e.key === "Enter" || e.key === " ") {
-        e.preventDefault();
-        handleLinkClick("/profile");
-      }
-    }}
-  >
-    {profileLoading ? (
-      <div className="animate-pulse bg-gray-300 h-full w-full rounded-full"></div>
-    ) : profile?.image ? (
-      <img
-        src={profile.image}
-        alt="User Profile"
-        className="h-full w-full rounded-full object-cover object-center"
-      />
-    ) : (
-      <span className="text-gray-600 text-sm font-semibold">👤</span>
-    )}
-  </Link>
-</div>
+            {user ? (
+              <Dropdown
+                label={
+                  <div className="flex items-center space-x-1 sm:space-x-2">
+                    <span className="text-gray-700 text-xs xl:text-sm hidden sm:block">
+                      {userName}
+                    </span>
+                    <div
+                      className="h-10 w-10 xl:h-12 xl:w-12 rounded-full bg-gray-200 flex items-center justify-center cursor-pointer shadow-md hover:scale-105 transition-all overflow-hidden"
+                      role="button"
+                      aria-label="បើកម៉ឺនុយប្រវត្តិរូប"
+                      tabIndex={0}
+                    >
+                      {profileLoading ? (
+                        <div className="animate-pulse bg-gray-300 h-full w-full rounded-full"></div>
+                      ) : profile?.image ? (
+                        <img
+                          src={profile.image}
+                          alt="User Profile"
+                          className="h-full w-full rounded-full object-cover object-center"
+                        />
+                      ) : (
+                        <span className="text-gray-600 text-sm font-semibold">👤</span>
+                      )}
+                    </div>
+                  </div>
+                }
+                arrowIcon={false}
+                inline
+                placement="bottom-end"
+              >
+                <AnimatePresence>
+                  <motion.div variants={dropdownVariants} initial="hidden" animate="visible" exit="exit">
+                    {profileMenuItems.map((item) => (
+                      <Dropdown.Item
+                        key={item.label}
+                        as={Link}
+                        to={item.href}
+                        onClick={() => handleLinkClick(item.href)}
+                        className="flex items-center space-x-2 text-gray-700 hover:text-[#1e8fb8] hover:bg-gray-50"
+                      >
+                        <item.icon className="h-5 w-5" />
+                        <span>{item.label}</span>
+                      </Dropdown.Item>
+                    ))}
+                    <Dropdown.Divider />
+                    <Dropdown.Item
+                      onClick={handleLogout}
+                      className="flex items-center space-x-2 text-red-600 hover:text-red-700 hover:bg-red-50"
+                    >
+                      <LogOut className="h-5 w-5" />
+                      <span>ចាកចេញ</span>
+                    </Dropdown.Item>
+                  </motion.div>
+                </AnimatePresence>
+              </Dropdown>
             ) : (
               <Link to="/login">
                 <div className="flex items-center space-x-4 sm:space-x-3">
@@ -200,7 +213,6 @@ function MainNavbar() {
               </Link>
             )}
 
-            {/* Mobile Menu Toggle */}
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               className="lg:hidden p-1 sm:p-2"
@@ -215,7 +227,6 @@ function MainNavbar() {
           </div>
         </div>
 
-        {/* Mobile Navigation */}
         <AnimatePresence>
           {isMobileMenuOpen && (
             <motion.div
@@ -225,7 +236,6 @@ function MainNavbar() {
               exit="exit"
               className="lg:hidden py-4 space-y-4 border-t border-gray-100 max-w-[1300px] mx-auto px-4 bg-white shadow-lg"
             >
-              {/* Mobile Search Bar */}
               <div className="pb-3">
                 <div className="flex items-center bg-gray-50 border rounded-full border-gray-200">
                   <Search className="h-4 w-4 text-gray-400 ml-4" />
@@ -245,7 +255,6 @@ function MainNavbar() {
                 </div>
               </div>
 
-              {/* Mobile Navigation Items */}
               <div className="space-y-1">
                 {navItems.map((item) => (
                   <Link
@@ -259,18 +268,36 @@ function MainNavbar() {
                 ))}
               </div>
 
-              {/* Mobile Login Button (if not logged in) */}
-              {!isLoggedIn && (
-                <div className="pt-4 border-t border-gray-100">
-                  <div className="flex flex-col space-y-2">
+              {user ? (
+                <div className="pt-4 border-t border-gray-100 space-y-2">
+                  {profileMenuItems.map((item) => (
                     <Link
-                      to="/login"
-                      onClick={() => handleLinkClick("/login")}
-                      className="w-full py-2 px-4 text-primary border border-primary rounded-lg text-center text-sm font-medium hover:bg-primary hover:text-white transition-colors"
+                      key={item.label}
+                      to={item.href}
+                      onClick={() => handleLinkClick(item.href)}
+                      className="block py-2 px-3 text-gray-700 hover:text-[#1e8fb8] hover:bg-gray-50 rounded-lg transition-colors flex items-center space-x-2"
                     >
-                      ចូលគណនី
+                      <item.icon className="h-5 w-5" />
+                      <span>{item.label}</span>
                     </Link>
-                  </div>
+                  ))}
+                  <button
+                    onClick={handleLogout}
+                    className="w-full py-2 px-3 text-red-600 hover:text-red-700 hover:bg-red-50 rounded-lg transition-colors flex items-center space-x-2 text-left"
+                  >
+                    <LogOut className="h-5 w-5" />
+                    <span>ចាកចេញ</span>
+                  </button>
+                </div>
+              ) : (
+                <div className="pt-4 border-t border-gray-100">
+                  <Link
+                    to="/login"
+                    onClick={() => handleLinkClick("/login")}
+                    className="w-full py-2 px-4 text-primary border border-primary rounded-lg text-center text-sm font-medium hover:bg-primary hover:text-white transition-colors"
+                  >
+                    ចូលគណនី
+                  </Link>
                 </div>
               )}
             </motion.div>
