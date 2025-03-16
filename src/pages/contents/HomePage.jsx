@@ -14,7 +14,7 @@ const HomePage = () => {
   return (
     <>
       <div>
-      
+        
         <Banner />
         <MainCategory />
         <ExampleWrapper/>

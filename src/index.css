@@ -4,6 +4,11 @@
 /* Import the Kantumruy Pro font */
 @import url("https://fonts.googleapis.com/css2?family=Kantumruy+Pro:wght@400;700&display=swap");
 
+
+*{
+    font-family: 'Kantumruy Pro', sans-serif;
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;

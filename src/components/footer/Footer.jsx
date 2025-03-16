@@ -37,7 +37,7 @@ const Footer = () => {
                 ISTEM
               </h2>
             </div>
-            <p className="text-gray-600 text-base text-center sm:text-left max-w-sm leading-relaxed">
+            <p className=" text-gray-600 text-[24px] text-center sm:text-left max-w-sm leading-relaxed">
               យើងមានបំណងផ្តល់ការអប់រំកម្រិតខ្ពស់
               ការផ្តល់មូលដ្ឋានគ្រឹះមានគុណភាពខ្ពស់សម្រាប់សិស្សក្នុងការសិក្សាត្រឹមត្រូវ។
             </p>
@@ -50,7 +50,7 @@ const Footer = () => {
               {menuItems.map((item, index) => (
                 <li
                   key={index}
-                  className="text-gray-600 hover:text-teal-600 cursor-pointer font-suwan transition-all duration-200 hover:translate-x-1"
+                  className="text-[24px] text-gray-600 hover:text-teal-600 cursor-pointer font-suwannaphum transition-all duration-200 "
                 >
                   {item}
                 </li>
@@ -80,7 +80,7 @@ const Footer = () => {
                     />
                   </svg>
                 </div>
-                <span className="text-gray-600 group-hover:text-green-600 transition-colors duration-200">
+                <span className="text-[24px] text-gray-600 group-hover:text-green-600 transition-colors duration-200">
                   stem.istad@gmail.com
                 </span>
               </div>
@@ -106,7 +106,7 @@ const Footer = () => {
                     />
                   </svg>
                 </div>
-                <span className="text-gray-600 group-hover:text-green-600 transition-colors duration-200">
+                <span className="text-[24px] text-gray-600 group-hover:text-green-600 transition-colors duration-200">
                   សង្កាត់ទឹកថ្លា ខណ្ឌសែនសុខ រាជធានីភ្នំពេញ
                 </span>
               </div>
@@ -135,7 +135,7 @@ const Footer = () => {
       {/* Copyright Bar */}
       <div className="relative z-10 border-t border-gray-200 bg-white/50 backdrop-blur-sm">
         <div className="max-w-content mx-auto px-4 sm:px-6 lg:px-8 py-4">
-          <p className="text-center text-gray-600 text-sm">
+          <p className="text-center text-gray-600 text-[24px]">
             © {new Date().getFullYear()} STEM Club. All rights reserved.
           </p>
         </div>
