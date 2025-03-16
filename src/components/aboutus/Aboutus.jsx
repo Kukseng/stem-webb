@@ -1,12 +1,18 @@
 import React, { useState } from "react";
-import { ArrowRight, Facebook, Linkedin, Github, Instagram } from "lucide-react";
+import {
+  ArrowRight,
+  Facebook,
+  Linkedin,
+  Github,
+  Instagram,
+} from "lucide-react";
 import { motion } from "framer-motion";
 import ShuffleHero from "../common/Hero/SuffleHero";
 
 import img from "../../assets/images/logo/cher.png";
 // import img1 from "../../assets/images/logo/ISTAD.png";
 // import pic2 from "../../assets/about-us/pic2.jpg";
-import pic2 from "../../assets/about-us/pic2.jpg";
+import cher from "../../assets/images/logo/cher.png";
 import pic3 from "../../assets/about-us/pic3.jpg";
 import pic4 from "../../assets/about-us/pic4.jpg";
 import pic5 from "../../assets/about-us/pic5.jpg";
@@ -39,8 +45,16 @@ const Aboutus = () => {
 
   const techIconVariants = {
     hidden: { scale: 0.8, opacity: 0 },
-    visible: { scale: 1, opacity: 1, transition: { type: "spring", stiffness: 200 } },
-    hover: { scale: 1.1, rotate: [0, -10, 10, -5, 5, 0], transition: { duration: 0.5 } },
+    visible: {
+      scale: 1,
+      opacity: 1,
+      transition: { type: "spring", stiffness: 200 },
+    },
+    hover: {
+      scale: 1.1,
+      rotate: [0, -10, 10, -5, 5, 0],
+      transition: { duration: 0.5 },
+    },
   };
 
   const faqData = [
@@ -77,12 +91,11 @@ const Aboutus = () => {
     setOpenQuestion(openQuestion === index ? null : index);
   };
 
-
   const teamMembers = [
     {
       name: "ស្រេង ជីប៉",
       role: "Frontend Developer",
-      image: pic2,
+      image: cher,
       description:
         "ភ្ជាប់ទំនាក់ទំនងជាមួយអ្នកណែនាំដែលមានបទពិសោធន៍ក្នុងវិស័យ iSTEM ដែលផ្តល់ការណែនាំ ចែករំលែកការយល់ដឹងអំពីឧស្សាហកម្ម និងជួយអ្នកក្នុងការច្នៃប្រឌិត។",
     },
@@ -110,14 +123,14 @@ const Aboutus = () => {
     {
       name: "ភូ​ កុកសេង",
       role: "Frontend Developer",
-      image: pic5, 
+      image: pic5,
       description:
         "អ្នកសម្របសម្រួលកម្មវិធីដែលភ្ជាប់ទំនាក់ទំនងរវាងសិស្ស និងអ្នកណែនាំក្នុងវិស័យ iSTEM។",
     },
     {
       name: "សុខ រីណា",
       role: "Content Creator",
-      image: pic3, 
+      image: pic3,
       description:
         "អ្នកបង្កើតមាតិកាដែលផលិតធនធានអប់រំដ៏ទាក់ទាញសម្រាប់សិស្ស iSTEM។",
     },
@@ -128,15 +141,14 @@ const Aboutus = () => {
       <div className="max-w-content mx-4 sm:mx-8 lg:mx-16 my-5 lg:my-0">
         <ShuffleHero />
       </div>
-
       <motion.div
         initial={{ scaleX: 0 }}
         whileInView={{ scaleX: 1 }}
         transition={{ duration: 1, ease: "easeInOut" }}
         viewport={{ once: true }}
         className="h-1 bg-gradient-to-r from-blue-500 via-cyan-400 to-purple-500"
-      ></motion.div>-
-
+      ></motion.div>
+      -
       <motion.div
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
@@ -148,8 +160,6 @@ const Aboutus = () => {
           ណែនាំដោយ
         </h3>
       </motion.div>
-
-      
       <motion.div
         variants={containerVariants}
         initial="hidden"
@@ -201,8 +211,6 @@ const Aboutus = () => {
           </motion.div>
         ))}
       </motion.div>
-
- 
       <motion.div
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
@@ -214,7 +222,6 @@ const Aboutus = () => {
           សមាជិកក្រុម
         </h3>
       </motion.div>
-
       <motion.div
         variants={containerVariants}
         initial="hidden"
@@ -266,8 +273,6 @@ const Aboutus = () => {
           </motion.div>
         ))}
       </motion.div>
-
-  
       <div className="flex justify-center py-10">
         <motion.div
           initial={{ width: 0 }}
@@ -277,7 +282,6 @@ const Aboutus = () => {
           className="h-1 bg-gradient-to-r from-purple-700 to-pink-500"
         ></motion.div>
       </div>
-
       <motion.div
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
@@ -298,18 +302,23 @@ const Aboutus = () => {
           whileInView="visible"
           viewport={{ once: true }}
         >
-          {["Frontend", "Backend", "Database", "CMS", "CloudTesting", "DevOps"].map(
-            (stack, index) => (
-              <motion.p
-                key={index}
-                variants={itemVariants}
-                whileHover={{ scale: 1.1 }}
-                className="text-2xl lg:text-3xl font-bold text-black hover:bg-gradient-to-r hover:from-purple-700 hover:to-pink-500 hover:bg-clip-text hover:text-transparent transition-all duration-300 cursor-pointer"
-              >
-                {stack}
-              </motion.p>
-            )
-          )}
+          {[
+            "Frontend",
+            "Backend",
+            "Database",
+            "CMS",
+            "CloudTesting",
+            "DevOps",
+          ].map((stack, index) => (
+            <motion.p
+              key={index}
+              variants={itemVariants}
+              whileHover={{ scale: 1.1 }}
+              className="text-2xl lg:text-3xl font-bold text-black hover:bg-gradient-to-r hover:from-purple-700 hover:to-pink-500 hover:bg-clip-text hover:text-transparent transition-all duration-300 cursor-pointer"
+            >
+              {stack}
+            </motion.p>
+          ))}
         </motion.div>
         <motion.div
           className="flex justify-center gap-16 flex-wrap"
@@ -377,8 +386,6 @@ const Aboutus = () => {
           />
         </motion.div>
       </motion.div>
-
-  
       <motion.div
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
@@ -424,7 +431,6 @@ const Aboutus = () => {
           ))}
         </motion.div>
       </motion.div>
-
       <div className="fixed top-20 right-10 w-16 h-16 bg-blue-400 rounded-full opacity-20 animate-pulse"></div>
       <div className="fixed top-1/2 left-10 w-10 h-10 bg-pink-400 rounded-full opacity-20 animate-bounce"></div>
     </div>
