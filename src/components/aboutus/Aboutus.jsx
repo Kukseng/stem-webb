@@ -7,13 +7,13 @@ import {
   Instagram,
 } from "lucide-react";
 import { motion } from "framer-motion";
-import ShuffleHero from "../common/Hero/SuffleHero";
+import ShuffleHero from "../common/Hero/SuffleHero.jsx";
 
 import img from "../../assets/images/logo/cher.png";
 // import img1 from "../../assets/images/logo/ISTAD.png";
 // import pic2 from "../../assets/about-us/pic2.jpg";
 // import cher from "../../assets/images/logo/cher.png";
-import pic3 from "../../assets/images/about-us/pic1.png";
+import pic3 from "../../assets/images/about-us/pic3.png";
 // import pic1 from "../../assets/images/about-us/pic1.png";
 import pic2 from "../../assets/images/about-us/pic2.png";
 import pic4 from "../../assets/images/about-us/pic4.png";
