@@ -124,7 +124,7 @@ const LoginPage = () => {
     <section className="bg-gradient-to-br from-blue-50 via-gray-50 to-yellow-50 min-h-screen flex flex-col items-center justify-center p-4 relative overflow-hidden">
       {/* Decorative Background Elements */}
       <div className="absolute top-10 left-10 w-20 h-20 bg-blue-200 rounded-full opacity-20 animate-pulse"></div>
-      <div className="absolute bottom-10 right-10 w-32 h-32 bg-yellow-200 rounded-full opacity-20 animate-bounce"></div>
+      {/* <div className="absolute bottom-10 right-10 w-32 h-32 bg-yellow-200 rounded-full opacity-20 animate-bounce"></div> */}
 
       {/* Header */}
       <header className="w-full max-w-6xl flex justify-between items-center absolute top-0 left-0 right-0 p-4 md:p-6 z-10">
