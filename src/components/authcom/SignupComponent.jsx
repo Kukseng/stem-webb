@@ -60,7 +60,7 @@ const SignUpPage = () => {
     const hasSymbol = /[@$!%*#?&]/.test(password);
 
     return (
-      <div className="text-xs mt-1 font-suwannaphum">
+      <div className="text-[16px] mt-1 font-suwannaphum">
         <p className={hasLength ? "text-green-600" : "text-red-600"}>
           {hasLength ? "✓" : "✗"} យ៉ាងហោចណាស់ ៨ តួអក្សរ
         </p>
@@ -70,7 +70,7 @@ const SignUpPage = () => {
         <p className={hasNumber ? "text-green-600" : "text-red-600"}>
           {hasNumber ? "✓" : "✗"} យ៉ាងហោចណាស់មួយលេខ
         </p>
-        <p className={hasSymbol ? "text-green-600" : "text-red-600"}>
+        <p className={hasSymbol ? "text-green-600 " : "text-red-600"}>
           {hasSymbol ? "✓" : "✗"} យ៉ាងហោចណាស់មួយនិមិត្តសញ្ញា
         </p>
       </div>

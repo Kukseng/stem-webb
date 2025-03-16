@@ -244,14 +244,14 @@ const AllCoursePage = () => {
                 placeholder="ស្វែងរកវគ្គសិក្សា..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full border border-gray-200 rounded-lg pl-10 pr-4 py-2.5 md:py-3 bg-gray-50 text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#16789e] focus:border-transparent transition-all duration-300 ease-in-out shadow-sm hover:shadow-md"
+                className="w-full border border-gray-200 rounded-[40px] pl-10 pr-4 py-2.5 md:py-3 bg-gray-50 text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#16789e] focus:border-transparent transition-all duration-300 ease-in-out shadow-sm hover:shadow-md"
                 aria-label="ស្វែងរកវគ្គសិក្សា"
               />
               <FaSearch className="absolute top-1/2 left-3 transform -translate-y-1/2 text-gray-400 transition-colors duration-300 hover:text-[#16789e]" />
             </div>
             <button
               onClick={() => setShowFilters(!showFilters)}
-              className={`flex items-center justify-center gap-2 px-4 py-2.5 md:px-5 md:py-3 rounded-lg font-medium transition-all duration-300 ease-in-out shadow-sm hover:shadow-md ${
+              className={`flex items-center justify-center gap-2 px-4 py-2.5 md:px-5 md:py-3 rounded-[40px] font-medium transition-all duration-300 ease-in-out shadow-sm hover:shadow-md ${
                 showFilters ? "bg-[#16789e] text-white" : "bg-white border border-gray-200 text-gray-700 hover:bg-gray-50"
               }`}
               aria-label={showFilters ? "បិទការចម្រាញ់" : "បើកការចម្រាញ់"}
@@ -263,11 +263,11 @@ const AllCoursePage = () => {
               <div className="relative w-full sm:w-auto" ref={dropdownRef}>
                 <button
                   onClick={() => setIsCategoryDropdownOpen(!isCategoryDropdownOpen)}
-                  className="flex items-center gap-2 px-3 py-2 md:px-4 md:py-2.5 bg-white border border-gray-200 rounded-lg text-sm md:text-base text-gray-700 focus:outline-none focus:ring-2 focus:ring-[#16789e] transition-all duration-300 ease-in-out shadow-sm hover:bg-gray-50 hover:shadow-md"
-                  aria-label="ជ្រើសរើសប្រភេទ"
+                  className="flex items-center gap-2 px-3 py-2 md:px-4 md:py-2.5 bg-white border border-gray-200 rounded-[40px] text-[16px] md:text-[18px] text-gray-700 focus:outline-none focus:ring-2 focus:ring-[#16789e] transition-all duration-300 ease-in-out shadow-sm hover:bg-gray-50 hover:shadow-md"
+                  aria-label="ជ្រើសរើស"
                   aria-expanded={isCategoryDropdownOpen}
                 >
-                  {filters.category === "all" ? "ជ្រើសរើសប្រភេទ" : filters.category}
+                  {filters.category === "all" ? "ជ្រើសរើស" : filters.category}
                   <ArrowBigDown
                     className={`w-4 h-4 md:w-5 md:h-5 text-gray-500 transition-transform duration-200 ease-in-out ${
                       isCategoryDropdownOpen ? "rotate-180" : ""

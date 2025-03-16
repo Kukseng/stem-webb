@@ -260,7 +260,7 @@ const LoginPage = () => {
                       ចងចាំខ្ញុំ
                     </label>
                   </div>
-                  <Link
+                  {/* <Link
                     to="/forgot-password"
                     className="text-sm font-medium transition-colors focus:outline-none focus:underline font-suwannaphum"
                     style={{ color: primaryColor, hoverColor: "#0e5c7a" }}
@@ -268,7 +268,7 @@ const LoginPage = () => {
                     onMouseLeave={(e) => (e.target.style.color = primaryColor)}
                   >
                     ភ្លេចពាក្យសម្ងាត់?
-                  </Link>
+                  </Link> */}
                 </div>
 
                 <motion.button

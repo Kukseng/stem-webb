@@ -14,7 +14,7 @@ const OtpVerificationPage = () => {
     e.preventDefault();
 
     if (!otpCode) {
-      setOtpError("Please enter the OTP code");
+      setOtpError("សូមបញ្ចូលកូដ OTP");
       return;
     }
 
@@ -26,13 +26,13 @@ const OtpVerificationPage = () => {
     };
 
     try {
-      console.log("Sending OTP data:", otpData);
+      console.log("កំពុងផ្ញើទិន្នន័យ OTP:", otpData);
       const response = await verifyOtp(otpData).unwrap();
-      console.log("OTP verification response:", response);
-      navigate("/"); 
+      console.log("ការផ្ទៀងផ្ទាត់ OTP ឆ្លើយតប:", response);
+      navigate("/login"); 
     } catch (err) {
-      console.error("OTP verification error:", err);
-      const errorMessage = err.data?.detail || "Invalid OTP. Please try again.";
+      console.error("កំហុសក្នុងការផ្ទៀងផ្ទាត់ OTP:", err);
+      const errorMessage = err.data?.detail || "OTP មិនត្រឹមត្រូវ។ សូមព្យាយាមម្តងទៀត។";
       setOtpError(errorMessage);
     }
   };
@@ -40,8 +40,8 @@ const OtpVerificationPage = () => {
   return (
     <section className="bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 min-h-screen flex items-center justify-center p-4">
       <div className="bg-white rounded-2xl shadow-lg max-w-md w-full p-6 md:p-8">
-        <h2 className="font-bold text-2xl text-primary">Verify OTP</h2>
-        <p className="text-sm mt-2 text-gray-600">Enter the OTP sent to {email}</p>
+        <h2 className="font-bold text-2xl text-primary">ផ្ទៀងផ្ទាត់ OTP</h2>
+        <p className="text-sm mt-2 text-gray-600">បញ្ចូលកូដ OTP ដែលបានផ្ញើទៅ {email}</p>
 
         {otpError && (
           <div className="mt-4 p-2 bg-red-50 border border-red-200 text-red-600 text-sm rounded">
@@ -52,14 +52,14 @@ const OtpVerificationPage = () => {
         <form onSubmit={handleSubmit} className="flex flex-col gap-4 mt-6">
           <div>
             <label htmlFor="otpCode" className="text-sm font-medium text-gray-700 block mb-1">
-              OTP Code
+              កូដ OTP
             </label>
             <input
               id="otpCode"
               className="p-2.5 rounded-lg border w-full focus:border-purple-400 focus:ring-2 focus:ring-purple-200 focus:outline-none transition-all"
               type="text"
               name="otpCode"
-              placeholder="Enter 6-digit code"
+              placeholder="បញ្ចូលកូដ ៦ ខ្ទង់"
               value={otpCode}
               onChange={(e) => setOtpCode(e.target.value)}
               required
@@ -95,18 +95,18 @@ const OtpVerificationPage = () => {
                     d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
                   ></path>
                 </svg>
-                Verifying...
+                កំពុងផ្ទៀងផ្ទាត់...
               </span>
             ) : (
-              "Verify OTP"
+              "ផ្ទៀងផ្ទាត់ OTP"
             )}
           </button>
         </form>
 
         <div className="mt-6 text-center text-sm text-gray-600">
-          Back to{" "}
+          ត្រឡប់ទៅ{" "}
           <Link to="/signup" className="font-medium text-purple-600 hover:text-purple-500">
-            Sign Up
+            ចុះឈ្មោះ
           </Link>
         </div>
       </div>
