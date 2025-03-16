@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import ShuffleHero from "../common/Hero/SuffleHero";
 
 import img from "../../assets/images/logo/cher.png";
-import img1 from "../../assets/images/logo/ISTAD.png";
+// import img1 from "../../assets/images/logo/ISTAD.png";
 import pic2 from "../../assets/about-us/pic2.jpg";
 import pic3 from "../../assets/about-us/pic3.jpg";
 import pic4 from "../../assets/about-us/pic4.jpg";
