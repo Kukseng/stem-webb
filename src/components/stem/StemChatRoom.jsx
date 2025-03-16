@@ -2,7 +2,10 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { FiMessageSquare, FiSend } from "react-icons/fi";
-import { useGetForumByIdQuery, useReplyToForumMutation } from "../../api/forums-api";
+import {
+  useGetForumByIdQuery,
+  useReplyToForumMutation,
+} from "../../api/forums-api";
 
 const StemChatRoom = ({ forum, currentUsername, accessToken }) => {
   const [showChat, setShowChat] = useState(false);
@@ -11,7 +14,7 @@ const StemChatRoom = ({ forum, currentUsername, accessToken }) => {
   // Poll forum data to get comments
   const { data: forumData, isLoading } = useGetForumByIdQuery(forum.id, {
     skip: !showChat,
-    pollingInterval: 5000, 
+    pollingInterval: 5000,
   });
 
   const [replyToForum] = useReplyToForumMutation();
@@ -41,7 +44,9 @@ const StemChatRoom = ({ forum, currentUsername, accessToken }) => {
         />
         <div className="ml-3 flex-1">
           <p className="font-semibold text-base">{forum.author}</p>
-          <p className="text-xs text-gray-500">{new Date(forum.created_at).toLocaleDateString()}</p>
+          <p className="text-xs text-gray-500">
+            {new Date(forum.created_at).toLocaleDateString()}
+          </p>
         </div>
       </div>
       <h3 className="text-xl font-semibold mb-2" style={{ color: "#16789e" }}>
@@ -102,7 +107,10 @@ const StemChatRoom = ({ forum, currentUsername, accessToken }) => {
               </div>
             ) : (
               <p className="text-sm text-gray-600">
-                <a href="/login" className="text-blue-600">Log in</a> to chat
+                <a href="/login" className="text-blue-600">
+                  Log in
+                </a>{" "}
+                to chat
               </p>
             )}
           </motion.div>

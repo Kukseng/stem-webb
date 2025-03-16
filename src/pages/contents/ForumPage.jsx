@@ -1,5 +1,4 @@
-// src/pages/contents/ForumPage.jsx
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useContext } from "react";
 import { useSelector } from "react-redux";
 import { motion, AnimatePresence } from "framer-motion";
 import {
@@ -11,11 +10,51 @@ import {
 } from "../../api/forums-api";
 import { FaSpinner } from "react-icons/fa";
 import { useGetProfileQuery } from "../../api/auth-api";
-import ForumCard from "../../components/forum/ForumCard";
-import ForumForm from "../../components/forum/ForumForm";
+import ForumCard from "../../components/coursees/forum/ForumCard.jsx";
+import ForumForm from "../../components/coursees/forum/ForumForm";
 import { FiSearch, FiPlus, FiX } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../components/context/AuthContext.jsx";
+
+const designSystem = {
+  colors: {
+    primary: " #16789e",
+    primaryDark: "#4338CA",
+    secondary: "#F3F4F6",
+    accent: "#FBBF24",
+    textPrimary: "#1F2937",
+    textSecondary: "#6B7280",
+    error: "#EF4444",
+    success: "#10B981",
+    cardBg: "#FFFFFF",
+    cardShadow: "rgba(0, 0, 0, 0.05)",
+  },
+  typography: {
+    heading: "text-xl md:text-2xl font-bold text-gray-900",
+    subheading: "text-sm md:text-base text-gray-600",
+    body: "text-base text-gray-700",
+    caption: "text-sm text-gray-500",
+    button: "text-sm font-medium text-white",
+  },
+  spacing: {
+    xs: "p-2",
+    sm: "p-4",
+    md: "p-6",
+    lg: "p-8",
+    xl: "p-12",
+  },
+  shadows: {
+    sm: "shadow-sm",
+    md: "shadow-md",
+    lg: "shadow-lg",
+    neumorphic: "0 4px 6px rgba(0, 0, 0, 0.1), 0 -4px 6px rgba(255, 255, 255, 0.9)",
+  },
+  borderRadius: {
+    sm: "rounded-md",
+    md: "rounded-lg",
+    lg: "rounded-xl",
+  },
+};
 
 const ForumPage = () => {
   const navigate = useNavigate();
@@ -30,17 +69,14 @@ const ForumPage = () => {
   const [searchQuery, setSearchQuery] = useState("");
 
   const { accessToken } = useSelector((state) => state.auth);
-  const { data: profileData, isLoading: profileLoading, error: profileError } = useGetProfileQuery();
-  const currentUsername = profileData?.username || "unknown";
+  const { data: profileData, isLoading: profileLoading } = useGetProfileQuery();
+  const currentUsername = profileData?.username || "មិនស្គាល់";
   const profileUser = profileData?.image || "https://via.placeholder.com/40";
   const { data: forumsData, isLoading: forumsLoading, refetch: refetchForums } = useGetAllForumsQuery();
 
   const forums = [...(forumsData?.results || forumsData || [])].sort((a, b) =>
     new Date(b.created_at) - new Date(a.created_at)
   );
-
-  const primaryColor = "#16789e";
-  const primaryColorDark = "#106080";
 
   const filteredForums = forums.filter((forum) =>
     forum.title.toLowerCase().includes(searchQuery.toLowerCase())
@@ -54,7 +90,7 @@ const ForumPage = () => {
   const handleCreateForum = async (e) => {
     e.preventDefault();
     if (!user || !accessToken) {
-      setErrorMessage("Please log in to create a forum.");
+      setErrorMessage("សូមចូលគណនីដើម្បីបង្កើតវេទិកា។");
       navigate("/login");
       return;
     }
@@ -65,15 +101,14 @@ const ForumPage = () => {
       refetchForums();
       setErrorMessage("");
     } catch (error) {
-      console.error("Create forum failed:", error);
-      setErrorMessage(error.data?.detail || "Failed to create forum");
+      setErrorMessage(error.data?.detail || "បរាជ័យក្នុងការបង្កើតវេទិកា");
     }
   };
 
   const handleUpdateForum = async (e, id) => {
     e.preventDefault();
     if (!user || !accessToken) {
-      setErrorMessage("Please log in to update a forum.");
+      setErrorMessage("សូមចូលគណនីដើម្បីកែសម្រួលវេទិកា។");
       navigate("/login");
       return;
     }
@@ -83,37 +118,35 @@ const ForumPage = () => {
       refetchForums();
       setErrorMessage("");
     } catch (error) {
-      console.error("Update forum failed:", error);
-      setErrorMessage(error.data?.detail || "Failed to update forum");
+      setErrorMessage(error.data?.detail || "បរាជ័យក្នុងការកែសម្រួលវេទិកា");
     }
   };
 
   const handleDeleteForum = async (id) => {
     if (!user || !accessToken) {
-      setErrorMessage("Please log in to delete a forum.");
+      setErrorMessage("សូមចូលគណនីដើម្បីលុបវេទិកា។");
       navigate("/login");
       return;
     }
-    if (window.confirm("Are you sure you want to delete this forum?")) {
+    if (window.confirm("តើអ្នកប្រាកដជាចង់លុបវេទិកានេះឬ?")) {
       try {
         await deleteForum(id).unwrap();
         refetchForums();
         setErrorMessage("");
       } catch (error) {
-        console.error("Delete forum failed:", error);
-        setErrorMessage(error.data?.detail || "Failed to delete forum");
+        setErrorMessage(error.data?.detail || "បរាជ័យក្នុងការលុបវេទិកា");
       }
     }
   };
 
   const handleReply = async (forumId, content = replyContent, parentId = null) => {
     if (!user || !accessToken) {
-      setErrorMessage("Please log in to post a comment.");
+      setErrorMessage("សូមចូលគណនីដើម្បីបញ្ចេញមតិ។");
       navigate("/login");
       return;
     }
-    if (!content.trim()) {
-      setErrorMessage("Comment cannot be empty.");
+    if (!content || !content.trim()) {
+      setErrorMessage("មតិមិនអាចទទេបានទេ។");
       return;
     }
     try {
@@ -123,169 +156,167 @@ const ForumPage = () => {
       setErrorMessage("");
       refetchForums();
     } catch (error) {
-      console.error("Reply failed:", error);
-      setErrorMessage(error.data?.detail || "Failed to post comment");
+      setErrorMessage(error.data?.detail || "បរាជ័យក្នុងការបញ្ចេញមតិ");
     }
   };
- // In ForumPage.jsx
- const handleShare = (forum) => {
-  const baseUrl = window.location.origin;
-  const forumUrl = `${baseUrl}/share?type=forum&id=${forum.id}&title=${encodeURIComponent(forum.title)}&desc=${encodeURIComponent(forum.description)}&img=${encodeURIComponent(forum.image || "")}`;
-  const shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(forumUrl)}`;
-  window.open(shareUrl, "_blank", "width=600,height=400");
-};
+
   if (profileLoading || forumsLoading) {
     return (
-      <div className="flex flex-col justify-center items-center min-h-screen bg-gray-50 px-4">
-        <FaSpinner className="animate-spin text-primary h-10 w-10 sm:h-12 sm:w-12 mb-4" />
-        <p className="text-gray-600 font-medium text-sm sm:text-base">
-          Loading forums...
-        </p>
-      </div>
-    );
-  }
-
-  if (profileError) {
-    return (
-      <div className="flex flex-col justify-center items-center min-h-screen bg-gray-50 px-4">
-        <div className="bg-red-50 border border-red-200 rounded-lg p-4 sm:p-6 max-w-sm sm:max-w-md w-full">
-          <h2 className="text-red-600 font-bold text-base sm:text-lg mb-2">Error</h2>
-          <p className="text-red-500 text-sm sm:text-base">
-            {profileError?.data?.message || profileError?.message || "Failed to load forums"}
-          </p>
-          <button
-            onClick={() => window.location.reload()}
-            className="mt-4 bg-red-600 hover:bg-red-700 text-white font-medium py-2 px-4 rounded-lg text-sm sm:text-base transition-all w-full sm:w-auto"
-          >
-            Try Again
-          </button>
-        </div>
+      <div className="flex justify-center items-center min-h-screen bg-gray-50">
+        <FaSpinner className="animate-spin " />
+        <p className="text-gray-600 font-medium text-base ml-4">កំពុងផ្ទុកវេទិកា...</p>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gray-100">
-      {/* Header */}
-      <header className="bg-white shadow-sm">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+    <div className="min-h-screen bg-gray-50">
+      <header
+        className="bg-white shadow-md sticky top-0 z-10"
+   ឲ
+      >
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <div className="flex flex-col sm:flex-row justify-between items-center">
-            <h1 className="text-2xl sm:text-3xl font-bold text-gray-800 mb-4 sm:mb-0">
-              Forum Discussions
+            <h1 className="text-2xl sm:text-3xl font-bold text-primary mb-4 sm:mb-0">
+              ចែករំលែកការយល់ដឹង
             </h1>
             <div className="flex items-center space-x-4">
-              <div className="relative w-full sm:w-72">
+              <div className="relative w-full sm:w-64">
                 <input
                   type="text"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  placeholder="Search forums..."
-                  className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent text-sm sm:text-base shadow-sm"
+                  placeholder="ស្វែងរកវេទិកា..."
+                  className="w-full pl-10 pr-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-400 bg-white text-sm shadow-sm"
                 />
                 <FiSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={18} />
               </div>
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                onClick={() => {
-                  if (!user || !accessToken) {
-                    setErrorMessage("Please log in to create a forum.");
-                    navigate("/login");
-                  } else {
-                    setShowCreateForm(!showCreateForm);
-                  }
-                }}
-                className={`flex items-center px-4 py-2 rounded-full text-sm font-medium text-white shadow-md ${
-                  !user || !accessToken ? "opacity-50 cursor-not-allowed" : ""
-                }`}
-                style={{ backgroundColor: primaryColor }}
-                disabled={!user || !accessToken}
-              >
-                <FiPlus className="mr-2" /> Create Forum
-              </motion.button>
             </div>
           </div>
         </div>
       </header>
 
-      {/* Main Content */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Error Message */}
+      <main className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {errorMessage && (
-          <div className="mb-6 p-4 bg-red-100 text-red-700 rounded-lg text-sm sm:text-base shadow-md flex justify-between items-center">
-            {errorMessage}
-            <button
-              onClick={() => setErrorMessage("")}
-              className="text-red-700 hover:text-red-900"
-            >
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            className="mb-6 p-4 bg-red-100 text-red-700 rounded-lg flex justify-between items-center shadow-md"
+          >
+            <span>{errorMessage}</span>
+            <button onClick={() => setErrorMessage("")} className="text-red-700 hover:text-red-900">
               <FiX size={18} />
             </button>
-          </div>
+          </motion.div>
         )}
 
-        {/* Create Forum Form */}
-        <AnimatePresence>
-          {showCreateForm && user && accessToken && (
-            <ForumForm
-              formData={forumData}
-              setFormData={setForumData}
-              onSubmit={handleCreateForum}
-              onCancel={() => setShowCreateForm(false)}
-              submitText="Create"
-              primaryColor={primaryColor}
-            />
-          )}
-        </AnimatePresence>
-
-        {/* Forum List */}
-        <div className="mt-8">
+        <div className="mt-8 flex flex-col gap-6">
           {filteredForums.length > 0 ? (
-            <div className="grid gap-6">
-              {filteredForums.map((forum) => (
-                <ForumCard
-                  key={forum.id}
-                  forum={forum}
-                  currentUsername={currentUsername}
-                  profileUser={profileUser}
-                  accessToken={accessToken}
-                  primaryColor={primaryColor}
-                  showEditForm={showEditForm}
-                  setShowEditForm={setShowEditForm}
-                  editData={editData}
-                  setEditData={setEditData}
-                  showReplyForm={showReplyForm}
-                  setShowReplyForm={setShowReplyForm}
-                  replyContent={replyContent}
-                  setReplyContent={setReplyContent}
-                  handleUpdateForum={handleUpdateForum}
-                  handleDeleteForum={handleDeleteForum}
-                  handleReply={handleReply}
-                  handleShare={handleShare}
-                />
-              ))}
-            </div>
+            filteredForums.map((forum) => (
+              <ForumCard
+                key={forum.id}
+                forum={forum}
+                currentUsername={currentUsername}
+                profileUser={profileUser}
+                accessToken={accessToken}
+                primaryColor={designSystem.colors.primary}
+                showEditForm={showEditForm}
+                setShowEditForm={setShowEditForm}
+                editData={editData}
+                setEditData={setEditData}
+                showReplyForm={showReplyForm}
+                setShowReplyForm={setShowReplyForm}
+                replyContent={replyContent}
+                setReplyContent={setReplyContent}
+                handleUpdateForum={handleUpdateForum}
+                handleDeleteForum={handleDeleteForum}
+                handleReply={handleReply}
+                handleShare={() => alert("មុខងារចែករំលែកនឹងមានឆាប់ៗនេះ!")}
+              />
+            ))
           ) : (
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ duration: 0.5 }}
               className="bg-white rounded-lg shadow-md p-10 text-center"
             >
               <h3 className="text-lg font-medium text-gray-700 mb-2">
-                No forums match your search
+                មិនមានវេទិកាដែលត្រូវនឹងការស្វែងរករបស់អ្នកទេ
               </h3>
-              <p className="text-gray-500 mb-4">Try adjusting your search or create a new forum</p>
+              <p className="text-gray-500 mb-4">សូមលៃតម្រូវការស្វែងរក ឬបង្កើតវេទិកាថ្មី</p>
               <button
                 onClick={() => setSearchQuery("")}
-                className="bg-primary text-white px-4 py-2 rounded-full hover:bg-[#0e5c7a] transition-all duration-300 ease-in-out shadow-md"
-                style={{ backgroundColor: primaryColor }}
+                className="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition-all shadow-md"
               >
-                Clear Search
+                លុបការស្វែងរក
               </button>
             </motion.div>
           )}
         </div>
       </main>
+
+      {user && accessToken && (
+        <div className="fixed bottom-0 left-0 right-0 bg-white shadow-lg z-20 p-4 sm:hidden">
+          <div className="max-w-7xl mx-auto flex justify-center">
+            <motion.button
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={() => setShowCreateForm(!showCreateForm)}
+              className="flex items-center px-4 py-2 bg-indigo-600 text-white rounded-lg shadow-md"
+            >
+              <FiPlus size={18} className="mr-2" /> បង្កើតវេទិកា
+            </motion.button>
+          </div>
+        </div>
+      )}
+
+      {user && accessToken && (
+        <motion.button
+          whileHover={{ scale: 1.1 }}
+          whileTap={{ scale: 0.95 }}
+          onClick={() => setShowCreateForm(!showCreateForm)}
+          className="hidden sm:flex fixed bottom-6 right-6 bg-indigo-600 text-white p-4 rounded-full shadow-lg z-20"
+        >
+          <FiPlus size={24} />
+        </motion.button>
+      )}
+
+      <AnimatePresence>
+        {showCreateForm && user && accessToken && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4"
+          >
+            <motion.div
+              initial={{ scale: 0.9 }}
+              animate={{ scale: 1 }}
+              exit={{ scale: 0.9 }}
+              className="bg-white rounded-lg p-6 w-full max-w-lg shadow-xl"
+            >
+              <div className="flex justify-between items-center mb-4">
+                <h2 className="text-xl font-bold text-gray-900">បង្កើតវេទិកាថ្មី</h2>
+                <button
+                  onClick={() => setShowCreateForm(false)}
+                  className="text-gray-500 hover:text-gray-700"
+                >
+                  <FiX size={20} />
+                </button>
+              </div>
+              <ForumForm
+                formData={forumData}
+                setFormData={setForumData}
+                onSubmit={handleCreateForum}
+                onCancel={() => setShowCreateForm(false)}
+                submitText="បង្កើត"
+                primaryColor={designSystem.colors.primary}
+              />
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 };

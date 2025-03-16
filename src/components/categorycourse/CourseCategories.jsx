@@ -30,10 +30,10 @@ const CourseCategories = () => {
       duration: "4-6 months",
       icon: <BiMath className="w-8 h-8" />,
       subcategories: [
-        { name: "Algebra", },
-        { name: "Calculus", },
-        { name: "Geometry" },
-        { name: "Statistics" },
+        { name: "ពិជគណិត", },
+        { name: "ដេរីវេ", },
+        { name: "ធរណីមាត្រ" },
+        { name: "ស្ថិតិ" },
       ],
     },
     {
@@ -47,9 +47,9 @@ const CourseCategories = () => {
       features: ["Biology", "Physics", "Chemistry"],
       icon: <MdScience className="w-8 h-8" />,
       subcategories: [
-        { name: "Biology",  },
-        { name: "Physics",},
-        { name: "Chemistry" },
+        { name: "ជីវវិទ្យា",  },
+        { name: "រូបវិទ្យា",},
+        { name: "គីមីវិទ្យា" },
       ],
     },
     {
@@ -63,9 +63,9 @@ const CourseCategories = () => {
       features: ["Programming", "AI", "Robotics"],
       icon: <GrTechnology className="w-8 h-8" />,
       subcategories: [
-        { name: "Programming",  },
+        { name: "ការសរសេរកម្មវិធី",  },
         { name: "AI",  },
-        { name: "Robotics", },
+        { name: "ការបង្កើតមនុស្សយន្ត", },
       ],
     },
     {
@@ -79,9 +79,9 @@ const CourseCategories = () => {
       features: ["Electrical", "Mechanical", "Civil"],
       icon: <FcEngineering className="w-8 h-8" />,
       subcategories: [
-        { name: "Electrical" },
-        { name: "Mechanical"},
-        { name: "Civil" },
+        { name: "អគ្គិសនី" },
+        { name: "មេកានិច"},
+        { name: "បណ្តាញ" },
       ],
     },
   ];
@@ -94,7 +94,7 @@ const CourseCategories = () => {
             ជ្រើសយកវគ្គសិក្សាដែលអ្នក{" "}
             <span className="text-yellow-500">ចាប់អារម្មណ៍</span>
           </h2>
-          <p className="text-base sm:text-lg md:text-xl text-gray-600 max-w-2xl mx-auto">
+          <p className="text-[20px] sm:text-[24px] md:text-[26px] text-gray-600 max-w-2xl mx-auto">
             មុខវិជ្ជាពេញនិយមដែលត្រូវបានជ្រើសរើសដោយអ្នកសិក្សារាប់លាននាក់
           </p>
           <div className="w-20 h-1 bg-yellow-500 mx-auto mt-6 rounded-full"></div>
@@ -147,7 +147,7 @@ const CourseCategories = () => {
                     <a
                       key={idx}
                       // href={subcategory.href}
-                      className="text-xs px-3 py-1 bg-white/20 rounded-full text-white hover:bg-white/30 transition-colors duration-300"
+                      className="text-[18px] px-3 py-1 bg-white/20 rounded-full text-white hover:bg-white/30 transition-colors duration-300"
                     >
                       {subcategory.name}
                     </a>

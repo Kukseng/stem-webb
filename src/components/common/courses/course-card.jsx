@@ -19,12 +19,12 @@ const CourseCard = ({ course = {}, onClick }) => {
     course_description = "សូមរង់ចាំការសិក្សាថ្មីរបស់អ្នកនៅទីនេះ",
     categories = [],
     rating = 4,
-    duration = "មូលដ្ឋាន ៨០ម៉ោង",
-    price = "៩,៩០០រៀល",
+    duration = "មូលដ្ឋាន ",
+    price = "ឥតគិតថ្លៃ",
     primaryButtonText = "ចុះឈ្មោះ",
     secondButtonText = "ចូលរៀន",
     secondaryButtonText = "ពិនិត្យមើលទៀត",
-    badgeText = "kmol kmol mk mk rean",
+    badgeText = "ស្វែងយល់បន្ថែមពីវគ្គសិក្សា",
     id: courseId,
   } = course;
 
@@ -44,7 +44,7 @@ const CourseCard = ({ course = {}, onClick }) => {
 
   return (
     <div
-      onClick={onClick} // Use the onClick prop from CoursesList
+      onClick={onClick} 
       className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 cursor-pointer"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}

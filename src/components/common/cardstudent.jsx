@@ -10,7 +10,7 @@ const StemEducationHeader = () => {
     setIsLoaded(true);
   }, []);
 
-  // Animation variants
+
   const containerVariants = {
     hidden: { opacity: 0, y: 20 },
     visible: {
@@ -59,12 +59,11 @@ const StemEducationHeader = () => {
           animate={isLoaded ? "visible" : "hidden"}
           className="relative bg-gradient-to-r from-blue-600 via-teal-500 to-blue-400 p-6 rounded-xl shadow-lg flex flex-col md:flex-row items-center justify-between gap-6 overflow-hidden"
         >
-          {/* Subtle Background Overlay */}
+
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.2)_0%,transparent_70%)] pointer-events-none"></div>
 
-          {/* Left Section: Icon + Title */}
           <div className="flex items-center space-x-6 z-10">
-            {/* Animated Icon */}
+
             <motion.div
               variants={iconVariants}
               whileHover="hover"
@@ -78,21 +77,21 @@ const StemEducationHeader = () => {
               />
             </motion.div>
 
-            {/* Title with Gradient Text */}
+       
             <motion.h1
               variants={textVariants}
-              className="text-3xl md:text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-white to-teal-100 hover:from-teal-100 hover:to-white transition-all duration-500 font-suwannaphum"
+              className="text-[20px] md:text-[24px] font-bold text-transparent bg-clip-text bg-gradient-to-r from-white to-teal-100 hover:from-teal-100 hover:to-white transition-all duration-500 font-suwannaphum"
             >
               គោលបំណងមុខវិជ្ជា STEM
             </motion.h1>
           </div>
 
-          {/* Right Section: Buttons */}
+
           <motion.div
             variants={buttonVariants}
             className="flex space-x-4 z-10"
           >
-            {/* Language Button */}
+    
             <motion.button
               variants={buttonVariants}
               whileHover="hover"
@@ -103,7 +102,7 @@ const StemEducationHeader = () => {
               <span className="absolute inset-0 bg-teal-400/30 transform scale-x-0 origin-left transition-transform duration-300 group-hover:scale-x-100"></span>
             </motion.button>
 
-            {/* Become a Teacher Button */}
+       
             <motion.button
               variants={buttonVariants}
               whileHover="hover"
@@ -118,7 +117,6 @@ const StemEducationHeader = () => {
             </motion.button>
           </motion.div>
 
-          {/* Decorative Sparkles */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 0.8 }}
@@ -130,7 +128,7 @@ const StemEducationHeader = () => {
         </motion.div>
       </div>
 
-      {/* Custom CSS for Twinkle Animation */}
+
       <style jsx>{`
         @keyframes twinkle {
           0%, 100% { opacity: 0.5; transform: scale(1); }

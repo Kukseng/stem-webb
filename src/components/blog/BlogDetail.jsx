@@ -22,7 +22,7 @@ const BlogDetail = () => {
 
   useEffect(() => {
     if (isError) {
-      console.error("Fetch error details:", error);
+      console.error("Fetch error:", error);
     } else if (article) {
       console.log("Article fetched:", article);
     }
@@ -68,7 +68,7 @@ const BlogDetail = () => {
         <h2 className="text-2xl font-bold text-red-600 mb-2">មានបញ្ហាក្នុងការផ្ទុកអត្ថបទ</h2>
         <p className="text-red-500 mb-4">
           {error?.status === "FETCH_ERROR"
-            ? "បញ្ហា CORS ឬបណ្តាញ៖ មិនអាចភ្ជាប់ទៅ API បានទេ"
+            ? "បញ្ហា CORS ឬបណ្តាញ៖ មិនអាចភ្ជាប់ទៅ API បាន"
             : error?.data?.message || "សូមព្យាយាមម្តងទៀត ឬត្រឡប់ទៅទំព័រមុន"}
         </p>
         <motion.button

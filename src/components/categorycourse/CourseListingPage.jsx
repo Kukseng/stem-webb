@@ -4,7 +4,7 @@ import CourseImage from '../../assets/image (9).png';
 import person from '../../assets/person.svg';
 
 const CourseCard = () => (
-  <div className="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300">
+  <div className="bg-white rounded-2xl overflow-hidden transition-shadow duration-300">
     <div className="relative">
       <img src={CourseImage} alt="Course thumbnail" className="w-full h-56 object-cover" />
       <div className="absolute top-4 left-4 bg-white/95 px-3 py-1 rounded-full text-sm font-medium text-indigo-700">
@@ -95,7 +95,7 @@ const SubjectCarousel = ({ subjects }) => {
         {subjects.map((subject, index) => (
           <div
             key={index}
-            className="flex-shrink-0 w-72 p-6 bg-white rounded-2xl shadow-md hover:shadow-lg transition-all transform hover:-translate-y-2 cursor-pointer"
+            className="flex-shrink-0 w-72 p-6 bg-white rounded-2xl  transition-all transform hover:-translate-y-2 cursor-pointer"
           >
             <div className="w-12 h-12 bg-emerald-100 rounded-full flex items-center justify-center mb-4">
               <span className="text-emerald-600 text-xl">✓</span>
@@ -145,11 +145,11 @@ const STEMTutoring = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 p-6 md:p-12">
-      <div className="max-w-7xl mx-auto">
+      <div className="max-w-[1300px] mx-auto">
         {/* Header Section */}
         <div className="flex flex-col md:flex-row justify-between items-center mb-16">
           <div className="w-full md:w-1/2 mb-10 md:mb-0">
-            <h1 className="text-4xl md:text-5xl font-bold text-gray-800 mb-6 leading-tight">
+            <h1 className="text-[26px] md:text-[36px] font-bold text-gray-800 mb-6 leading-tight">
               បង្កើនជំនាញរបស់អ្នក <br /> ជាមួយ STEM Tutoring
             </h1>
             <p className="text-gray-600 mb-8 max-w-lg text-lg leading-relaxed">
@@ -161,13 +161,13 @@ const STEMTutoring = () => {
             </button>
           </div>
           <div className="w-full md:w-1/2">
-            <div className="relative bg-white p-6 rounded-3xl shadow-lg">
+            <div className="relative bg-white p-6 rounded-3xl border-2">
               <img src={person} alt="person" className="w-full h-64 object-contain" />
             </div>
           </div>
         </div>
 
-        {/* Subjects Carousel */}
+    
         <SubjectCarousel subjects={subjects} />
       </div>
     </div>

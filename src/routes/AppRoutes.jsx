@@ -7,15 +7,15 @@ import CoursePage from "../pages/contents/course/coursepage";
 import AboutPage from "../pages/contents/AboutPage";
 import BlogPage from "../pages/contents/BlogPage";
 import AllCoursePage from "../pages/contents/AllCoursePage";
-import AllCourseDetail from "../pages/contents/allcourse-detail";
+// import AllCourseDetail from "../pages/contents/allcourse-detail";
 import MainLayout from "../layouts/MainLayout";
 import LoginForm from "../pages/auth/LoginFrom";
 import SigupPage from "../pages/auth/SigupPage";
 import ForgetForm from "../pages/auth/ForgetForm";
 import VerifyOtp from "../pages/auth/VerifyOtp";
-import UserProfile from "../components/userprofile/UserProfilecom";
+import UserProfile from "../components/layout/navbar/userprofile/UserProfilecom.jsx";
 import Categories from "../components/common/courses/Categories";
-import LessonsCard from "../components/lesson/LessonCard";
+import LessonsCard from "../components/coursees/lesson/LessonCard.jsx";
 import ForumPage from "../pages/contents/ForumPage";
 import BlogDetail from "../components/blog/BlogDetail";
 import StemCommunity from "../pages/contents/StemCommunity.jsx";
@@ -58,11 +58,9 @@ export default function AppRoutes() {
         <Route
           path="/articles/:id"
           element={
-          
             <MainLayout>
               <BlogDetail />
             </MainLayout>
-         
           }
         />
         {/* <Route path="/stem-community" element={<StemCommunity />} />; */}
@@ -79,31 +77,25 @@ export default function AppRoutes() {
         <Route
           path="/courses"
           element={
-            
-              <MainLayout>
-                <AllCoursePage />
-              </MainLayout>
-            
+            <MainLayout>
+              <AllCoursePage />
+            </MainLayout>
           }
         />
         <Route
           path="/courses/:courseId"
           element={
-          
-              <MainLayout>
-                <AllCoursePage />
-              </MainLayout>
-            
+            <MainLayout>
+              <AllCoursePage />
+            </MainLayout>
           }
         />
         <Route
           path="/courses/:courseId/categories"
           element={
-          
-              <MainLayout>
-                <Categories />
-              </MainLayout>
-           
+            <MainLayout>
+              <Categories />
+            </MainLayout>
           }
         />
         <Route
@@ -118,15 +110,9 @@ export default function AppRoutes() {
         />
         <Route
           path="/courses/:courseId/categories/:categoryId/lessons"
-          element={
-         
-           
-                <LessonsCard />
-             
-            
-          }
+          element={<LessonsCard />}
         />
-        <Route
+        {/* <Route
           path="/lesson/:lessonId"
           element={
             <ProtectedRoute>
@@ -135,7 +121,7 @@ export default function AppRoutes() {
               </MainLayout>
             </ProtectedRoute>
           }
-        />
+        /> */}
         <Route
           path="/profile"
           element={

@@ -1,36 +1,30 @@
-import React, { useState } from "react"; 
-import {
-  ArrowRight,
-  Facebook,
-  Linkedin,
-  Github,
-  Instagram,
-} from "lucide-react";
-import img from "../../assets/images/logo/cher.png";
-import img1 from "../../assets/images/logo/ISTAD.png";
-import react from "../../assets/React.png";
-import java from "../../assets/Java-Symbol.png";
-import JS from "../../assets/JS.png";
-import phyton from "../../assets/Phyton.png";
-import Mongo from "../../assets/Mongo.png";
-import PostSql from "../../assets/postgresql-logo.png";
-import Tailwind from "../../assets/Tailwind.png";
-import Reactjs from "../../assets/React.webp";
-
+import React, { useState } from "react";
+import { ArrowRight, Facebook, Linkedin, Github, Instagram } from "lucide-react";
 import { motion } from "framer-motion";
 import ShuffleHero from "../common/Hero/SuffleHero";
 
+import img from "../../assets/images/logo/cher.png";
+import img1 from "../../assets/images/logo/ISTAD.png";
+import pic2 from "../../assets/about-us/pic2.jpg";
+import pic3 from "../../assets/about-us/pic3.jpg";
+import pic4 from "../../assets/about-us/pic4.jpg";
+import pic5 from "../../assets/about-us/pic5.jpg";
+import pic6 from "../../assets/about-us/pic6.jpg";
+import react from "../../assets/logo-tec/React.png";
+import java from "../../assets/logo-tec/Java-Symbol.png";
+import JS from "../../assets/JS.png";
+import phyton from "../../assets/logo-tec/Phyton.png";
+import Mongo from "../../assets/logo-tec/Mongo.png";
+import PostSql from "../../assets/logo-tec/postgresql-logo.png";
+import Tailwind from "../../assets/logo-tec/Tailwind.png";
+import Reactjs from "../../assets/logo-tec/React.webp";
+
 const Aboutus = () => {
-  const [openQuestion, setOpenQuestion] = useState(null); 
+  const [openQuestion, setOpenQuestion] = useState(null);
 
   const containerVariants = {
     hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.3,
-      },
-    },
+    visible: { opacity: 1, transition: { staggerChildren: 0.3 } },
   };
 
   const itemVariants = {
@@ -38,35 +32,18 @@ const Aboutus = () => {
     visible: {
       y: 0,
       opacity: 1,
-      transition: {
-        type: "spring",
-        stiffness: 100,
-        damping: 12,
-      },
+      transition: { type: "spring", stiffness: 100, damping: 12 },
     },
   };
 
   const techIconVariants = {
     hidden: { scale: 0.8, opacity: 0 },
-    visible: {
-      scale: 1,
-      opacity: 1,
-      transition: {
-        type: "spring",
-        stiffness: 200,
-      },
-    },
-    hover: {
-      scale: 1.1,
-      rotate: [0, -10, 10, -5, 5, 0],
-      transition: {
-        duration: 0.5,
-      },
-    },
+    visible: { scale: 1, opacity: 1, transition: { type: "spring", stiffness: 200 } },
+    hover: { scale: 1.1, rotate: [0, -10, 10, -5, 5, 0], transition: { duration: 0.5 } },
   };
 
-  // FAQ data with questions and answers
   const faqData = [
+    // ... (FAQ data unchanged) ...
     {
       question: "តើ iSTEM Education ជាអ្វី?",
       answer:
@@ -95,25 +72,69 @@ const Aboutus = () => {
     },
   ];
 
-  // Toggle function to open/close FAQ answers
   const toggleQuestion = (index) => {
     setOpenQuestion(openQuestion === index ? null : index);
   };
 
+
+  const teamMembers = [
+    {
+      name: "ស្រេង ជីប៉",
+      role: "Frontend Developer",
+      image: pic2,
+      description:
+        "ភ្ជាប់ទំនាក់ទំនងជាមួយអ្នកណែនាំដែលមានបទពិសោធន៍ក្នុងវិស័យ iSTEM ដែលផ្តល់ការណែនាំ ចែករំលែកការយល់ដឹងអំពីឧស្សាហកម្ម និងជួយអ្នកក្នុងការច្នៃប្រឌិត។",
+    },
+    {
+      name: "គឹម សុភ័ក្ត្រ",
+      role: "UX/UI Designer",
+      image: pic3,
+      description:
+        "អ្នកអភិវឌ្ឍន៍ដែលមានជំនាញក្នុងការបង្កើតកម្មវិធីទំនើប និងជួយសិស្សរៀនជំនាញសរសេរកូដ។",
+    },
+    {
+      name: "លី សុភាព",
+      role: "Presenter",
+      image: pic4,
+      description:
+        "អ្នករចនាដែលផ្តោតលើការបង្កើតបទពិសោធន៍អ្នកប្រើប្រាស់ដ៏ល្អ និងការអប់រំតាមរយៈការរចនា។",
+    },
+    {
+      name: "ធឿន ចន្ថាត ",
+      role: "Frontend Developer",
+      image: pic6,
+      description:
+        "គ្រូបង្រៀនដែលជួយសិស្សអភិវឌ្ឍជំនាញ STEM តាមរយៈវគ្គសិក្សាអនុវត្តជាក់ស្តែង។",
+    },
+    {
+      name: "ភូ​ កុកសេង",
+      role: "Frontend Developer",
+      image: pic5, 
+      description:
+        "អ្នកសម្របសម្រួលកម្មវិធីដែលភ្ជាប់ទំនាក់ទំនងរវាងសិស្ស និងអ្នកណែនាំក្នុងវិស័យ iSTEM។",
+    },
+    {
+      name: "សុខ រីណា",
+      role: "Content Creator",
+      image: pic3, 
+      description:
+        "អ្នកបង្កើតមាតិកាដែលផលិតធនធានអប់រំដ៏ទាក់ទាញសម្រាប់សិស្ស iSTEM។",
+    },
+  ];
+
   return (
-    <div className="w-full overflow-x-hidden bg-gradient-to-b from-white to-gray-50 pt-20">
-      <div className="max-w-content mx-4 sm:mx-8 lg:mx-16 my-5 lg:my-5">
+    <div className="w-full overflow-x-hidden bg-gradient-to-b from-white to-gray-50 ">
+      <div className="max-w-content mx-4 sm:mx-8 lg:mx-16 my-5 lg:my-0">
         <ShuffleHero />
       </div>
 
-      {/* Divider */}
       <motion.div
         initial={{ scaleX: 0 }}
         whileInView={{ scaleX: 1 }}
-        transition={{ duration: 1 }}
+        transition={{ duration: 1, ease: "easeInOut" }}
         viewport={{ once: true }}
-        className="h-24 bg-gradient-to-r from-primary via-cyan-500 to-blue-600"
-      ></motion.div>
+        className="h-1 bg-gradient-to-r from-blue-500 via-cyan-400 to-purple-500"
+      ></motion.div>-
 
       <motion.div
         initial={{ opacity: 0 }}
@@ -127,7 +148,7 @@ const Aboutus = () => {
         </h3>
       </motion.div>
 
-      {/* Teacher Cards */}
+      
       <motion.div
         variants={containerVariants}
         initial="hidden"
@@ -180,6 +201,7 @@ const Aboutus = () => {
         ))}
       </motion.div>
 
+ 
       <motion.div
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
@@ -187,7 +209,7 @@ const Aboutus = () => {
         viewport={{ once: true }}
         className="text-center py-16"
       >
-        <h3 className="text-primary text-4xl lg:text-5xl font-bold bg-gradient-to-r from-primary to-blue-500 bg-clip-text text-transparent">
+        <h3 className="text-primary text-4xl lg:text-5xl font-bold bg-gradient-to-r from-primary to-blue-500 bg-clip-text text-transparent font-suwannaphum">
           សមាជិកក្រុម
         </h3>
       </motion.div>
@@ -197,9 +219,9 @@ const Aboutus = () => {
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true }}
-        className="mx-4 sm:mx-8 lg:mx-16 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 py-10"
+        className="mx-4 sm:mx-8 lg:mx-16 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 py-10 max-w-7xl mx-auto"
       >
-        {[1, 2, 3, 4, 5, 6].map((_, index) => (
+        {teamMembers.map((member, index) => (
           <motion.div
             key={index}
             variants={itemVariants}
@@ -208,22 +230,22 @@ const Aboutus = () => {
               boxShadow:
                 "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
             }}
-            className="max-w-sm bg-white border border-gray-200 rounded-lg shadow-sm transform transition-all duration-300"
+            className="bg-white border border-gray-200 rounded-lg shadow-sm transform transition-all duration-300 overflow-hidden"
           >
-            <div className="flex justify-center p-6">
+            <div className="flex justify-center p-6 bg-gradient-to-b from-cyan-50 to-white">
               <img
                 className="rounded-full w-48 h-48 object-cover border-4 border-cyan-500"
-                src={img1}
-                alt="Team Member"
+                src={member.image}
+                alt={member.name}
               />
             </div>
             <div className="p-5 text-center">
-              <h5 className="text-2xl font-bold text-gray-900">ស្រេង ជីប៉</h5>
-              <p className="text-cyan-700 font-suwannaphum">Mentor</p>
-              <p className="mb-3 text-gray-700">
-                ភ្ជាប់ទំនាក់ទំនងជាមួយអ្នកណែនាំដែលមានបទពិសោធន៍ក្នុងវិស័យ iSTEM
-                ដែលផ្តល់ការណែនាំ ចែករំលែកការយល់ដឹងអំពីឧស្សាហកម្ម
-                និងជួយអ្នកក្នុងការច្នៃប្រឌិត និងអភិវឌ្ឍគម្រោងក្នុងពិភពពិត។
+              <h5 className="text-2xl font-bold text-gray-900 font-suwannaphum">
+                {member.name}
+              </h5>
+              <p className="text-cyan-700 font-suwannaphum">{member.role}</p>
+              <p className="mb-3 text-gray-700 font-suwannaphum">
+                {member.description}
               </p>
               <div className="flex justify-center gap-4">
                 <motion.div whileHover={{ scale: 1.2, color: "#1877F2" }}>
@@ -244,7 +266,7 @@ const Aboutus = () => {
         ))}
       </motion.div>
 
-      {/* Divider */}
+  
       <div className="flex justify-center py-10">
         <motion.div
           initial={{ width: 0 }}
@@ -255,7 +277,6 @@ const Aboutus = () => {
         ></motion.div>
       </div>
 
-      {/* Tech Stack Section */}
       <motion.div
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
@@ -276,23 +297,18 @@ const Aboutus = () => {
           whileInView="visible"
           viewport={{ once: true }}
         >
-          {[
-            "Frontend",
-            "Backend",
-            "Database",
-            "CMS",
-            "CloudTesting",
-            "DevOps",
-          ].map((stack, index) => (
-            <motion.p
-              key={index}
-              variants={itemVariants}
-              whileHover={{ scale: 1.1 }}
-              className="text-2xl lg:text-3xl font-bold text-black hover:bg-gradient-to-r hover:from-purple-700 hover:to-pink-500 hover:bg-clip-text hover:text-transparent transition-all duration-300 cursor-pointer"
-            >
-              {stack}
-            </motion.p>
-          ))}
+          {["Frontend", "Backend", "Database", "CMS", "CloudTesting", "DevOps"].map(
+            (stack, index) => (
+              <motion.p
+                key={index}
+                variants={itemVariants}
+                whileHover={{ scale: 1.1 }}
+                className="text-2xl lg:text-3xl font-bold text-black hover:bg-gradient-to-r hover:from-purple-700 hover:to-pink-500 hover:bg-clip-text hover:text-transparent transition-all duration-300 cursor-pointer"
+              >
+                {stack}
+              </motion.p>
+            )
+          )}
         </motion.div>
         <motion.div
           className="flex justify-center gap-16 flex-wrap"
@@ -361,7 +377,7 @@ const Aboutus = () => {
         </motion.div>
       </motion.div>
 
-      {/* FAQ Section */}
+  
       <motion.div
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
@@ -389,7 +405,7 @@ const Aboutus = () => {
               className="border-l-4 border-blue-500 bg-gray-50 rounded-r-lg p-4 mb-4 transition-all duration-300 hover:bg-blue-50 hover:shadow-md cursor-pointer"
               onClick={() => toggleQuestion(index)}
             >
-              <p className="text-lg font-semibold  text-gray-800 font-suwannaphum">
+              <p className="text-lg font-semibold text-gray-800 font-suwannaphum">
                 {faq.question}
               </p>
               {openQuestion === index && (
@@ -407,8 +423,8 @@ const Aboutus = () => {
           ))}
         </motion.div>
       </motion.div>
+
       <div className="fixed top-20 right-10 w-16 h-16 bg-blue-400 rounded-full opacity-20 animate-pulse"></div>
-      <div className="fixed bottom-20 left-10 w-24 h-24 bg-purple-500 rounded-full opacity-20 animate-pulse"></div>
       <div className="fixed top-1/2 left-10 w-10 h-10 bg-pink-400 rounded-full opacity-20 animate-bounce"></div>
     </div>
   );
