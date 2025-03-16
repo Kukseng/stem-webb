@@ -232,7 +232,7 @@ function MainNavbar() {
             ) : (
               <Link to="/login">
                 <div className="flex items-center space-x-4 sm:space-x-3">
-                  <button className="hidden sm:block text-primary hover:text-[#1e8fb8] text-[16px] xl:text-[16px] font-medium transition-colors whitespace-nowrap">
+                  <button className="hidden sm:block text-primary hover:text-[#1e8fb8] 2xl:text-[22px] xl:text-[20px] md:text-[18px] lg:text-[19px] text-[16px] font-medium transition-colors whitespace-nowrap">
                     ចូលគណនី
                   </button>
                 </div>
