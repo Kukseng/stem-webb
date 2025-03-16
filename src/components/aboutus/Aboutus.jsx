@@ -6,6 +6,7 @@ import ShuffleHero from "../common/Hero/SuffleHero";
 import img from "../../assets/images/logo/cher.png";
 // import img1 from "../../assets/images/logo/ISTAD.png";
 // import pic2 from "../../assets/about-us/pic2.jpg";
+import pic2 from "../../assets/about-us/pic2.jpg";
 import pic3 from "../../assets/about-us/pic3.jpg";
 import pic4 from "../../assets/about-us/pic4.jpg";
 import pic5 from "../../assets/about-us/pic5.jpg";
@@ -81,7 +82,7 @@ const Aboutus = () => {
     {
       name: "ស្រេង ជីប៉",
       role: "Frontend Developer",
-      image: pic3,
+      image: pic2,
       description:
         "ភ្ជាប់ទំនាក់ទំនងជាមួយអ្នកណែនាំដែលមានបទពិសោធន៍ក្នុងវិស័យ iSTEM ដែលផ្តល់ការណែនាំ ចែករំលែកការយល់ដឹងអំពីឧស្សាហកម្ម និងជួយអ្នកក្នុងការច្នៃប្រឌិត។",
     },
