@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { useSelector } from "react-redux";
 import {
   FaCalendarAlt,
@@ -12,29 +12,17 @@ import {
   FaTimes,
 } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
-import {
-  useGetAllArticlesQuery,
- 
-} from "../../api/articles-api";
+import { useGetAllArticlesQuery } from "../../api/articles-api";
 import BlogComponent from "../../components/blog/BlogComponent";
-import CreateCourseForm from "../../components/coursees/form/CreateCourse";
-import ArticleCrud from "../../components/ArticleCrud";
-import StemCommunity from "./StemCommunity";
+import { AuthContext } from "../../components/context/AuthContext";
 
 const BlogPage = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState("");
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
-  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
-  const [selectedPost, setSelectedPost] = useState(null);
-  const [formData, setFormData] = useState({
-    title: "",
-    content: "",
-    image: "",
-  });
 
   const navigate = useNavigate();
-  const { user } = useSelector((state) => state.auth);
+  const { user, isLoading: authLoading } = useContext(AuthContext); // Fetch from AuthContext
   const isLoggedIn = !!user;
 
   // Fetch all articles with pagination
@@ -42,9 +30,30 @@ const BlogPage = () => {
     page: currentPage,
   });
 
+  // Handle loading state for auth and data
+  if (authLoading || isLoading) {
+    return (
+      <div className="max-w-6xl mx-auto px-4 py-8 flex justify-center items-center">
+        <div className="text-center">
+          <div className="w-16 h-16 border-4 border-t-[#16789e] border-gray-200 rounded-full animate-spin mx-auto"></div>
+          <p className="mt-4 text-gray-600">កំពុងផ្ទុក...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (isError) {
+    return (
+      <div className="max-w-6xl mx-auto px-4 py-8 text-center">
+        <p className="text-red-500">
+          មានបញ្ហាក្នុងការផ្ទុកអត្ថបទ: {error?.message || "សូមព្យាយាមម្តងទៀត"}
+        </p>
+      </div>
+    );
+  }
+
   return (
     <div className="max-w-6xl mx-auto px-4 py-8 font-sans">
-      {/* Header */}
       <header className="flex flex-col md:flex-row justify-between items-center mb-8">
         <h1 className="text-3xl font-bold text-gray-800 mb-4 md:mb-0">
           អត្ថបទទាំងអស់
@@ -68,10 +77,7 @@ const BlogPage = () => {
         </div>
       </header>
 
-      <BlogComponent />
-      {/* <CreateCourseForm/> */}
-      {/* <StemCommunity/> */}
-      <ArticleCrud />
+      <BlogComponent articles={data?.results || []} isLoggedIn={isLoggedIn} />
     </div>
   );
 };

@@ -7,18 +7,17 @@ import CoursePage from "../pages/contents/course/coursepage";
 import AboutPage from "../pages/contents/AboutPage";
 import BlogPage from "../pages/contents/BlogPage";
 import AllCoursePage from "../pages/contents/AllCoursePage";
-// import AllCourseDetail from "../pages/contents/allcourse-detail";
 import MainLayout from "../layouts/MainLayout";
 import LoginForm from "../pages/auth/LoginFrom";
 import SigupPage from "../pages/auth/SigupPage";
 import ForgetForm from "../pages/auth/ForgetForm";
 import VerifyOtp from "../pages/auth/VerifyOtp";
-import UserProfile from "../components/layout/navbar/userprofile/UserProfilecom.jsx";
 import Categories from "../components/common/courses/Categories";
 import LessonsCard from "../components/coursees/lesson/LessonCard.jsx";
 import ForumPage from "../pages/contents/ForumPage";
 import BlogDetail from "../components/blog/BlogDetail";
 import StemCommunity from "../pages/contents/StemCommunity.jsx";
+import ProfilePage from "../pages/contents/ProfilePage.jsx";
 
 export default function AppRoutes() {
   return (
@@ -48,7 +47,7 @@ export default function AppRoutes() {
           }
         />
         <Route
-          path="/blog"
+          path="/articles"
           element={
             <MainLayout>
               <BlogPage />
@@ -56,14 +55,15 @@ export default function AppRoutes() {
           }
         />
         <Route
-          path="/articles/:id"
+          path="/articles/:id/"
           element={
-            <MainLayout>
-              <BlogDetail />
-            </MainLayout>
+            <ProtectedRoute>
+              <MainLayout>
+                <BlogDetail />
+              </MainLayout>
+            </ProtectedRoute>
           }
         />
-        {/* <Route path="/stem-community" element={<StemCommunity />} />; */}
         <Route
           path="/forums"
           element={
@@ -112,22 +112,12 @@ export default function AppRoutes() {
           path="/courses/:courseId/categories/:categoryId/lessons"
           element={<LessonsCard />}
         />
-        {/* <Route
-          path="/lesson/:lessonId"
-          element={
-            <ProtectedRoute>
-              <MainLayout>
-                <AllCourseDetail />
-              </MainLayout>
-            </ProtectedRoute>
-          }
-        /> */}
         <Route
           path="/profile"
           element={
             <ProtectedRoute>
               <MainLayout>
-                <UserProfile />
+                <ProfilePage />
               </MainLayout>
             </ProtectedRoute>
           }

@@ -1,20 +1,22 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import {
   useGetProfileQuery,
   useUpdateProfileMutation,
 } from "../../../../api/auth-api";
-import { User, Camera, MapPin, X, Save, LogOut } from "lucide-react";
-import { motion } from "framer-motion";
+import { User, Camera, MapPin, X, Save, LogOut, Menu } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 import { FaChevronRight } from "react-icons/fa6";
 import { useNavigate } from "react-router-dom";
 import CreateCourseForm from "../../../coursees/form/CreateCourse";
 import { Settings, BookOpen, Clock, FileText } from "lucide-react";
+import { AuthContext } from "../../../context/AuthContext"; 
 
 const UserProfile = () => {
   const [activeSection, setActiveSection] = useState(0);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const { data, isLoading, isError, error } = useGetProfileQuery();
   const navigate = useNavigate();
-  const primaryColor = "#16789e";
+  const { logout } = useContext(AuthContext); 
 
   const sidebarItems = [
     {
@@ -53,22 +55,34 @@ const UserProfile = () => {
   if (isError)
     return (
       <div className="text-center py-10 text-red-500">
-        កំហុស: {error.message}
+        កំហុខ: {error.message}
       </div>
     );
 
-  const handleLogout = () => navigate("/login");
+  const handleLogout = () => {
+    logout(); // Call logout from AuthContext
+    navigate("/login");
+  };
 
   return (
-    <div className="font-suwannaphum min-h-screen bg-gradient-to-b from-gray-50 to-gray-100">
+    <div className="font-suwannaphum min-h-screen bg-gray-100">
       {/* Header */}
       <motion.header
         initial={{ y: -50, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.5 }}
-        className="bg-white shadow-lg p-4 flex items-center justify-between sticky top-0 z-10"
+        className="bg-white shadow-lg p-4 flex items-center justify-between sticky top-0 z-20"
       >
-        {/* <div className="flex items-center gap-4">
+        <div className="flex items-center gap-4">
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+            className="md:hidden text-[#16789e] hover:text-[#0e5a75] transition-colors"
+            aria-label="Toggle Sidebar"
+          >
+            <Menu size={24} />
+          </motion.button>
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
@@ -77,9 +91,11 @@ const UserProfile = () => {
           >
             <FaChevronRight className="rotate-180" size={16} /> ទំព័រដើម
           </motion.button>
-          <h1 className="text-xl font-bold text-gray-800">ផ្ទាំងគ្រប់គ្រង</h1>
-        </div> */}
-        {/* <div className="flex items-center gap-4">
+          <h1 className="text-lg md:text-xl font-bold text-gray-800">
+            ផ្ទាំងគ្រប់គ្រង
+          </h1>
+        </div>
+        <div className="flex items-center gap-4">
           <span className="text-gray-700 font-medium hidden sm:block">
             {data?.first_name} {data?.last_name}
           </span>
@@ -87,21 +103,86 @@ const UserProfile = () => {
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             onClick={handleLogout}
-            className="bg-[#16789e] text-white px-4 py-2 rounded-lg hover:bg-[#0e5a75] flex items-center gap-2 transition-colors"
+            className="bg-[#16789e] text-white px-3 py-1.5 md:px-4 md:py-2 rounded-lg hover:bg-[#0e5a75] flex items-center gap-2 transition-colors text-sm md:text-base"
           >
             <LogOut size={16} /> ចាកចេញ
           </motion.button>
-        </div> */}
+        </div>
       </motion.header>
 
       {/* Main Layout */}
       <div className="max-w-[1300px] mx-auto py-6 px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row gap-6">
-        {/* Sidebar */}
+        {/* Sidebar (Mobile: Collapsible, Desktop: Fixed) */}
+        <AnimatePresence>
+          {isSidebarOpen && (
+            <motion.aside
+              initial={{ x: -300, opacity: 0 }}
+              animate={{ x: 0, opacity: 1 }}
+              exit={{ x: -300, opacity: 0 }}
+              transition={{ duration: 0.3 }}
+              className="fixed inset-y-0 left-0 w-64 bg-white rounded-r-xl shadow-lg p-4 z-30 md:static md:w-64 md:flex-shrink-0 md:rounded-xl md:shadow-lg"
+            >
+              <div className="flex justify-between items-center mb-4 md:hidden">
+                <h2 className="text-lg font-bold text-gray-800">ម៉ឺនុយ</h2>
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={() => setIsSidebarOpen(false)}
+                  className="text-gray-600 hover:text-[#16789e] transition-colors"
+                  aria-label="Close Sidebar"
+                >
+                  <X size={24} />
+                </motion.button>
+              </div>
+              <div className="space-y-2">
+                {sidebarItems.map((item, index) => (
+                  <motion.button
+                    key={index}
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                    onClick={() => {
+                      setActiveSection(index);
+                      setIsSidebarOpen(false); // Close sidebar on mobile after selection
+                    }}
+                    className={`w-full flex items-center justify-between p-3 rounded-lg transition-all duration-300 text-left ${
+                      activeSection === index
+                        ? "bg-[#16789e] text-white shadow-md"
+                        : "text-gray-700 hover:bg-gray-50"
+                    }`}
+                  >
+                    <div className="flex items-center gap-3">
+                      {item.icon}
+                      <span className="text-sm font-medium">{item.text}</span>
+                    </div>
+                    <FaChevronRight
+                      className={`transition-transform duration-300 ${
+                        activeSection === index ? "rotate-90" : ""
+                      }`}
+                    />
+                  </motion.button>
+                ))}
+              </div>
+            </motion.aside>
+          )}
+        </AnimatePresence>
+        {/* Overlay for Mobile Sidebar */}
+        {isSidebarOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 0.5 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            onClick={() => setIsSidebarOpen(false)}
+            className="fixed inset-0 bg-black opacity-50 z-20 md:hidden"
+          />
+        )}
+
+        {/* Sidebar (Desktop: Always Visible) */}
         <motion.aside
           initial={{ x: -50, opacity: 0 }}
           animate={{ x: 0, opacity: 1 }}
           transition={{ duration: 0.5 }}
-          className="w-full md:w-64 bg-white rounded-xl shadow-lg p-4 flex-shrink-0"
+          className="hidden md:block w-64 bg-white rounded-xl shadow-lg p-4 flex-shrink-0"
         >
           <div className="space-y-2">
             {sidebarItems.map((item, index) => (
@@ -110,7 +191,7 @@ const UserProfile = () => {
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
                 onClick={() => setActiveSection(index)}
-                className={`w-full flex items-center justify-between p-3 rounded-lg transition-all duration-300 ${
+                className={`w-full flex items-center justify-between p-3 rounded-lg transition-all duration-300 text-left ${
                   activeSection === index
                     ? "bg-[#16789e] text-white shadow-md"
                     : "text-gray-700 hover:bg-gray-50"
@@ -135,7 +216,7 @@ const UserProfile = () => {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.5 }}
-          className="flex-1 bg-white rounded-xl shadow-lg p-6"
+          className="flex-1 bg-white rounded-xl shadow-lg p-4 sm:p-6"
         >
           {sidebarItems[activeSection].component}
         </motion.main>
@@ -186,7 +267,7 @@ const UserInfo = () => {
     } catch (err) {
       alert(
         "បរាជ័យក្នុងការធ្វើបច្ចុប្បន្នភាព: " +
-          (err.data?.detail || "កំហុសមិនស្គាល់")
+          (err.data?.detail || "កំហធមិនស្គាល់")
       );
     }
   };
@@ -196,7 +277,7 @@ const UserInfo = () => {
   if (error)
     return (
       <div className="text-center py-10 text-red-500">
-        កំហុស: {error.data?.detail}
+        កំហធ: {error.data?.detail}
       </div>
     );
 
@@ -208,8 +289,8 @@ const UserInfo = () => {
       className="space-y-6"
     >
       {/* Profile Card */}
-      <div className="bg-gradient-to-r from-[#16789e]/10 to-gray-50 p-6 rounded-lg shadow-sm">
-        <div className="flex flex-col sm:flex-row items-center gap-6">
+      <div className="bg-gradient-to-r from-[#16789e]/10 to-gray-50 p-4 sm:p-6 rounded-lg shadow-sm">
+        <div className="flex flex-col sm:flex-row items-center gap-4 sm:gap-6">
           <div
             className="relative group cursor-pointer"
             onMouseEnter={() => setIsHovered(true)}
@@ -238,7 +319,7 @@ const UserInfo = () => {
             </motion.div>
           </div>
           <div className="text-center sm:text-left flex-1">
-            <h2 className="text-xl font-bold text-gray-800">
+            <h2 className="text-lg sm:text-xl font-bold text-gray-800">
               {formData.first_name} {formData.last_name}
             </h2>
             <p className="text-gray-600 text-sm">សិស្ស</p>
@@ -250,7 +331,7 @@ const UserInfo = () => {
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            className="bg-[#16789e] text-white px-4 py-2 rounded-lg hover:bg-[#0e5a75] transition-colors"
+            className="bg-[#16789e] text-white px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg hover:bg-[#0e5a75] transition-colors text-sm sm:text-base"
           >
             ប្ដូររូបថត
           </motion.button>
@@ -258,7 +339,7 @@ const UserInfo = () => {
       </div>
 
       {/* Form Card */}
-      <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-100">
+      <div className="bg-white p-4 sm:p-6 rounded-lg shadow-sm border border-gray-100">
         <h3 className="text-lg font-semibold text-gray-800 mb-4">
           ព័ត៌មានផ្ទាល់ខ្លួន
         </h3>
@@ -307,7 +388,7 @@ const UserInfo = () => {
               whileTap={{ scale: 0.95 }}
               type="submit"
               disabled={isUpdating}
-              className={`flex-1 bg-[#16789e] text-white px-4 py-2 rounded-lg hover:bg-[#0e5a75] transition-colors flex items-center justify-center gap-2 ${
+              className={`flex-1 bg-[#16789e] text-white px-4 py-2 rounded-lg hover:bg-[#0e5a75] transition-colors flex items-center justify-center gap-2 text-sm sm:text-base ${
                 isUpdating ? "opacity-50 cursor-not-allowed" : ""
               }`}
             >
@@ -318,7 +399,7 @@ const UserInfo = () => {
               whileTap={{ scale: 0.95 }}
               type="button"
               onClick={() => navigate("/")}
-              className="flex-1 border border-gray-300 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-50 transition-colors flex items-center justify-center gap-2"
+              className="flex-1 border border-gray-300 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-50 transition-colors flex items-center justify-center gap-2 text-sm sm:text-base"
             >
               <X size={16} /> ត្រឡប់
             </motion.button>
@@ -359,10 +440,10 @@ const InputField = ({
 
 // Placeholder Components
 const TimeReportsContent = () => (
-  <div className="p-6 text-gray-600">របាយការណ៍ម៉ោង (មកនៅទីនេះ)</div>
+  <div className="p-4 sm:p-6 text-gray-600">របាយការណ៍ម៉ោង (មកនៅទីនេះ)</div>
 );
 const QuestionReportsContent = () => (
-  <div className="p-6 text-gray-600">របាយការណ៍សំណួរ (មកនៅទីនេះ)</div>
+  <div className="p-4 sm:p-6 text-gray-600">របាយការណ៍សំណួរ (មកនៅទីនេះ)</div>
 );
 
 export default UserProfile;

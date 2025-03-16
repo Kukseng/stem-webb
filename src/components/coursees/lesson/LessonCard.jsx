@@ -37,9 +37,7 @@ const LessonsCard = () => {
   const lessons = location.state?.lessons || [];
   const courseTitle = location.state?.courseTitle || "វគ្គសិក្សា";
   const instructor = location.state?.instructor || {
-    uuid: "default-uuid",
-    username: "Pensive-Tesla",
-    image: "",
+   
   };
 
   const [selectedLesson, setSelectedLesson] = useState(lessons[0] || null);

@@ -23,7 +23,7 @@ const navItems = [
   { label: "ទំព័រដើម", href: "/" },
   { label: "វគ្គសិក្សា", href: "/courses" },
   { label: "វេទិកា", href: "/forums" },
-  { label: "មាតិកា", href: "/blog" },
+  { label: "អត្ថបទ", href: "/articles" },
   { label: "អំពីពួកយើង", href: "/aboutus" },
 ];
 
@@ -75,7 +75,7 @@ function MainNavbar() {
   const handleLogout = () => {
     dispatch(logout());
     contextLogout();
-    navigate("/login");
+    navigate("/");
   };
 
   const userName = profileLoading

@@ -14,9 +14,9 @@ export const articleApi = apiSlice.injectEndpoints({
       query: ({ page = 1 }) => `articles/?page=${page}`, // Updated to support pagination
       providesTags: ['Article'],
     }),
-    getArticleById: builder.query({
-      query: (id) => `articles/${id}`,
-      providesTags: ['Article'],
+   getArticleById: builder.query({
+      query: (id) => `articles/${id}/`, // Add trailing slash to match server expectation
+      providesTags: ["Article"],
     }),
     updateArticle: builder.mutation({
       query: ({ id, ...articleData }) => ({

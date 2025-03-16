@@ -2,9 +2,11 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import { ArrowRight, Facebook, Linkedin, Github, Instagram } from "lucide-react";
 import javaImage from "../../../assets/banner-r.png";
+import pic7 from "../../../assets/images/about-us/pic7.png";
+import pic8 from "../../../assets/images/about-us/pic8.png";
+import pic9 from "../../../assets/images/about-us/pic9.png";
 import pic2 from "../../../assets/images/about-us/pic2.png";
 import pic3 from "../../../assets/images/about-us/pic3.png";
-import pic4 from "../../../assets/images/about-us/pic4.png";
 
 const ShuffleHero = () => {
   return (
@@ -56,12 +58,12 @@ const shuffle = (array) => {
 
 // Updated squareData with your local images
 const squareData = [
-  { id: 1, src: pic2 },
-  { id: 2, src: pic3 },
-  { id: 3, src: pic2 },
-  { id: 4, src: pic4 }, // Removed empty string, reusing javaImage
-  { id: 5, src: pic2 },
-  { id: 6, src: pic3 },
+  { id: 1, src: pic7 },
+  { id: 2, src: pic8 },
+  { id: 3, src: pic9 },
+  { id: 4, src: pic7 }, // Removed empty string, reusing javaImage
+  // { id: 5, src: pic2 },
+  // { id: 6, src: pic3 },
 ];
 
 const generateSquares = (data) => {
@@ -109,7 +111,7 @@ const ShuffleGrid = () => {
   };
 
   return (
-    <div className="grid grid-cols-3 grid-rows-2 h-[500px] md:h-[600px] gap-4 relative will-change-transform">
+    <div className="grid grid-cols-2 grid-rows-2 h-[500px] md:h-[600px] gap-4 relative will-change-transform">
       <AnimatePresence mode="popLayout">
         {generateSquares(shuffledData)}
       </AnimatePresence>

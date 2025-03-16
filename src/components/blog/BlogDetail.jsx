@@ -1,14 +1,30 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useContext } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { FaCalendarAlt, FaEye, FaArrowLeft, FaShare, FaBookmark, FaPrint } from "react-icons/fa";
-import { useGetArticleByIdQuery } from "../../api/articles-api";
+import { useGetArticleByIdQuery, useGetAllArticlesQuery } from "../../api/articles-api";
+import { useSelector } from "react-redux";
+import { AuthContext } from "../context/AuthContext";
 
 const BlogDetail = () => {
   const { id } = useParams();
   const navigate = useNavigate();
+  const { accessToken } = useSelector((state) => state.auth);
+  const { user, isLoading: authLoading } = useContext(AuthContext);
 
-  const { data: article, isLoading, isError, error } = useGetArticleByIdQuery(id);
+  // Fetch the current article
+  const { data: article, isLoading, isError, error, refetch } = useGetArticleByIdQuery(id, {
+    skip: !accessToken || !user,
+  });
+
+  // Fetch all articles to display related ones (limit to 3)
+  const { data: allArticles, isLoading: articlesLoading } = useGetAllArticlesQuery(undefined, {
+    skip: !accessToken || !user,
+  });
+
+  useEffect(() => {
+    console.log("Auth Status:", { user, accessToken, authLoading });
+  }, [user, accessToken, authLoading]);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -19,14 +35,6 @@ const BlogDetail = () => {
       document.title = "Blog";
     };
   }, [article]);
-
-  useEffect(() => {
-    if (isError) {
-      console.error("Fetch error:", error);
-    } else if (article) {
-      console.log("Article fetched:", article);
-    }
-  }, [isError, error, article]);
 
   const handleGoBack = () => {
     navigate(-1);
@@ -47,7 +55,12 @@ const BlogDetail = () => {
     ));
   };
 
-  if (isLoading) {
+  // Filter out the current article and take 3 related articles
+  const relatedArticles = allArticles
+    ? allArticles.filter((a) => a.id !== Number(id)).slice(0, 3)
+    : [];
+
+  if (authLoading || isLoading) {
     return (
       <div className="max-w-4xl mx-auto px-4 py-16 flex justify-center items-center">
         <div className="text-center">
@@ -59,6 +72,17 @@ const BlogDetail = () => {
   }
 
   if (isError) {
+    let errorMessage = "មានបញ្ហាក្នុងការផ្ទុកអត្ថបទ។ សូមព្យាយាមម្តងទៀត។";
+    if (error?.status === "FETCH_ERROR") {
+      errorMessage = "បញ្ហាបណ្តាញ៖ មិនអាចភ្ជាប់ទៅ API បាន។ សូមពិនិត្យការតភ្ជាប់អ៊ីនធឺណិត ឬទាក់ទងអ្នកគ្រប់គ្រង។";
+    } else if (error?.status === 404) {
+      errorMessage = "អត្ថបទមិនត្រូវបានរកឃើញ។";
+    } else if (error?.status === 401) {
+      errorMessage = "សូមចូលគណនីដើម្បីមើលអត្ថបទនេះ។";
+    } else if (error?.status === 500) {
+      errorMessage = "កំហុសខាងម៉ាស៊ីនមេ។ សូមទាក់ទងអ្នកគ្រប់គ្រង។";
+    }
+
     return (
       <motion.div
         className="max-w-4xl mx-auto px-4 py-16 bg-red-50 rounded-lg shadow-md text-center"
@@ -66,20 +90,28 @@ const BlogDetail = () => {
         animate={{ opacity: 1 }}
       >
         <h2 className="text-2xl font-bold text-red-600 mb-2">មានបញ្ហាក្នុងការផ្ទុកអត្ថបទ</h2>
-        <p className="text-red-500 mb-4">
-          {error?.status === "FETCH_ERROR"
-            ? "បញ្ហា CORS ឬបណ្តាញ៖ មិនអាចភ្ជាប់ទៅ API បាន"
-            : error?.data?.message || "សូមព្យាយាមម្តងទៀត ឬត្រឡប់ទៅទំព័រមុន"}
-        </p>
-        <motion.button
-          className="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 transition-colors"
-          onClick={handleGoBack}
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-        >
-          <FaArrowLeft className="inline mr-2" />
-          ត្រឡប់ក្រោយ
-        </motion.button>
+        <p className="text-red-500 mb-4">{errorMessage}</p>
+        <div className="space-x-4">
+          <motion.button
+            className="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 transition-colors"
+            onClick={handleGoBack}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            <FaArrowLeft className="inline mr-2" />
+            ត្រឡប់ក្រោយ
+          </motion.button>
+          {error?.status === "FETCH_ERROR" && (
+            <motion.button
+              className="px-4 py-2 bg-[#16789e] text-white rounded-md hover:bg-[#0c5a77] transition-colors"
+              onClick={refetch}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              ព្យាយាមម្តងទៀត
+            </motion.button>
+          )}
+        </div>
       </motion.div>
     );
   }
@@ -122,7 +154,7 @@ const BlogDetail = () => {
         >
           <div className="relative">
             <img
-              src={article.image}
+              src={article.image || "https://via.placeholder.com/1200x600?text=No+Image"}
               alt={article.title}
               className="w-full h-80 object-cover"
               onError={(e) => (e.target.src = "https://via.placeholder.com/1200x600?text=No+Image")}
@@ -172,7 +204,7 @@ const BlogDetail = () => {
             </div>
 
             <motion.div
-              className="prose max-w-none"
+              className="prose max-w-none text-[24px]"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.3, duration: 0.5 }}
@@ -197,23 +229,52 @@ const BlogDetail = () => {
               </div>
             )}
 
+            {/* Enhanced Related Articles Section */}
             <div className="mt-10 pt-6 border-t border-gray-100">
-              <h3 className="text-xl font-bold text-gray-800 mb-4">អត្ថបទដែលទាក់ទង</h3>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                {[1, 2, 3].map((item) => (
-                  <motion.div
-                    key={item}
-                    className="bg-gray-50 rounded-lg overflow-hidden cursor-pointer"
-                    whileHover={{ y: -5 }}
-                  >
-                    <div className="h-40 bg-gray-200"></div>
-                    <div className="p-3">
-                      <div className="h-5 bg-gray-300 rounded w-3/4 mb-2"></div>
-                      <div className="h-4 bg-gray-200 rounded w-1/2"></div>
-                    </div>
-                  </motion.div>
-                ))}
-              </div>
+              <h3 className="text-xl font-bold text-gray-800 mb-6">អត្ថបទដែលទាក់ទង</h3>
+              {articlesLoading ? (
+                <div className="text-center text-gray-600">កំពុងផ្ទុកអត្ថបទទាក់ទង...</div>
+              ) : relatedArticles.length > 0 ? (
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                  {relatedArticles.map((relatedArticle) => (
+                    <motion.div
+                      key={relatedArticle.id}
+                      className="bg-white rounded-lg shadow-md overflow-hidden cursor-pointer transition-all duration-300 hover:shadow-lg"
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.5 }}
+                      whileHover={{ y: -5 }}
+                      onClick={() => navigate(`/articles/${relatedArticle.id}`)}
+                    >
+                      <img
+                        src={relatedArticle.image || "https://via.placeholder.com/400x200?text=No+Image"}
+                        alt={relatedArticle.title}
+                        className="w-full h-40 object-cover"
+                        onError={(e) => (e.target.src = "https://via.placeholder.com/400x200?text=No+Image")}
+                      />
+                      <div className="p-4">
+                        <h4 className="text-lg font-semibold text-gray-800 line-clamp-2">
+                          {relatedArticle.title}
+                        </h4>
+                        <p className="text-sm text-gray-600 mt-1 flex items-center">
+                          <FaCalendarAlt className="mr-1" />
+                          {formatDate(relatedArticle.created_at)}
+                        </p>
+                        <p className="text-lg text-gray-500 mt-2 line-clamp-2">
+                          {relatedArticle.content.split("\n")[0] || "មិនមានអត្ថបទ"}
+                        </p>
+                        <button
+                          className="mt-3 text-[#16789e] hover:text-[#0c5a77] text-sm font-medium transition-colors"
+                        >
+                          អានបន្ត →
+                        </button>
+                      </div>
+                    </motion.div>
+                  ))}
+                </div>
+              ) : (
+                <p className="text-gray-600 text-center">មិនមានអត្ថបទទាក់ទងទេ។</p>
+              )}
             </div>
           </div>
         </motion.div>

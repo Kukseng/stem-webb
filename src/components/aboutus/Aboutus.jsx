@@ -9,7 +9,8 @@ import {
 import { motion } from "framer-motion";
 import ShuffleHero from "../common/Hero/SuffleHero.jsx";
 
-import img from "../../assets/images/logo/cher.png";
+import img from "../../assets/images/about-us/cherpheng.png";
+import img1 from "../../assets/images/about-us/cherpor.png";
 // import img1 from "../../assets/images/logo/ISTAD.png";
 // import pic2 from "../../assets/about-us/pic2.jpg";
 // import cher from "../../assets/images/logo/cher.png";
@@ -96,22 +97,22 @@ const Aboutus = () => {
 
   const teamMembers = [
     {
-      name: "ស្រេង ជីប៉",
+      name: "ឈួ អុីឈាន",
       role: "Frontend Developer",
       image: pic2,
       description:
         "ភ្ជាប់ទំនាក់ទំនងជាមួយអ្នកណែនាំដែលមានបទពិសោធន៍ក្នុងវិស័យ iSTEM ដែលផ្តល់ការណែនាំ ចែករំលែកការយល់ដឹងអំពីឧស្សាហកម្ម និងជួយអ្នកក្នុងការច្នៃប្រឌិត។",
     },
     {
-      name: "គឹម សុភ័ក្ត្រ",
-      role: "UX/UI Designer",
+      name: "រីន បុនវ៉ាន",
+      role: "Presenter",
       image: pic3,
       description:
         "អ្នកអភិវឌ្ឍន៍ដែលមានជំនាញក្នុងការបង្កើតកម្មវិធីទំនើប និងជួយសិស្សរៀនជំនាញសរសេរកូដ។",
     },
     {
-      name: "លី សុភាព",
-      role: "Presenter",
+      name: "ផន សុធារ៉ា",
+      role: "UX/UI Designer",
       image: pic4,
       description:
         "អ្នករចនាដែលផ្តោតលើការបង្កើតបទពិសោធន៍អ្នកប្រើប្រាស់ដ៏ល្អ និងការអប់រំតាមរយៈការរចនា។",
@@ -170,9 +171,9 @@ const Aboutus = () => {
         viewport={{ once: true }}
         className="mx-4 sm:mx-8 lg:mx-16 flex flex-wrap justify-center gap-8 py-10"
       >
-        {[1, 2].map((_, index) => (
+      
           <motion.div
-            key={index}
+          
             variants={itemVariants}
             whileHover={{
               y: -10,
@@ -212,7 +213,48 @@ const Aboutus = () => {
               </motion.div>
             </div>
           </motion.div>
-        ))}
+          <motion.div
+          
+          variants={itemVariants}
+          whileHover={{
+            y: -10,
+            boxShadow:
+              "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
+          }}
+          className="max-w-sm bg-white border border-gray-200 rounded-lg shadow-sm transform transition-all duration-300"
+        >
+          <div className="flex justify-center p-6">
+            <img
+              className="rounded-full w-48 h-48 object-cover border-4 border-primary"
+              src={img1}
+              alt="Teacher"
+            />
+          </div>
+          <div className="p-5 text-center">
+            <h5 className="text-2xl font-bold text-gray-900">
+            ស្រេង ជីប៉
+            </h5>
+            <p className="text-cyan-700 font-suwannaphum">Mentor</p>
+            <p className="mb-3 text-gray-700">
+              ភ្ជាប់ទំនាក់ទំនងជាមួយអ្នកណែនាំដែលមានបទពិសោធន៍ក្នុងវិស័យ iSTEM
+              ដែលផ្តល់ការណែនាំ ចែករំលែកការយល់ដឹងអំពីឧស្សាហកម្ម
+              និងជួយអ្នកក្នុងការច្នៃប្រឌិត និងអភិវឌ្ឍ។
+            </p>
+            <motion.div
+              className="flex justify-center gap-4"
+              animate={{ y: [0, 5, 0] }}
+              transition={{ repeat: Infinity, duration: 2 }}
+            >
+              <motion.div whileHover={{ scale: 1.2, color: "#1877F2" }}>
+                <Facebook className="text-gray-700" />
+              </motion.div>
+              <motion.div whileHover={{ scale: 1.2, color: "#0A66C2" }}>
+                <Linkedin className="text-gray-700" />
+              </motion.div>
+            </motion.div>
+          </div>
+        </motion.div>
+   
       </motion.div>
       <motion.div
         initial={{ opacity: 0 }}
