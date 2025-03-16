@@ -467,8 +467,8 @@ const AllCoursePage = () => {
                       </div>
                       <div className="p-5">
                         <h3 className="text-lg font-semibold text-gray-800 mb-2 line-clamp-2">{course.course_name}</h3>
-                        <p className="text-gray-600 text-sm mb-3 line-clamp-2">{course.course_description || "មិនមានការពិពណ៌នា"}</p>
-                        <div className="flex justify-between items-center text-sm">
+                        <p className="text-gray-600 text-[18px] mb-3 line-clamp-2">{course.course_description || "មិនមានការពិពណ៌នា"}</p>
+                        <div className="flex justify-between items-center text-[16px]">
                           <span className="text-gray-500">{course.categories?.length || 0} មេរៀន</span>
                           <span className="text-[#16789e] font-medium flex items-center gap-1">
                             <FaClock className="text-xs" /> {course.duration || "មិនបានកំណត់"} នាទី
@@ -558,7 +558,7 @@ const AllCoursePage = () => {
                           loading="lazy"
                         />
                       </div>
-                      <p className="text-gray-600 mb-4 line-clamp-2 text-sm">{category.category_description || "មិនមានការពិពណ៌នា"}</p>
+                      <p className="text-gray-600 mb-4 line-clamp-2 text-[18px] md:text-[20px]">{category.category_description || "មិនមានការពិពណ៌នា"}</p>
                       <div className="flex justify-end">
                         <button className="text-[#16789e] text-sm font-medium hover:underline flex items-center gap-1">
                           មើលមេរៀន →

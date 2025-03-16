@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { motion, AnimatePresence } from "framer-motion";
 import {
@@ -8,18 +8,18 @@ import {
   useDeleteForumMutation,
   useReplyToForumMutation,
 } from "../../api/forums-api";
-import { FaSpinner } from "react-icons/fa";
 import { useGetProfileQuery } from "../../api/auth-api";
 import ForumCard from "../../components/coursees/forum/ForumCard.jsx";
 import ForumForm from "../../components/coursees/forum/ForumForm";
+import SkeletonForumCard from "../../components/coursees/forum/SkeletonForumCard.jsx"; // New import
 import { FiSearch, FiPlus, FiX } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../components/context/AuthContext.jsx";
 
 const designSystem = {
   colors: {
-    primary: " #16789e",
-    primaryDark: "#4338CA",
+    primary: "#16789e",
+    primaryDark: "#0d5c7a",
     secondary: "#F3F4F6",
     accent: "#FBBF24",
     textPrimary: "#1F2937",
@@ -47,7 +47,6 @@ const designSystem = {
     sm: "shadow-sm",
     md: "shadow-md",
     lg: "shadow-lg",
-    neumorphic: "0 4px 6px rgba(0, 0, 0, 0.1), 0 -4px 6px rgba(255, 255, 255, 0.9)",
   },
   borderRadius: {
     sm: "rounded-md",
@@ -56,15 +55,22 @@ const designSystem = {
   },
 };
 
+const modalVariants = {
+  hidden: { opacity: 0, scale: 0.9 },
+  visible: { opacity: 1, scale: 1, transition: { duration: 0.3, ease: "easeOut" } },
+  exit: { opacity: 0, scale: 0.9, transition: { duration: 0.2 } },
+};
+
 const ForumPage = () => {
   const navigate = useNavigate();
   const { user } = useContext(AuthContext);
   const [showCreateForm, setShowCreateForm] = useState(false);
   const [showEditForm, setShowEditForm] = useState(null);
-  const [showReplyForm, setShowReplyForm] = useState(null);
-  const [forumData, setForumData] = useState({ title: "", description: "", image: "" });
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(null);
   const [editData, setEditData] = useState({ title: "", description: "", image: "" });
+  const [forumData, setForumData] = useState({ title: "", description: "", image: "" });
   const [replyContent, setReplyContent] = useState("");
+  const [showReplyForm, setShowReplyForm] = useState(null);
   const [errorMessage, setErrorMessage] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
 
@@ -128,14 +134,13 @@ const ForumPage = () => {
       navigate("/login");
       return;
     }
-    if (window.confirm("តើអ្នកប្រាកដជាចង់លុបវេទិកានេះឬ?")) {
-      try {
-        await deleteForum(id).unwrap();
-        refetchForums();
-        setErrorMessage("");
-      } catch (error) {
-        setErrorMessage(error.data?.detail || "បរាជ័យក្នុងការលុបវេទិកា");
-      }
+    try {
+      await deleteForum(id).unwrap();
+      setShowDeleteConfirm(null);
+      refetchForums();
+      setErrorMessage("");
+    } catch (error) {
+      setErrorMessage(error.data?.detail || "បរាជ័យក្នុងការលុបវេទិកា");
     }
   };
 
@@ -160,21 +165,39 @@ const ForumPage = () => {
     }
   };
 
+  useEffect(() => {
+    const handleEscape = (e) => {
+      if (e.key === "Escape") {
+        if (showCreateForm) setShowCreateForm(false);
+        if (showEditForm) setShowEditForm(null);
+        if (showDeleteConfirm) setShowDeleteConfirm(null);
+      }
+    };
+    document.addEventListener("keydown", handleEscape);
+    return () => document.removeEventListener("keydown", handleEscape);
+  }, [showCreateForm, showEditForm, showDeleteConfirm]);
+
   if (profileLoading || forumsLoading) {
     return (
-      <div className="flex justify-center items-center min-h-screen bg-gray-50">
-        <FaSpinner className="animate-spin " />
-        <p className="text-gray-600 font-medium text-base ml-4">កំពុងផ្ទុកវេទិកា...</p>
+      <div className="min-h-screen bg-gray-50">
+        <header className="bg-white shadow-md sticky top-0 z-10">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+            <div className="h-8 w-48 bg-gray-200 rounded animate-pulse" />
+          </div>
+        </header>
+        <main className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          {/* Render multiple skeleton cards */}
+          {Array(3).fill(0).map((_, index) => (
+            <SkeletonForumCard key={index} />
+          ))}
+        </main>
       </div>
     );
   }
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <header
-        className="bg-white shadow-md sticky top-0 z-10"
-   ឲ
-      >
+      <header className="bg-white shadow-md sticky top-0 z-10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <div className="flex flex-col sm:flex-row justify-between items-center">
             <h1 className="text-2xl sm:text-3xl font-bold text-primary mb-4 sm:mb-0">
@@ -187,7 +210,7 @@ const ForumPage = () => {
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   placeholder="ស្វែងរកវេទិកា..."
-                  className="w-full pl-10 pr-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-400 bg-white text-sm shadow-sm"
+                  className="w-full pl-10 pr-4 py-2 border border-gray-200 rounded-[40px] focus:outline-none focus:ring-2 focus:ring-indigo-400 bg-white text-sm shadow-sm"
                 />
                 <FiSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={18} />
               </div>
@@ -197,19 +220,21 @@ const ForumPage = () => {
       </header>
 
       <main className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {errorMessage && (
-          <motion.div
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
-            className="mb-6 p-4 bg-red-100 text-red-700 rounded-lg flex justify-between items-center shadow-md"
-          >
-            <span>{errorMessage}</span>
-            <button onClick={() => setErrorMessage("")} className="text-red-700 hover:text-red-900">
-              <FiX size={18} />
-            </button>
-          </motion.div>
-        )}
+        <AnimatePresence>
+          {errorMessage && (
+            <motion.div
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              className="mb-6 p-4 bg-red-100 text-red-700 rounded-lg flex justify-between items-center shadow-md"
+            >
+              <span>{errorMessage}</span>
+              <button onClick={() => setErrorMessage("")} className="text-red-700 hover:text-red-900">
+                <FiX size={18} />
+              </button>
+            </motion.div>
+          )}
+        </AnimatePresence>
 
         <div className="mt-8 flex flex-col gap-6">
           {filteredForums.length > 0 ? (
@@ -221,16 +246,15 @@ const ForumPage = () => {
                 profileUser={profileUser}
                 accessToken={accessToken}
                 primaryColor={designSystem.colors.primary}
-                showEditForm={showEditForm}
-                setShowEditForm={setShowEditForm}
-                editData={editData}
-                setEditData={setEditData}
+                onEdit={() => {
+                  setEditData({ title: forum.title, description: forum.description, image: forum.image || "" });
+                  setShowEditForm(forum.id);
+                }}
+                onDelete={() => setShowDeleteConfirm(forum.id)}
                 showReplyForm={showReplyForm}
                 setShowReplyForm={setShowReplyForm}
                 replyContent={replyContent}
                 setReplyContent={setReplyContent}
-                handleUpdateForum={handleUpdateForum}
-                handleDeleteForum={handleDeleteForum}
                 handleReply={handleReply}
                 handleShare={() => alert("មុខងារចែករំលែកនឹងមានឆាប់ៗនេះ!")}
               />
@@ -257,31 +281,17 @@ const ForumPage = () => {
       </main>
 
       {user && accessToken && (
-        <div className="fixed bottom-0 left-0 right-0 bg-white shadow-lg z-20 p-4 sm:hidden">
-          <div className="max-w-7xl mx-auto flex justify-center">
-            <motion.button
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.95 }}
-              onClick={() => setShowCreateForm(!showCreateForm)}
-              className="flex items-center px-4 py-2 bg-indigo-600 text-white rounded-lg shadow-md"
-            >
-              <FiPlus size={18} className="mr-2" /> បង្កើតវេទិកា
-            </motion.button>
-          </div>
-        </div>
-      )}
-
-      {user && accessToken && (
         <motion.button
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.95 }}
-          onClick={() => setShowCreateForm(!showCreateForm)}
-          className="hidden sm:flex fixed bottom-6 right-6 bg-indigo-600 text-white p-4 rounded-full shadow-lg z-20"
+          onClick={() => setShowCreateForm(true)}
+          className="fixed bottom-6 right-6 bg-indigo-600 text-white p-4 rounded-full shadow-lg z-20"
         >
           <FiPlus size={24} />
         </motion.button>
       )}
 
+      {/* Create Forum Modal */}
       <AnimatePresence>
         {showCreateForm && user && accessToken && (
           <motion.div
@@ -289,20 +299,23 @@ const ForumPage = () => {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4"
+            onClick={() => setShowCreateForm(false)}
           >
             <motion.div
-              initial={{ scale: 0.9 }}
-              animate={{ scale: 1 }}
-              exit={{ scale: 0.9 }}
-              className="bg-white rounded-lg p-6 w-full max-w-lg shadow-xl"
+              variants={modalVariants}
+              initial="hidden"
+              animate="visible"
+              exit="exit"
+              className="bg-white rounded-xl p-8 w-full max-w-3xl shadow-xl"
+              onClick={(e) => e.stopPropagation()}
             >
-              <div className="flex justify-between items-center mb-4">
-                <h2 className="text-xl font-bold text-gray-900">បង្កើតវេទិកាថ្មី</h2>
+              <div className="flex justify-between items-center mb-6">
+                <h2 className="text-2xl font-bold text-gray-900">បង្កើតវេទិកាថ្មី</h2>
                 <button
                   onClick={() => setShowCreateForm(false)}
-                  className="text-gray-500 hover:text-gray-700"
+                  className="text-gray-500 hover:text-gray-700 transition-colors"
                 >
-                  <FiX size={20} />
+                  <FiX size={24} />
                 </button>
               </div>
               <ForumForm
@@ -313,6 +326,97 @@ const ForumPage = () => {
                 submitText="បង្កើត"
                 primaryColor={designSystem.colors.primary}
               />
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Edit Forum Modal */}
+      <AnimatePresence>
+        {showEditForm && user && accessToken && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4"
+            onClick={() => setShowEditForm(null)}
+          >
+            <motion.div
+              variants={modalVariants}
+              initial="hidden"
+              animate="visible"
+              exit="exit"
+              className="bg-white rounded-xl p-8 w-full max-w-3xl shadow-xl"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="flex justify-between items-center mb-6">
+                <h2 className="text-2xl font-bold text-gray-900">កែសម្រួលវេទិកា</h2>
+                <button
+                  onClick={() => setShowEditForm(null)}
+                  className="text-gray-500 hover:text-gray-700 transition-colors"
+                >
+                  <FiX size={24} />
+                </button>
+              </div>
+              <ForumForm
+                formData={editData}
+                setFormData={setEditData}
+                onSubmit={(e) => handleUpdateForum(e, showEditForm)}
+                onCancel={() => setShowEditForm(null)}
+                submitText="ធ្វើបច្ចុប្បន្នភាព"
+                primaryColor={designSystem.colors.primary}
+              />
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Delete Confirmation Modal */}
+      <AnimatePresence>
+        {showDeleteConfirm && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4"
+            onClick={() => setShowDeleteConfirm(null)}
+          >
+            <motion.div
+              variants={modalVariants}
+              initial="hidden"
+              animate="visible"
+              exit="exit"
+              className="bg-white rounded-xl p-6 w-full max-w-md shadow-xl"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="flex justify-between items-center mb-4">
+                <h2 className="text-xl font-semibold text-gray-900">បញ្ជាក់ការលុប</h2>
+                <button
+                  onClick={() => setShowDeleteConfirm(null)}
+                  className="text-gray-500 hover:text-gray-700 transition-colors"
+                >
+                  <FiX size={20} />
+                </button>
+              </div>
+              <p className="text-gray-700 mb-6">
+                តើអ្នកប្រាកដជាចង់លុបវេទិកា "<strong>{forums.find(f => f.id === showDeleteConfirm)?.title}</strong>" នេះឬ? សកម្មភាពនេះមិនអាចត្រឡប់វិញបានទេ។
+              </p>
+              <div className="flex justify-end space-x-3">
+                <button
+                  onClick={() => setShowDeleteConfirm(null)}
+                  className="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-md hover:bg-gray-200 transition-all shadow-sm"
+                >
+                  បោះបង់
+                </button>
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={() => handleDeleteForum(showDeleteConfirm)}
+                  className="px-4 py-2 text-sm font-medium text-white bg-red-600 rounded-md shadow-md hover:bg-red-700 transition-all"
+                >
+                  លុប
+                </motion.button>
+              </div>
             </motion.div>
           </motion.div>
         )}

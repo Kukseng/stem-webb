@@ -3,6 +3,8 @@ import { useEffect, useRef, useState } from "react";
 import { ArrowRight, Facebook, Linkedin, Github, Instagram } from "lucide-react";
 import javaImage from "../../../assets/banner-r.png";
 import pic2 from "../../../assets/images/about-us/pic2.png";
+import pic3 from "../../../assets/images/about-us/pic3.png";
+import pic4 from "../../../assets/images/about-us/pic4.png";
 
 const ShuffleHero = () => {
   return (
@@ -55,11 +57,11 @@ const shuffle = (array) => {
 // Updated squareData with your local images
 const squareData = [
   { id: 1, src: pic2 },
-  { id: 2, src: javaImage },
+  { id: 2, src: pic3 },
   { id: 3, src: pic2 },
-  { id: 4, src: javaImage }, // Removed empty string, reusing javaImage
+  { id: 4, src: pic4 }, // Removed empty string, reusing javaImage
   { id: 5, src: pic2 },
-  { id: 6, src: javaImage },
+  { id: 6, src: pic3 },
 ];
 
 const generateSquares = (data) => {
