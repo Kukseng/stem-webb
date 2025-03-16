@@ -2,7 +2,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import { ArrowRight, Facebook, Linkedin, Github, Instagram } from "lucide-react";
 import javaImage from "../../../assets/banner-r.png";
-import pic1 from "../../../assets/about-us/pic1.jpg";
+import pic2 from "../../../assets/images/about-us/pic2.png";
 
 const ShuffleHero = () => {
   return (
@@ -54,11 +54,11 @@ const shuffle = (array) => {
 
 // Updated squareData with your local images
 const squareData = [
-  { id: 1, src: pic1 },
+  { id: 1, src: pic2 },
   { id: 2, src: javaImage },
-  { id: 3, src: pic1 },
+  { id: 3, src: pic2 },
   { id: 4, src: javaImage }, // Removed empty string, reusing javaImage
-  { id: 5, src: pic1 },
+  { id: 5, src: pic2 },
   { id: 6, src: javaImage },
 ];
 

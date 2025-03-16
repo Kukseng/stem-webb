@@ -12,11 +12,14 @@ import ShuffleHero from "../common/Hero/SuffleHero";
 import img from "../../assets/images/logo/cher.png";
 // import img1 from "../../assets/images/logo/ISTAD.png";
 // import pic2 from "../../assets/about-us/pic2.jpg";
-import cher from "../../assets/images/logo/cher.png";
-import pic3 from "../../assets/about-us/pic3.jpg";
-import pic4 from "../../assets/about-us/pic4.jpg";
-import pic5 from "../../assets/about-us/pic5.jpg";
-import pic6 from "../../assets/about-us/pic6.jpg";
+// import cher from "../../assets/images/logo/cher.png";
+import pic3 from "../../assets/images/about-us/pic1.png";
+// import pic1 from "../../assets/images/about-us/pic1.png";
+import pic2 from "../../assets/images/about-us/pic2.png";
+import pic4 from "../../assets/images/about-us/pic4.png";
+import pic5 from "../../assets/images/about-us/pic5.png";
+import pic6 from "../../assets/images/about-us/pic6.png";
+
 import react from "../../assets/logo-tec/React.png";
 import java from "../../assets/logo-tec/Java-Symbol.png";
 import JS from "../../assets/JS.png";
@@ -95,7 +98,7 @@ const Aboutus = () => {
     {
       name: "ស្រេង ជីប៉",
       role: "Frontend Developer",
-      image: cher,
+      image: pic2,
       description:
         "ភ្ជាប់ទំនាក់ទំនងជាមួយអ្នកណែនាំដែលមានបទពិសោធន៍ក្នុងវិស័យ iSTEM ដែលផ្តល់ការណែនាំ ចែករំលែកការយល់ដឹងអំពីឧស្សាហកម្ម និងជួយអ្នកក្នុងការច្នៃប្រឌិត។",
     },
