@@ -1,7 +1,6 @@
-// src/api/courseApi.js
 import { apiSlice } from "./api-slice";
 
-export const courseApi = apiSlice.injectEndpoints({
+export const coursesApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getAllCourses: builder.query({
       query: () => "courses/",
@@ -15,14 +14,6 @@ export const courseApi = apiSlice.injectEndpoints({
       }),
       invalidatesTags: ["Course"],
     }),
-    updateCourseByUuid: builder.mutation({
-      query: ({ uuid, ...courseData }) => ({
-        url: `courses/${uuid}/`,
-        method: "PUT",
-        body: courseData,
-      }),
-      invalidatesTags: ["Course"],
-    }),
     deleteCourseByUuid: builder.mutation({
       query: (uuid) => ({
         url: `courses/${uuid}/`,
@@ -31,7 +22,7 @@ export const courseApi = apiSlice.injectEndpoints({
       invalidatesTags: ["Course"],
     }),
     getCourseByUuid: builder.query({
-      query: (uuid) => `courses/${uuid}/`, 
+      query: (uuid) => `courses/${uuid}/`,
       providesTags: (result, error, uuid) => [{ type: "Course", id: uuid }],
     }),
   }),
@@ -40,7 +31,6 @@ export const courseApi = apiSlice.injectEndpoints({
 export const {
   useGetAllCoursesQuery,
   useCreateCourseMutation,
-  useUpdateCourseByUuidMutation,
   useDeleteCourseByUuidMutation,
   useGetCourseByUuidQuery,
-} = courseApi;
+} = coursesApi;

@@ -1,4 +1,3 @@
-// src/api/contentApi.js
 import { apiSlice } from "./api-slice";
 
 export const contentApi = apiSlice.injectEndpoints({
@@ -11,7 +10,26 @@ export const contentApi = apiSlice.injectEndpoints({
       }),
       invalidatesTags: ["Content"],
     }),
+    getContentsBySection: builder.query({
+      query: (sectionUuid) => `contents/?section=${sectionUuid}`,
+      transformResponse: (response) => response.results || [],
+      providesTags: (result, error, sectionUuid) =>
+        Array.isArray(result) && result.length > 0
+          ? result.map(({ id }) => ({ type: "Content", id }))
+          : [{ type: "Content", id: sectionUuid }],
+    }),
+    deleteContentByUuid: builder.mutation({
+      query: (uuid) => ({
+        url: `contents/${uuid}/`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["Content"],
+    }),
   }),
 });
 
-export const { useCreateContentMutation } = contentApi;
+export const {
+  useCreateContentMutation,
+  useGetContentsBySectionQuery,
+  useDeleteContentByUuidMutation,
+} = contentApi;

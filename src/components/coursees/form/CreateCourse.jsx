@@ -160,20 +160,39 @@ const CreateCourseForm = ({ accessToken }) => {
       case 1:
         return isAddingToExistingCourse
           ? selectedCourseId !== ""
-          : Object.values(formData.course).every((v) => v.trim() !== "");
+          : Object.values(formData.course).every(
+              (v) => typeof v === "string" && v.trim() !== ""
+            );
       case 2:
         return isAddingToExistingCourse && !createNewCategory
           ? selectedCategoryId !== ""
-          : Object.values(formData.category).every((v) => v.trim() !== "");
+          : Object.values(formData.category).every(
+              (v) => typeof v === "string" && v.trim() !== ""
+            );
       case 3:
-        return Object.values(formData.lesson).every((v) => v.trim() !== "");
+        return Object.values(formData.lesson).every(
+          (v) => typeof v === "string" && v.trim() !== ""
+        );
       case 4:
         return (
+          typeof formData.section.title === "string" &&
           formData.section.title.trim() !== "" &&
+          typeof formData.section.no === "string" &&
           formData.section.no.trim() !== ""
         );
       case 5:
-        return Object.values(formData.content).every((v) => v.trim() !== "");
+        return (
+          typeof formData.content.title === "string" &&
+          formData.content.title.trim() !== "" &&
+          typeof formData.content.no === "string" &&
+          formData.content.no.trim() !== "" &&
+          typeof formData.content.file === "string" &&
+          formData.content.file.trim() !== "" &&
+          typeof formData.content.video_url === "string" &&
+          formData.content.video_url.trim() !== "" &&
+          typeof formData.content.video_title === "string" &&
+          formData.content.video_title.trim() !== ""
+        );
       default:
         return false;
     }
@@ -559,7 +578,7 @@ const CreateCourseForm = ({ accessToken }) => {
   );
 };
 
-// Reusable Components
+
 const StepHeader = ({ icon, title }) => (
   <motion.h2
     initial={{ opacity: 0 }}
