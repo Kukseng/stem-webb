@@ -204,8 +204,8 @@ const AllCoursePage = () => {
   if (isError) {
     return (
       <div className="flex flex-col justify-center items-center h-screen bg-gray-50">
-        <div className="bg-red-50 p-8 rounded-lg text-center shadow-lg border border-red-100">
-          <h2 className="text-red-600 font-bold text-lg mb-2">មានបញ្ហាកើតឡើង</h2>
+        <div className="bg-red-50 p-8 rounded-lg text-center ">
+          <h2 className="text-red-600 font-medium  text-lg mb-2">មានបញ្ហាកើតឡើង</h2>
           <p className="text-red-500 mb-4 text-base">{error?.data?.message || error?.message || "មិនអាចទាញយកវគ្គសិក្សាបានទេ"}</p>
           <button
             onClick={() => window.location.reload()}
