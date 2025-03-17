@@ -1,36 +1,36 @@
 import React, { useState, useEffect, useContext } from "react";
-import { FaCalendarAlt, FaSearch, FaChevronLeft, FaChevronRight, FaTags, FaBookmark } from "react-icons/fa";
+import { FaCalendarAlt, FaSearch, FaChevronLeft, FaChevronRight, FaTags, FaBookmark, FaEdit, FaTrash } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
-import { useGetAllArticlesQuery } from "../../api/articles-api";
+import { useGetAllArticlesQuery, useCreateArticleMutation, useDeleteArticleMutation } from "../../api/articles-api";
 import { motion, AnimatePresence } from "framer-motion";
 import { AuthContext } from "../context/AuthContext";
 
-const BlogComponent = () => {
+const BlogComponent = ({ isLoggedIn }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState("");
   const [isSearchFocused, setIsSearchFocused] = useState(false);
   const [hoveredPost, setHoveredPost] = useState(null);
-  const [showLoginPrompt, setShowLoginPrompt] = useState(false); // State for login prompt
+  const [showLoginPrompt, setShowLoginPrompt] = useState(false);
+  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
+  const [newArticle, setNewArticle] = useState({ title: "", content: "", image: "" });
 
   const navigate = useNavigate();
   const { user, openLoginModal } = useContext(AuthContext);
 
-  // Fetch articles with pagination
-  const queryArgs = { page: currentPage };
+  // Fetch articles with pagination and search
+  const queryArgs = { page: currentPage, search: searchTerm };
   const { data, isLoading, isError, error } = useGetAllArticlesQuery(queryArgs);
 
-  // Debug API response
-  useEffect(() => {
-    console.log("Current Page:", currentPage, "Articles:", data?.results);
-  }, [currentPage, data]);
+  const [createArticle, { isLoading: isCreating }] = useCreateArticleMutation();
+  const [deleteArticle, { isLoading: isDeleting }] = useDeleteArticleMutation();
 
   // Handle view article with authentication check
   const handleViewArticle = (id) => {
     if (!user) {
-      setShowLoginPrompt(true); // Show login prompt if not logged in
-      openLoginModal(); // Trigger login modal if available
+      setShowLoginPrompt(true);
+      openLoginModal();
     } else {
-      navigate(`/articles/${id}`); // Navigate to article if logged in
+      navigate(`/articles/${id}`);
     }
   };
 
@@ -40,10 +40,45 @@ const BlogComponent = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
+  // Handle search
   const handleSearch = (e) => {
     e.preventDefault();
-    console.log("Searching for:", searchTerm);
-    // Add search logic here if needed
+    setCurrentPage(1); // Reset to first page on new search
+  };
+
+  // Handle create article
+  const handleCreateArticle = async (e) => {
+    e.preventDefault();
+    if (!user) {
+      setShowLoginPrompt(true);
+      openLoginModal();
+      return;
+    }
+    try {
+      await createArticle(newArticle).unwrap();
+      setIsCreateModalOpen(false);
+      setNewArticle({ title: "", content: "", image: "" });
+    } catch (err) {
+      console.error("Failed to create article:", err);
+    }
+  };
+
+  // Handle delete article (only by owner)
+  const handleDeleteArticle = async (articleId, author) => {
+    if (!user) {
+      setShowLoginPrompt(true);
+      openLoginModal();
+      return;
+    }
+    if (user.username !== author) {
+      alert("You can only delete articles you created.");
+      return;
+    }
+    try {
+      await deleteArticle(articleId).unwrap();
+    } catch (err) {
+      console.error("Failed to delete article:", err);
+    }
   };
 
   const totalPages = data?.count ? Math.ceil(data.count / 10) : 1;
@@ -78,28 +113,19 @@ const BlogComponent = () => {
   // Animation variants
   const containerVariants = {
     hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: { staggerChildren: 0.1, delayChildren: 0.2 },
-    },
-    exit: {
-      opacity: 0,
-      transition: { staggerChildren: 0.05, staggerDirection: -1 },
-    },
+    visible: { opacity: 1, transition: { staggerChildren: 0.1, delayChildren: 0.2 } },
+    exit: { opacity: 0, transition: { staggerChildren: 0.05, staggerDirection: -1 } },
   };
 
   const itemVariants = {
     hidden: { y: 20, opacity: 0 },
-    visible: {
-      y: 0,
-      opacity: 1,
-      transition: { type: "spring", stiffness: 300, damping: 24 },
-    },
+    visible: { y: 0, opacity: 1, transition: { type: "spring", stiffness: 300, damping: 24 } },
     exit: { y: -20, opacity: 0 },
   };
 
   return (
     <div className="max-w-6xl mx-auto px-4 py-12 font-sans bg-gradient-to-b from-gray-50 to-white min-h-screen">
+      {/* Header and Search */}
       <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.8 }} className="mb-12">
         <motion.h1
           className="text-4xl font-bold text-center mb-4 text-gray-800 relative"
@@ -181,11 +207,9 @@ const BlogComponent = () => {
                   >
                     <div className="relative overflow-hidden h-52">
                       <motion.img
-                        src={post.image || "https://img.freepik.com/free-photo/abstract-surface-textures-white-concrete-stone-wall_74190-8189.jpg"}
+                        src={post.image || post.image || "https://img.freepik.com/free-photo/abstract-surface-textures-white-concrete-stone-wall_74190-8189.jpg"}
                         alt={post.title}
-                        className={`w-full h-full object-cover transition-all duration-700 ${
-                          hoveredPost === post.id ? "scale-110 blur-sm brightness-75" : "scale-100"
-                        }`}
+                        className={`w-full h-full object-cover transition-all duration-700 ${hoveredPost === post.id ? "scale-110 blur-sm brightness-75" : "scale-100"}`}
                         onError={(e) => (e.target.src = "https://img.freepik.com/free-photo/abstract-surface-textures-white-concrete-stone-wall_74190-8189.jpg")}
                       />
                       <motion.div
@@ -216,41 +240,50 @@ const BlogComponent = () => {
                     </div>
                     <div className="p-6">
                       <motion.h2
-                        className={`text-[24px] font-bold mb-3 transition-all duration-300 line-clamp-2 ${
-                          hoveredPost === post.id ? "text-[#16789e] translate-x-3" : "text-gray-800"
-                        }`}
+                        className={`text-[24px] font-bold mb-3 transition-all duration-300 line-clamp-2 ${hoveredPost === post.id ? "text-[#16789e] translate-x-3" : "text-gray-800"}`}
                       >
                         {post.title}
                       </motion.h2>
-                      <motion.p
-                        className="text-gray-600 mb-4 line-clamp-3"
-                        initial={{ opacity: 0.8 }}
-                        whileHover={{ opacity: 1 }}
-                      >
+                      <motion.p className="text-gray-600 mb-4 line-clamp-3" initial={{ opacity: 0.8 }} whileHover={{ opacity: 1 }}>
                         {post.content}
                       </motion.p>
-                      <motion.div
-                        className="flex justify-between items-center pt-3 border-t border-gray-100"
-                        initial={{ opacity: 0, y: 10 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 0.2 }}
-                      >
+                      <motion.div className="flex justify-between items-center pt-3 border-t border-gray-100" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}>
                         <motion.button
                           className="inline-flex items-center px-4 py-2 rounded-lg bg-gradient-to-r from-[#16789e] to-[#2198B8] text-white font-medium"
                           whileHover={{ scale: 1.03 }}
                           whileTap={{ scale: 0.97 }}
                         >
                           <span>អានបន្ថែម</span>
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            className="h-4 w-4 ml-1"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke="currentColor"
-                          >
+                          <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
                           </svg>
                         </motion.button>
+                        {isLoggedIn && user?.username === post.author && (
+                          <div className="flex space-x-2">
+                            <motion.button
+                              className="p-2 text-blue-500 hover:text-blue-700"
+                              whileHover={{ scale: 1.1 }}
+                              whileTap={{ scale: 0.9 }}
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                navigate(`/edit-article/${post.id}`);
+                              }}
+                            >
+                              <FaEdit />
+                            </motion.button>
+                            <motion.button
+                              className="p-2 text-red-500 hover:text-red-700"
+                              whileHover={{ scale: 1.1 }}
+                              whileTap={{ scale: 0.9 }}
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                handleDeleteArticle(post.id, post.author);
+                              }}
+                            >
+                              <FaTrash />
+                            </motion.button>
+                          </div>
+                        )}
                       </motion.div>
                     </div>
                   </motion.div>
@@ -342,6 +375,18 @@ const BlogComponent = () => {
             </form>
           </motion.div>
 
+          {/* Create Article Button */}
+          {isLoggedIn && (
+            <motion.div className="bg-white p-6 rounded-xl shadow-md" whileHover={{ y: -3 }}>
+              <button
+                onClick={() => setIsCreateModalOpen(true)}
+                className="w-full px-6 py-2 bg-[#16789e] text-white rounded-full hover:bg-opacity-90 transition-colors font-medium"
+              >
+                បង្កើតអត្ថបទថ្មី
+              </button>
+            </motion.div>
+          )}
+
           {/* Recent Posts */}
           <motion.div className="bg-white p-6 rounded-xl shadow-md" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.4 }}>
             <h3 className="text-xl font-bold mb-4 text-gray-800 border-b pb-2">អត្ថបទថ្មីៗ</h3>
@@ -350,7 +395,7 @@ const BlogComponent = () => {
                 <motion.div key={`recent-${post.id}`} className="flex gap-3 cursor-pointer group" onClick={() => handleViewArticle(post.id)} whileHover={{ x: 3 }}>
                   <div className="w-20 h-20 bg-gray-200 rounded-lg overflow-hidden">
                     <motion.img
-                      src={post.image || "https://img.freepik.com/free-photo/abstract-surface-textures-white-concrete-stone-wall_74190-8189.jpg"}
+                      src={post.image || post.image || "https://img.freepik.com/free-photo/abstract-surface-textures-white-concrete-stone-wall_74190-8189.jpg"}
                       alt=""
                       className="w-full h-full object-cover"
                       whileHover={{ scale: 1.1 }}
@@ -391,7 +436,69 @@ const BlogComponent = () => {
         </motion.div>
       </div>
 
-      {/* Login Prompt Popup (Matching the Image) */}
+      {/* Create Article Modal */}
+      {isCreateModalOpen && (
+        <div className="fixed inset-0 bg-black/50 flex justify-center items-center z-50 px-4">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.9 }}
+            transition={{ duration: 0.3, ease: "easeInOut" }}
+            className="bg-white rounded-2xl p-6 md:p-8 w-full max-w-md text-center shadow-xl"
+          >
+            <h3 className="text-lg md:text-xl font-semibold text-gray-800 mb-3 md:mb-4">បង្កើតអត្ថបទថ្មី</h3>
+            <form onSubmit={handleCreateArticle}>
+              <div className="mb-4">
+                <label className="block text-left text-gray-700 mb-1">ចំណងជើង</label>
+                <input
+                  type="text"
+                  value={newArticle.title}
+                  onChange={(e) => setNewArticle({ ...newArticle, title: e.target.value })}
+                  className="w-full py-2 px-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#16789e]"
+                  required
+                />
+              </div>
+              <div className="mb-4">
+                <label className="block text-left text-gray-700 mb-1">ខ្លឹមសារ</label>
+                <textarea
+                  value={newArticle.content}
+                  onChange={(e) => setNewArticle({ ...newArticle, content: e.target.value })}
+                  className="w-full py-2 px-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#16789e]"
+                  rows="5"
+                  required
+                />
+              </div>
+              <div className="mb-4">
+                <label className="block text-left text-gray-700 mb-1">រូបភាព (URL)</label>
+                <input
+                  type="text"
+                  value={newArticle.image}
+                  onChange={(e) => setNewArticle({ ...newArticle, image: e.target.value })}
+                  className="w-full py-2 px-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#16789e]"
+                />
+              </div>
+              <div className="flex justify-center gap-4">
+                <button
+                  type="submit"
+                  className="bg-[#16789e] text-white px-5 py-2 rounded-full hover:bg-[#0e5c7a] transition-all duration-300 shadow-md"
+                  disabled={isCreating}
+                >
+                  {isCreating ? "កំពុងបង្កើត..." : "បង្កើត"}
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setIsCreateModalOpen(false)}
+                  className="bg-gray-200 text-gray-700 px-5 py-2 rounded-full hover:bg-gray-300 transition-all duration-300 shadow-md"
+                >
+                  បោះបង់
+                </button>
+              </div>
+            </form>
+          </motion.div>
+        </div>
+      )}
+
+      {/* Login Prompt Popup */}
       {showLoginPrompt && (
         <div className="fixed inset-0 bg-black/50 flex justify-center items-center z-50 px-4">
           <motion.div
@@ -401,12 +508,8 @@ const BlogComponent = () => {
             transition={{ duration: 0.3, ease: "easeInOut" }}
             className="bg-white rounded-2xl p-6 md:p-8 w-full max-w-md text-center shadow-xl"
           >
-            <h3 className="text-lg md:text-xl font-semibold text-gray-800 mb-3 md:mb-4">
-              សូមចូលគណនីដើម្បីបន្ត
-            </h3>
-            <p className="text-gray-600 mb-4 md:mb-6 text-sm md:text-base">
-              អ្នកត្រូវតែចូលគណនីដើម្បីអានអត្ថបទនេះ។
-            </p>
+            <h3 className="text-lg md:text-xl font-semibold text-gray-800 mb-3 md:mb-4">សូមចូលគណនីដើម្បីបន្ត</h3>
+            <p className="text-gray-600 mb-4 md:mb-6 text-sm md:text-base">អ្នកត្រូវតែចូលគណនីដើម្បីអានអត្ថបទនេះ។</p>
             <div className="flex flex-col sm:flex-row justify-center gap-3 md:gap-4">
               <button
                 onClick={() => {

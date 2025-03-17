@@ -7,16 +7,22 @@ export const articleApi = apiSlice.injectEndpoints({
         url: 'articles/',
         method: 'POST',
         body: articleData,
+        headers: articleData instanceof FormData ? {} : { 'Content-Type': 'application/json' }, // Handle FormData correctly
       }),
       invalidatesTags: ['Article'],
     }),
     getAllArticles: builder.query({
-      query: ({ page = 1 }) => `articles/?page=${page}`, // Updated to support pagination
+      query: ({ page = 1, search = '', ordering = '' }) => {
+        let url = `articles/?page=${page}`;
+        if (search) url += `&search=${encodeURIComponent(search)}`;
+        if (ordering) url += `&ordering=${ordering}`;
+        return url;
+      },
       providesTags: ['Article'],
     }),
-   getArticleById: builder.query({
-      query: (id) => `articles/${id}/`, // Add trailing slash to match server expectation
-      providesTags: ["Article"],
+    getArticleById: builder.query({
+      query: (id) => `articles/${id}/`,
+      providesTags: ['Article'],
     }),
     updateArticle: builder.mutation({
       query: ({ id, ...articleData }) => ({

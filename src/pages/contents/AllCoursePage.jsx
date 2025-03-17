@@ -228,15 +228,53 @@ const AllCoursePage = () => {
           transition={{ duration: 0.5 }}
           className="flex flex-col md:flex-row md:justify-between md:items-center mb-8 gap-4 md:gap-6 bg-white py-4 md:py-6 px-4 md:px-6 rounded-xl shadow-sm border border-gray-100"
         >
-          <div className="flex items-center space-x-4">
+          <div className="flex items-center justify-center space-x-4">
             <div className="bg-[#16789e] bg-opacity-10 p-3 rounded-full shadow-inner transition-transform duration-300 hover:scale-105">
               <FaBook className="w-6 h-6 text-[#16789e]" />
             </div>
-            <h1 className="text-2xl md:text-3xl font-bold text-gray-800 tracking-tight">
-              វគ្គសិក្សាទាំងអស់
-              <span className="block h-1 w-16 bg-gradient-to-r from-[#16789e] to-[#2198B8] mt-2 rounded-full" />
-            </h1>
-          </div>
+          
+          
+        <motion.nav
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.2 }}
+          className="flex items-center h-10 mb-6 bg-white shadow-sm rounded-lg px-4"
+          aria-label="Breadcrumb"
+        >
+          <ol className="flex items-center justify-center text-sm text-gray-600">
+            <li className={`${!selectedCourse ? "font-medium text-[#16789e]" : "hover:text-[#16789e]"}`}>
+              <Link to="/courses" onClick={resetToCourses} aria-current={!selectedCourse ? "page" : undefined}>
+                វគ្គសិក្សា
+              </Link>
+            </li>
+            {selectedCourse && (
+              <>
+                <li className="flex items-center">
+                  <span className="mx-2 text-gray-400">/</span>
+                  <Link
+                    to={`/courses/${selectedCourse.id}`}
+                    onClick={resetToCategories}
+                    className={`hover:text-[#16789e] ${!selectedCategory ? "font-medium text-[#16789e]" : ""}`}
+                    aria-current={!selectedCategory ? "page" : undefined}
+                  >
+                    {selectedCourse.course_name}
+                  </Link>
+                </li>
+                {selectedCategory && (
+                  <li className="flex items-center">
+                    <span className="mx-2 text-gray-400">/</span>
+                    <span className="font-medium text-[#16789e]" aria-current="page">
+                      {selectedCategory.category_name}
+                    </span>
+                  </li>
+                )}
+              </>
+            )}
+          </ol>
+        </motion.nav>
+              {/* <span className="block h-1 w-16 bg-gradient-to-r from-[#16789e] to-[#2198B8] mt-2 rounded-full" /> */}
+            </div>
+         
           <div className="flex flex-col sm:flex-row items-center gap-3 w-full md:w-auto">
             <div className="relative flex-grow sm:max-w-xs w-full">
               <input
@@ -249,16 +287,7 @@ const AllCoursePage = () => {
               />
               <FaSearch className="absolute top-1/2 left-3 transform -translate-y-1/2 text-gray-400 transition-colors duration-300 hover:text-[#16789e]" />
             </div>
-            <button
-              onClick={() => setShowFilters(!showFilters)}
-              className={`flex items-center justify-center gap-2 px-4 py-2.5 md:px-5 md:py-3 rounded-[40px] font-medium transition-all duration-300 ease-in-out shadow-sm hover:shadow-md ${
-                showFilters ? "bg-[#16789e] text-white" : "bg-white border border-gray-200 text-gray-700 hover:bg-gray-50"
-              }`}
-              aria-label={showFilters ? "បិទការចម្រាញ់" : "បើកការចម្រាញ់"}
-            >
-              <FaFilter className={`w-4 h-4 md:w-5 md:h-5 ${showFilters ? "text-white" : "text-gray-500"}`} />
-              <span className="text-sm md:text-base">ចម្រាញ់</span>
-            </button>
+           
             {allCategories.length > 0 && (
               <div className="relative w-full sm:w-auto" ref={dropdownRef}>
                 <button
@@ -327,7 +356,7 @@ const AllCoursePage = () => {
               className="bg-white p-6 rounded-xl shadow-md mb-6 border border-gray-200 sticky top-4 z-10"
             >
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                {/* Price Filter */}
+             
                 <div>
                   <h3 className="text-sm font-semibold text-gray-700 mb-2 flex items-center gap-1">
                     <FaStar className="text-[#16789e]" /> តម្លៃ
@@ -368,61 +397,14 @@ const AllCoursePage = () => {
                   </select>
                 </div>
 
-                {/* Reset Button */}
-                <div className="flex items-end">
-                  <button
-                    onClick={resetFilters}
-                    className="w-full bg-gray-100 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-200 transition-all duration-300 ease-in-out shadow-sm"
-                  >
-                    សម្អាតការចម្រាញ់
-                  </button>
-                </div>
+             
               </div>
             </motion.div>
           )}
         </AnimatePresence>
 
-        {/* Breadcrumb */}
-        <motion.nav
-          initial={{ opacity: 0, y: -10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.2 }}
-          className="flex items-center h-10 mb-6 bg-white shadow-sm rounded-lg px-4"
-          aria-label="Breadcrumb"
-        >
-          <ol className="flex items-center text-sm text-gray-600">
-            <li className={`${!selectedCourse ? "font-medium text-[#16789e]" : "hover:text-[#16789e]"}`}>
-              <Link to="/courses" onClick={resetToCourses} aria-current={!selectedCourse ? "page" : undefined}>
-                វគ្គសិក្សា
-              </Link>
-            </li>
-            {selectedCourse && (
-              <>
-                <li className="flex items-center">
-                  <span className="mx-2 text-gray-400">/</span>
-                  <Link
-                    to={`/courses/${selectedCourse.id}`}
-                    onClick={resetToCategories}
-                    className={`hover:text-[#16789e] ${!selectedCategory ? "font-medium text-[#16789e]" : ""}`}
-                    aria-current={!selectedCategory ? "page" : undefined}
-                  >
-                    {selectedCourse.course_name}
-                  </Link>
-                </li>
-                {selectedCategory && (
-                  <li className="flex items-center">
-                    <span className="mx-2 text-gray-400">/</span>
-                    <span className="font-medium text-[#16789e]" aria-current="page">
-                      {selectedCategory.category_name}
-                    </span>
-                  </li>
-                )}
-              </>
-            )}
-          </ol>
-        </motion.nav>
 
-        {/* Main Content */}
+
         {!selectedCourse ? (
           <>
             {filteredCourses.length > 0 ? (

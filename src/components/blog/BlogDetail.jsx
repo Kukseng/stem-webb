@@ -12,15 +12,17 @@ const BlogDetail = () => {
   const { accessToken } = useSelector((state) => state.auth);
   const { user, isLoading: authLoading } = useContext(AuthContext);
 
-  // Fetch the current article
+  const baseUrl = import.meta.env.VITE_API_URL || "https://stem-api.istad.co/api/";
+
+
   const { data: article, isLoading, isError, error, refetch } = useGetArticleByIdQuery(id, {
     skip: !accessToken || !user,
   });
 
-  // Fetch all articles to display related ones (limit to 3)
-  const { data: allArticles, isLoading: articlesLoading } = useGetAllArticlesQuery(undefined, {
-    skip: !accessToken || !user,
-  });
+  const { data: allArticles, isLoading: articlesLoading } = useGetAllArticlesQuery(
+    { ordering: "-created_at" },
+    { skip: !accessToken || !user }
+  );
 
   useEffect(() => {
     console.log("Auth Status:", { user, accessToken, authLoading });
@@ -55,9 +57,13 @@ const BlogDetail = () => {
     ));
   };
 
-  // Filter out the current article and take 3 related articles
-  const relatedArticles = allArticles
-    ? allArticles.filter((a) => a.id !== Number(id)).slice(0, 3)
+  const getImageUrl = (image) => {
+    if (!image) return "https://via.placeholder.com/1200x600?text=No+Image";
+    return image.startsWith("http") ? image : `${baseUrl}media/uploads/${image}`;
+  };
+
+  const relatedArticles = allArticles?.results
+    ? allArticles.results.filter((a) => a.id !== Number(id)).slice(0, 3)
     : [];
 
   if (authLoading || isLoading) {
@@ -154,7 +160,7 @@ const BlogDetail = () => {
         >
           <div className="relative">
             <img
-              src={article.image || "https://via.placeholder.com/1200x600?text=No+Image"}
+              src={getImageUrl(article.image)}
               alt={article.title}
               className="w-full h-80 object-cover"
               onError={(e) => (e.target.src = "https://via.placeholder.com/1200x600?text=No+Image")}
@@ -247,20 +253,20 @@ const BlogDetail = () => {
                       onClick={() => navigate(`/articles/${relatedArticle.id}`)}
                     >
                       <img
-                        src={relatedArticle.image || "https://via.placeholder.com/400x200?text=No+Image"}
+                        src={getImageUrl(relatedArticle.image)}
                         alt={relatedArticle.title}
                         className="w-full h-40 object-cover"
                         onError={(e) => (e.target.src = "https://via.placeholder.com/400x200?text=No+Image")}
                       />
                       <div className="p-4">
-                        <h4 className="text-lg font-semibold text-gray-800 line-clamp-2">
+                        <h4 className="text-[20px] font-semibold text-gray-800 line-clamp-2 ">
                           {relatedArticle.title}
                         </h4>
-                        <p className="text-sm text-gray-600 mt-1 flex items-center">
+                        <p className="text-[14px] text-gray-600 mt-1 flex items-center">
                           <FaCalendarAlt className="mr-1" />
                           {formatDate(relatedArticle.created_at)}
                         </p>
-                        <p className="text-lg text-gray-500 mt-2 line-clamp-2">
+                        <p className="text-[16px] text-gray-500 mt-2 line-clamp-2">
                           {relatedArticle.content.split("\n")[0] || "មិនមានអត្ថបទ"}
                         </p>
                         <button
