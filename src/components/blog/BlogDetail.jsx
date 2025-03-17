@@ -14,7 +14,6 @@ const BlogDetail = () => {
 
   const baseUrl = import.meta.env.VITE_API_URL || "https://stem-api.istad.co/api/";
 
-
   const { data: article, isLoading, isError, error, refetch } = useGetArticleByIdQuery(id, {
     skip: !accessToken || !user,
   });
@@ -259,7 +258,7 @@ const BlogDetail = () => {
                         onError={(e) => (e.target.src = "https://via.placeholder.com/400x200?text=No+Image")}
                       />
                       <div className="p-4">
-                        <h4 className="text-[20px] font-semibold text-gray-800 line-clamp-2 ">
+                        <h4 className="text-[20px] font-semibold text-gray-800 line-clamp-2">
                           {relatedArticle.title}
                         </h4>
                         <p className="text-[14px] text-gray-600 mt-1 flex items-center">

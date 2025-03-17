@@ -8,16 +8,21 @@ import { motion, AnimatePresence } from "framer-motion";
 import { FaChevronRight, FaChevronLeft } from "react-icons/fa6";
 import { useNavigate } from "react-router-dom";
 import CreateCourseForm from "../../../coursees/form/CreateCourse";
-import { Settings, BookOpen, Clock, FileText } from "lucide-react";
+import DeleteCourseForm from "../../../coursees/form/DeleteCourseForm"; // Ensure correct import
+import { Settings, BookOpen, Delete } from "lucide-react";
 import { AuthContext } from "../../../context/AuthContext";
-import DeleteCourseForm from "../../../coursees/form/DeleteCourseForm";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const UserProfile = () => {
   const [activeSection, setActiveSection] = useState(0);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const { data, isLoading, isError, error } = useGetProfileQuery();
   const navigate = useNavigate();
-  const { logout } = useContext(AuthContext);
+  const { logout, user } = useContext(AuthContext);
+
+  console.log("AuthContext User:", user); // Debug user object
+  console.log("Access Token:", user?.accessToken); // Debug accessToken
 
   const sidebarItems = [
     {
@@ -28,17 +33,12 @@ const UserProfile = () => {
     {
       icon: <BookOpen size={20} />,
       text: "បង្គើតសិក្សា",
-      component: <CreateCourseForm />,
+      component: <CreateCourseForm accessToken={user?.accessToken} />,
     },
     {
-      icon: <Clock size={20} />,
+      icon: <Delete size={20} />,
       text: "លុបវគ្គសិក្សា",
-      component: <TimeReportsContent />,
-    },
-    {
-      icon: <FileText size={20} />,
-      text: "របាយការណ៍សំណួរ",
-      component: <QuestionReportsContent />,
+      component: <DeleteCourseForm />, // Directly use DeleteCourseForm
     },
   ];
 
@@ -62,19 +62,17 @@ const UserProfile = () => {
 
   return (
     <div className="font-suwannaphum min-h-screen bg-gray-100 pt-[64px] md:pt-0">
+      <ToastContainer position="top-right" autoClose={3000} hideProgressBar={false} />
+
       {/* Mobile Sidebar Button */}
       <motion.button
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
         onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-        className="fixed top-32 left-4 z-50 md:hidden bg-[#16789e] text-white p-2 rounded-full shadow-lg flex items-center justify-center"
+        className="fixed top-20 left-4 z-50 md:hidden bg-[#16789e] text-white p-2 rounded-full shadow-lg"
         aria-label={isSidebarOpen ? "Close Sidebar" : "Open Sidebar"}
       >
-        {isSidebarOpen ? (
-          <FaChevronLeft size={20} />
-        ) : (
-          <FaChevronRight size={20} />
-        )}
+        {isSidebarOpen ? <FaChevronLeft size={20} /> : <FaChevronRight size={20} />}
       </motion.button>
 
       <div className="max-w-[1300px] mx-auto py-6 px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row gap-6">
@@ -86,7 +84,7 @@ const UserProfile = () => {
               animate={{ x: 0, opacity: 1 }}
               exit={{ x: -300, opacity: 0 }}
               transition={{ duration: 0.3 }}
-              className="fixed top-[64px] left-0 w-64 h-[calc(100vh-64px)] bg-white rounded-r-xl shadow-lg p-4 z-50 md:static md:top-0 md:w-64 md:h-auto md:flex-shrink-0 md:rounded-xl md:shadow-lg"
+              className="fixed top-[64px] left-0 w-64 h-[calc(100vh-64px)] bg-white rounded-r-xl shadow-lg p-4 z-50 md:static md:top-0 md:w-64 md:h-fit md:rounded-xl md:shadow-lg"
             >
               <div className="flex justify-between items-center mb-4">
                 <h2 className="text-lg font-bold text-gray-800">ម៉ឺនុយ</h2>
@@ -94,8 +92,7 @@ const UserProfile = () => {
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                   onClick={() => setIsSidebarOpen(false)}
-                  className="text-gray-600 hover:text-[#16789e] transition-colors"
-                  aria-label="Close Sidebar"
+                  className="text-gray-600 hover:text-[#16789e]"
                 >
                   <X size={24} />
                 </motion.button>
@@ -110,7 +107,7 @@ const UserProfile = () => {
                       setActiveSection(index);
                       setIsSidebarOpen(false);
                     }}
-                    className={`w-full flex items-center justify-between p-3 rounded-lg transition-all duration-300 text-left ${
+                    className={`w-full flex items-center justify-between p-3 rounded-lg transition-all ${
                       activeSection === index
                         ? "bg-[#16789e] text-white shadow-md"
                         : "text-gray-700 hover:bg-gray-50"
@@ -121,7 +118,7 @@ const UserProfile = () => {
                       <span className="text-sm font-medium">{item.text}</span>
                     </div>
                     <FaChevronRight
-                      className={`transition-transform duration-300 ${
+                      className={`transition-transform ${
                         activeSection === index ? "rotate-90" : ""
                       }`}
                     />
@@ -132,7 +129,6 @@ const UserProfile = () => {
           )}
         </AnimatePresence>
 
-        {/* Overlay for Mobile Sidebar */}
         {isSidebarOpen && (
           <motion.div
             initial={{ opacity: 0 }}
@@ -149,7 +145,7 @@ const UserProfile = () => {
           initial={{ x: -50, opacity: 0 }}
           animate={{ x: 0, opacity: 1 }}
           transition={{ duration: 0.5 }}
-          className="hidden md:block w-64 bg-white rounded-xl shadow-lg p-4 flex-shrink-0"
+          className="hidden md:block w-64 bg-white rounded-xl shadow-lg p-4 flex-shrink-0 h-fit sticky top-6"
         >
           <div className="space-y-2">
             {sidebarItems.map((item, index) => (
@@ -158,7 +154,7 @@ const UserProfile = () => {
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
                 onClick={() => setActiveSection(index)}
-                className={`w-full flex items-center justify-between p-3 rounded-lg transition-all duration-300 text-left ${
+                className={`w-full flex items-center justify-between p-3 rounded-lg transition-all ${
                   activeSection === index
                     ? "bg-[#16789e] text-white shadow-md"
                     : "text-gray-700 hover:bg-gray-50"
@@ -169,7 +165,7 @@ const UserProfile = () => {
                   <span className="text-sm font-medium">{item.text}</span>
                 </div>
                 <FaChevronRight
-                  className={`transition-transform duration-300 ${
+                  className={`transition-transform ${
                     activeSection === index ? "rotate-90" : ""
                   }`}
                 />
@@ -183,21 +179,21 @@ const UserProfile = () => {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.5 }}
-          className="flex-1 bg-white rounded-xl shadow-lg p-4 sm:p-6 w-full md:max-w-[calc(100%-16rem)]"
+          className="flex-1 bg-white rounded-xl shadow-lg p-4 sm:p-6 w-full"
         >
           {sidebarItems[activeSection].component}
         </motion.main>
       </div>
     </div>
   );
-};
+}
 
 const UserInfo = () => {
   const [isHovered, setIsHovered] = useState(false);
   const [formData, setFormData] = useState({
+    username: "",
     first_name: "",
     last_name: "",
-    username: "",
     email: "",
     address: "",
     image: "",
@@ -210,9 +206,9 @@ const UserInfo = () => {
   useEffect(() => {
     if (profile) {
       setFormData({
+        username: profile.username || "",
         first_name: profile.first_name || "",
         last_name: profile.last_name || "",
-        username: profile.username || "",
         email: profile.email || "",
         address: profile.address || "",
         image: profile.image || "",
@@ -228,13 +224,27 @@ const UserInfo = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!formData.username.trim()) {
+      toast.error("សូមបញ្ចូលឈ្មោះអ្នកប្រើ!", {
+        position: "top-right",
+        autoClose: 3000,
+      });
+      return;
+    }
     try {
       await updateProfile(formData).unwrap();
-      alert("បានធ្វើបច្ចុប្បន្នភាពទម្រង់ដោយជោគជ័យ!");
+      toast.success("បានធ្វើបច្ចុប្បន្នភាពទម្រង់ដោយជោគជ័យ!", {
+        position: "top-right",
+        autoClose: 3000,
+      });
     } catch (err) {
-      alert(
+      toast.error(
         "បរាជ័យក្នុងការធ្វើបច្ចុប្បន្នភាព: " +
-          (err.data?.detail || "កំហុសមិនស្គាល់")
+          (err.data?.detail || "កំហុសមិនស្គាល់"),
+        {
+          position: "top-right",
+          autoClose: 3000,
+        }
       );
     }
   };
@@ -255,7 +265,6 @@ const UserInfo = () => {
       transition={{ duration: 0.5 }}
       className="space-y-6"
     >
-      {/* Profile Card */}
       <div className="bg-gradient-to-r from-[#16789e]/10 to-gray-50 p-4 sm:p-6 rounded-lg shadow-sm">
         <div className="flex flex-col sm:flex-row items-center gap-4 sm:gap-6">
           <div
@@ -295,13 +304,13 @@ const UserInfo = () => {
               <p>{formData.address || "មិនបានបញ្ជាក់"}</p>
             </div>
           </div>
-          <motion.button
+          {/* <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             className="bg-[#16789e] text-white px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg hover:bg-[#0e5a75] transition-colors text-sm sm:text-base"
           >
             ប្ដូររូបថត
-          </motion.button>
+          </motion.button> */}
         </div>
       </div>
 
@@ -312,6 +321,13 @@ const UserInfo = () => {
         </h3>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <InputField
+              label="ឈ្មោះអ្នកប្រើ"
+              name="username"
+              value={formData.username}
+              onChange={handleChange}
+              placeholder="eg. phengsmos"
+            />
             <InputField
               label="ឈ្មោះដំបូង"
               name="first_name"
@@ -326,15 +342,15 @@ const UserInfo = () => {
               onChange={handleChange}
               placeholder="eg. Smos"
             />
+            <InputField
+              label="អ៊ីមែល"
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
+              placeholder="eg. user@example.com"
+              disabled
+            />
           </div>
-          <InputField
-            label="អ៊ីមែល"
-            name="email"
-            value={formData.email}
-            onChange={handleChange}
-            placeholder="eg. user@example.com"
-            disabled
-          />
           <InputField
             label="អាសយដ្ឋាន"
             name="address"
@@ -403,8 +419,6 @@ const TimeReportsContent = () => (
   </div>
 );
 
-const QuestionReportsContent = () => (
-  <div className="p-4 sm:p-6 text-gray-600">របាយការណ៍សំណួរ (មកនៅទីនេះ)</div>
-);
-
 export default UserProfile;
+
+// ... UserInfo and InputField components remain the same ...

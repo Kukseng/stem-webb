@@ -13,18 +13,24 @@ const BlogComponent = ({ isLoggedIn }) => {
   const [showLoginPrompt, setShowLoginPrompt] = useState(false);
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [newArticle, setNewArticle] = useState({ title: "", content: "", image: "" });
+  const [searchError, setSearchError] = useState("");
 
   const navigate = useNavigate();
   const { user, openLoginModal } = useContext(AuthContext);
 
-  // Fetch articles with pagination and search
-  const queryArgs = { page: currentPage, search: searchTerm };
-  const { data, isLoading, isError, error } = useGetAllArticlesQuery(queryArgs);
+  // Fetch articles with pagination, search, and sorting
+  const queryArgs = { page: currentPage, search: searchTerm, ordering: "-created_at" };
+  const { data, isLoading, isError, error, refetch } = useGetAllArticlesQuery(queryArgs);
 
   const [createArticle, { isLoading: isCreating }] = useCreateArticleMutation();
   const [deleteArticle, { isLoading: isDeleting }] = useDeleteArticleMutation();
 
-  // Handle view article with authentication check
+  // Debug API response
+  useEffect(() => {
+    console.log("API Response:", data);
+  }, [data]);
+
+  // Handle view article
   const handleViewArticle = (id) => {
     if (!user) {
       setShowLoginPrompt(true);
@@ -43,7 +49,10 @@ const BlogComponent = ({ isLoggedIn }) => {
   // Handle search
   const handleSearch = (e) => {
     e.preventDefault();
-    setCurrentPage(1); // Reset to first page on new search
+    console.log("Searching for:", searchTerm); // Debug search term
+    setCurrentPage(1);
+    setSearchError("");
+    refetch();
   };
 
   // Handle create article
@@ -58,12 +67,13 @@ const BlogComponent = ({ isLoggedIn }) => {
       await createArticle(newArticle).unwrap();
       setIsCreateModalOpen(false);
       setNewArticle({ title: "", content: "", image: "" });
+      refetch();
     } catch (err) {
       console.error("Failed to create article:", err);
     }
   };
 
-  // Handle delete article (only by owner)
+  // Handle delete article
   const handleDeleteArticle = async (articleId, author) => {
     if (!user) {
       setShowLoginPrompt(true);
@@ -76,14 +86,25 @@ const BlogComponent = ({ isLoggedIn }) => {
     }
     try {
       await deleteArticle(articleId).unwrap();
+      refetch();
     } catch (err) {
       console.error("Failed to delete article:", err);
     }
   };
 
+  // Client-side filtering as fallback
+  const filteredResults = data?.results?.filter((post) =>
+    post.title.toLowerCase().includes(searchTerm.toLowerCase())
+  ) || [];
+
+  // Get recent posts
+  const recentPosts = data?.results
+    ? [...data.results].sort((a, b) => new Date(b.created_at) - new Date(a.created_at)).slice(0, 3)
+    : [];
+
   const totalPages = data?.count ? Math.ceil(data.count / 10) : 1;
 
-  // Pagination display logic
+  // Pagination logic
   const getPageNumbers = () => {
     const pages = [];
     const maxVisiblePages = 5;
@@ -125,7 +146,7 @@ const BlogComponent = ({ isLoggedIn }) => {
 
   return (
     <div className="max-w-6xl mx-auto px-4 py-12 font-sans bg-gradient-to-b from-gray-50 to-white min-h-screen">
-      {/* Header and Search */}
+      {/* Header */}
       <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.8 }} className="mb-12">
         <motion.h1
           className="text-4xl font-bold text-center mb-4 text-gray-800 relative"
@@ -160,9 +181,9 @@ const BlogComponent = ({ isLoggedIn }) => {
               <motion.div className="flex justify-center py-20" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} key="loading">
                 <div className="flex flex-col items-center">
                   <motion.div
-                    className="w-16 h-16 rounded-full"
-                    animate={{ rotate: 360, background: ["#16789e", "#4FB0C6", "#83D0E4", "#16789e"] }}
-                    transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
+                    className="w-16 h-16 rounded-full border-4 border-t-[#16789e] border-gray-200"
+                    animate={{ rotate: 360 }}
+                    transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
                   />
                   <motion.p className="mt-4 text-gray-600 font-medium" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.3 }}>
                     កំពុងផ្ទុកអត្ថបទ...
@@ -178,16 +199,25 @@ const BlogComponent = ({ isLoggedIn }) => {
               <motion.div className="bg-red-50 p-8 rounded-lg text-center shadow-lg border border-red-100" initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.9 }}>
                 <p className="text-red-600 font-medium text-lg">មានបញ្ហាក្នុងការផ្ទុកអត្ថបទ</p>
                 <p className="text-gray-600 mt-2">{error?.data?.message || "សូមព្យាយាមម្តងទៀតពេលក្រោយ"}</p>
-                <motion.button className="mt-4 px-5 py-2 bg-red-500 text-white rounded-lg font-medium" whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} onClick={() => window.location.reload()}>
+                <motion.button className="mt-4 px-5 py-2 bg-red-500 text-white rounded-lg font-medium" whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} onClick={() => refetch()}>
                   ព្យាយាមម្តងទៀត
                 </motion.button>
               </motion.div>
             )}
           </AnimatePresence>
 
+          {/* Search Error */}
+          <AnimatePresence>
+            {searchError && (
+              <motion.div className="bg-yellow-50 p-4 rounded-lg text-center mb-6" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+                <p className="text-yellow-700">{searchError}</p>
+              </motion.div>
+            )}
+          </AnimatePresence>
+
           {/* Articles */}
           <AnimatePresence mode="wait">
-            {!isLoading && !isError && data?.results && data.results.length > 0 && (
+            {!isLoading && !isError && filteredResults.length > 0 && (
               <motion.div
                 className="grid md:grid-cols-2 gap-6"
                 variants={containerVariants}
@@ -196,7 +226,7 @@ const BlogComponent = ({ isLoggedIn }) => {
                 exit="exit"
                 key={`blog-grid-page-${currentPage}`}
               >
-                {data.results.map((post, index) => (
+                {filteredResults.map((post, index) => (
                   <motion.div
                     key={post.id}
                     className="bg-white rounded-xl shadow-md overflow-hidden cursor-pointer group hover:shadow-xl transition-all duration-500 transform hover:-translate-y-2"
@@ -207,7 +237,7 @@ const BlogComponent = ({ isLoggedIn }) => {
                   >
                     <div className="relative overflow-hidden h-52">
                       <motion.img
-                        src={post.image || post.image || "https://img.freepik.com/free-photo/abstract-surface-textures-white-concrete-stone-wall_74190-8189.jpg"}
+                        src={post.image || "https://img.freepik.com/free-photo/abstract-surface-textures-white-concrete-stone-wall_74190-8189.jpg"}
                         alt={post.title}
                         className={`w-full h-full object-cover transition-all duration-700 ${hoveredPost === post.id ? "scale-110 blur-sm brightness-75" : "scale-100"}`}
                         onError={(e) => (e.target.src = "https://img.freepik.com/free-photo/abstract-surface-textures-white-concrete-stone-wall_74190-8189.jpg")}
@@ -294,14 +324,18 @@ const BlogComponent = ({ isLoggedIn }) => {
 
           {/* No Results */}
           <AnimatePresence>
-            {!isLoading && !isError && (!data?.results || data.results.length === 0) && (
+            {!isLoading && !isError && filteredResults.length === 0 && (
               <motion.div className="bg-white p-12 rounded-lg shadow-md text-center" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }}>
                 <p className="text-gray-700 text-xl font-medium mb-1">មិនមានអត្ថបទត្រូវបានរកឃើញ</p>
                 <motion.button
                   className="mt-6 px-5 py-2 bg-[#16789e] text-white rounded-lg font-medium shadow-md"
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  onClick={() => setCurrentPage(1)}
+                  onClick={() => {
+                    setSearchTerm("");
+                    setCurrentPage(1);
+                    refetch();
+                  }}
                 >
                   ត្រឡប់ទៅកាន់ទំព័រដើម
                 </motion.button>
@@ -360,7 +394,7 @@ const BlogComponent = ({ isLoggedIn }) => {
               <div className="relative">
                 <motion.input
                   type="text"
-                  placeholder="ស្វែងរក..."
+                  placeholder="ស្វែងរកតាមចំណងជើង..."
                   className="w-full py-3 px-4 pr-12 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#16789e] focus:border-transparent transition-all bg-gray-50"
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
@@ -368,7 +402,7 @@ const BlogComponent = ({ isLoggedIn }) => {
                   onBlur={() => setIsSearchFocused(false)}
                   animate={isSearchFocused ? { scale: 1.02 } : { scale: 1 }}
                 />
-                <motion.button type="submit" className="absolute right-3 top-1/2 transform -translate-y-1/2 bg-[#16789e] text-white p-2 rounded-md" whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
+                <motion.button type="submit" className="absolute right-3 top-1/2 transform -translate-y-1/2 bg-[#16789e] text-white p-2 rounded-md" >
                   <FaSearch />
                 </motion.button>
               </div>
@@ -391,26 +425,30 @@ const BlogComponent = ({ isLoggedIn }) => {
           <motion.div className="bg-white p-6 rounded-xl shadow-md" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.4 }}>
             <h3 className="text-xl font-bold mb-4 text-gray-800 border-b pb-2">អត្ថបទថ្មីៗ</h3>
             <div className="space-y-4 mt-4">
-              {!isLoading && !isError && data?.results && data.results.slice(0, 3).map((post) => (
-                <motion.div key={`recent-${post.id}`} className="flex gap-3 cursor-pointer group" onClick={() => handleViewArticle(post.id)} whileHover={{ x: 3 }}>
-                  <div className="w-20 h-20 bg-gray-200 rounded-lg overflow-hidden">
-                    <motion.img
-                      src={post.image || post.image || "https://img.freepik.com/free-photo/abstract-surface-textures-white-concrete-stone-wall_74190-8189.jpg"}
-                      alt=""
-                      className="w-full h-full object-cover"
-                      whileHover={{ scale: 1.1 }}
-                      onError={(e) => (e.target.src = "https://img.freepik.com/free-photo/abstract-surface-textures-white-concrete-stone-wall_74190-8189.jpg")}
-                    />
-                  </div>
-                  <div>
-                    <h4 className="font-medium text-gray-800 line-clamp-2 group-hover:text-[#16789e]">{post.title}</h4>
-                    <div className="flex items-center mt-1 text-xs text-gray-500">
-                      <FaCalendarAlt className="mr-1 text-[#16789e]" />
-                      <span>{new Date(post.created_at).toLocaleDateString("km-KH")}</span>
+              {!isLoading && !isError && recentPosts.length > 0 ? (
+                recentPosts.map((post) => (
+                  <motion.div key={`recent-${post.id}`} className="flex gap-3 cursor-pointer group" onClick={() => handleViewArticle(post.id)} whileHover={{ x: 3 }}>
+                    <div className="w-20 h-20 bg-gray-200 rounded-lg overflow-hidden">
+                      <motion.img
+                        src={post.image || "https://img.freepik.com/free-photo/abstract-surface-textures-white-concrete-stone-wall_74190-8189.jpg"}
+                        alt={post.title}
+                        className="w-full h-full object-cover"
+                        whileHover={{ scale: 1.1 }}
+                        onError={(e) => (e.target.src = "https://img.freepik.com/free-photo/abstract-surface-textures-white-concrete-stone-wall_74190-8189.jpg")}
+                      />
                     </div>
-                  </div>
-                </motion.div>
-              ))}
+                    <div>
+                      <h4 className="font-medium text-gray-800 line-clamp-2 group-hover:text-[#16789e]">{post.title}</h4>
+                      <div className="flex items-center mt-1 text-xs text-gray-500">
+                        <FaCalendarAlt className="mr-1 text-[#16789e]" />
+                        <span>{new Date(post.created_at).toLocaleDateString("km-KH", { year: "numeric", month: "long", day: "numeric" })}</span>
+                      </div>
+                    </div>
+                  </motion.div>
+                ))
+              ) : (
+                <p className="text-gray-600">មិនមានអត្ថបទថ្មីៗទេ</p>
+              )}
             </div>
           </motion.div>
 

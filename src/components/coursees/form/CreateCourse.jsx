@@ -41,8 +41,7 @@ const CreateCourseForm = ({ accessToken }) => {
       video_title: "",
     },
   });
-  const [isAddingToExistingCourse, setIsAddingToExistingCourse] =
-    useState(false);
+  const [isAddingToExistingCourse, setIsAddingToExistingCourse] = useState(false);
   const [selectedCourseId, setSelectedCourseId] = useState("");
   const [selectedCategoryId, setSelectedCategoryId] = useState("");
   const [createNewCategory, setCreateNewCategory] = useState(false);
@@ -50,8 +49,7 @@ const CreateCourseForm = ({ accessToken }) => {
   const [modalContent, setModalContent] = useState({ type: "", message: "" });
 
   const { data: courses, isLoading: coursesLoading } = useGetAllCoursesQuery();
-  const { data: categories, isLoading: categoriesLoading } =
-    useGetAllCategoriesQuery();
+  const { data: categories, isLoading: categoriesLoading } = useGetAllCategoriesQuery();
   const [createCourse] = useCreateCourseMutation();
   const [createCategory] = useCreateCategoryMutation();
   const [createLesson] = useCreateLessonMutation();
@@ -59,9 +57,7 @@ const CreateCourseForm = ({ accessToken }) => {
   const [createContent] = useCreateContentMutation();
 
   const courseCategories =
-    categories?.results?.filter(
-      (category) => category.course === selectedCourseId
-    ) || [];
+    categories?.results?.filter((category) => category.course === selectedCourseId) || [];
   const primaryColor = "#16789e";
 
   const handleChange = (e, section) => {
@@ -213,7 +209,7 @@ const CreateCourseForm = ({ accessToken }) => {
 
   if (coursesLoading || categoriesLoading) {
     return (
-      <div className="min-h-screen bg-gray-100 flex items-center justify-center font-suwannaphum">
+      <div className="flex items-center justify-center h-full font-suwannaphum">
         <motion.div
           animate={{ rotate: 360 }}
           transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
@@ -224,48 +220,46 @@ const CreateCourseForm = ({ accessToken }) => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-gray-200 py-12 px-4 font-suwannaphum">
-      <div className="max-w-4xl mx-auto flex flex-col md:flex-row gap-8">
-        {/* Progress Sidebar */}
+    <div className="py-4 sm:py-6 px-2 sm:px-4 font-suwannaphum">
+      <div className="flex flex-col gap-6">
+        {/* Progress Sidebar (Collapsible on Mobile) */}
         <motion.div
           initial={{ opacity: 0, x: -50 }}
           animate={{ opacity: 1, x: 0 }}
-          className="md:w-1/4 bg-white rounded-xl shadow-lg p-6 sticky top-12 h-fit"
+          className="bg-white rounded-xl shadow-lg p-4 sm:p-6"
         >
-          <h2 className="text-xl font-bold text-gray-800 mb-6">វគ្គសិក្សា</h2>
-          {["វគ្គសិក្សា", "ប្រភេទ", "មេរៀន", "ផ្នែក", "ខ្លឹមសារ"].map(
-            (label, index) => (
-              <motion.div
-                key={index}
-                whileHover={{ scale: 1.05 }}
-                className={`flex items-center mb-4 p-2 rounded-lg ${
-                  step === index + 1 ? "bg-blue-100" : ""
+          <h2 className="text-lg sm:text-xl font-bold text-gray-800 mb-4">វគ្គសិក្សា</h2>
+          {["វគ្គសិក្សា", "ប្រភេទ", "មេរៀន", "ផ្នែក", "ខ្លឹមសារ"].map((label, index) => (
+            <motion.div
+              key={index}
+              whileHover={{ scale: 1.05 }}
+              className={`flex items-center mb-3 p-2 rounded-lg ${
+                step === index + 1 ? "bg-blue-100" : ""
+              }`}
+            >
+              <div
+                className={`w-6 h-6 sm:w-8 sm:h-8 rounded-full flex items-center justify-center text-white font-semibold mr-2 sm:mr-3 ${
+                  step > index + 1
+                    ? "bg-green-500"
+                    : step === index + 1
+                    ? "bg-blue-500"
+                    : "bg-gray-300"
                 }`}
               >
-                <div
-                  className={`w-8 h-8 rounded-full flex items-center justify-center text-white font-semibold mr-3 ${
-                    step > index + 1
-                      ? "bg-green-500"
-                      : step === index + 1
-                      ? "bg-blue-500"
-                      : "bg-gray-300"
-                  }`}
-                >
-                  {step > index + 1 ? "✓" : index + 1}
-                </div>
-                <span className="text-gray-700">{label}</span>
-              </motion.div>
-            )
-          )}
+                {step > index + 1 ? "✓" : index + 1}
+              </div>
+              <span className="text-sm sm:text-base text-gray-700">{label}</span>
+            </motion.div>
+          ))}
         </motion.div>
 
         {/* Form Content */}
         <motion.div
-          initial={{ opacity: 0, y: 50 }}
+          initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="md:w-3/4 bg-white rounded-xl shadow-lg p-8"
+          className="bg-white rounded-xl shadow-lg p-4 sm:p-6"
         >
-          <h1 className="text-3xl font-bold text-gray-800 mb-6 text-center bg-gradient-to-r from-blue-600 to-teal-500 text-transparent bg-clip-text">
+          <h1 className="text-xl sm:text-2xl font-bold text-gray-800 mb-4 sm:mb-6 text-center bg-gradient-to-r from-blue-600 to-teal-500 text-transparent bg-clip-text">
             បង្កើតវគ្គសិក្សាថ្មី
           </h1>
 
@@ -282,12 +276,8 @@ const CreateCourseForm = ({ accessToken }) => {
                 <RadioToggle
                   label="បង្កើតវគ្គសិក្សាថ្មី ឬបន្ថែមទៅវគ្គសិក្សាដែលមាន?"
                   options={["បង្កើតថ្មី", "បន្ថែមទៅដែលមាន"]}
-                  value={
-                    isAddingToExistingCourse ? "បន្ថែមទៅដែលមាន" : "បង្កើតថ្មី"
-                  }
-                  onChange={(val) =>
-                    setIsAddingToExistingCourse(val === "បន្ថែមទៅដែលមាន")
-                  }
+                  value={isAddingToExistingCourse ? "បន្ថែមទៅដែលមាន" : "បង្កើតថ្មី"}
+                  onChange={(val) => setIsAddingToExistingCourse(val === "បន្ថែមទៅដែលមាន")}
                 />
                 {!isAddingToExistingCourse ? (
                   <>
@@ -347,9 +337,7 @@ const CreateCourseForm = ({ accessToken }) => {
                     label="ប្រើប្រភេទដែលមានស្រាប់ ឬបង្កើតថ្មី?"
                     options={["ប្រភេទដែលមាន", "បង្កើតថ្មី"]}
                     value={createNewCategory ? "បង្កើតថ្មី" : "ប្រភេទដែលមាន"}
-                    onChange={(val) =>
-                      setCreateNewCategory(val === "បង្កើតថ្មី")
-                    }
+                    onChange={(val) => setCreateNewCategory(val === "បង្កើតថ្មី")}
                   />
                 )}
                 {!createNewCategory && isAddingToExistingCourse ? (
@@ -381,11 +369,7 @@ const CreateCourseForm = ({ accessToken }) => {
                     />
                   </>
                 )}
-                <StepButtons
-                  prevStep={prevStep}
-                  nextStep={nextStep}
-                  isValid={isStepValid()}
-                />
+                <StepButtons prevStep={prevStep} nextStep={nextStep} isValid={isStepValid()} />
               </motion.div>
             )}
 
@@ -415,11 +399,7 @@ const CreateCourseForm = ({ accessToken }) => {
                   icon={<FiImage />}
                   preview={formData.lesson.lesson_image}
                 />
-                <StepButtons
-                  prevStep={prevStep}
-                  nextStep={nextStep}
-                  isValid={isStepValid()}
-                />
+                <StepButtons prevStep={prevStep} nextStep={nextStep} isValid={isStepValid()} />
               </motion.div>
             )}
 
@@ -454,11 +434,7 @@ const CreateCourseForm = ({ accessToken }) => {
                   checked={formData.section.preview}
                   onChange={(e) => handleChange(e, "section")}
                 />
-                <StepButtons
-                  prevStep={prevStep}
-                  nextStep={nextStep}
-                  isValid={isStepValid()}
-                />
+                <StepButtons prevStep={prevStep} nextStep={nextStep} isValid={isStepValid()} />
               </motion.div>
             )}
 
@@ -517,11 +493,7 @@ const CreateCourseForm = ({ accessToken }) => {
                   placeholder="បញ្ចូលចំណងជើងវីដេអូ"
                   icon={<FiPlayCircle />}
                 />
-                <StepButtons
-                  prevStep={prevStep}
-                  isValid={isStepValid()}
-                  submit
-                />
+                <StepButtons prevStep={prevStep} isValid={isStepValid()} submit />
               </motion.div>
             )}
           </form>
@@ -535,7 +507,7 @@ const CreateCourseForm = ({ accessToken }) => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-black/50 flex items-center justify-center z-50"
+            className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 px-4"
             onClick={() => setIsModalOpen(false)}
           >
             <motion.div
@@ -557,15 +529,15 @@ const CreateCourseForm = ({ accessToken }) => {
                     <FiAlertCircle className="text-red-600 text-3xl" />
                   )}
                 </div>
-                <h3 className="text-2xl font-bold mb-2">
+                <h3 className="text-xl sm:text-2xl font-bold mb-2">
                   {modalContent.type === "success" ? "ជោគជ័យ!" : "បរាជ័យ!"}
                 </h3>
-                <p className="text-center mb-6">{modalContent.message}</p>
+                <p className="text-center mb-6 text-sm sm:text-base">{modalContent.message}</p>
                 <motion.button
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                   onClick={() => setIsModalOpen(false)}
-                  className="px-6 py-2 bg-white text-gray-800 rounded-full font-medium"
+                  className="px-6 py-2 bg-white text-gray-800 rounded-full font-medium text-sm sm:text-base"
                 >
                   បិទ
                 </motion.button>
@@ -578,43 +550,34 @@ const CreateCourseForm = ({ accessToken }) => {
   );
 };
 
-
 const StepHeader = ({ icon, title }) => (
   <motion.h2
     initial={{ opacity: 0 }}
     animate={{ opacity: 1 }}
-    className="text-2xl font-semibold text-gray-800 mb-6 flex items-center"
+    className="text-lg sm:text-xl font-semibold text-gray-800 mb-4 sm:mb-6 flex items-center"
   >
-    {React.cloneElement(icon, { className: "mr-3 text-blue-500" })}
+    {React.cloneElement(icon, { className: "mr-2 sm:mr-3 text-blue-500" })}
     {title}
   </motion.h2>
 );
 
-const InputField = ({
-  label,
-  name,
-  value,
-  onChange,
-  placeholder,
-  icon,
-  preview,
-}) => (
-  <motion.div whileHover={{ scale: 1.01 }} className="mb-6">
-    <label className="block text-gray-700 font-medium mb-2">{label}</label>
+const InputField = ({ label, name, value, onChange, placeholder, icon, preview }) => (
+  <motion.div whileHover={{ scale: 1.01 }} className="mb-4 sm:mb-6">
+    <label className="block text-gray-700 font-medium mb-1 sm:mb-2 text-sm sm:text-base">{label}</label>
     <div className="relative">
       <input
         type="text"
         name={name}
         value={value}
         onChange={onChange}
-        className="w-full p-3 pl-10 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all"
+        className="w-full p-2 sm:p-3 pl-8 sm:pl-10 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all text-sm sm:text-base"
         placeholder={placeholder}
         required
       />
       {icon &&
         React.cloneElement(icon, {
           className:
-            "absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400",
+            "absolute left-2 sm:left-3 top-1/2 transform -translate-y-1/2 text-gray-400 text-sm sm:text-base",
         })}
     </div>
     {preview && (
@@ -623,7 +586,7 @@ const InputField = ({
         animate={{ opacity: 1 }}
         src={preview}
         alt="Preview"
-        className="mt-2 w-24 h-24 object-cover rounded-lg border border-gray-200"
+        className="mt-2 w-20 h-20 sm:w-24 sm:h-24 object-cover rounded-lg border border-gray-200"
         onError={(e) => (e.target.src = "https://via.placeholder.com/150")}
       />
     )}
@@ -631,13 +594,13 @@ const InputField = ({
 );
 
 const TextAreaField = ({ label, name, value, onChange, placeholder }) => (
-  <motion.div whileHover={{ scale: 1.01 }} className="mb-6">
-    <label className="block text-gray-700 font-medium mb-2">{label}</label>
+  <motion.div whileHover={{ scale: 1.01 }} className="mb-4 sm:mb-6">
+    <label className="block text-gray-700 font-medium mb-1 sm:mb-2 text-sm sm:text-base">{label}</label>
     <textarea
       name={name}
       value={value}
       onChange={onChange}
-      className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 min-h-[120px] transition-all"
+      className="w-full p-2 sm:p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 min-h-[80px] sm:min-h-[120px] transition-all text-sm sm:text-base"
       placeholder={placeholder}
       required
     />
@@ -645,27 +608,27 @@ const TextAreaField = ({ label, name, value, onChange, placeholder }) => (
 );
 
 const CheckboxField = ({ label, name, checked, onChange }) => (
-  <motion.div whileHover={{ scale: 1.01 }} className="mb-6">
+  <motion.div whileHover={{ scale: 1.01 }} className="mb-4 sm:mb-6">
     <label className="flex items-center space-x-2">
       <input
         type="checkbox"
         name={name}
         checked={checked}
         onChange={onChange}
-        className="form-checkbox text-blue-500 h-5 w-5"
+        className="form-checkbox text-blue-500 h-4 w-4 sm:h-5 sm:w-5"
       />
-      <span className="text-gray-700">{label}</span>
+      <span className="text-gray-700 text-sm sm:text-base">{label}</span>
     </label>
   </motion.div>
 );
 
 const SelectField = ({ label, value, onChange, options }) => (
-  <motion.div whileHover={{ scale: 1.01 }} className="mb-6">
-    <label className="block text-gray-700 font-medium mb-2">{label}</label>
+  <motion.div whileHover={{ scale: 1.01 }} className="mb-4 sm:mb-6">
+    <label className="block text-gray-700 font-medium mb-1 sm:mb-2 text-sm sm:text-base">{label}</label>
     <select
       value={value}
       onChange={onChange}
-      className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all"
+      className="w-full p-2 sm:p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all text-sm sm:text-base"
       required
     >
       <option value="">-- ជ្រើសរើស --</option>
@@ -685,9 +648,9 @@ const SelectField = ({ label, value, onChange, options }) => (
 );
 
 const RadioToggle = ({ label, options, value, onChange }) => (
-  <motion.div whileHover={{ scale: 1.01 }} className="mb-6">
-    <label className="block text-gray-700 font-medium mb-2">{label}</label>
-    <div className="flex space-x-4">
+  <motion.div whileHover={{ scale: 1.01 }} className="mb-4 sm:mb-6">
+    <label className="block text-gray-700 font-medium mb-1 sm:mb-2 text-sm sm:text-base">{label}</label>
+    <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-4">
       {options.map((opt) => (
         <label key={opt} className="flex items-center space-x-2">
           <input
@@ -696,9 +659,9 @@ const RadioToggle = ({ label, options, value, onChange }) => (
             value={opt}
             checked={value === opt}
             onChange={() => onChange(opt)}
-            className="form-radio text-blue-500"
+            className="form-radio text-blue-500 h-4 w-4 sm:h-5 sm:w-5"
           />
-          <span className="text-gray-700">{opt}</span>
+          <span className="text-gray-700 text-sm sm:text-base">{opt}</span>
         </label>
       ))}
     </div>
@@ -706,14 +669,14 @@ const RadioToggle = ({ label, options, value, onChange }) => (
 );
 
 const StepButtons = ({ prevStep, nextStep, isValid, submit }) => (
-  <div className="flex justify-between mt-8">
+  <div className="flex flex-col sm:flex-row justify-between mt-6 sm:mt-8 gap-3 sm:gap-0">
     {prevStep && (
       <motion.button
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
         type="button"
         onClick={prevStep}
-        className="px-6 py-3 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-all"
+        className="px-4 py-2 sm:px-6 sm:py-3 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-all text-sm sm:text-base w-full sm:w-auto"
       >
         ថយក្រោយ
       </motion.button>
@@ -724,7 +687,7 @@ const StepButtons = ({ prevStep, nextStep, isValid, submit }) => (
       type={submit ? "submit" : "button"}
       onClick={!submit ? nextStep : undefined}
       disabled={!isValid}
-      className={`px-6 py-3 rounded-lg transition-all ${
+      className={`px-4 py-2 sm:px-6 sm:py-3 rounded-lg transition-all text-sm sm:text-base w-full sm:w-auto ${
         isValid
           ? "bg-gradient-to-r from-blue-500 to-teal-600 text-white hover:from-blue-600 hover:to-teal-700"
           : "bg-gray-300 text-gray-500 cursor-not-allowed"
