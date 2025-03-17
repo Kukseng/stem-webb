@@ -61,7 +61,7 @@ const UserProfile = () => {
     );
 
   return (
-    <div className="font-suwannaphum min-h-screen bg-gray-100 pt-[64px] md:pt-0">
+    <div className="font-suwannaphum min-h-screen bg-gray-100pt-[64px] md:pt-0">
       <ToastContainer position="top-right" autoClose={3000} hideProgressBar={false} />
 
       {/* Mobile Sidebar Button */}
@@ -69,7 +69,7 @@ const UserProfile = () => {
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
         onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-        className="fixed top-20 left-4 z-50 md:hidden bg-[#16789e] text-white p-2 rounded-full shadow-lg"
+        className="fixed top-120 left-4 z-50 md:hidden bg-[#16789e] text-white p-2 rounded-full shadow-lg"
         aria-label={isSidebarOpen ? "Close Sidebar" : "Open Sidebar"}
       >
         {isSidebarOpen ? <FaChevronLeft size={20} /> : <FaChevronRight size={20} />}
@@ -84,10 +84,10 @@ const UserProfile = () => {
               animate={{ x: 0, opacity: 1 }}
               exit={{ x: -300, opacity: 0 }}
               transition={{ duration: 0.3 }}
-              className="fixed top-[64px] left-0 w-64 h-[calc(100vh-64px)] bg-white rounded-r-xl shadow-lg p-4 z-50 md:static md:top-0 md:w-64 md:h-fit md:rounded-xl md:shadow-lg"
+              className="fixed top-[100px] left-0 w-64 h-[calc(100vh-64px)] bg-white rounded-r-xl shadow-lg p-4 z-50 md:static md:top-0 md:w-64 md:h-fit md:rounded-xl md:shadow-lg"
             >
               <div className="flex justify-between items-center mb-4">
-                <h2 className="text-lg font-bold text-gray-800">ម៉ឺនុយ</h2>
+                <h2 className="text-lg font-bold text-gray-800">មីនុយ</h2>
                 <motion.button
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
