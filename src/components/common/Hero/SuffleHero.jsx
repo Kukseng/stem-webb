@@ -10,7 +10,7 @@ import pic3 from "../../../assets/images/about-us/pic3.png";
 
 const ShuffleHero = () => {
   return (
-    <section className="max-w-[1300px] px-6 py-16 md:py-24 bg-gradient-to-b from-gray-50 to-white grid grid-cols-1 md:grid-cols-2 items-center gap-12 w-full mx-auto">
+    <section className=" px-6 py-16 md:py-24 bg-gradient-to-b from-gray-50 to-white grid grid-cols-1 md:grid-cols-2 items-center gap-12 w-full mx-auto">
       {/* Text Section */}
       <motion.div
         initial={{ x: -100, opacity: 0 }}
@@ -28,14 +28,14 @@ const ShuffleHero = () => {
           សិស្សបន្ទាប់ពីបញ្ចប់ថ្នាក់មធ្យមសិក្សាទុតិយភូមិ ឬមិនទាន់បញ្ចប់ ក៏អាចសិក្សានៅលើវេបសាយរបស់យើងបានដែរ។ យើងផ្តល់ចំណេះដឹងទាន់សម័យ និងបទពិសោធន៍អប់រំដែលផ្លាស់ប្តូរជីវិត ដើម្បីជួយអ្នកឈានទៅដល់សក្តានុពលពេញលេញ។
         </p>
         <div className="flex items-center space-x-4">
-        <button className="bg-primary text-white px-4 py-2 sm:px-6 sm:py-3 md:px-8 md:py-4 text-[16px] sm:text-[18px] md:text-[20px] rounded-full flex items-center space-x-2 hover:bg-opacity-90 transition-all shadow-md animate-bounce-in">
-                <span className="font-medium">ចាប់ផ្តើមឥឡូវ</span>
-              </button>
-       
+          <button className="bg-primary text-white px-4 py-2 sm:px-6 sm:py-3 md:px-8 md:py-4 text-[16px] sm:text-[18px] md:text-[20px] rounded-full flex items-center space-x-2 hover:bg-opacity-90 transition-all shadow-md animate-bounce-in">
+            <span className="font-medium">ចាប់ផ្តើមឥឡូវ</span>
+          </button>
+
         </div>
       </motion.div>
 
-     
+
       <ShuffleGrid />
     </section>
   );
