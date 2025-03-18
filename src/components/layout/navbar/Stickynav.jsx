@@ -5,7 +5,7 @@ const Stickynav = () => {
     <section className="w-full flex justify-center items-center p-2 bg-primary     font-suwan">
       <div className="flex justify-center items-center">
        
-        <p className="text-[#FFFFFF] font-normal  text-[14px] sm:text-[18px]">
+        <p className="text-[#FFFFFF] font-normal  text-[14px] sm:text-[16px]">
          
           <span className="sm:hidden md:hidden">
           🚀 "ទទួលបានការបង្រៀនពីអ្នកជំនាញ ដោះស្រាយបញ្ហាតាមបែបងាយៗ"

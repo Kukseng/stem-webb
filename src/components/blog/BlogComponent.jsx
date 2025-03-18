@@ -18,19 +18,17 @@ const BlogComponent = ({ isLoggedIn }) => {
   const navigate = useNavigate();
   const { user, openLoginModal } = useContext(AuthContext);
 
-  // Fetch articles with pagination, search, and sorting
   const queryArgs = { page: currentPage, search: searchTerm, ordering: "-created_at" };
   const { data, isLoading, isError, error, refetch } = useGetAllArticlesQuery(queryArgs);
 
   const [createArticle, { isLoading: isCreating }] = useCreateArticleMutation();
   const [deleteArticle, { isLoading: isDeleting }] = useDeleteArticleMutation();
 
-  // Debug API response
+
   useEffect(() => {
     console.log("API Response:", data);
   }, [data]);
 
-  // Handle view article
   const handleViewArticle = (id) => {
     if (!user) {
       setShowLoginPrompt(true);
@@ -40,13 +38,13 @@ const BlogComponent = ({ isLoggedIn }) => {
     }
   };
 
-  // Handle page change
+
   const handlePageChange = (page) => {
     setCurrentPage(page);
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
-  // Handle search
+
   const handleSearch = (e) => {
     e.preventDefault();
     console.log("Searching for:", searchTerm); // Debug search term
@@ -55,7 +53,7 @@ const BlogComponent = ({ isLoggedIn }) => {
     refetch();
   };
 
-  // Handle create article
+
   const handleCreateArticle = async (e) => {
     e.preventDefault();
     if (!user) {
@@ -104,7 +102,7 @@ const BlogComponent = ({ isLoggedIn }) => {
 
   const totalPages = data?.count ? Math.ceil(data.count / 10) : 1;
 
-  // Pagination logic
+  
   const getPageNumbers = () => {
     const pages = [];
     const maxVisiblePages = 5;
@@ -131,7 +129,7 @@ const BlogComponent = ({ isLoggedIn }) => {
     return pages;
   };
 
-  // Animation variants
+
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: { opacity: 1, transition: { staggerChildren: 0.1, delayChildren: 0.2 } },
@@ -206,10 +204,10 @@ const BlogComponent = ({ isLoggedIn }) => {
             )}
           </AnimatePresence>
 
-          {/* Search Error */}
+      
           <AnimatePresence>
             {searchError && (
-              <motion.div className="bg-yellow-50 p-4 rounded-lg text-center mb-6" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+              <motion.div className="bg-yellow-50 p-4 rounded-[40px] text-center mb-6" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
                 <p className="text-yellow-700">{searchError}</p>
               </motion.div>
             )}
@@ -395,7 +393,7 @@ const BlogComponent = ({ isLoggedIn }) => {
                 <motion.input
                   type="text"
                   placeholder="ស្វែងរកតាមចំណងជើង..."
-                  className="w-full py-3 px-4 pr-12 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#16789e] focus:border-transparent transition-all bg-gray-50"
+                  className="w-full py-3 px-4 pr-12 border border-gray-300 rounded-[40px] focus:outline-none focus:ring-2 focus:ring-[#16789e] focus:border-transparent transition-all bg-gray-50"
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                   onFocus={() => setIsSearchFocused(true)}
@@ -409,9 +407,9 @@ const BlogComponent = ({ isLoggedIn }) => {
             </form>
           </motion.div>
 
-          {/* Create Article Button */}
+      
           {isLoggedIn && (
-            <motion.div className="bg-white p-6 rounded-xl shadow-md" whileHover={{ y: -3 }}>
+            <motion.div className="bg-white p-6 rounded-[40px] shadow-md" whileHover={{ y: -3 }}>
               <button
                 onClick={() => setIsCreateModalOpen(true)}
                 className="w-full px-6 py-2 bg-[#16789e] text-white rounded-full hover:bg-opacity-90 transition-colors font-medium"
@@ -428,7 +426,7 @@ const BlogComponent = ({ isLoggedIn }) => {
               {!isLoading && !isError && recentPosts.length > 0 ? (
                 recentPosts.map((post) => (
                   <motion.div key={`recent-${post.id}`} className="flex gap-3 cursor-pointer group" onClick={() => handleViewArticle(post.id)} whileHover={{ x: 3 }}>
-                    <div className="w-20 h-20 bg-gray-200 rounded-lg overflow-hidden">
+                    <div className="w-20 h-20 bg-gray-200 rounded-[40px] overflow-hidden">
                       <motion.img
                         src={post.image || "https://img.freepik.com/free-photo/abstract-surface-textures-white-concrete-stone-wall_74190-8189.jpg"}
                         alt={post.title}

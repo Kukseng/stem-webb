@@ -255,20 +255,7 @@ function MainNavbar() {
                     {item.label}
                   </Link>
                 ))}
-                {/* Mobile Search Bar (No Button) */}
-                <div className="flex items-center relative bg-white bg-opacity-30 backdrop-blur-md border rounded-[40px] border-card overflow-hidden">
-                  <Search className="h-5 w-10 text-gray-400 ml-2" />
-                  <input
-                    type="text"
-                    placeholder="ស្វែងរក..."
-                    className="w-full px-2 py-1.5 border-none outline-none focus:ring-0 focus:outline-none bg-transparent text-sm"
-                    onKeyDown={(e) => {
-                      if (e.key === "Enter") {
-                        console.log("Search query:", e.target.value);
-                      }
-                    }}
-                  />
-                </div>
+             
               </div>
             </motion.div>
           )}
