@@ -25,8 +25,8 @@ import pic12 from "../../assets/images/about-us/pic12.png"
 
 
 // import react from "../../assets/logo-tec/React.png";
-import java from "../../assets/logo-tec/java.png";
-import JS from "../../assets/JS.png";
+// import java from "../../assets/logo-tec/java.png";
+// import JS from "../../assets/JS.png";
 // import phyton from "../../assets/logo-tec/Phyton.png";
 // import Mongo from "../../assets/logo-tec/Mongo.png";
 // import PostSql from "../../assets/logo-tec/postgresql-logo.png";
@@ -414,13 +414,7 @@ const Aboutus = () => {
             alt="Tailwind"
             className="w-24 lg:w-32 filter drop-shadow-lg"
           />
-          <motion.img
-            variants={techIconVariants}
-            whileHover="hover"
-            src={java}
-            alt="Java"
-            className="w-16 lg:w-24 filter drop-shadow-lg"
-          />
+        
         </motion.div>
 
         <motion.div
