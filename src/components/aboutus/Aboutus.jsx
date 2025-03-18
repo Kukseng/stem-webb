@@ -22,6 +22,7 @@ import pic5 from "../../assets/images/about-us/pic5.png";
 import pic6 from "../../assets/images/about-us/pic6.png";
 import pic11 from "../../assets/images/about-us/pic11.png"
 import pic12 from "../../assets/images/about-us/pic12.png"
+import pic13 from "../../assets/images/about-us/pic13.png"
 
 
 // import react from "../../assets/logo-tec/React.png";
@@ -122,11 +123,11 @@ const Aboutus = () => {
         "អ្នករចនាដែលផ្តោតលើការបង្កើតបទពិសោធន៍អ្នកប្រើប្រាស់ដ៏ល្អ និងការអប់រំតាមរយៈការរចនា។",
     },
     {
-      name: "ធឿន ចន្ថាត ",
-      role: "Frontend Developer",
-      image: pic6,
+      name: "ហូ​ ហាវ",
+      role: "UX/UI Designer",
+      image: pic12,
       description:
-        "គ្រូបង្រៀនដែលជួយសិស្សអភិវឌ្ឍជំនាញ STEM តាមរយៈវគ្គសិក្សាអនុវត្តជាក់ស្តែង។",
+        "អ្នករចនាដែលផ្តោតលើការបង្កើតបទពិសោធន៍អ្នកប្រើប្រាស់ដ៏ល្អ និងការអប់រំតាមរយៈការរចនា។",
     },
     {
       name: "ភូ​ កុកសេង",
@@ -135,27 +136,28 @@ const Aboutus = () => {
       description:
         "អ្នកសម្របសម្រួលកម្មវិធីដែលភ្ជាប់ទំនាក់ទំនងរវាងសិស្ស និងអ្នកណែនាំក្នុងវិស័យ iSTEM។",
     },
+     {
+      name: "ធឿន ចន្ថាត ",
+      role: "Java Developer",
+      image: pic6,
+      description:
+        "គ្រូបង្រៀនដែលជួយសិស្សអភិវឌ្ឍជំនាញ STEM តាមរយៈវគ្គសិក្សាអនុវត្តជាក់ស្តែង។",
+    },
     {
-      name: "សុខ រីណា",
-      role: "Content Creator",
+      name: "គីវ សៀវហួរ",
+      role: "Java Developer",
       image: pic11,
       description:
         "អ្នកបង្កើតមាតិកាដែលផលិតធនធានអប់រំដ៏ទាក់ទាញសម្រាប់សិស្ស iSTEM។",
     },
     {
-      name: "សុខ រីណា",
-      role: "Content Creator",
-      image: pic12,
+      name: "ប៉ិច រតនៈមុន្នី",
+      role: "Java Developer",
+      image: pic13,
       description:
         "អ្នកបង្កើតមាតិកាដែលផលិតធនធានអប់រំដ៏ទាក់ទាញសម្រាប់សិស្ស iSTEM។",
     },
-    {
-      name: "សុខ រីណា",
-      role: "Content Creator",
-      image: pic12,
-      description:
-        "អ្នកបង្កើតមាតិកាដែលផលិតធនធានអប់រំដ៏ទាក់ទាញសម្រាប់សិស្ស iSTEM។",
-    },
+   
   ];
 
   return (
