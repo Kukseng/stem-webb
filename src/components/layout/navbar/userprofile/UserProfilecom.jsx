@@ -64,7 +64,7 @@ const UserProfile = () => {
     <div className="font-suwannaphum min-h-screen bg-gray-100pt-[64px] md:pt-0">
       <ToastContainer position="top-right" autoClose={3000} hideProgressBar={false} />
 
-      {/* Mobile Sidebar Button */}
+    
       <motion.button
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
@@ -295,7 +295,7 @@ const UserInfo = () => {
             </motion.div>
           </div>
           <div className="text-center sm:text-left flex-1">
-            <h2 className="text-lg sm:text-xl font-bold text-gray-800">
+            <h2 className="text-lg sm:text-xl font-medium  text-descrid ">
               {formData.first_name} {formData.last_name}
             </h2>
             <p className="text-gray-600 text-sm">សិស្ស</p>

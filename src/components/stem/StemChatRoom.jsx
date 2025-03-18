@@ -11,7 +11,6 @@ const StemChatRoom = ({ forum, currentUsername, accessToken }) => {
   const [showChat, setShowChat] = useState(false);
   const [newMessage, setNewMessage] = useState("");
 
-  // Poll forum data to get comments
   const { data: forumData, isLoading } = useGetForumByIdQuery(forum.id, {
     skip: !showChat,
     pollingInterval: 5000,
@@ -62,7 +61,7 @@ const StemChatRoom = ({ forum, currentUsername, accessToken }) => {
         <FiMessageSquare size={16} className="mr-1" /> Chat ({messages.length})
       </button>
 
-      {/* Chat Window */}
+      {/* Chat */}
       <AnimatePresence>
         {showChat && (
           <motion.div

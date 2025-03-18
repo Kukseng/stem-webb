@@ -21,14 +21,14 @@ import pic4 from "../../assets/images/about-us/pic4.png";
 import pic5 from "../../assets/images/about-us/pic5.png";
 import pic6 from "../../assets/images/about-us/pic6.png";
 
-import react from "../../assets/logo-tec/React.png";
-import java from "../../assets/logo-tec/Java-Symbol.png";
+// import react from "../../assets/logo-tec/React.png";
+import java from "../../assets/logo-tec/java.png";
 import JS from "../../assets/JS.png";
-import phyton from "../../assets/logo-tec/Phyton.png";
-import Mongo from "../../assets/logo-tec/Mongo.png";
-import PostSql from "../../assets/logo-tec/postgresql-logo.png";
-import Tailwind from "../../assets/logo-tec/Tailwind.png";
-import Reactjs from "../../assets/logo-tec/React.webp";
+// import phyton from "../../assets/logo-tec/Phyton.png";
+// import Mongo from "../../assets/logo-tec/Mongo.png";
+// import PostSql from "../../assets/logo-tec/postgresql-logo.png";
+// import Tailwind from "../../assets/logo-tec/Tailwind.png";
+// import Reactjs from "../../assets/logo-tec/React.webp";
 
 const Aboutus = () => {
   const [openQuestion, setOpenQuestion] = useState(null);
@@ -375,21 +375,21 @@ const Aboutus = () => {
           <motion.img
             variants={techIconVariants}
             whileHover="hover"
-            src={Reactjs}
+            src="https://cdn3d.iconscout.com/3d/premium/thumb/react-3d-icon-download-in-png-blend-fbx-gltf-file-formats--logo-javascript-library-frontend-development-social-media-and-tech-tools-pack-design-icons-10887712.png?f=webp"
             alt="React"
             className="w-24 lg:w-32 filter drop-shadow-lg"
           />
           <motion.img
             variants={techIconVariants}
             whileHover="hover"
-            src={JS}
+            src="https://cdn3d.iconscout.com/3d/free/thumb/free-javascript-3d-icon-download-in-png-blend-fbx-gltf-file-formats--html-logo-vue-angular-coding-lang-pack-logos-icons-7577991.png"
             alt="JavaScript"
             className="w-16 lg:w-24 filter drop-shadow-lg"
           />
           <motion.img
             variants={techIconVariants}
             whileHover="hover"
-            src={Tailwind}
+            src="https://cdn3d.iconscout.com/3d/free/thumb/free-tailwind-3d-icon-download-in-png-blend-fbx-gltf-file-formats--html-logo-css-framework-customizable-coding-lang-pack-logos-icons-7577995.png"
             alt="Tailwind"
             className="w-24 lg:w-32 filter drop-shadow-lg"
           />
@@ -411,22 +411,22 @@ const Aboutus = () => {
           <motion.img
             variants={techIconVariants}
             whileHover="hover"
-            src={phyton}
+            src="https://cdn3d.iconscout.com/3d/premium/thumb/python-3d-icon-download-in-png-blend-fbx-gltf-file-formats--logo-development-code-programming-computer-science-pack-technology-icons-5602757.png?f=webp"
             alt="Python"
             className="w-24 lg:w-32 filter drop-shadow-lg"
           />
           <motion.img
             variants={techIconVariants}
             whileHover="hover"
-            src={PostSql}
+            src="https://cdn3d.iconscout.com/3d/free/thumb/free-sql-3d-icon-download-in-png-blend-fbx-gltf-file-formats--database-data-management-relational-logo-analysis-coding-lang-pack-logos-icons-7578022.png?f=webp"
             alt="PostgreSQL"
             className="w-24 lg:w-32 filter drop-shadow-lg"
           />
           <motion.img
             variants={techIconVariants}
             whileHover="hover"
-            src={Mongo}
-            alt="MongoDB"
+            src="https://cdn3d.iconscout.com/3d/free/thumb/free-github-3d-icon-download-in-png-blend-fbx-gltf-file-formats--logo-social-media-pack-logos-icons-6491025.png?f=webp"
+            alt="Github"
             className="w-32 lg:w-40 filter drop-shadow-lg"
           />
         </motion.div>

@@ -3,7 +3,7 @@ import { Routes, Route } from "react-router";
 import { AuthProvider } from "../components/context/AuthContext.jsx";
 import ProtectedRoute from "../components/ProtectedRoute.jsx";
 import HomePage from "../pages/contents/HomePage";
-import CoursePage from "../pages/contents/course/coursepage";
+// import CoursePage from "../pages/contents/course/coursepage";
 import AboutPage from "../pages/contents/AboutPage";
 import BlogPage from "../pages/contents/BlogPage";
 import AllCoursePage from "../pages/contents/AllCoursePage";
@@ -18,6 +18,7 @@ import ForumPage from "../pages/contents/ForumPage";
 import BlogDetail from "../components/blog/BlogDetail";
 import StemCommunity from "../pages/contents/StemCommunity.jsx";
 import ProfilePage from "../pages/contents/ProfilePage.jsx";
+import ForumDetail from "../components/coursees/forum/ForumDetail.jsx";
 
 export default function AppRoutes() {
   return (
@@ -72,6 +73,16 @@ export default function AppRoutes() {
             </MainLayout>
           }
         />
+        <Route
+          path="/forum/:id"
+          element={
+            <ProtectedRoute>
+            <MainLayout>
+              <ForumDetail/>
+            </MainLayout>
+            </ProtectedRoute>
+          }
+        />
 
         {/* Protected Routes */}
         <Route
@@ -98,7 +109,7 @@ export default function AppRoutes() {
             </MainLayout>
           }
         />
-        <Route
+        {/* <Route
           path="/courses/:courseId/categories/:categoryId"
           element={
             <ProtectedRoute>
@@ -107,7 +118,7 @@ export default function AppRoutes() {
               </MainLayout>
             </ProtectedRoute>
           }
-        />
+        /> */}
         <Route
           path="/courses/:courseId/categories/:categoryId/lessons"
           element={<LessonsCard />}
