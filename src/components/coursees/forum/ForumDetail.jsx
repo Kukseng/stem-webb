@@ -3,6 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useGetForumByIdQuery } from "../../../api/forums-api";
 import { FiX } from "react-icons/fi";
 import { motion } from "framer-motion";
+import SkeletonForumCard from "./SkeletonForumCard";
 
 const ForumDetail = () => {
   const { id } = useParams();
@@ -10,7 +11,7 @@ const ForumDetail = () => {
   const { data: forum, isLoading, error } = useGetForumByIdQuery(id);
 
   if (isLoading) {
-    return <div className="text-center py-10">កំពុងផ្ទុក...</div>;
+    return <div className="text-center py-10"><SkeletonForumCard/></div>;
   }
 
   if (error) {
