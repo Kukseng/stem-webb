@@ -137,7 +137,11 @@ function MainNavbar() {
                 key={item.label}
                 to={item.href}
                 onClick={() => handleLinkClick(item.href)}
-                className="px-1 lg:px-2 text-gray-700 hover:text-[#1e8fb8] transition-colors duration-200 font-medium 2xl:text-[24px] xl:text-[22px] md:text-[18px] lg:text-[20px] text-[16px] flex items-center whitespace-nowrap"
+                className={`px-1 lg:px-2 transition-colors duration-200 font-medium 2xl:text-[24px] xl:text-[22px] md:text-[18px] lg:text-[20px] text-[16px] flex items-center whitespace-nowrap ${
+                  location.pathname === item.href
+                    ? "text-[#1e8fb8] border-b-2 border-[#1e8fb8]"
+                    : "text-gray-700 hover:text-[#1e8fb8]"
+                }`}
               >
                 {item.label}
               </Link>
@@ -145,8 +149,6 @@ function MainNavbar() {
           </div>
 
           <div className="flex items-center space-x-2 md:space-x-3 lg:space-x-4">
-          
-
             {user ? (
               <Dropdown
                 label={
@@ -193,7 +195,11 @@ function MainNavbar() {
                         as={Link}
                         to={item.href}
                         onClick={() => handleLinkClick(item.href)}
-                        className="flex items-center space-x-2 text-gray-700 hover:text-[#1e8fb8] hover:bg-gray-50"
+                        className={`flex items-center space-x-2 ${
+                          location.pathname === item.href
+                            ? "text-[#1e8fb8] bg-gray-50"
+                            : "text-gray-700 hover:text-[#1e8fb8] hover:bg-gray-50"
+                        }`}
                       >
                         <item.icon className="h-5 w-5" />
                         <span>{item.label}</span>
@@ -213,7 +219,13 @@ function MainNavbar() {
             ) : (
               <Link to="/login">
                 <div className="flex items-center space-x-4 sm:space-x-3">
-                  <button className="hidden sm:block text-primary hover:text-[#1e8fb8] 2xl:text-[22px] xl:text-[20px] md:text-[18px] lg:text-[19px] text-[16px] font-medium transition-colors whitespace-nowrap">
+                  <button
+                    className={`hidden sm:block 2xl:text-[22px] xl:text-[20px] md:text-[18px] lg:text-[19px] text-[16px] font-medium transition-colors whitespace-nowrap ${
+                      location.pathname === "/login"
+                        ? "text-[#1e8fb8]"
+                        : "text-primary hover:text-[#1e8fb8]"
+                    }`}
+                  >
                     ចូលគណនី
                   </button>
                 </div>
@@ -250,12 +262,15 @@ function MainNavbar() {
                     key={item.label}
                     to={item.href}
                     onClick={() => handleLinkClick(item.href)}
-                    className="block text-gray-700 hover:text-[#1e8fb8] transition-colors duration-200 font-medium text-[18px]"
+                    className={`block transition-colors duration-200 font-medium text-[18px] ${
+                      location.pathname === item.href
+                        ? "text-[#1e8fb8] border-l-4 border-[#1e8fb8] pl-2"
+                        : "text-gray-700 hover:text-[#1e8fb8]"
+                    }`}
                   >
                     {item.label}
                   </Link>
                 ))}
-             
               </div>
             </motion.div>
           )}
