@@ -1,8 +1,6 @@
 // src/api/forumApi.js
 import { apiSlice } from './api-slice';
 
-
-
 export const forumApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     createForum: builder.mutation({
@@ -18,7 +16,7 @@ export const forumApi = apiSlice.injectEndpoints({
       providesTags: ['Forum'],
     }),
     getForumById: builder.query({
-      query: (id) => `forums/${id}`,
+      query: (id) => `forums/${id}/`,
       providesTags: ['Forum'],
     }),
     updateForum: builder.mutation({
@@ -36,18 +34,15 @@ export const forumApi = apiSlice.injectEndpoints({
       }),
       invalidatesTags: ['Forum'],
     }),
-   replyToForum: builder.mutation({
-  query: (commentData) => ({
-    url: 'comments/',
-    method: 'POST',
-    body: commentData,
-  }),
-  invalidatesTags: ['Forum', 'Comment'], // This should trigger refetch
-}),
-    getAllComments: builder.query({
-      query: () => 'comments/',
-      providesTags: ['Comment'],
+    replyToForum: builder.mutation({
+      query: (commentData) => ({
+        url: 'comments/',
+        method: 'POST',
+        body: commentData,
+      }),
+      invalidatesTags: ['Forum'], // Refetch forum to get updated comments
     }),
+    // Remove getAllComments if not filtered by forum_id; rely on getForumById
   }),
 });
 
@@ -58,5 +53,4 @@ export const {
   useUpdateForumMutation,
   useDeleteForumMutation,
   useReplyToForumMutation,
-  useGetAllCommentsQuery,
 } = forumApi;

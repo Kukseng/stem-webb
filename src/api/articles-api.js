@@ -1,4 +1,3 @@
-// src/api/articleApi.js
 import { apiSlice } from './api-slice';
 
 export const articleApi = apiSlice.injectEndpoints({
@@ -12,7 +11,7 @@ export const articleApi = apiSlice.injectEndpoints({
       invalidatesTags: ['Article'],
     }),
     getAllArticles: builder.query({
-      query: () => 'articles/',
+      query: ({ page = 1 }) => `articles/?page=${page}`, // Updated to support pagination
       providesTags: ['Article'],
     }),
     getArticleById: builder.query({

@@ -1,154 +1,157 @@
-import React, { useEffect } from "react";
+import React, { useState } from "react";
 import {
-    ArrowRight,
-    Facebook,
-    Linkedin,
-    Github,
-    Instagram,
+  ArrowRight,
+  Facebook,
+  Linkedin,
+  Github,
+  Instagram,
 } from "lucide-react";
-import img from "../../assets/images/logo/cher.png";
-import img1 from "../../assets/images/logo/ISTAD.png";
-import react from "../../assets/React.png";
-import java from "../../assets/Java.png";
-import JS from "../../assets/JS.png";
-import phyton from "../../assets/Phyton.png";
-import Mongo from "../../assets/Mongo.png";
-import PostSql from "../../assets/PostSql.png";
-import Tailwind from "../../assets/Tailwind.png";
-import Reactjs from "../../assets/React.png";
+import { motion } from "framer-motion";
+import ShuffleHero from "../common/Hero/SuffleHero.jsx";
 
-import { motion } from "framer-motion"; //motin for animation
-import ShuffleHero from "../common/Hero/SuffleHero";
+import img from "../../assets/images/logo/cher.png";
+// import img1 from "../../assets/images/logo/ISTAD.png";
+// import pic2 from "../../assets/about-us/pic2.jpg";
+// import cher from "../../assets/images/logo/cher.png";
+import pic3 from "../../assets/images/about-us/pic3.png";
+// import pic1 from "../../assets/images/about-us/pic1.png";
+import pic2 from "../../assets/images/about-us/pic2.png";
+import pic4 from "../../assets/images/about-us/pic4.png";
+import pic5 from "../../assets/images/about-us/pic5.png";
+import pic6 from "../../assets/images/about-us/pic6.png";
+
+import react from "../../assets/logo-tec/React.png";
+import java from "../../assets/logo-tec/Java-Symbol.png";
+import JS from "../../assets/JS.png";
+import phyton from "../../assets/logo-tec/Phyton.png";
+import Mongo from "../../assets/logo-tec/Mongo.png";
+import PostSql from "../../assets/logo-tec/postgresql-logo.png";
+import Tailwind from "../../assets/logo-tec/Tailwind.png";
+import Reactjs from "../../assets/logo-tec/React.webp";
 
 const Aboutus = () => {
-    const containerVariants = {
-        hidden: { opacity: 0 },
-        visible: {
-            opacity: 1,
-            transition: {
-                staggerChildren: 0.3,
-            },
-        },
-    };
+  const [openQuestion, setOpenQuestion] = useState(null);
 
-    const itemVariants = {
-        hidden: { y: 50, opacity: 0 },
-        visible: {
-            y: 0,
-            opacity: 1,
-            transition: {
-                type: "spring",
-                stiffness: 100,
-                damping: 12,
-            },
-        },
-    };
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: { opacity: 1, transition: { staggerChildren: 0.3 } },
+  };
+
+  const itemVariants = {
+    hidden: { y: 50, opacity: 0 },
+    visible: {
+      y: 0,
+      opacity: 1,
+      transition: { type: "spring", stiffness: 100, damping: 12 },
+    },
+  };
 
   const techIconVariants = {
     hidden: { scale: 0.8, opacity: 0 },
     visible: {
       scale: 1,
       opacity: 1,
-      transition: {
-        type: "spring",
-        stiffness: 200,
-      },
+      transition: { type: "spring", stiffness: 200 },
     },
     hover: {
       scale: 1.1,
       rotate: [0, -10, 10, -5, 5, 0],
-      transition: {
-        duration: 0.5,
-      },
+      transition: { duration: 0.5 },
     },
   };
 
-    useEffect(() => {
-        const handleScroll = () => {
-            const scrollY = window.scrollY;
-            const heroImage = document.querySelector(".hero-image");
-            const heroText = document.querySelector(".hero-text");
+  const faqData = [
+    // ... (FAQ data unchanged) ...
+    {
+      question: "តើ iSTEM Education ជាអ្វី?",
+      answer:
+        "iSTEM Education រួមបញ្ចូលវិទ្យាសាស្ត្រ បច្ចេកវិទ្យា វិស្វកម្ម និងគណិតវិទ្យា (STEM) ដោយផ្តោតលើការច្នៃប្រឌិត និងភាពជាសហគ្រិន។ វាសង្កត់ធ្ងន់ទៅលើការដោះស្រាយបញ្ហា ការគិតបែបរិះគន់ និងការរៀនដោយដៃ ដើម្បីរៀបចំសិស្សសម្រាប់អាជីពក្នុងវិស័យដែលកំពុងរីកចម្រើន។ វាលើកទឹកចិត្តសិស្សឱ្យអភិវឌ្ឍបច្ចេកវិទ្យាថ្មីៗ និងដំណោះស្រាយប្រកបដោយភាពច្នៃប្រឌិត។",
+    },
+    {
+      question: "តើ iSTEM ខុសពីការអប់រំបែបប្រពៃណីយ៉ាងដូចម្តេច?",
+      answer:
+        "iSTEM ខុសពីការអប់រំបែបប្រពៃណី ដោយវាផ្តោតលើការរៀនតាមរយៈការអនុវត្តជាក់ស្តែង និងគម្រោងជាក់លាក់ ជាជាងការចងចាំចំណេះដឹងតាមទ្រឹស្តី។ វាលើកទឹកចិត្តឱ្យសិស្សស្វែងរកចម្លើយដោយខ្លួនឯង និងធ្វើការជាក្រុម ខណៈពេលដែលការអប់រំបែបប្រពៃណីភាគច្រើនផ្តោតលើការបង្រៀនតាមសៀវភៅ និងការប្រឡង។",
+    },
+    {
+      question: "តើ iSTEM Education មានអត្ថប្រយោជន៍អ្វីខ្លះ?",
+      answer:
+        "iSTEM Education ផ្តល់អត្ថប្រយោជន៍ដូចជា ការបង្កើនជំនាញដោះស្រាយបញ្ហា ការគិតបែបច្នៃប្រឌិត និងការត្រៀមខ្លួនសម្រាប់អាជីពទំនើប។ វាជួយសិស្សឱ្យមានជំនាញទន់ (soft skills) ដូចជាការធ្វើការជាក្រុម និងការទំនាក់ទំនង ព្រមទាំងជំនាញបច្ចេកទេសដែលទាមទារនៅក្នុងទីផ្សារការងារ។",
+    },
+    {
+      question: "តើ iSTEM Education សាកសមនឹងក្រុមអាយុប៉ុន្មាន?",
+      answer:
+        "iSTEM Education សាកសមសម្រាប់គ្រប់ក្រុមអាយុ ចាប់ពីកុមារតូចៗ រហូតដល់មនុស្សធំដែលចង់រៀនជំនាញថ្មី។ សម្រាប់កុមារ វាផ្តោតលើការរៀនតាមរយៈការលេង និងសកម្មភាពសាមញ្ញ ខណៈពេលដែលសម្រាប់យុវជន និងមនុស្សធំ វាផ្តល់ជូននូវគម្រោងស្មុគស្មាញ និងការអភិវឌ្ឍជំនាញវិជ្ជាជីវៈ។",
+    },
+    {
+      question:
+        "តើ សាលារៀនអាចបញ្ចូល iSTEM Education ទៅក្នុងកម្មវិធីសិក្សារបស់ពួកគេដោយរបៀបណា?",
+      answer:
+        "សាលារៀនអាចបញ្ចូល iSTEM Education ដោយការបណ្តុះបណ្តាលគ្រូបង្រៀនឱ្យប្រើវិធីសាស្ត្រអប់រំផ្អែកលើគម្រោង បង្កើតបន្ទប់ពិសោធន៍ STEM និងសហការជាមួយអង្គភាពខាងក្រៅដើម្បីផ្តល់ធនធាន។ ពួកគេក៏អាចរៀបចំកម្មវិធីសិក្សាដែលរួមបញ្ចូលការអនុវត្តជាក់ស្តែង និងការប្រើប្រាស់បច្ចេកវិទ្យាទំនើប។",
+    },
+  ];
 
-            if (heroImage && heroText) {
-                heroImage.style.transform = `translateY(${scrollY * 0.2
-                    }px) rotate(-10deg)`;
-                heroText.style.transform = `translateY(${scrollY * 0.1}px)`;
-            }
-        };
+  const toggleQuestion = (index) => {
+    setOpenQuestion(openQuestion === index ? null : index);
+  };
 
-        window.addEventListener("scroll", handleScroll);
-        return () => window.removeEventListener("scroll", handleScroll);
-    }, []);
+  const teamMembers = [
+    {
+      name: "ស្រេង ជីប៉",
+      role: "Frontend Developer",
+      image: pic2,
+      description:
+        "ភ្ជាប់ទំនាក់ទំនងជាមួយអ្នកណែនាំដែលមានបទពិសោធន៍ក្នុងវិស័យ iSTEM ដែលផ្តល់ការណែនាំ ចែករំលែកការយល់ដឹងអំពីឧស្សាហកម្ម និងជួយអ្នកក្នុងការច្នៃប្រឌិត។",
+    },
+    {
+      name: "គឹម សុភ័ក្ត្រ",
+      role: "UX/UI Designer",
+      image: pic3,
+      description:
+        "អ្នកអភិវឌ្ឍន៍ដែលមានជំនាញក្នុងការបង្កើតកម្មវិធីទំនើប និងជួយសិស្សរៀនជំនាញសរសេរកូដ។",
+    },
+    {
+      name: "លី សុភាព",
+      role: "Presenter",
+      image: pic4,
+      description:
+        "អ្នករចនាដែលផ្តោតលើការបង្កើតបទពិសោធន៍អ្នកប្រើប្រាស់ដ៏ល្អ និងការអប់រំតាមរយៈការរចនា។",
+    },
+    {
+      name: "ធឿន ចន្ថាត ",
+      role: "Frontend Developer",
+      image: pic6,
+      description:
+        "គ្រូបង្រៀនដែលជួយសិស្សអភិវឌ្ឍជំនាញ STEM តាមរយៈវគ្គសិក្សាអនុវត្តជាក់ស្តែង។",
+    },
+    {
+      name: "ភូ​ កុកសេង",
+      role: "Frontend Developer",
+      image: pic5,
+      description:
+        "អ្នកសម្របសម្រួលកម្មវិធីដែលភ្ជាប់ទំនាក់ទំនងរវាងសិស្ស និងអ្នកណែនាំក្នុងវិស័យ iSTEM។",
+    },
+    {
+      name: "សុខ រីណា",
+      role: "Content Creator",
+      image: pic3,
+      description:
+        "អ្នកបង្កើតមាតិកាដែលផលិតធនធានអប់រំដ៏ទាក់ទាញសម្រាប់សិស្ស iSTEM។",
+    },
+  ];
 
   return (
-    <div className="w-full overflow-x-hidden bg-gradient-to-b from-white to-gray-50">
-      <div className="max-w-content mx-4 sm:mx-8 lg:mx-16 my-5 lg:my-5">
-        {/* <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          <motion.div
-            initial={{ x: -100, opacity: 0 }}
-            animate={{ x: 0, opacity: 1 }}
-            transition={{ duration: 0.8 }}
-            className="hero-text"
-          >
-            <h1 className="text-primary font-suwannaphum text-4xl lg:text-5xl font-bold bg-gradient-to-r from-primary to-blue-400 bg-clip-text text-transparent">
-              iSTEM
-            </h1>
-            <h2 className="text-gray-700 text-3xl lg:text-4xl my-6 lg:my-10 font-bold">
-              ផ្តល់ឱកាសល្អបំផុតដល់សិស្ស
-            </h2>
-            <p className="font-suwannaphum text-lg lg:text-xl text-descrid leading-relaxed">
-              សិស្សបន្ទាប់ពីបញ្ចប់ថ្នាក់មធ្យមសិក្សាទុតិយភូមិឬមិនទាន់បញ្ចប់ក៍អាចសិក្សានៅលើវេសាយពួកយើងបានដែរពួកយើងអាចផ្តល់អោយនូវចំណេះដឹងថ្មីៗផ្លែកៗទាន់សម័យ។យើងប្តេជ្ញាផ្តល់ជូននូវបទពិសោធន៍
-              អប់រំផ្លាស់ប្តូរដែលផ្តល់អំណាចដល់បុគ្គលម្នាក់ៗឱ្យឈានដល់សក្តានពលពេញលេញរបស់ពួកគេ។
-              មិនថាអ្នកជាសិស្សអ្នកសិក្សាពេញមួយជីវិត
-              ឬជាអ្នកជំនាញដែលស្វែងរកជំនាញថ្មីនោះទេ យើងផ្តល់ធនធាន
-              និងការគាំទ្រដើម្បីជួយអ្នកឱ្យទទួលបានជោគជ័យ។
-              យើងផ្តល់ជូននូវកម្មវិធីអប់រំជាច្រើនដែលត្រូវបានរចនាឡើងដើម្បីបំពេញតម្រូវការសិក្សាចម្រុះវគ្គសិក្សារបស់យើងគ្របដណ្តប់លើមុខវិជ្ជាផ្សេងៗគ្នា
-            </p>
-            <motion.button
-              whileHover={{
-                scale: 1.05,
-                boxShadow: "0 10px 25px rgba(0, 128, 255, 0.25)",
-              }}
-              whileTap={{ scale: 0.95 }}
-              className="text-white font-suwannaphum items-center px-6 py-3 my-6 flex cursor-pointer bg-primary hover:bg-cyan-700 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-lg lg:text-2xl text-center transition-all duration-300"
-            >
-              ចាប់ផ្តើមរៀន <ArrowRight className="ml-2 animate-pulse" />
-            </motion.button>
-          </motion.div>
-          <motion.div
-            initial={{ x: 100, opacity: 0 }}
-            animate={{ x: 0, opacity: 1 }}
-            transition={{ duration: 0.8 }}
-            className="relative flex justify-center lg:justify-end"
-          >
-            <motion.img
-              src={img}
-              alt="Hero"
-              className="w-64 lg:w-96 rotate-[-10deg] hero-image drop-shadow-2xl"
-              animate={{
-                y: [0, -15, 0],
-                rotate: [-10, -12, -10],
-              }}
-              transition={{
-                y: { repeat: Infinity, duration: 3, ease: "easeInOut" },
-                rotate: { repeat: Infinity, duration: 5, ease: "easeInOut" },
-              }}
-            />
-            <div className="absolute -z-10 w-64 h-64 bg-blue-200 rounded-full blur-3xl opacity-30 -bottom-10 -right-10"></div>
-          </motion.div>
-        </div> */}
-          <ShuffleHero/>
+    <div className="w-full overflow-x-hidden bg-gradient-to-b from-white to-gray-50 ">
+      <div className="max-w-content mx-4 sm:mx-8 lg:mx-16 my-5 lg:my-0">
+        <ShuffleHero />
       </div>
-
-            {/* Divider */}
-            <motion.div
-                initial={{ scaleX: 0 }}
-                whileInView={{ scaleX: 1 }}
-                transition={{ duration: 1 }}
-                viewport={{ once: true }}
-                className="h-24 bg-gradient-to-r from-primary via-cyan-500 to-blue-600"
-            ></motion.div>
-
+      <motion.div
+        initial={{ scaleX: 0 }}
+        whileInView={{ scaleX: 1 }}
+        transition={{ duration: 1, ease: "easeInOut" }}
+        viewport={{ once: true }}
+        className="h-1 bg-gradient-to-r from-blue-500 via-cyan-400 to-purple-500"
+      ></motion.div>
+      -
       <motion.div
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
@@ -160,80 +163,14 @@ const Aboutus = () => {
           ណែនាំដោយ
         </h3>
       </motion.div>
-
-            {/* Teacher Cards */}
-            <motion.div
-                variants={containerVariants}
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true }}
-                className="mx-4 sm:mx-8 lg:mx-16 flex flex-wrap justify-center gap-8 py-10"
-            >
-                {[1, 2].map((_, index) => (
-                    <motion.div
-                        key={index}
-                        variants={itemVariants}
-                        whileHover={{
-                            y: -10,
-                            boxShadow:
-                                "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
-                        }}
-                        className="max-w-sm bg-white border border-gray-200 rounded-lg shadow-sm transform transition-all duration-300"
-                    >
-                        <div className="flex justify-center p-6">
-                            <img
-                                className="rounded-full w-48 h-48 object-cover border-4 border-primary"
-                                src={img}
-                                alt="Teacher"
-                            />
-                        </div>
-                        <div className="p-5 text-center">
-                            <h5 className="text-2xl font-bold text-gray-900">
-                                គឹម ចាន់សុផេង
-                            </h5>
-                            <p className="text-cyan-700 font-suwannaphum">Mentor</p>
-                            <p className="mb-3 text-gray-700">
-                                ភ្ជាប់ទំនាក់ទំនងជាមួយអ្នកណែនាំដែលមានបទពិសោធន៍ក្នុងវិស័យ iSTEM
-                                ដែលផ្តល់ការណែនាំ ចែករំលែកការយល់ដឹងអំពីឧស្សាហកម្ម
-                                និងជួយអ្នកក្នុងការច្នៃប្រឌិត និងអភិវឌ្ឍ។
-                            </p>
-                            <motion.div
-                                className="flex justify-center gap-4"
-                                animate={{ y: [0, 5, 0] }}
-                                transition={{ repeat: Infinity, duration: 2 }}
-                            >
-                                <motion.div whileHover={{ scale: 1.2, color: "#1877F2" }}>
-                                    <Facebook className="text-gray-700" />
-                                </motion.div>
-                                <motion.div whileHover={{ scale: 1.2, color: "#0A66C2" }}>
-                                    <Linkedin className="text-gray-700" />
-                                </motion.div>
-                            </motion.div>
-                        </div>
-                    </motion.div>
-                ))}
-            </motion.div>
-
-      <motion.div
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        transition={{ duration: 1 }}
-        viewport={{ once: true }}
-        className="text-center py-16"
-      >
-        <h3 className="text-primary text-4xl lg:text-5xl font-bold bg-gradient-to-r from-primary to-blue-500 bg-clip-text text-transparent">
-          សមាជិកក្រុម
-        </h3>
-      </motion.div>
-
       <motion.div
         variants={containerVariants}
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true }}
-        className="mx-4 sm:mx-8 lg:mx-16 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 py-10"
+        className="mx-4 sm:mx-8 lg:mx-16 flex flex-wrap justify-center gap-8 py-10"
       >
-        {[1, 2, 3, 4, 5, 6].map((_, index) => (
+        {[1, 2].map((_, index) => (
           <motion.div
             key={index}
             variants={itemVariants}
@@ -246,18 +183,80 @@ const Aboutus = () => {
           >
             <div className="flex justify-center p-6">
               <img
-                className="rounded-full w-48 h-48 object-cover border-4 border-cyan-500"
-                src={img1}
-                alt="Team Member"
+                className="rounded-full w-48 h-48 object-cover border-4 border-primary"
+                src={img}
+                alt="Teacher"
               />
             </div>
             <div className="p-5 text-center">
-              <h5 className="text-2xl font-bold text-gray-900">ស្រេង ជីប៉</h5>
+              <h5 className="text-2xl font-bold text-gray-900">
+                គឹម ចាន់សុផេង
+              </h5>
               <p className="text-cyan-700 font-suwannaphum">Mentor</p>
               <p className="mb-3 text-gray-700">
                 ភ្ជាប់ទំនាក់ទំនងជាមួយអ្នកណែនាំដែលមានបទពិសោធន៍ក្នុងវិស័យ iSTEM
                 ដែលផ្តល់ការណែនាំ ចែករំលែកការយល់ដឹងអំពីឧស្សាហកម្ម
-                និងជួយអ្នកក្នុងការច្នៃប្រឌិត និងអភិវឌ្ឍគម្រោងក្នុងពិភពពិត។
+                និងជួយអ្នកក្នុងការច្នៃប្រឌិត និងអភិវឌ្ឍ។
+              </p>
+              <motion.div
+                className="flex justify-center gap-4"
+                animate={{ y: [0, 5, 0] }}
+                transition={{ repeat: Infinity, duration: 2 }}
+              >
+                <motion.div whileHover={{ scale: 1.2, color: "#1877F2" }}>
+                  <Facebook className="text-gray-700" />
+                </motion.div>
+                <motion.div whileHover={{ scale: 1.2, color: "#0A66C2" }}>
+                  <Linkedin className="text-gray-700" />
+                </motion.div>
+              </motion.div>
+            </div>
+          </motion.div>
+        ))}
+      </motion.div>
+      <motion.div
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        transition={{ duration: 1 }}
+        viewport={{ once: true }}
+        className="text-center py-16"
+      >
+        <h3 className="text-primary text-4xl lg:text-5xl font-bold bg-gradient-to-r from-primary to-blue-500 bg-clip-text text-transparent font-suwannaphum">
+          សមាជិកក្រុម
+        </h3>
+      </motion.div>
+      <motion.div
+        variants={containerVariants}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true }}
+        className="mx-4 sm:mx-8 lg:mx-16 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 py-10 max-w-7xl mx-auto"
+      >
+        {teamMembers.map((member, index) => (
+          <motion.div
+            key={index}
+            variants={itemVariants}
+            whileHover={{
+              y: -10,
+              boxShadow:
+                "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
+            }}
+            className="bg-white border border-gray-200 rounded-lg shadow-sm transform transition-all duration-300 overflow-hidden"
+          >
+            <div className="flex justify-center p-6 bg-gradient-to-b from-cyan-50 to-white">
+              <img
+                className="rounded-full w-48 h-48 object-cover border-4 border-cyan-500"
+                src={member.image}
+                alt={member.name}
+              />
+            </div>
+            <div className="p-5 text-center">
+              <h5 className="text-2xl font-bold text-gray-900 font-suwannaphum">
+                {member.name}
+              </h5>
+              <p className="text-cyan-700 font-suwannaphum">{member.role}</p>
+              <p className="mb-3 text-gray-700 font-suwannaphum">
+                {member.description}
               </p>
               <div className="flex justify-center gap-4">
                 <motion.div whileHover={{ scale: 1.2, color: "#1877F2" }}>
@@ -277,19 +276,15 @@ const Aboutus = () => {
           </motion.div>
         ))}
       </motion.div>
-
-            {/* Divider */}
-            <div className="flex justify-center py-10">
-                <motion.div
-                    initial={{ width: 0 }}
-                    whileInView={{ width: "6rem" }}
-                    transition={{ duration: 1 }}
-                    viewport={{ once: true }}
-                    className="h-1 bg-gradient-to-r from-purple-700 to-pink-500"
-                ></motion.div>
-            </div>
-
-      {/* Tech Stack Section */}
+      <div className="flex justify-center py-10">
+        <motion.div
+          initial={{ width: 0 }}
+          whileInView={{ width: "6rem" }}
+          transition={{ duration: 1 }}
+          viewport={{ once: true }}
+          className="h-1 bg-gradient-to-r from-purple-700 to-pink-500"
+        ></motion.div>
+      </div>
       <motion.div
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
@@ -399,66 +394,47 @@ const Aboutus = () => {
         whileInView={{ opacity: 1 }}
         transition={{ duration: 1 }}
         viewport={{ once: true }}
-        className="text-center py-16 bg-gradient-to-b from-gray-50 to-white"
+        className="py-16 bg-white"
       >
-        <h3 className="text-4xl lg:text-5xl font-bold text-descrid font-suwannaphum">
+        <h3 className="text-3xl md:text-4xl font-bold text-gray-900 text-center font-suwannaphum">
           FAQ
         </h3>
-        <p className="text-lg lg:text-xl text-descrid font-suwannaphum mt-4">
-          5 សំណួរដែលគេសួរញឹកញាប់អំពី iSTEM Education
+        <p className="text-lg text-gray-600 text-center mt-4 font-suwannaphum">
+          សំណួរដែលគេសួរញឹកញាប់អំពី iSTEM Education
         </p>
-        <div className="flex justify-center flex-wrap py-10">
-          <motion.div
-            className="w-full lg:w-2/3"
-            variants={containerVariants}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.2 }}
-          >
-            {[
-              "តើ iSTEM Education ជាអ្វី?",
-              "តើ iSTEM ខុសពីការអប់រំបែបប្រពៃណីយ៉ាងដូចម្តេច?",
-              "តើ iSTEM Education មានអត្ថប្រយោជន៍អ្វីខ្លះ?",
-              "តើ iSTEM Education សាកសមនឹងក្រុមអាយុប៉ុន្មាន?",
-              "តើ សាលារៀនអាចបញ្ចូល iSTEM Education ទៅក្នុងកម្មវិធីសិក្សារបស់ពួកគេដោយរបៀបណា?",
-            ].map((question, index) => (
-              <motion.div
-                key={index}
-                variants={itemVariants}
-                className="border-l-4 border-gradient-to-b from-primary to-cyan-400 pl-4 mt-6 transform transition-all hover:scale-105 hover:bg-blue-50 rounded-r-lg hover:shadow-md p-2"
-              >
-                <p className="text-lg lg:text-xl text-descrid font-bold font-suwannaphum py-4">
-                  {question}
-                </p>
-                {index === 0 && (
-                  <motion.p
-                    initial={{ height: 0, opacity: 0 }}
-                    animate={{ height: "auto", opacity: 1 }}
-                    transition={{ duration: 0.5 }}
-                    className="text-lg lg:text-xl text-descrid font-suwannaphum leading-relaxed"
-                  >
-                    iSTEM Education រួមបញ្ចូលវិទ្យាសាស្ត្រ បច្ចេកវិទ្យា
-                    វិស្វកម្ម និងគណិតវិទ្យា (STEM) ដោយផ្តោតលើការច្នៃប្រឌិត
-                    និងភាពជាសហគ្រិន។ វាសង្កត់ធ្ងន់ទៅលើការដោះស្រាយបញ្ហា
-                    ការគិតបែបរិះគន់ និងការរៀនដោយដៃ
-                    ដើម្បីរៀបចំសិស្សសម្រាប់អាជីពក្នុងវិស័យដែលកំពុងរីកចម្រើន។
-                    ជាស្នូលរបស់វា ការអប់រំ iSTEM
-                    លើកកម្ពស់កម្មវិធីសិក្សាដែលអនុវត្តដោយដៃ និងផ្អែកលើគម្រោង
-                    ដោយលើកទឹកចិត្តសិស្សឱ្យចូលរួមជាមួយសម្ភារៈក្នុងវិធីដែលបង្កើតទាំងជំនាញជាក់ស្តែង
-                    និងទ្រឹស្តី។ តាមរយៈការបញ្ចូលទិដ្ឋភាពនៃការច្នៃប្រឌិត
-                    វាលើកទឹកចិត្តសិស្សមិនត្រឹមតែរៀនចំណេះដឹងដែលមានស្រាប់ប៉ុណ្ណោះទេ
-                    ប៉ុន្តែថែមទាំងអភិវឌ្ឍបច្ចេកវិទ្យាថ្មីៗ ដំណើរការ
-                    និងដំណោះស្រាយដើម្បីដោះស្រាយបញ្ហាប្រឈមក្នុងសង្គមផងដែរ។
-                  </motion.p>
-                )}
-              </motion.div>
-            ))}
-          </motion.div>
-        </div>
+        <motion.div
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          className="max-w-3xl mx-auto mt-12"
+        >
+          {faqData.map((faq, index) => (
+            <motion.div
+              key={index}
+              variants={itemVariants}
+              className="border-l-4 border-blue-500 bg-gray-50 rounded-r-lg p-4 mb-4 transition-all duration-300 hover:bg-blue-50 hover:shadow-md cursor-pointer"
+              onClick={() => toggleQuestion(index)}
+            >
+              <p className="text-lg font-semibold text-gray-800 font-suwannaphum">
+                {faq.question}
+              </p>
+              {openQuestion === index && (
+                <motion.p
+                  initial={{ height: 0, opacity: 0 }}
+                  animate={{ height: "auto", opacity: 1 }}
+                  exit={{ height: 0, opacity: 0 }}
+                  transition={{ duration: 0.3 }}
+                  className="text-gray-600 mt-2 font-suwannaphum text-[20px]"
+                >
+                  {faq.answer}
+                </motion.p>
+              )}
+            </motion.div>
+          ))}
+        </motion.div>
       </motion.div>
-
       <div className="fixed top-20 right-10 w-16 h-16 bg-blue-400 rounded-full opacity-20 animate-pulse"></div>
-      <div className="fixed bottom-20 left-10 w-24 h-24 bg-purple-500 rounded-full opacity-20 animate-pulse"></div>
       <div className="fixed top-1/2 left-10 w-10 h-10 bg-pink-400 rounded-full opacity-20 animate-bounce"></div>
     </div>
   );

@@ -1,50 +1,41 @@
 import React from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router";
+import { Routes, Route } from "react-router";
+import { AuthProvider } from "../components/context/AuthContext.jsx";
+import ProtectedRoute from "../components/ProtectedRoute.jsx";
 import HomePage from "../pages/contents/HomePage";
 import CoursePage from "../pages/contents/course/coursepage";
 import AboutPage from "../pages/contents/AboutPage";
 import BlogPage from "../pages/contents/BlogPage";
 import AllCoursePage from "../pages/contents/AllCoursePage";
-import CourseDetailPage from "../pages/contents/coursedetailpage";
-import AllCourseDetail from "../pages/contents/allcourse-detail";
+// import AllCourseDetail from "../pages/contents/allcourse-detail";
 import MainLayout from "../layouts/MainLayout";
 import LoginForm from "../pages/auth/LoginFrom";
 import SigupPage from "../pages/auth/SigupPage";
 import ForgetForm from "../pages/auth/ForgetForm";
 import VerifyOtp from "../pages/auth/VerifyOtp";
-import UserProfile from "../components/userprofile/UserProfilecom";
-// import CategoryDetailsPage from "../components/common/courses/Detail/Category-Detail";
+import UserProfile from "../components/layout/navbar/userprofile/UserProfilecom.jsx";
 import Categories from "../components/common/courses/Categories";
-import LessonsCard from "../components/lesson/LessonCard";
+import LessonsCard from "../components/coursees/lesson/LessonCard.jsx";
 import ForumPage from "../pages/contents/ForumPage";
 import BlogDetail from "../components/blog/BlogDetail";
+import StemCommunity from "../pages/contents/StemCommunity.jsx";
 
 export default function AppRoutes() {
   return (
-    <Router>
+    <AuthProvider>
       <Routes>
-        {/* Navbar */}
+        {/* Public Routes */}
+        <Route path="/login" element={<LoginForm />} />
+        <Route path="/signup" element={<SigupPage />} />
+        <Route path="/verify-otp" element={<VerifyOtp />} />
+        <Route path="/forgot-password" element={<ForgetForm />} />
+
+        {/* Routes with MainLayout (Public or Semi-Protected) */}
         <Route
           path="/"
           element={
             <MainLayout>
               <HomePage />
-            </MainLayout>
-          }
-        />
-        {/* <Route
-          path="/courses"
-          element={
-            <MainLayout>
-              <CoursePage />
-            </MainLayout>
-          }
-        /> */}
-        <Route
-          path="/forums"
-          element={
-            <MainLayout>
-              <ForumPage />
             </MainLayout>
           }
         />
@@ -56,7 +47,6 @@ export default function AppRoutes() {
             </MainLayout>
           }
         />
-        {/* blog */}
         <Route
           path="/blog"
           element={
@@ -73,7 +63,17 @@ export default function AppRoutes() {
             </MainLayout>
           }
         />
-        {/* coures */}
+        {/* <Route path="/stem-community" element={<StemCommunity />} />; */}
+        <Route
+          path="/forums"
+          element={
+            <MainLayout>
+              <ForumPage />
+            </MainLayout>
+          }
+        />
+
+        {/* Protected Routes */}
         <Route
           path="/courses"
           element={
@@ -82,23 +82,6 @@ export default function AppRoutes() {
             </MainLayout>
           }
         />
-        {/* courses */}
-        <Route path="/courses/:courseId/categories" element={<Categories />} />
-        <Route path="/lesson/${lessonId}" element={<AllCourseDetail />} />
-        <Route
-          path="/courses/:courseId/categories/:categoryId/lessons"
-          element={<LessonsCard />}
-        />
-
-        {/* Form */}
-        <Route path="/login" element={<LoginForm />} />
-        <Route path="/signup" element={<SigupPage />} />
-        <Route path="/verify-otp" element={<VerifyOtp />} />
-        <Route path="/forgot-password" element={<ForgetForm />} />
-
-        <Route path="/profile" element={<UserProfile />} />
-
-        <Route path="/courses" element={<AllCoursePage />} />
         <Route
           path="/courses/:courseId"
           element={
@@ -108,18 +91,48 @@ export default function AppRoutes() {
           }
         />
         <Route
-          path="/courses/:courseId/categories/:categoryId"
-          element={<AllCoursePage />}
-        />
-        <Route
-          path="/courses/:courseId/categories/:categoryId/lessons"
+          path="/courses/:courseId/categories"
           element={
             <MainLayout>
-              <LessonsCard />
+              <Categories />
             </MainLayout>
           }
         />
+        <Route
+          path="/courses/:courseId/categories/:categoryId"
+          element={
+            <ProtectedRoute>
+              <MainLayout>
+                <CoursePage />
+              </MainLayout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/courses/:courseId/categories/:categoryId/lessons"
+          element={<LessonsCard />}
+        />
+        {/* <Route
+          path="/lesson/:lessonId"
+          element={
+            <ProtectedRoute>
+              <MainLayout>
+                <AllCourseDetail />
+              </MainLayout>
+            </ProtectedRoute>
+          }
+        /> */}
+        <Route
+          path="/profile"
+          element={
+            <ProtectedRoute>
+              <MainLayout>
+                <UserProfile />
+              </MainLayout>
+            </ProtectedRoute>
+          }
+        />
       </Routes>
-    </Router>
+    </AuthProvider>
   );
 }

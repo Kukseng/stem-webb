@@ -1,62 +1,69 @@
 // src/api/authApi.js
-import { apiSlice } from './api-slice';
+import { apiSlice } from "./api-slice";
 
 export const authApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     login: builder.mutation({
       query: (credentials) => ({
-        url: 'login/',
-        method: 'POST',
-        body: credentials,
+        url: "login/",
+        method: "POST",
+        body: credentials, // Expects { email, password }
       }),
     }),
     register: builder.mutation({
       query: (userData) => ({
-        url: 'register/',
-        method: 'POST',
-        body: userData,
+        url: "register/",
+        method: "POST",
+        body: userData, // Expects { first_name, last_name, username, email, password, ConfirmPassword }
       }),
     }),
     getProfile: builder.query({
-      query: () => 'profile',
-      providesTags: ['Auth'],
+      query: () => "profile/", // Matches Postman
+      providesTags: ["Auth"],
     }),
     updateProfile: builder.mutation({
       query: (profileData) => ({
-        url: 'profile/',
-        method: 'PUT',
+        url: "profile/",
+        method: "PUT",
         body: profileData,
       }),
-      invalidatesTags: ['Auth'],
+      invalidatesTags: ["Auth"],
     }),
     verifyOtp: builder.mutation({
       query: (otpData) => ({
-        url: 'verify-otp/',
-        method: 'POST',
-        body: otpData,
+        url: "verify-otp/",
+        method: "POST",
+        body: otpData, // Expects { email, otp_code }
       }),
     }),
     forgotPassword: builder.mutation({
       query: (email) => ({
-        url: 'forgot-password/',
-        method: 'POST',
+        url: "forgot-password/",
+        method: "POST",
         body: { email },
       }),
     }),
     resetPassword: builder.mutation({
       query: (resetData) => ({
-        url: 'reset-password/',
-        method: 'POST',
+        url: "reset-password/",
+        method: "POST",
         body: resetData,
       }),
     }),
     changePassword: builder.mutation({
       query: ({ old_password, new_password }) => ({
-        url: 'change-password/', // Adjust if your backend uses a different endpoint
-        method: 'POST',
+        url: "change-password/",
+        method: "POST",
         body: { old_password, new_password },
       }),
-      invalidatesTags: ['Auth'], // Refresh profile if needed
+      invalidatesTags: ["Auth"],
+    }),
+    refreshToken: builder.mutation({
+      query: (refreshData) => ({
+        url: "refresh/",
+        method: "POST",
+        body: refreshData,
+      }),
     }),
   }),
 });
@@ -69,5 +76,6 @@ export const {
   useVerifyOtpMutation,
   useForgotPasswordMutation,
   useResetPasswordMutation,
-  useChangePasswordMutation, // Added export
+  useChangePasswordMutation,
+  useRefreshTokenMutation,
 } = authApi;

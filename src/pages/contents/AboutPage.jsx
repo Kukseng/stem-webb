@@ -1,11 +1,13 @@
 
 import React from "react";
-import Aboutus from "../../components/aboutus/Aboutus";
+import Aboutus from "../../components/aboutus/Aboutus.jsx";
 
 const AboutPage = () => {
 
   return (
-    <Aboutus/>
+    <div>
+      <Aboutus/>
+    </div>
   );
 };
 

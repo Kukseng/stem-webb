@@ -32,6 +32,7 @@ const Footer = () => {
                   alt="Logo-ISTEM"
                   className="h-20 w-20 md:h-20 md:w-20 object-cover object-center"
                 />
+              ls src/components/footer/
               </div>
               <h2 className="text-2xl font-bold text-primary font-suwannaphum">
                 ISTEM

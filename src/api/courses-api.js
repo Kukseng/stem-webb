@@ -31,7 +31,7 @@ export const courseApi = apiSlice.injectEndpoints({
       invalidatesTags: ["Course"],
     }),
     getCourseByUuid: builder.query({
-      query: (uuid) => `courses/${uuid}/`, // Fixed to match the correct endpoint
+      query: (uuid) => `courses/${uuid}/`, 
       providesTags: (result, error, uuid) => [{ type: "Course", id: uuid }],
     }),
   }),

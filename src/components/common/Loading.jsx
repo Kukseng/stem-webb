@@ -1,15 +1,77 @@
-// components/LoadingOverlay.jsx
 import React from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import styled from 'styled-components';
 
-const LoadingOverlay = ({ isLoading }) => (
-  <AnimatePresence>
-    {isLoading && (
-      <motion.div initial={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 bg-white z-50 flex items-center justify-center">
-        <motion.div animate={{ rotate: 360, transition: { duration: 1.5, repeat: Infinity, ease: 'linear' } }} className="w-16 h-16 border-t-4 border-blue-500 border-solid rounded-full" />
-      </motion.div>
-    )}
-  </AnimatePresence>
-);
+const Loader = () => {
+  return (
+    <StyledWrapper>
+      <div className="loader">
+        <div className="circle" />
+        <div className="circle" />
+        <div className="circle" />
+        <div className="circle" />
+        <div className="circle" />
+      </div>
+    </StyledWrapper>
+  );
+}
 
-export default LoadingOverlay;
+const StyledWrapper = styled.div`
+  .loader {
+    flex-direction: row;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .circle {
+    width: 20px;
+    height: 20px;
+    background-color: #8BC6EC;
+    background-image: linear-gradient(135deg, #8BC6EC 0%, #9599E2 100%);
+    border-radius: 50%;
+    margin-right: 1rem;
+    animation: pulse 1.2s ease-in-out infinite;
+  }
+
+  .circle:nth-child(2) {
+    animation-delay: 0.2s;
+    background-color: #4158D0;
+    background-image: linear-gradient(43deg, #4158D0 0%, #C850C0 46%, #FFCC70 100%);
+  }
+
+  .circle:nth-child(3) {
+    animation-delay: 0.4s;
+    background-color: #0093E9;
+    background-image: linear-gradient(160deg, #0093E9 0%, #80D0C7 100%);
+  }
+
+  .circle:nth-child(4) {
+    animation-delay: 0.6s;
+    background-color: #8EC5FC;
+    background-image: linear-gradient(62deg, #8EC5FC 0%, #E0C3FC 100%);
+  }
+
+  .circle:nth-child(5) {
+    animation-delay: 0.8s;
+    background-color: #00DBDE;
+    background-image: linear-gradient(90deg, #00DBDE 0%, #FC00FF 100%);
+  }
+
+  @keyframes pulse {
+    0% {
+      transform: scale(0.8);
+      opacity: 0.7;
+    }
+
+    50% {
+      transform: scale(1);
+      opacity: 1;
+    }
+
+    100% {
+      transform: scale(0.8);
+      opacity: 0.7;
+    }
+  }`;
+
+export default Loader;

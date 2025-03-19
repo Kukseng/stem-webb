@@ -9,5 +9,12 @@ export default defineConfig({
     proxy: {
       '/api': 'https://stem-api.istad.co',
     },
+   
+  headers: {
+      'Cross-Origin-Opener-Policy': 'unsafe-none'
+    }
+    
+
   },
+  
 });

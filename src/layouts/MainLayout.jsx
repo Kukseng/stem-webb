@@ -1,7 +1,8 @@
-import Footer from "../components/footer/Footer";
+import React from "react";
+import Footer from "../components/layout/navbar/footer/Footer";
 
-import Stickynav from "../components/navbar/Stickynav";
-import MainNavbar from "../components/navbar/MainNavbar";
+import Stickynav from "../components/layout/navbar/Stickynav";
+import MainNavbar from "../components/layout/navbar/MainNavbar";
 
 // import { Slider } from "@material-tailwind/react";
 // import Banner from "../components/card/banner";
@@ -14,13 +15,13 @@ const MainLayout = ({ children }) => {
         <MainNavbar />
       </header>
 
-      <main className="">
+      <main className="mb-20">
         <div>{children}</div>
-
       </main>
 
-      {/* Footer */}
-      <Footer />
+      <footer className="relative w-full mx-auto overflow-hidden bg-footer  bg-opacity-30 backdrop-blur-md">
+        <Footer />
+      </footer>
     </div>
   );
 };

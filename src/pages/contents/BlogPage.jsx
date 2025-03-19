@@ -1,35 +1,46 @@
-import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
-import { FaCalendarAlt, FaEye, FaSearch, FaChevronLeft, FaChevronRight, FaBookmark, FaEdit, FaTrash, FaTimes } from 'react-icons/fa';
-import { useNavigate } from 'react-router-dom';
+import React, { useState } from "react";
+import { useSelector } from "react-redux";
+import {
+  FaCalendarAlt,
+  FaEye,
+  FaSearch,
+  FaChevronLeft,
+  FaChevronRight,
+  FaBookmark,
+  FaEdit,
+  FaTrash,
+  FaTimes,
+} from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 import {
   useGetAllArticlesQuery,
-  useCreateArticleMutation,
-  useUpdateArticleMutation,
-  useDeleteArticleMutation,
-} from '../../api/articles-api';
-import BlogComponent from '../../components/blog/BlogComponent';
-import CreateCourseForm from '../../components/CreateCourse';
+ 
+} from "../../api/articles-api";
+import BlogComponent from "../../components/blog/BlogComponent";
+import CreateCourseForm from "../../components/coursees/form/CreateCourse";
+import ArticleCrud from "../../components/ArticleCrud";
+import StemCommunity from "./StemCommunity";
 
 const BlogPage = () => {
   const [currentPage, setCurrentPage] = useState(1);
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState("");
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [selectedPost, setSelectedPost] = useState(null);
-  const [formData, setFormData] = useState({ title: '', content: '', image: '' });
+  const [formData, setFormData] = useState({
+    title: "",
+    content: "",
+    image: "",
+  });
 
   const navigate = useNavigate();
-  const { user } = useSelector((state) => state.auth); // Access user from auth state
-  const isLoggedIn = !!user; // Check if user exists
+  const { user } = useSelector((state) => state.auth);
+  const isLoggedIn = !!user;
 
   // Fetch all articles with pagination
-  const { data, isLoading, isError, error } = useGetAllArticlesQuery({ page: currentPage });
-
-  // Mutations for CRUD operations
-  const [createArticle, { isLoading: isCreating }] = useCreateArticleMutation();
-  const [updateArticle, { isLoading: isUpdating }] = useUpdateArticleMutation();
-  const [deleteArticle, { isLoading: isDeleting }] = useDeleteArticleMutation();
+  const { data, isLoading, isError, error } = useGetAllArticlesQuery({
+    page: currentPage,
+  });
 
   return (
     <div className="max-w-6xl mx-auto px-4 py-8 font-sans">
@@ -48,7 +59,7 @@ const BlogPage = () => {
             </button>
           ) : (
             <button
-              onClick={() => navigate('/login')}
+              onClick={() => navigate("/login")}
               className="w-full md:w-auto px-6 py-2 bg-[#16789e] text-white rounded-full hover:bg-opacity-90 transition-colors font-medium"
             >
               ចាប់ផ្តើម
@@ -57,8 +68,10 @@ const BlogPage = () => {
         </div>
       </header>
 
-      <BlogComponent/>
-      <CreateCourseForm/>
+      <BlogComponent />
+      {/* <CreateCourseForm/> */}
+      {/* <StemCommunity/> */}
+      <ArticleCrud />
     </div>
   );
 };
