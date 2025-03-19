@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useParams, Link, useLocation } from "react-router-dom";
+import { useParams, Link, useLocation, useNavigate } from "react-router-dom"; // Added useNavigate
 import {
   FaRegListAlt,
   FaPlayCircle,
@@ -14,7 +14,7 @@ import {
 import { useGetProfileQuery } from "../../../api/auth-api";
 import { motion, AnimatePresence } from "framer-motion";
 
-// Helper Functions
+// embed url
 const getYouTubeEmbedUrl = (url) => {
   if (!url) return null;
   const regex = /(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/))([\w-]{11})/;
@@ -34,11 +34,10 @@ const formatDuration = (minutes) => {
 const LessonsCard = () => {
   const { courseId, categoryId } = useParams();
   const location = useLocation();
+  const navigate = useNavigate(); 
   const lessons = location.state?.lessons || [];
   const courseTitle = location.state?.courseTitle || "វគ្គសិក្សា";
-  const instructor = location.state?.instructor || {
-   
-  };
+  const instructor = location.state?.instructor || {};
 
   const [selectedLesson, setSelectedLesson] = useState(lessons[0] || null);
   const [isSidebarOpen, setSidebarOpen] = useState(true);
@@ -48,7 +47,7 @@ const LessonsCard = () => {
 
   const handleLessonClick = (lesson) => {
     setSelectedLesson(lesson);
-    const randomProgress = Math.floor(Math.random() * 101); // Replace with real progress logic
+    const randomProgress = Math.floor(Math.random() * 101); 
     setProgress(randomProgress);
   };
 
@@ -68,7 +67,7 @@ const LessonsCard = () => {
 
   const toggleSidebar = () => setSidebarOpen(!isSidebarOpen);
 
-  // Animation Variants
+ 
   const sidebarVariants = {
     open: { x: 0, opacity: 1, width: "18rem" },
     closed: { x: "-100%", opacity: 0, width: 0 },
@@ -81,7 +80,7 @@ const LessonsCard = () => {
 
   return (
     <div className="bg-gradient-to-b from-gray-50 to-gray-200 min-h-screen flex font-suwannaphum">
-      {/* Mobile Toggle Button */}
+      {/*  Toggle Button */}
       <motion.button
         onClick={toggleSidebar}
         className="lg:hidden fixed z-50 top-4 left-4 text-white p-2 rounded-full shadow-lg"
@@ -118,7 +117,11 @@ const LessonsCard = () => {
                 <h2 className="text-2xl font-bold text-gray-800">មេរៀន</h2>
               </motion.div>
               <div className="mb-4 px-2 py-1 bg-gray-50 rounded-md text-sm text-gray-600">
-                <Link to="/courses" className="hover:text-[#16789e] transition-colors">
+               
+                <Link
+                  to={`/courses/${courseId}`} 
+                  className="hover:text-[#16789e] transition-colors"
+                >
                   វគ្គសិក្សា
                 </Link>
                 <span className="mx-1">›</span>
@@ -197,7 +200,6 @@ const LessonsCard = () => {
         )}
       </AnimatePresence>
 
-      {/* Overlay for Mobile Sidebar */}
       {isSidebarOpen && (
         <div
           className="lg:hidden fixed inset-0 bg-black bg-opacity-50 z-30"
@@ -205,7 +207,6 @@ const LessonsCard = () => {
         />
       )}
 
-      {/* Main Content */}
       <main
         className={`flex-1 p-4 md:p-8 transition-all duration-300 ${isSidebarOpen ? "lg:ml-0" : "ml-0"} overflow-y-auto h-screen`}
       >
@@ -217,7 +218,6 @@ const LessonsCard = () => {
             className="bg-white rounded-xl shadow-lg overflow-hidden"
           >
             <div className="p-6">
-              {/* Video/PDF Section */}
               <div className="space-y-6">
                 {embedVideoUrl && (
                   <div className="relative w-full h-0 pb-[56.25%] rounded-lg overflow-hidden shadow-md">
@@ -345,7 +345,7 @@ const LessonsCard = () => {
                     </div>
                   </div>
 
-                  {/* Instructor & Progress */}
+                  {/* Stati Progress */}
                   <motion.div
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
