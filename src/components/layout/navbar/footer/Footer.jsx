@@ -24,6 +24,14 @@ const Footer = () => {
     visible: { opacity: 1, y: 0, transition: { duration: 0.3 } },
   };
 
+  // Scroll to top function
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
+
   return (
     <footer className={`relative w-full bg-gradient-to-b ${bgGradient} py-8 overflow-hidden text-white font-suwannaphum`}>
       {/* Decorative Background Elements */}
@@ -41,7 +49,7 @@ const Footer = () => {
         className="relative z-10 max-w-[1300px] mx-auto px-4 sm:px-6 lg:px-8"
       >
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-6">
-       
+          {/* ... (Previous grid content remains the same) ... */}
           <motion.div variants={itemVariants} className="flex flex-col items-center lg:items-start text-center lg:text-left">
             <div className="flex items-center gap-4 mb-4">
               <motion.img
@@ -59,7 +67,6 @@ const Footer = () => {
             </p>
           </motion.div>
 
-       
           <motion.div variants={itemVariants} className="flex flex-col items-center lg:items-start">
             <h3 className="text-[24px] font-bold text-white mb-4">មាតិកា</h3>
             <ul className="space-y-2">
@@ -75,7 +82,6 @@ const Footer = () => {
             </ul>
           </motion.div>
 
-          {/* Contact Section */}
           <motion.div variants={itemVariants} className="flex flex-col items-center lg:items-start">
             <h3 className="text-[24px] font-bold text-white mb-4">ទំនាក់ទំនង</h3>
             <div className="space-y-3">
@@ -118,7 +124,6 @@ const Footer = () => {
             </div>
           </motion.div>
 
-          {/* ISTAD Section */}
           <motion.div variants={itemVariants} className="flex flex-col items-center lg:items-start">
             <h3 className="text-[24px] font-bold text-white mb-4">រៀបចំដោយ</h3>
             <motion.div
@@ -130,7 +135,6 @@ const Footer = () => {
                 alt="ISTAD Logo"
                 className="w-[100px] h-[40px] object-contain transition-transform duration-300 group-hover:scale-110"
               />
-           
             </motion.div>
           </motion.div>
         </div>
@@ -145,6 +149,30 @@ const Footer = () => {
           </p>
         </motion.div>
       </motion.div>
+
+      {/* Back to Top Button */}
+      <motion.button
+        onClick={scrollToTop}
+        whileHover={{ scale: 1.1 }}
+        whileTap={{ scale: 0.95 }}
+        className="fixed bottom-8 right-8 z-20 p-3 rounded-full shadow-lg"
+        style={{ backgroundColor: primaryColor }}
+      >
+        <svg
+          className="w-6 h-6 text-white"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="2"
+            d="M5 10l7-7m0 0l7 7m-7-7v18"
+          />
+        </svg>
+      </motion.button>
 
       {/* Custom CSS */}
       <style jsx>{`

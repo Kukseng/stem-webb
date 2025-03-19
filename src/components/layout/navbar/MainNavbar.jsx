@@ -139,7 +139,7 @@ function MainNavbar() {
                 onClick={() => handleLinkClick(item.href)}
                 className={`px-1 lg:px-2 transition-colors duration-200 font-medium 2xl:text-[24px] xl:text-[22px] md:text-[18px] lg:text-[20px] text-[16px] flex items-center whitespace-nowrap ${
                   location.pathname === item.href
-                    ? "text-[#1e8fb8] border-b-2 border-[#1e8fb8]"
+                    ? "text-[#1e8fb8]"
                     : "text-gray-700 hover:text-[#1e8fb8]"
                 }`}
               >
@@ -153,9 +153,7 @@ function MainNavbar() {
               <Dropdown
                 label={
                   <div className="flex items-center space-x-1 sm:space-x-2">
-                    <span className="text-gray-700 text-xs xl:text-sm hidden sm:block">
-                      {userName}
-                    </span>
+                   
                     <div
                       className="h-10 w-10 xl:h-12 xl:w-12 rounded-full bg-gray-200 flex items-center justify-center cursor-pointer shadow-md hover:scale-105 transition-all overflow-hidden"
                       role="button"
@@ -176,6 +174,9 @@ function MainNavbar() {
                         </span>
                       )}
                     </div>
+                    <span className="text-descrid  text-[18px] font-semibold xl:text-sm hidden sm:block">
+                      {userName}
+                    </span>
                   </div>
                 }
                 arrowIcon={false}
