@@ -11,7 +11,7 @@ const Banner = () => {
             <div className="text-left ml-0 font-suwannaphum">
        
               <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-[34px] xl:text-[38px] 2xl:text-[40px] font-semibold text-primary mb-4 sm:mb-6 leading-tight animate-fade-in">
-                ការសក្សាវីដេអូបង្រៀនសិក្សាដោយសេរីបច្ចេកវិទ្យាថ្មីៗ
+                ការសិក្សាវីដេអូបង្រៀនសិក្សាដោយសេរីបច្ចេកវិទ្យាថ្មីៗ
               </h1>
 
   
