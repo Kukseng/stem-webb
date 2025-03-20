@@ -292,7 +292,7 @@ const LoginPage = () => {
               </form>
 
               {/* Google Login */}
-              <div className="mt-6 text-center">
+              <div className="mt-3 flex flex-col items-center justify-center">
                 <p className="text-sm text-gray-600 mb-4 font-suwannaphum">ឬចូលជាមួយ</p>
                 <GoogleLogin
                   onSuccess={handleGoogleSuccess}
@@ -300,6 +300,7 @@ const LoginPage = () => {
                   text="signin_with"
                   width="300"
                   aria-label="ចូលជាមួយ Google"
+                  className="focus:outline-none rounded-[40px]"
                 />
               </div>
 
@@ -321,19 +322,12 @@ const LoginPage = () => {
           {/* Right Side (Illustration & Benefits) */}
           <div className="hidden md:block md:w-1/2 relative" style={{ background: `linear-gradient(135deg, ${primaryColor}, #0e5c7a)` }}>
             <div className="h-full flex flex-col justify-between p-8 lg:p-12">
-              <div className="absolute inset-0 opacity-20">
-                <img
-                  className="w-full h-full object-cover mix-blend-overlay transition-transform duration-500 hover:scale-105"
-                  src={person}
-                  alt="រូបភាពអប់រំ"
-                />
-              </div>
-              <div></div>
+              {/* Move Welcome Message and Benefits to Top */}
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.2 }}
-                className="relative z-10 text-white pt-40"
+                className="relative z-10 text-white"
               >
                 <h3 className="font-bold text-2xl lg:text-3xl font-suwannaphum">សូមស្វាគមន៍ត្រឡប់មកវិញ!</h3>
                 <p className="text-white/90 mt-2 lg:text-lg font-suwannaphum">បន្តដំណើរសិក្សារបស់អ្នកជាមួយ ISTEM</p>
@@ -348,7 +342,7 @@ const LoginPage = () => {
                       initial={{ opacity: 0, x: -20 }}
                       animate={{ opacity: 1, x: 0 }}
                       transition={{ duration: 0.5, delay: 0.3 + index * 0.1 }}
-                      className="flex items-center text-white text-sm lg:text-base font-suwannaphum"
+                      className="flex items-center text-white text-sm lg:text-[20px] font-suwannaphum"
                     >
                       <svg className="w-5 h-5 mr-3 text-yellow-300" fill="currentColor" viewBox="0 0 20 20">
                         <path
@@ -362,12 +356,21 @@ const LoginPage = () => {
                   ))}
                 </ul>
               </motion.div>
+
+  
+              <div className="absolute inset-0 opacity-20">
+                <img
+                  className="w-full h-full object-cover mix-blend-overlay transition-transform duration-500 hover:scale-105"
+                  src={person}
+                  alt="រូបភាពអប់រំ"
+                />
+              </div>
             </div>
           </div>
         </div>
       </motion.main>
 
-      {/* Footer */}
+
       <footer className="absolute bottom-4 text-center text-xs text-gray-500">
         <p className="mt-1 font-suwannaphum">
           <Link

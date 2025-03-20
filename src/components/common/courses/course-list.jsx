@@ -59,8 +59,8 @@ const CoursesList = () => {
   if (isError) {
     return (
       <div className="flex flex-col justify-center items-center min-h-screen bg-gray-50 px-4">
-        <div className="bg-red-50 border border-red-200 rounded-2xl p-6 md:p-8 w-full max-w-md text-center shadow-md">
-          <h2 className="text-red-600 font-bold text-lg md:text-xl mb-3">មានបញ្ហាកើតឡើង</h2>
+        <div className=" rounded-[40px] p-6 md:p-8 w-full max-w-md text-center shadow-md">
+          <h2 className="text-red-600 font-medium  text-lg md:text-xl mb-3">មានបញ្ហាកើតឡើង</h2>
           <p className="text-red-500 text-sm md:text-base mb-4 md:mb-6">
             {error?.data?.message || error?.message || "មិនអាចទាញយកវគ្គសិក្សាបានទេ"}
           </p>

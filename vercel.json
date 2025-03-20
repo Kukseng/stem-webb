@@ -1,8 +1,8 @@
 {
   "rewrites": [
     {
-      "source": "/api/:path*",
-      "destination": "https://stem-api.istad.co/api/:path*"
+      "source": "/(.*)",
+      "destination": "/"
     }
   ]
 }

@@ -2,13 +2,15 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import { ArrowRight, Facebook, Linkedin, Github, Instagram } from "lucide-react";
 import javaImage from "../../../assets/banner-r.png";
+import pic7 from "../../../assets/images/about-us/pic7.png";
+import pic8 from "../../../assets/images/about-us/pic8.png";
+import pic9 from "../../../assets/images/about-us/pic9.png";
 import pic2 from "../../../assets/images/about-us/pic2.png";
 import pic3 from "../../../assets/images/about-us/pic3.png";
-import pic4 from "../../../assets/images/about-us/pic4.png";
 
 const ShuffleHero = () => {
   return (
-    <section className="max-w-[1300px] px-6 py-16 md:py-24 bg-gradient-to-b from-gray-50 to-white grid grid-cols-1 md:grid-cols-2 items-center gap-12 w-full mx-auto">
+    <section className=" px-6 py-16 md:py-24 bg-gradient-to-b from-gray-50 to-white grid grid-cols-1 md:grid-cols-2 items-center gap-12 w-full mx-auto">
       {/* Text Section */}
       <motion.div
         initial={{ x: -100, opacity: 0 }}
@@ -26,14 +28,14 @@ const ShuffleHero = () => {
           សិស្សបន្ទាប់ពីបញ្ចប់ថ្នាក់មធ្យមសិក្សាទុតិយភូមិ ឬមិនទាន់បញ្ចប់ ក៏អាចសិក្សានៅលើវេបសាយរបស់យើងបានដែរ។ យើងផ្តល់ចំណេះដឹងទាន់សម័យ និងបទពិសោធន៍អប់រំដែលផ្លាស់ប្តូរជីវិត ដើម្បីជួយអ្នកឈានទៅដល់សក្តានុពលពេញលេញ។
         </p>
         <div className="flex items-center space-x-4">
-        <button className="bg-primary text-white px-4 py-2 sm:px-6 sm:py-3 md:px-8 md:py-4 text-[16px] sm:text-[18px] md:text-[20px] rounded-full flex items-center space-x-2 hover:bg-opacity-90 transition-all shadow-md animate-bounce-in">
-                <span className="font-medium">ចាប់ផ្តើមឥឡូវ</span>
-              </button>
-       
+          <button className="bg-primary text-white px-4 py-2 sm:px-6 sm:py-3 md:px-8 md:py-4 text-[16px] sm:text-[18px] md:text-[20px] rounded-full flex items-center space-x-2 hover:bg-opacity-90 transition-all shadow-md animate-bounce-in">
+            <span className="font-medium">ចាប់ផ្តើមឥឡូវ</span>
+          </button>
+
         </div>
       </motion.div>
 
-     
+
       <ShuffleGrid />
     </section>
   );
@@ -56,12 +58,12 @@ const shuffle = (array) => {
 
 // Updated squareData with your local images
 const squareData = [
-  { id: 1, src: pic2 },
-  { id: 2, src: pic3 },
-  { id: 3, src: pic2 },
-  { id: 4, src: pic4 }, // Removed empty string, reusing javaImage
-  { id: 5, src: pic2 },
-  { id: 6, src: pic3 },
+  { id: 1, src: pic7 },
+  { id: 2, src: pic8 },
+  { id: 3, src: pic9 },
+  { id: 4, src: pic7 }, // Removed empty string, reusing javaImage
+  // { id: 5, src: pic2 },
+  // { id: 6, src: pic3 },
 ];
 
 const generateSquares = (data) => {
@@ -109,7 +111,7 @@ const ShuffleGrid = () => {
   };
 
   return (
-    <div className="grid grid-cols-3 grid-rows-2 h-[500px] md:h-[600px] gap-4 relative will-change-transform">
+    <div className="grid grid-cols-2 grid-rows-2 h-[500px] md:h-[600px] gap-4 relative will-change-transform">
       <AnimatePresence mode="popLayout">
         {generateSquares(shuffledData)}
       </AnimatePresence>

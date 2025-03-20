@@ -5,7 +5,7 @@ import { GoogleLogin } from "@react-oauth/google";
 import { jwtDecode } from "jwt-decode";
 import person from "../../assets/person.svg";
 import logomodified from "../../assets/images/logo/o-removebg-preview.png";
-import { Eye, EyeOff, Loader, X } from "lucide-react";
+import { Eye, EyeOff, Loader } from "lucide-react";
 import { motion } from "framer-motion";
 
 const SignUpPage = () => {
@@ -44,35 +44,30 @@ const SignUpPage = () => {
     else if (!/\S+@\S+\.\S+/.test(formData.email)) errors.email = "អ៊ីមែលមិនត្រឹមត្រូវ";
     if (!formData.password) errors.password = "សូមបញ្ចូលពាក្យសម្ងាត់";
     else if (!passwordRegex.test(formData.password))
-      errors.password = "ប្រើយ៉ាងហោចណាស់ ៨ តួអក្សរ មានអក្សរ លេខ និងនិមិត្តសញ្ញា";
+      errors.password = "ប្រើ ៨ តួអក្សរ មានអក្សរ លេខ និងនិមិត្តសញ្ញា";
     if (formData.password !== formData.confirmPassword)
       errors.confirmPassword = "ពាក្យសម្ងាត់មិនត្រូវគ្នា";
-    if (!formData.agreeTerms) errors.agreeTerms = "អ្នកត្រូវយល់ព្រមជាមួយលក្ខខណ្ឌនៃសេវាកម្ម";
+    if (!formData.agreeTerms) errors.agreeTerms = "សូមយល់ព្រមលក្ខខណ្ឌ";
 
     return errors;
   };
 
   const PasswordFeedback = ({ password }) => {
     const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
+    const isValid = passwordRegex.test(password);
     const hasLength = password.length >= 8;
     const hasLetter = /[A-Za-z]/.test(password);
     const hasNumber = /\d/.test(password);
     const hasSymbol = /[@$!%*#?&]/.test(password);
 
+    if (!password || isValid) return null;
+
     return (
-      <div className="text-[16px] mt-1 font-suwannaphum">
-        <p className={hasLength ? "text-green-600" : "text-red-600"}>
-          {hasLength ? "✓" : "✗"} យ៉ាងហោចណាស់ ៨ តួអក្សរ
-        </p>
-        <p className={hasLetter ? "text-green-600" : "text-red-600"}>
-          {hasLetter ? "✓" : "✗"} យ៉ាងហោចណាស់មួយអក្សរ
-        </p>
-        <p className={hasNumber ? "text-green-600" : "text-red-600"}>
-          {hasNumber ? "✓" : "✗"} យ៉ាងហោចណាស់មួយលេខ
-        </p>
-        <p className={hasSymbol ? "text-green-600 " : "text-red-600"}>
-          {hasSymbol ? "✓" : "✗"} យ៉ាងហោចណាស់មួយនិមិត្តសញ្ញា
-        </p>
+      <div className="text-[10px] sm:text-xs mt-1 font-suwannaphum" aria-live="polite">
+        {!hasLength && <p className="text-red-600">✗ ៨ តួអក្សរ</p>}
+        {!hasLetter && <p className="text-red-600">✗ មួយអក្សរ</p>}
+        {!hasNumber && <p className="text-red-600">✗ មួយលេខ</p>}
+        {!hasSymbol && <p className="text-red-600">✗ មួយនិមិត្តសញ្ញា</p>}
       </div>
     );
   };
@@ -99,10 +94,10 @@ const SignUpPage = () => {
     };
 
     try {
-      console.log("ផ្ញើទិន្នន័យចុះឈ្មោះ:", registerData);
+      console.log("ផ្ញើទិន្នន័យ:", JSON.stringify(registerData, null, 2));
       const response = await register(registerData).unwrap();
-      console.log("ការឆ្លើយតបនៃការចុះឈ្មោះ:", response);
-      setSuccessMessage("គណនីត្រូវបានបង្កើតជោគជ័យ! កំពុងប្តូរទៅការផ្ទៀងផ្ទាត់ OTP...");
+      console.log("ឆ្លើយតប:", JSON.stringify(response, null, 2));
+      setSuccessMessage("បង្កើតជោគជ័យ! កំពុងប្តូរទៅ OTP...");
       setFormData({
         username: "",
         email: "",
@@ -112,31 +107,33 @@ const SignUpPage = () => {
       });
       setTimeout(() => navigate("/verify-otp", { state: { email: formData.email } }), 1500);
     } catch (err) {
-      console.error("កំហុសក្នុងការចុះឈ្មោះ:", err);
-      if (err.data && err.data.errors) {
+      console.error("កំហុស:", JSON.stringify(err, null, 2));
+      console.error("ព័ត៌មាន:", JSON.stringify(err.data, null, 2));
+      if (err.status === 400 && err.data?.errors?.email?.includes("user with this email address already exists")) {
+        setFormErrors({ general: "អ៊ីមែលនេះមានរួចហើយ។ កំពុងប្តូរទៅចូល..." });
+        setTimeout(() => navigate("/login", { state: { email: formData.email, message: "សូមចូលជាមួយអ៊ីមែលនេះ។" } }), 1500);
+      } else if (err.data?.errors) {
         const fieldErrors = Object.entries(err.data.errors).reduce((acc, [key, value]) => {
           acc[key.toLowerCase()] = Array.isArray(value) ? value.join(", ") : value;
           return acc;
         }, {});
         setFormErrors(fieldErrors);
-      } else if (err.data && err.data.message) {
-        setFormErrors({ general: err.data.message });
       } else {
-        setFormErrors({ general: "មិនអាចបង្កើតគណនីបានទេ។ សូមព្យាយាមម្តងទៀត។" });
+        setFormErrors({ general: err.data?.message || "បរាជ័យ។ សូមព្យាយាមម្តងទៀត។" });
       }
     }
   };
 
   const handleGoogleSuccess = async (credentialResponse) => {
-    console.log("ការឆ្លើយតបនៃ Google:", credentialResponse);
+    console.log("Google response:", JSON.stringify(credentialResponse, null, 2));
     try {
       const idToken = credentialResponse.credential;
       const decodedToken = jwtDecode(idToken);
-      console.log("Decoded Google token:", decodedToken);
+      console.log("Decoded token:", JSON.stringify(decodedToken, null, 2));
 
       const googleEmail = decodedToken.email;
       const googleName = decodedToken.name || "អ្នកប្រើ Google";
-      const temporaryPassword = "GoogleUser123@*"; // Fixed password for new accounts
+      const temporaryPassword = "GoogleUser123@*";
 
       const registerData = {
         first_name: googleName.split(" ")[0] || "មិនស្គាល់",
@@ -147,46 +144,41 @@ const SignUpPage = () => {
         ConfirmPassword: temporaryPassword,
       };
 
-      console.log("ផ្ញើសំណើចុះឈ្មោះជាមួយទិន្នន័យ:", registerData);
+      console.log("ផ្ញើ Google:", JSON.stringify(registerData, null, 2));
       const response = await register(registerData).unwrap();
-      console.log("ការឆ្លើយតបនៃការចុះឈ្មោះ:", response);
-      setSuccessMessage("គណនីត្រូវបានបង្កើតជោគជ័យ! កំពុងប្តូរទៅការផ្ទៀងផ្ទាត់ OTP...");
+      console.log("ឆ្លើយតប Google:", JSON.stringify(response, null, 2));
+      setSuccessMessage("បង្កើតជោគជ័យ! កំពុងប្តូរទៅ OTP...");
       setTimeout(() => navigate("/verify-otp", { state: { email: googleEmail } }), 1500);
     } catch (err) {
-      console.error("កំហុសក្នុងការចុះឈ្មោះ Google:", err);
-      console.error("ព័ត៌មានកំហុស:", err.data);
-
+      console.error("កំហុស Google:", JSON.stringify(err, null, 2));
+      console.error("ព័ត៌មាន:", JSON.stringify(err.data, null, 2));
       if (err.status === 400 && err.data?.errors?.email?.includes("user with this email address already exists")) {
-        setFormErrors({ general: "អ៊ីមែលនេះត្រូវបានចុះឈ្មោះរួចហើយ។ កំពុងប្តូរទៅទំព័រចូល..." });
-        setTimeout(() => navigate("/login", { state: { email: googleEmail, message: "សូមចូលជាមួយពាក្យសម្ងាត់ដែលមានស្រាប់។" } }), 2000);
+        setFormErrors({ general: "អ៊ីមែលនេះមានរួចហើយ។ កំពុងប្តូរទៅចូល..." });
+        setTimeout(() => navigate("/login", { state: { email: decodedToken.email, message: "សូមចូលជាមួយ Google ឬពាក្យសម្ងាត់។" } }), 1500);
       } else {
-        setFormErrors({ general: err.data?.message || "ការចុះឈ្មោះជាមួយ Google បរាជ័យ។ សូមព្យាយាមម្តងទៀត។" });
+        setFormErrors({ general: err.data?.message || "Google បរាជ័យ។ សូមព្យាយាមម្តងទៀត។" });
       }
     }
   };
 
   const handleGoogleError = () => {
-    console.error("ការចុះឈ្មោះ Google បរាជ័យ - បញ្ហាបង្អួច ឬការកំណត់");
-    setFormErrors({ general: "ការចុះឈ្មោះ Google បរាជ័យ។ សូមព្យាយាមម្តងទៀត ឬប្រើការចុះឈ្មោះដោយដៃ។" });
+    console.error("Google signup failed");
+    setFormErrors({ general: "Google បរាជ័យ។ សូមព្យាយាមម្តងទៀត។" });
   };
 
   return (
-    <section className="bg-gradient-to-br from-blue-50 via-gray-50 to-yellow-50 min-h-screen flex flex-col items-center justify-center p-4 relative overflow-hidden">
-      {/* Decorative Background Elements */}
-      <div className="absolute top-10 left-10 w-20 h-20 bg-blue-200 rounded-full opacity-20 animate-pulse"></div>
-      {/* <div className="absolute bottom-10 right-10 w-32 h-32 bg-yellow-200 rounded-full opacity-20 animate-bounce"></div> */}
-
+    <section className="bg-gradient-to-br from-blue-50 via-gray-50 to-yellow-50 min-h-screen flex items-center justify-center p-2 sm:p-4">
       {/* Header */}
-      <header className="w-full max-w-6xl flex justify-between items-center absolute top-0 left-0 right-0 p-4 md:p-6 z-10">
+      <header className="absolute top-0 left-0 right-0 p-2 sm:p-4 flex justify-between items-center max-w-6xl mx-auto">
         <Link to="/" className="flex items-center space-x-2">
           <motion.img
             src={logomodified}
-            alt="ISTEM និមិត្តសញ្ញា"
-            className="h-10 w-10 sm:h-12 sm:w-12 md:h-16 md:w-16 object-cover"
-            whileHover={{ scale: 1.1, rotate: 5 }}
+            alt="ISTEM Logo"
+            className="h-8 w-8 sm:h-10 sm:w-10"
+            whileHover={{ scale: 1.1 }}
             transition={{ duration: 0.3 }}
           />
-          <h1 className="text-lg sm:text-xl md:text-2xl font-bold font-suwannaphum" style={{ color: primaryColor }}>
+          <h1 className="text-base sm:text-lg font-bold font-suwannaphum" style={{ color: primaryColor }}>
             ISTEM
           </h1>
         </Link>
@@ -194,368 +186,239 @@ const SignUpPage = () => {
 
       {/* Main Content */}
       <motion.main
-        initial={{ opacity: 0, y: 50 }}
+        initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8, ease: "easeOut" }}
-        className="bg-white rounded-2xl shadow-2xl w-full max-w-5xl mx-auto my-16 overflow-hidden border border-gray-100"
+        transition={{ duration: 0.5 }}
+        className="bg-white rounded-xl shadow-lg w-full max-w-md sm:max-w-lg md:max-w-4xl mx-auto flex flex-col md:flex-row overflow-hidden my-12 sm:my-16"
       >
-        <div className="flex flex-col md:flex-row">
-          {/* SignUp Form */}
-          <div className="w-full md:w-1/2 p-6 sm:p-8 lg:p-12">
-            <div className="max-w-md mx-auto">
-              <h2 className="font-bold text-2xl sm:text-3xl font-suwannaphum" style={{ color: primaryColor }}>
-                បង្កើតគណនី
-              </h2>
-              <p className="text-sm mt-2 text-gray-600 font-suwannaphum">ចូលរួមជាមួយវេទិកាអប់រំរបស់យើង</p>
+        {/* SignUp Form */}
+        <div className="w-full md:w-1/2 p-4 sm:p-6">
+          <div className="w-full">
+            <h2 className="font-bold text-lg sm:text-xl font-suwannaphum" style={{ color: primaryColor }}>
+              បង្កើតគណនី
+            </h2>
+            <p className="text-[14px] sm:text-sm text-gray-600 mt-1 font-suwannaphum">ចូលរួមជាមួយយើង</p>
 
-              {/* Success Message */}
-              {successMessage && (
-                <motion.div
-                  initial={{ opacity: 0, y: -10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -10 }}
-                  transition={{ duration: 0.3 }}
-                  className="mt-4 p-4 bg-green-50 border border-green-200 text-green-700 text-sm rounded-lg flex items-start justify-between shadow-sm font-suwannaphum"
-                >
-                  <div className="flex items-start">
-                    <svg className="h-5 w-5 mr-2 mt-0.5 text-green-500" viewBox="0 0 20 20" fill="currentColor">
-                      <path
-                        fillRule="evenodd"
-                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                        clipRule="evenodd"
-                      />
-                    </svg>
-                    <span>{successMessage}</span>
-                  </div>
-                  <button
-                    onClick={() => setSuccessMessage("")}
-                    className="text-green-700 hover:text-green-900 focus:outline-none"
-                    aria-label="បិទសារជោគជ័យ"
-                  >
-                    <X size={18} />
-                  </button>
-                </motion.div>
-              )}
-
-              {/* Error Message */}
-              {formErrors.general && (
-                <motion.div
-                  initial={{ opacity: 0, y: -10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -10 }}
-                  transition={{ duration: 0.3 }}
-                  className="mt-4 p-4 bg-red-50 border border-red-200 text-red-700 text-sm rounded-lg flex items-start justify-between shadow-sm font-suwannaphum"
-                >
-                  <div className="flex items-start">
-                    <svg className="h-5 w-5 mr-2 mt-0.5 text-red-500" viewBox="0 0 20 20" fill="currentColor">
-                      <path
-                        fillRule="evenodd"
-                        d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
-                        clipRule="evenodd"
-                      />
-                    </svg>
-                    <span>{formErrors.general}</span>
-                  </div>
-                  <button
-                    onClick={() => setFormErrors((prev) => ({ ...prev, general: "" }))}
-                    className="text-red-700 hover:text-red-900 focus:outline-none"
-                    aria-label="បិទសារកំហុស"
-                  >
-                    <X size={18} />
-                  </button>
-                </motion.div>
-              )}
-
-              {/* Form */}
-              <form onSubmit={handleSubmit} className="flex flex-col gap-6 mt-6">
-                <div className="relative">
-                  <label htmlFor="username" className="text-sm font-medium text-gray-700 block mb-1.5 font-suwannaphum">
-                    ឈ្មោះអ្នកប្រើ
-                  </label>
-                  <input
-                    id="username"
-                    className="p-3 rounded-lg border border-gray-300 w-full focus:border-[2px] focus:ring-2 focus:ring-opacity-50 focus:outline-none transition-all duration-300 shadow-sm hover:shadow-md font-suwannaphum placeholder-gray-400"
-                    style={{
-                      borderColor: formErrors.username ? "#ef4444" : "#d1d5db",
-                      borderWidth: formErrors.username ? "2px" : "1px",
-                      focusBorderColor: primaryColor,
-                      focusRingColor: primaryColor,
-                    }}
-                    type="text"
-                    name="username"
-                    placeholder="ជ្រើសរើសឈ្មោះអ្នកប្រើ"
-                    value={formData.username}
-                    onChange={handleChange}
-                    required
-                    aria-label="ជ្រើសរើសឈ្មោះអ្នកប្រើ"
-                  />
-                  {formErrors.username && (
-                    <p className="text-red-600 text-xs mt-1 font-suwannaphum">{formErrors.username}</p>
-                  )}
-                </div>
-
-                <div className="relative">
-                  <label htmlFor="email" className="text-sm font-medium text-gray-700 block mb-1.5 font-suwannaphum">
-                    អ៊ីមែល
-                  </label>
-                  <input
-                    id="email"
-                    className="p-3 rounded-lg border border-gray-300 w-full focus:border-[2px] focus:ring-2 focus:ring-opacity-50 focus:outline-none transition-all duration-300 shadow-sm hover:shadow-md font-suwannaphum placeholder-gray-400"
-                    style={{
-                      borderColor: formErrors.email ? "#ef4444" : "#d1d5db",
-                      borderWidth: formErrors.email ? "2px" : "1px",
-                      focusBorderColor: primaryColor,
-                      focusRingColor: primaryColor,
-                    }}
-                    type="email"
-                    name="email"
-                    placeholder="your@email.com"
-                    value={formData.email}
-                    onChange={handleChange}
-                    required
-                    aria-label="បញ្ចូលអាសយដ្ឋានអ៊ីមែលរបស់អ្នក"
-                  />
-                  {formErrors.email && (
-                    <p className="text-red-600 text-xs mt-1 font-suwannaphum">{formErrors.email}</p>
-                  )}
-                </div>
-
-                <div className="relative">
-                  <label htmlFor="password" className="text-sm font-medium text-gray-700 block mb-1.5 font-suwannaphum">
-                    ពាក្យសម្ងាត់
-                  </label>
-                  <div className="relative">
-                    <input
-                      id="password"
-                      className="p-3 rounded-lg border border-gray-300 w-full focus:border-[2px] focus:ring-2 focus:ring-opacity-50 focus:outline-none transition-all duration-300 shadow-sm hover:shadow-md font-suwannaphum placeholder-gray-400"
-                      style={{
-                        borderColor: formErrors.password ? "#ef4444" : "#d1d5db",
-                        borderWidth: formErrors.password ? "2px" : "1px",
-                        focusBorderColor: primaryColor,
-                        focusRingColor: primaryColor,
-                      }}
-                      type={showPassword ? "text" : "password"}
-                      name="password"
-                      placeholder="យ៉ាងហោចណាស់ ៨ តួអក្សរ"
-                      value={formData.password}
-                      onChange={handleChange}
-                      required
-                      aria-label="បញ្ចូលពាក្យសម្ងាត់របស់អ្នក"
-                    />
-                    <button
-                      type="button"
-                      onClick={() => setShowPassword(!showPassword)}
-                      className="absolute top-1/2 right-3 -translate-y-1/2 p-1.5 rounded-full hover:bg-gray-100 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2"
-                      style={{ focusRingColor: primaryColor }}
-                      aria-label={showPassword ? "លាក់ពាក្យសម្ងាត់" : "បង្ហាញពាក្យសម្ងាត់"}
-                    >
-                      {showPassword ? <EyeOff size={18} color="#6b7280" /> : <Eye size={18} color="#6b7280" />}
-                    </button>
-                  </div>
-                  <PasswordFeedback password={formData.password} />
-                  {formErrors.password && (
-                    <p className="text-red-600 text-xs mt-1 font-suwannaphum">{formErrors.password}</p>
-                  )}
-                </div>
-
-                <div className="relative">
-                  <label htmlFor="confirmPassword" className="text-sm font-medium text-gray-700 block mb-1.5 font-suwannaphum">
-                    បញ្ជាក់ពាក្យសម្ងាត់
-                  </label>
-                  <div className="relative">
-                    <input
-                      id="confirmPassword"
-                      className="p-3 rounded-lg border border-gray-300 w-full focus:border-[2px] focus:ring-2 focus:ring-opacity-50 focus:outline-none transition-all duration-300 shadow-sm hover:shadow-md font-suwannaphum placeholder-gray-400"
-                      style={{
-                        borderColor: formErrors.confirmPassword ? "#ef4444" : "#d1d5db",
-                        borderWidth: formErrors.confirmPassword ? "2px" : "1px",
-                        focusBorderColor: primaryColor,
-                        focusRingColor: primaryColor,
-                      }}
-                      type={showConfirmPassword ? "text" : "password"}
-                      name="confirmPassword"
-                      placeholder="បញ្ចូលពាក្យសម្ងាត់ម្តងទៀត"
-                      value={formData.confirmPassword}
-                      onChange={handleChange}
-                      required
-                      aria-label="បញ្ជាក់ពាក្យសម្ងាត់របស់អ្នក"
-                    />
-                    <button
-                      type="button"
-                      onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                      className="absolute top-1/2 right-3 -translate-y-1/2 p-1.5 rounded-full hover:bg-gray-100 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2"
-                      style={{ focusRingColor: primaryColor }}
-                      aria-label={showConfirmPassword ? "លាក់ការបញ្ជាក់ពាក្យសម្ងាត់" : "បង្ហាញការបញ្ជាក់ពាក្យសម្ងាត់"}
-                    >
-                      {showConfirmPassword ? <EyeOff size={18} color="#6b7280" /> : <Eye size={18} color="#6b7280" />}
-                    </button>
-                  </div>
-                  {formErrors.confirmPassword && (
-                    <p className="text-red-600 text-xs mt-1 font-suwannaphum">{formErrors.confirmPassword}</p>
-                  )}
-                </div>
-
-                <div className="mt-1">
-                  <div className="flex items-start">
-                    <input
-                      id="agreeTerms"
-                      name="agreeTerms"
-                      type="checkbox"
-                      checked={formData.agreeTerms}
-                      onChange={handleChange}
-                      className="h-4 w-4 rounded transition-colors duration-300 focus:ring-2 focus:ring-offset-2"
-                      style={{ borderColor: formErrors.agreeTerms ? "#ef4444" : "#d1d5db", color: accentColor, focusRingColor: primaryColor }}
-                      required
-                      aria-label="យល់ព្រមជាមួយលក្ខខណ្ឌនៃសេវាកម្ម និងគោលការណ៍ឯកជនភាព"
-                    />
-                    <label htmlFor="agreeTerms" className="ml-3 text-sm text-gray-600 font-suwannaphum">
-                      ខ្ញុំយល់ព្រមជាមួយ{" "}
-                      <Link
-                        to="/terms"
-                        className="transition-colors focus:outline-none focus:underline font-suwannaphum"
-                        style={{ color: primaryColor, hoverColor: "#0e5c7a" }}
-                        onMouseEnter={(e) => (e.target.style.color = "#0e5c7a")}
-                        onMouseLeave={(e) => (e.target.style.color = primaryColor)}
-                      >
-                        លក្ខខណ្ឌនៃសេវាកម្ម
-                      </Link>{" "}
-                      និង{" "}
-                      <Link
-                        to="/privacy"
-                        className="transition-colors focus:outline-none focus:underline font-suwannaphum"
-                        style={{ color: primaryColor, hoverColor: "#0e5c7a" }}
-                        onMouseEnter={(e) => (e.target.style.color = "#0e5c7a")}
-                        onMouseLeave={(e) => (e.target.style.color = primaryColor)}
-                      >
-                        គោលការណ៍ឯកជនភាព
-                      </Link>
-                    </label>
-                  </div>
-                  {formErrors.agreeTerms && (
-                    <p className="text-red-600 text-xs mt-1 font-suwannaphum">{formErrors.agreeTerms}</p>
-                  )}
-                </div>
-
-                <motion.button
-                  type="submit"
-                  className="mt-4 rounded-full text-white py-3 font-medium transition-all duration-300 flex items-center justify-center shadow-md hover:shadow-lg font-suwannaphum"
-                  style={{ backgroundColor: primaryColor }}
-                  whileHover={{ scale: isLoading ? 1 : 1.05, backgroundColor: isLoading ? primaryColor : "#0e5c7a" }}
-                  whileTap={{ scale: isLoading ? 1 : 0.95 }}
-                  disabled={isLoading}
-                  aria-label="បង្កើតគណនី"
-                >
-                  {isLoading ? (
-                    <span className="flex items-center">
-                      <Loader className="animate-spin mr-2 h-4 w-4 text-white" />
-                      កំពុងបង្កើតគណនី...
-                    </span>
-                  ) : (
-                    "បង្កើតគណនី"
-                  )}
-                </motion.button>
-              </form>
-
-              {/* Google Signup */}
-              <div className="mt-6 text-center">
-                <p className="text-sm text-gray-600 mb-4 font-suwannaphum">ឬចុះឈ្មោះជាមួយ</p>
-                <GoogleLogin
-                  onSuccess={handleGoogleSuccess}
-                  onError={handleGoogleError}
-                  text="signup_with"
-                  width="300"
-                  aria-label="ចុះឈ្មោះជាមួយ Google"
-                />
-              </div>
-
-              <div className="mt-6 text-center text-sm text-gray-600 font-suwannaphum">
-                មានគណនីរួចហើយ?{" "}
-                <Link
-                  to="/login"
-                  className="font-medium transition-colors focus:outline-none focus:underline font-suwannaphum"
-                  style={{ color: primaryColor, hoverColor: "#0e5c7a" }}
-                  onMouseEnter={(e) => (e.target.style.color = "#0e5c7a")}
-                  onMouseLeave={(e) => (e.target.style.color = primaryColor)}
-                >
-                  ចូល
-                </Link>
-              </div>
-            </div>
-          </div>
-
-          {/* Right Side (Illustration & Benefits) */}
-          <div className="hidden md:block md:w-1/2 relative" style={{ background: `linear-gradient(135deg, ${primaryColor}, #0e5c7a)` }}>
-            <div className="h-full flex flex-col justify-between p-8 lg:p-12">
-              <div className="absolute inset-0 opacity-20">
-                <img
-                  className="w-full h-full object-cover mix-blend-overlay transition-transform duration-500 hover:scale-105"
-                  src={person}
-                  alt="រូបភាពអប់រំ"
-                />
-              </div>
-              <div></div>
+            {successMessage && (
               <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.2 }}
-                className="relative z-10 text-white pt-40"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                className="mt-2 sm:mt-3 p-2 bg-green-50 border border-green-200 text-green-700 text-[10px] sm:text-xs rounded flex items-center font-suwannaphum"
               >
-                <h3 className="font-bold text-2xl lg:text-3xl font-suwannaphum">ចូលរួមសហគមន៍សិក្សារបស់យើង</h3>
-                <p className="text-white/90 mt-2 lg:text-lg font-suwannaphum">ដោះសោរចលនាអន្តរកម្ម វគ្គសិក្សា និងអ្វីៗជាច្រើនទៀត</p>
-                <ul className="mt-6 space-y-3">
-                  {[
-                    "ចូលប្រើចលនាអប់រំថ្នាក់ខ្ពស់",
-                    "បទពិសោធន៍សិក្សា",
-                    "តាមដានវឌ្ឍនភាព និងទទួលវិញ្ញាបនបត្រ",
-                  ].map((item, index) => (
-                    <motion.li
-                      key={index}
-                      initial={{ opacity: 0, x: -20 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ duration: 0.5, delay: 0.3 + index * 0.1 }}
-                      className="flex items-center text-white text-sm lg:text-base font-suwannaphum"
-                    >
-                      <svg className="w-5 h-5 mr-3" style={{ color: accentColor }} fill="currentColor" viewBox="0 0 20 20">
-                        <path
-                          fillRule="evenodd"
-                          d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                          clipRule="evenodd"
-                        />
-                      </svg>
-                      {item}
-                    </motion.li>
-                  ))}
-                </ul>
+                <svg className="h-3 w-3 sm:h-4 sm:w-4 mr-1 text-green-500" viewBox="0 0 20 20" fill="currentColor">
+                  <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                </svg>
+                {successMessage}
               </motion.div>
-            </div>
+            )}
+
+            {formErrors.general && (
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                className="mt-2 sm:mt-3 p-2 bg-red-50 border border-red-200 text-red-700 text-[10px] sm:text-xs rounded flex items-center font-suwannaphum"
+              >
+                <svg className="h-3 w-3 sm:h-4 sm:w-4 mr-1 text-red-500" viewBox="0 0 20 20" fill="currentColor">
+                  <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+                </svg>
+                {formErrors.general}
+              </motion.div>
+            )}
+
+            <form onSubmit={handleSubmit} className="flex flex-col gap-2 sm:gap-3 mt-3 sm:mt-4">
+              <div>
+                <label htmlFor="username" className="text-[12px] sm:text-sm font-medium text-gray-700 font-suwannaphum">ឈ្មោះអ្នកប្រើ</label>
+                <input
+                  id="username"
+                  className="mt-1 p-2 rounded-lg border border-gray-300 w-full focus:border-[2px] focus:ring-2 focus:ring-opacity-50 focus:outline-none font-suwannaphum placeholder-gray-400 text-[12px] sm:text-sm"
+                  style={{ borderColor: formErrors.username ? "#ef4444" : "#d1d5db", focusBorderColor: primaryColor, focusRingColor: primaryColor }}
+                  type="text"
+                  name="username"
+                  placeholder="ឈ្មោះអ្នកប្រើ"
+                  value={formData.username}
+                  onChange={handleChange}
+                  required
+                  autoComplete="username"
+                />
+                {formErrors.username && <p className="text-red-600 text-[10px] sm:text-xs mt-1 font-suwannaphum">{formErrors.username}</p>}
+              </div>
+
+              <div>
+                <label htmlFor="email" className="text-[12px] sm:text-sm font-medium text-gray-700 font-suwannaphum">អ៊ីមែល</label>
+                <input
+                  id="email"
+                  className="mt-1 p-2 rounded-lg border border-gray-300 w-full focus:border-[2px] focus:ring-2 focus:ring-opacity-50 focus:outline-none font-suwannaphum placeholder-gray-400 text-[12px] sm:text-sm"
+                  style={{ borderColor: formErrors.email ? "#ef4444" : "#d1d5db", focusBorderColor: primaryColor, focusRingColor: primaryColor }}
+                  type="email"
+                  name="email"
+                  placeholder="istem@email.com"
+                  value={formData.email}
+                  onChange={handleChange}
+                  required
+                  autoComplete="email"
+                />
+                {formErrors.email && <p className="text-red-600 text-[10px] sm:text-xs mt-1 font-suwannaphum">{formErrors.email}</p>}
+              </div>
+
+              <div>
+                <label htmlFor="password" className="text-[12px] sm:text-sm font-medium text-gray-700 font-suwannaphum">ពាក្យសម្ងាត់</label>
+                <div className="relative">
+                  <input
+                    id="password"
+                    className="mt-1 p-2 rounded-lg border border-gray-300 w-full focus:border-[2px] focus:ring-2 focus:ring-opacity-50 focus:outline-none font-suwannaphum placeholder-gray-400 text-[12px] sm:text-sm"
+                    style={{ borderColor: formErrors.password ? "#ef4444" : "#d1d5db", focusBorderColor: primaryColor, focusRingColor: primaryColor }}
+                    type={showPassword ? "text" : "password"}
+                    name="password"
+                    placeholder="៨ តួអក្សរ"
+                    value={formData.password}
+                    onChange={handleChange}
+                    required
+                    autoComplete="new-password"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute top-1/2 right-2 -translate-y-1/2 p-1"
+                    aria-label={showPassword ? "លាក់" : "បង្ហាញ"}
+                  >
+                    {showPassword ? <EyeOff size={14} sm:size={16} color="#6b7280" /> : <Eye size={14} sm:size={16} color="#6b7280" />}
+                  </button>
+                </div>
+                <PasswordFeedback password={formData.password} />
+                {formErrors.password && <p className="text-red-600 text-[10px] sm:text-xs mt-1 font-suwannaphum">{formErrors.password}</p>}
+              </div>
+
+              <div>
+                <label htmlFor="confirmPassword" className="text-[12px] sm:text-sm font-medium text-gray-700 font-suwannaphum">បញ្ជាក់ពាក្យសម្ងាត់</label>
+                <div className="relative">
+                  <input
+                    id="confirmPassword"
+                    className="mt-1 p-2 rounded-lg border border-gray-300 w-full focus:border-[2px] focus:ring-2 focus:ring-opacity-50 focus:outline-none font-suwannaphum placeholder-gray-400 text-[12px] sm:text-sm"
+                    style={{ borderColor: formErrors.confirmPassword ? "#ef4444" : "#d1d5db", focusBorderColor: primaryColor, focusRingColor: primaryColor }}
+                    type={showConfirmPassword ? "text" : "password"}
+                    name="confirmPassword"
+                    placeholder="បញ្ជាក់"
+                    value={formData.confirmPassword}
+                    onChange={handleChange}
+                    required
+                    autoComplete="new-password"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                    className="absolute top-1/2 right-2 -translate-y-1/2 p-1"
+                    aria-label={showConfirmPassword ? "លាក់" : "បង្ហាញ"}
+                  >
+                    {showConfirmPassword ? <EyeOff size={14} sm:size={16} color="#6b7280" /> : <Eye size={14} sm:size={16} color="#6b7280" />}
+                  </button>
+                </div>
+                {formErrors.confirmPassword && <p className="text-red-600 text-[10px] sm:text-xs mt-1 font-suwannaphum">{formErrors.confirmPassword}</p>}
+              </div>
+
+              <div className="flex items-center">
+                <input
+                  id="agreeTerms"
+                  name="agreeTerms"
+                  type="checkbox"
+                  checked={formData.agreeTerms}
+                  onChange={handleChange}
+                  className="h-3 w-3 sm:h-4 sm:w-4 rounded focus:ring-2 focus:ring-offset-2"
+                  style={{ borderColor: formErrors.agreeTerms ? "#ef4444" : "#d1d5db", color: accentColor, focusRingColor: primaryColor }}
+                  required
+                />
+                <label htmlFor="agreeTerms" className="ml-2 text-[14px] sm:text-sm text-gray-600 font-suwannaphum">
+                  យល់ព្រម{" "}
+                  <Link className="underline" style={{ color: primaryColor }}>លក្ខខណ្ឌ</Link> និង{" "}
+                  <Link className="underline" style={{ color: primaryColor }}>ឯកជនភាព</Link>
+                </label>
+              </div>
+              {formErrors.agreeTerms && <p className="text-red-600 text-[10px] sm:text-xs mt-1 font-suwannaphum">{formErrors.agreeTerms}</p>}
+
+              <motion.button
+                type="submit"
+                className="mt-2 sm:mt-3 rounded-lg text-white py-2 font-medium flex items-center justify-center font-suwannaphum text-[12px] sm:text-sm"
+                style={{ backgroundColor: primaryColor }}
+                whileHover={{ scale: isLoading ? 1 : 1.05, backgroundColor: isLoading ? primaryColor : "#0e5c7a" }}
+                whileTap={{ scale: isLoading ? 1 : 0.95 }}
+                disabled={isLoading}
+              >
+                {isLoading ? (
+                  <span className="flex items-center">
+                    <Loader className="animate-spin mr-1 h-3 w-3 sm:h-4 sm:w-4" />
+                    កំពុងបង្កើត...
+                  </span>
+                ) : (
+                  "បង្កើតគណនី"
+                )}
+              </motion.button>
+              <div className="mt-3 flex flex-col items-center justify-center">
+  {/* Text */}
+  <p className="text-xs sm:text-sm text-gray-600 font-suwannaphum mb-2 sm:mb-3">
+    ឬប្រើ Google
+  </p>
+  {/* Google Login Button */}
+  <GoogleLogin
+    onSuccess={handleGoogleSuccess}
+    onError={handleGoogleError}
+    text="signup_with"
+    width="100%" // Responsive width
+    shape="pill"
+    size="medium"
+    className="w-full sm:w-auto"
+  />
+</div>
+
+              <p className="mt-2 text-[14px] sm:text-sm text-gray-600 text-center font-suwannaphum">
+                មានគណនី? <Link to="/login" className="underline" style={{ color: primaryColor }}>ចូល</Link>
+              </p>
+            </form>
+          </div>
+        </div>
+
+        {/* Promotional Section */}
+        <div
+          className="hidden md:block md:w-1/2 p-4 sm:p-6 relative"
+          style={{ background: `linear-gradient(135deg, ${primaryColor}, #0e5c7a)` }}
+        >
+          <div className="text-white relative z-10">
+            <h3 className="font-bold text-2xl lg:text-3xl  font-suwannaphum">ចូលរួមសហគមន៍យើង</h3>
+            <p className="text-[12px] sm:text-sm lg:text-lg  mt-1 font-suwannaphum">ដោះសោអត្ថប្រយោជន៍ជាច្រើន</p>
+            <ul className="mt-2 sm:mt-3 space-y-2 text-[12px] sm:text-sm  lg:text-[20px] font-suwannaphum">
+              <li className="flex items-center">
+                <svg className="w-3 h-3 sm:w-4 sm:h-4 mr-2" style={{ color: accentColor }} fill="currentColor" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                </svg>
+                ចលនាអប់រំខ្ពស់
+              </li>
+              <li className="flex items-center">
+                <svg className="w-3 h-3 sm:w-4 sm:h-4 mr-2" style={{ color: accentColor }} fill="currentColor" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                </svg>
+                បទពិសោធន៍សិក្សា
+              </li>
+              <li className="flex items-center">
+                <svg className="w-3 h-3 sm:w-4 sm:h-4 mr-2" style={{ color: accentColor }} fill="currentColor" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                </svg>
+                រីកចម្រើនចំណេះដឹង
+              </li>
+            </ul>
+          </div>
+          <div className="absolute inset-0 flex items-center justify-center opacity-20">
+            <img
+              src={person}
+              alt="រូបភាព"
+              className="max-h-[80%] max-w-[80%] sm:max-h-full sm:max-w-full object-contain"
+            />
           </div>
         </div>
       </motion.main>
 
       {/* Footer */}
-      <footer className="absolute bottom-4 text-center text-xs text-gray-500">
-        <p className="mt-1 font-suwannaphum">
-          <Link
-            to="/privacy"
-            className="underline transition-colors focus:outline-none focus:underline font-suwannaphum"
-            style={{ color: "#6b7280", hoverColor: primaryColor }}
-            onMouseEnter={(e) => (e.target.style.color = primaryColor)}
-            onMouseLeave={(e) => (e.target.style.color = "#6b7280")}
-          >
-            គោលការណ៍ឯកជនភាព
-          </Link>
-          {" • "}
-          <Link
-            to="/terms"
-            className="underline transition-colors focus:outline-none focus:underline font-suwannaphum"
-            style={{ color: "#6b7280", hoverColor: primaryColor }}
-            onMouseEnter={(e) => (e.target.style.color = primaryColor)}
-            onMouseLeave={(e) => (e.target.style.color = "#6b7280")}
-          >
-            លក្ខខណ្ឌនៃសេវាកម្ម
-          </Link>
-        </p>
-      </footer>
+      {/* <footer className="absolute bottom-1 sm:bottom-2 text-center text-[10px] sm:text-xs text-gray-500 font-suwannaphum">
+        <Link to="/privacy" className="underline" style={{ color: "#6b7280" }}>ឯកជនភាព</Link> •{" "}
+        <Link to="/terms" className="underline" style={{ color: "#6b7280" }}>លក្ខខណ្ឌ</Link>
+      </footer> */}
     </section>
   );
 };

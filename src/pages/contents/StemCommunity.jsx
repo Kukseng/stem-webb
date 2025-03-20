@@ -6,7 +6,7 @@ import { useSelector } from "react-redux";
 
 const StemCommunity = () => {
   const { data: forumsData, isLoading } = useGetAllForumsQuery();
-  const accessToken = useSelector((state) => state.auth?.accessToken); // Adjust path
+  const accessToken = useSelector((state) => state.auth?.accessToken); 
   const currentUsername = useSelector((state) => state.auth?.username);
 
   if (isLoading) return <div>Loading STEM Community...</div>;

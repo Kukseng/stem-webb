@@ -202,4 +202,4 @@ const ArticleCrud = () => {
   );
 };
 
-export default ArticleCrud;
+export default ArticleCrud;w

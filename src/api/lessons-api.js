@@ -20,11 +20,18 @@ export const lessonApi = apiSlice.injectEndpoints({
     }),
     getLessonsByCategory: builder.query({
       query: (categoryId) => `lessons/?category=${categoryId}`,
-      transformResponse: (response) => response.results || [], // Extract 'results' array
+      transformResponse: (response) => response.results || [],
       providesTags: (result, error, categoryId) =>
         Array.isArray(result) && result.length > 0
           ? result.map(({ id }) => ({ type: "Lesson", id }))
           : [{ type: "Lesson", id: categoryId }],
+    }),
+    deleteLessonByUuid: builder.mutation({
+      query: (uuid) => ({
+        url: `lessons/${uuid}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["Lesson"],
     }),
   }),
 });
@@ -34,4 +41,5 @@ export const {
   useGetAllLessonsQuery,
   useGetLessonByUuidQuery,
   useGetLessonsByCategoryQuery,
+  useDeleteLessonByUuidMutation,
 } = lessonApi;
