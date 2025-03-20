@@ -1,15 +1,55 @@
-# React + Vite
+# Welcome to iSTEM
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+<img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse1.mm.bing.net%2Fth%3Fid%3DOIP.-eYDpzGiZIQssJ21QRWEAAHaE8%26pid%3DApi&f=1&ipt=3c9e95a65bedda79ce6289a0e6b3ac71f4ba8f1d1c5151bfaa8a8bced378e23a&ipo=images" width="150px">
 
-Currently, two official plugins are available:
+## About iSTEM
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+iSTEM is an educational platform to connect Cambodian students with STEM subjects by providing many videos tutor for self-learning.
 
-## Expanding the ESLint configuration
+---
 
-If you are developing a production application, we recommend using TypeScript and enable type-aware lint rules. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
-# Motion
+## Getting Start
 
-Use Motion for animation
+### Local Installation
+
+1. Clone the repo
+
+      git clone <https://github.com/Kukseng/stem-webb.git>
+  
+2. Run the project with live server Open
+
+      Open <http://localhost:5173/> with your browser to see the result
+
+3. Deployment 
+   
+   Deployment [http://stem-tutor.istad.co/](http://stem-tutor.istad.co)
+
+## Page URL
+
+### User side (Not having account)
+
+1. [Home](http://localhost:5173/):/home
+2. [Log in](http://localhost:5173/login):/login
+3. [Sign up](http://localhost:5173/signup):/signup
+4. [Course](http://localhost:5173/courses):/courses
+6. [Furom](http://localhost:5173/forums):/forums
+7. [Article](http://localhost:5173/articles):/articles
+8. [About Us](http://localhost:5173/aboutus):/aboutus
+
+### User side (After Login or SignUp)
+
+1. [Home](http://localhost:5173/):/home
+2. [Course](http://localhost:5173/courses):/courses
+3. [Log in](http://localhost:5173/login):/login
+4. [Sign up](http://localhost:5173/signup):/signup
+5. [Course](http://localhost:5173/courses):/courses/watch
+6. [Furom](http://localhost:5173/forums):/forums/post/edit/delete
+7. [Article](http://localhost:5173/articles):/articles/read/post
+8. [Setting](http://localhost:5173/dashboard):/dashboard/createCourse
+9. [Setting](http://localhost:5173/setting):/setting/dashboard/updateProfile
+
+([Back to top](#welcome-to-STEM-Tutor))
+
+<a href="Back to top" style="text-decoration: none;"></a>
+
+# iSTEM
