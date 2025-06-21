@@ -20,7 +20,7 @@ const navItems = [
   { label: "វគ្គសិក្សា", href: "/courses" },
   { label: "វេទិកា", href: "/forums" },
   { label: "អត្ថបទ", href: "/articles" },
-  { label: "អំពីពួកយើង", href: "/aboutus" },
+
 ];
 
 const profileMenuItems = [
