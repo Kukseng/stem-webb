@@ -1,6 +1,5 @@
 import React from "react";
 import { motion } from "framer-motion";
-import ISTAD from "../../../../assets/images/logo/iSTADl.png";
 import logo from "../../../../assets/images/logo/o-removebg-preview.png";
 
 const Footer = () => {
@@ -97,12 +96,7 @@ const Footer = () => {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                   </svg>
                 </div>
-                <span
-                  className="text-base text-gray-300 group-hover:text-white transition-colors duration-300"
-                  style={{ color: primaryColor }}
-                >
-                  stem.istad@gmail.com
-                </span>
+              
               </motion.div>
               <motion.div
                 whileHover={{ scale: 1.05 }}
@@ -124,19 +118,7 @@ const Footer = () => {
             </div>
           </motion.div>
 
-          <motion.div variants={itemVariants} className="flex flex-col items-center lg:items-start">
-            <h3 className="text-[24px] font-bold text-white mb-4">រៀបចំដោយ</h3>
-            <motion.div
-              whileHover={{ scale: 1.05 }}
-              className="flex items-center gap-3 group cursor-pointer"
-            >
-              <img
-                src={ISTAD}
-                alt="ISTAD Logo"
-                className="w-[100px] h-[40px] object-contain transition-transform duration-300 group-hover:scale-110"
-              />
-            </motion.div>
-          </motion.div>
+         
         </div>
 
         {/* Copyright */}
