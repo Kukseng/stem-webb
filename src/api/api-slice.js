@@ -1,6 +1,6 @@
 // src/api/api-slice.js
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-const baseUrl = import.meta.env.VITE_API_URL || "https://stem-api.istad.co/api/";
+const baseUrl = import.meta.env.VITE_API_URL || "http://127.0.0.1:8000";
       
 export const apiSlice = createApi({
   reducerPath: "api",
